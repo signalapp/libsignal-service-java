@@ -122,11 +122,11 @@ public class TextSecureAccountManager {
    * @throws IOException
    */
   public void verifyAccount(String verificationCode, String signalingKey,
-                            boolean supportsSms, int axolotlRegistrationId)
+                            boolean supportsSms, boolean fetchesMessages, int axolotlRegistrationId)
       throws IOException
   {
     this.pushServiceSocket.verifyAccount(verificationCode, signalingKey,
-                                         supportsSms, axolotlRegistrationId);
+                                         supportsSms, fetchesMessages, axolotlRegistrationId);
   }
 
   /**
