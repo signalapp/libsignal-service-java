@@ -115,6 +115,8 @@ public class TextSecureAccountManager {
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
    * @param supportsSms Indicate whether this client is capable of supporting encrypted SMS.
+   * @param fetchesMessages Indicate whether this client fetches messages instead of relying on APN
+   *                        or GCM push messages.
    * @param axolotlRegistrationId A random 14-bit number that identifies this TextSecure install.
    *                              This value should remain consistent across registrations for the
    *                              same install, but probabilistically differ across registrations
