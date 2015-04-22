@@ -35,7 +35,7 @@ public class AccountAttributes {
   public AccountAttributes(String signalingKey, boolean supportsSms, boolean fetchesMessages, int registrationId) {
     this.signalingKey    = signalingKey;
     this.supportsSms     = supportsSms;
-	this.fetchesMessages = fetchesMessages;
+    this.fetchesMessages = fetchesMessages;
     this.registrationId  = registrationId;
   }
 
