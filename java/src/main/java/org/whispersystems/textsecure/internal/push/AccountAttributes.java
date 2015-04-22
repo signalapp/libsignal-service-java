@@ -27,12 +27,16 @@ public class AccountAttributes {
   private boolean supportsSms;
 
   @JsonProperty
+  private boolean fetchesMessages;
+
+  @JsonProperty
   private int     registrationId;
 
-  public AccountAttributes(String signalingKey, boolean supportsSms, int registrationId) {
-    this.signalingKey   = signalingKey;
-    this.supportsSms    = supportsSms;
-    this.registrationId = registrationId;
+  public AccountAttributes(String signalingKey, boolean supportsSms, boolean fetchesMessages, int registrationId) {
+    this.signalingKey    = signalingKey;
+    this.supportsSms     = supportsSms;
+	this.fetchesMessages = fetchesMessages;
+    this.registrationId  = registrationId;
   }
 
   public AccountAttributes() {}

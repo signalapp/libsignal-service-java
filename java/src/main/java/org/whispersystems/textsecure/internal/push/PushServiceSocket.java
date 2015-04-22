@@ -112,10 +112,10 @@ public class PushServiceSocket {
   }
 
   public void verifyAccount(String verificationCode, String signalingKey,
-                            boolean supportsSms, int registrationId)
+                            boolean supportsSms, boolean fetchesMessages, int registrationId)
       throws IOException
   {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, supportsSms, registrationId);
+    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, supportsSms, fetchesMessages, registrationId);
     makeRequest(String.format(VERIFY_ACCOUNT_PATH, verificationCode),
                 "PUT", JsonUtil.toJson(signalingKeyEntity));
   }
