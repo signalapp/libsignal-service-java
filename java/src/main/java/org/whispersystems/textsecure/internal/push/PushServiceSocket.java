@@ -78,6 +78,7 @@ public class PushServiceSocket {
   private static final String CREATE_ACCOUNT_VOICE_PATH = "/v1/accounts/voice/code/%s";
   private static final String VERIFY_ACCOUNT_PATH       = "/v1/accounts/code/%s";
   private static final String REGISTER_GCM_PATH         = "/v1/accounts/gcm/";
+  private static final String WEBSOCKETS_PATH           = "/v1/accounts/wsc/";
 
   private static final String PREKEY_METADATA_PATH      = "/v2/keys/";
   private static final String PREKEY_PATH               = "/v2/keys/%s";
@@ -112,6 +113,9 @@ public class PushServiceSocket {
     makeRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
   }
 
+  public void setWebSocketChannelEnabled(boolean enabled) throws IOException {
+    makeRequest(WEBSOCKETS_PATH, enabled ? "PUT" : "DELETE", null);
+  }
   public void verifyAccount(String verificationCode, String signalingKey,
                             boolean supportsSms, int registrationId)
       throws IOException
