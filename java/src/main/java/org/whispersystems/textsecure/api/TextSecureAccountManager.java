@@ -131,6 +131,18 @@ public class TextSecureAccountManager {
   }
 
   /**
+   * Enable or disable the WebSocket channel with this account.
+   *
+   * @param enabled Whether or not the WebSocket channel should be enabled as a means to receive
+   *                messages. New accounts default to false.
+   *
+   * @throws IOException
+   */
+  public void setWebSocketChannelEnabled(boolean enabled) throws IOException {
+    this.pushServiceSocket.setWebSocketChannelEnabled(enabled);
+  }
+
+  /**
    * Register an identity key, last resort key, signed prekey, and list of one time prekeys
    * with the server.
    *
