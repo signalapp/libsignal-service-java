@@ -61,42 +61,44 @@ signing {
     sign configurations.archives
 }
 
-uploadArchives {
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+if(hasProperty('whisperSonatypeUsername')) {
+  uploadArchives {
+      configuration = configurations.archives
+      repositories.mavenDeployer {
+          beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: sonatypeRepo) {
-            authentication(userName: whisperSonatypeUsername, password: whisperSonatypePassword)
-        }
+          repository(url: sonatypeRepo) {
+              authentication(userName: whisperSonatypeUsername, password: whisperSonatypePassword)
+          }
 
-        pom.project {
-            name 'textsecure-android'
-            packaging 'aar'
-            description 'TextSecure library for Android'
-            url 'https://github.com/WhisperSystems/libtextsecure-java'
+          pom.project {
+              name 'textsecure-android'
+              packaging 'aar'
+              description 'TextSecure library for Android'
+              url 'https://github.com/WhisperSystems/libtextsecure-java'
 
-            scm {
-                url 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-            }
+              scm {
+                  url 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
+                  connection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
+                  developerConnection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
+              }
 
-            licenses {
-                license {
-                    name 'GPLv3'
-                    url 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                    distribution 'repo'
-                }
-            }
+              licenses {
+                  license {
+                      name 'GPLv3'
+                      url 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                      distribution 'repo'
+                  }
+              }
 
-            developers {
-                developer {
-                    name 'Moxie Marlinspike'
-                }
-            }
-        }
-    }
+              developers {
+                  developer {
+                      name 'Moxie Marlinspike'
+                  }
+              }
+          }
+      }
+  }
 }
 
 task installArchives(type: Upload) {
