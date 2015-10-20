@@ -36,7 +36,7 @@ public class PhoneNumberFormatter {
   private static final String TAG = PhoneNumberFormatter.class.getSimpleName();
 
   public static boolean isValidNumber(String number) {
-    return number.matches("^\\+[0-9]{10,}");
+    return number.matches("^\\+[0-9]{9,}");
   }
 
   private static String impreciseFormatNumber(String number, String localNumber)
