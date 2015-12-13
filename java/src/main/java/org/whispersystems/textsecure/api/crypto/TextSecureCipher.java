@@ -172,6 +172,7 @@ public class TextSecureCipher {
 
     return new TextSecureDataMessage(envelope.getTimestamp(),
                                      groupInfo,
+                                     content.hasNickname() ? content.getNickname() : null,
                                      attachments,
                                      content.hasBody() ? content.getBody() : null,
                                      endSession);

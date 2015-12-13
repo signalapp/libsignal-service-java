@@ -35,6 +35,7 @@ message DataMessage {
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
   optional uint32             flags       = 4;
+  optional string             nickname    = 5;
 }
 
 message SyncMessage {

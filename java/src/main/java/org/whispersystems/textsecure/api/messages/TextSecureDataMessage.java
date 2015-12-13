@@ -29,6 +29,7 @@ public class TextSecureDataMessage {
   private final long                                 timestamp;
   private final Optional<List<TextSecureAttachment>> attachments;
   private final Optional<String>                     body;
+  private final Optional<String>                     nickname;
   private final Optional<TextSecureGroup>            group;
   private final boolean                              endSession;
 
@@ -79,9 +80,23 @@ public class TextSecureDataMessage {
    * @param endSession Flag indicating whether this message should close a session.
    */
   public TextSecureDataMessage(long timestamp, TextSecureGroup group, List<TextSecureAttachment> attachments, String body, boolean endSession) {
+    this(timestamp, group, null, attachments, body, false);
+  }
+    /**
+     * Construct a TextSecureMessage.
+     *
+     * @param timestamp The sent timestamp.
+     * @param group The group information (or null if none).
+     * @param nickname The nickname for group messages (or null if none).
+     * @param attachments The attachments (or null if none).
+     * @param body The message contents.
+     * @param endSession Flag indicating whether this message should close a session.
+     */
+  public TextSecureDataMessage(long timestamp, TextSecureGroup group, String nickname, List<TextSecureAttachment> attachments, String body, boolean endSession) {
     this.timestamp   = timestamp;
     this.body        = Optional.fromNullable(body);
     this.group       = Optional.fromNullable(group);
+    this.nickname    = Optional.fromNullable(nickname);
     this.endSession  = endSession;
 
     if (attachments != null && !attachments.isEmpty()) {
@@ -123,6 +138,13 @@ public class TextSecureDataMessage {
     return group;
   }
 
+  /**
+   * @return The nickname (if any).
+   */
+  public Optional<String> getNickname() {
+    return nickname;
+  }
+
   public boolean isEndSession() {
     return endSession;
   }
@@ -137,6 +159,7 @@ public class TextSecureDataMessage {
     private long                       timestamp;
     private TextSecureGroup            group;
     private String                     body;
+    private String                     nickname;
     private boolean                    endSession;
 
     private Builder() {}
@@ -153,6 +176,11 @@ public class TextSecureDataMessage {
 
     public Builder withAttachment(TextSecureAttachment attachment) {
       this.attachments.add(attachment);
+      return this;
+    }
+
+    public Builder withNickname(String nickname) {
+      this.nickname = nickname;
       return this;
     }
 
@@ -178,7 +206,7 @@ public class TextSecureDataMessage {
 
     public TextSecureDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
-      return new TextSecureDataMessage(timestamp, group, attachments, body, endSession);
+      return new TextSecureDataMessage(timestamp, group, nickname, attachments, body, endSession);
     }
   }
 }

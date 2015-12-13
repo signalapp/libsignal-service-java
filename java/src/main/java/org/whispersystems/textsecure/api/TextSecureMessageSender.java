@@ -194,6 +194,10 @@ public class TextSecureMessageSender {
       builder.setGroup(createGroupContent(message.getGroupInfo().get()));
     }
 
+    if (message.getNickname().isPresent()) {
+      builder.setNickname(message.getNickname().get());
+    }
+
     if (message.isEndSession()) {
       builder.setFlags(DataMessage.Flags.END_SESSION_VALUE);
     }
