@@ -170,8 +170,11 @@ public class TextSecureCipher {
                                                       pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent()));
     }
 
-    return new TextSecureDataMessage(envelope.getTimestamp(), groupInfo, attachments,
-                                     content.getBody(), endSession);
+    return new TextSecureDataMessage(envelope.getTimestamp(),
+                                     groupInfo,
+                                     attachments,
+                                     content.hasBody() ? content.getBody() : null,
+                                     endSession);
   }
 
   private TextSecureSyncMessage createSynchronizeMessage(TextSecureEnvelope envelope, SyncMessage content) {
