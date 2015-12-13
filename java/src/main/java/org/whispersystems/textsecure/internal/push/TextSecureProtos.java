@@ -8,10 +8,10 @@ public final class TextSecureProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface EnvelopeOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface EnvelopeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.Envelope)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.Envelope.Type type = 1;
     /**
      * <code>optional .textsecure.Envelope.Type type = 1;</code>
      */
@@ -21,7 +21,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope.Type getType();
 
-    // optional string source = 2;
     /**
      * <code>optional string source = 2;</code>
      */
@@ -36,7 +35,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getSourceBytes();
 
-    // optional uint32 sourceDevice = 7;
     /**
      * <code>optional uint32 sourceDevice = 7;</code>
      */
@@ -46,7 +44,6 @@ public final class TextSecureProtos {
      */
     int getSourceDevice();
 
-    // optional string relay = 3;
     /**
      * <code>optional string relay = 3;</code>
      */
@@ -61,7 +58,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getRelayBytes();
 
-    // optional uint64 timestamp = 5;
     /**
      * <code>optional uint64 timestamp = 5;</code>
      */
@@ -71,7 +67,6 @@ public final class TextSecureProtos {
      */
     long getTimestamp();
 
-    // optional bytes legacyMessage = 6;
     /**
      * <code>optional bytes legacyMessage = 6;</code>
      *
@@ -89,7 +84,6 @@ public final class TextSecureProtos {
      */
     com.google.protobuf.ByteString getLegacyMessage();
 
-    // optional bytes content = 8;
     /**
      * <code>optional bytes content = 8;</code>
      *
@@ -111,8 +105,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.Envelope}
    */
   public static final class Envelope extends
-      com.google.protobuf.GeneratedMessage
-      implements EnvelopeOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.Envelope)
+      EnvelopeOrBuilder {
     // Use Envelope.newBuilder() to construct.
     private Envelope(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -170,13 +165,15 @@ public final class TextSecureProtos {
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              source_ = input.readBytes();
+              source_ = bs;
               break;
             }
             case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              relay_ = input.readBytes();
+              relay_ = bs;
               break;
             }
             case 40: {
@@ -348,7 +345,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional .textsecure.Envelope.Type type = 1;
     public static final int TYPE_FIELD_NUMBER = 1;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope.Type type_;
     /**
@@ -364,7 +360,6 @@ public final class TextSecureProtos {
       return type_;
     }
 
-    // optional string source = 2;
     public static final int SOURCE_FIELD_NUMBER = 2;
     private java.lang.Object source_;
     /**
@@ -407,7 +402,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // optional uint32 sourceDevice = 7;
     public static final int SOURCEDEVICE_FIELD_NUMBER = 7;
     private int sourceDevice_;
     /**
@@ -423,7 +417,6 @@ public final class TextSecureProtos {
       return sourceDevice_;
     }
 
-    // optional string relay = 3;
     public static final int RELAY_FIELD_NUMBER = 3;
     private java.lang.Object relay_;
     /**
@@ -466,7 +459,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // optional uint64 timestamp = 5;
     public static final int TIMESTAMP_FIELD_NUMBER = 5;
     private long timestamp_;
     /**
@@ -482,7 +474,6 @@ public final class TextSecureProtos {
       return timestamp_;
     }
 
-    // optional bytes legacyMessage = 6;
     public static final int LEGACYMESSAGE_FIELD_NUMBER = 6;
     private com.google.protobuf.ByteString legacyMessage_;
     /**
@@ -506,7 +497,6 @@ public final class TextSecureProtos {
       return legacyMessage_;
     }
 
-    // optional bytes content = 8;
     public static final int CONTENT_FIELD_NUMBER = 8;
     private com.google.protobuf.ByteString content_;
     /**
@@ -542,7 +532,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -691,8 +682,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.Envelope}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.EnvelopeOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.Envelope)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.EnvelopeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_Envelope_descriptor;
@@ -863,7 +855,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.Envelope.Type type = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope.Type type_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope.Type.UNKNOWN;
       /**
        * <code>optional .textsecure.Envelope.Type type = 1;</code>
@@ -899,7 +890,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string source = 2;
       private java.lang.Object source_ = "";
       /**
        * <code>optional string source = 2;</code>
@@ -913,9 +903,12 @@ public final class TextSecureProtos {
       public java.lang.String getSource() {
         java.lang.Object ref = source_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          source_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            source_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -973,7 +966,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional uint32 sourceDevice = 7;
       private int sourceDevice_ ;
       /**
        * <code>optional uint32 sourceDevice = 7;</code>
@@ -1006,7 +998,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string relay = 3;
       private java.lang.Object relay_ = "";
       /**
        * <code>optional string relay = 3;</code>
@@ -1020,9 +1011,12 @@ public final class TextSecureProtos {
       public java.lang.String getRelay() {
         java.lang.Object ref = relay_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          relay_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            relay_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -1080,7 +1074,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional uint64 timestamp = 5;
       private long timestamp_ ;
       /**
        * <code>optional uint64 timestamp = 5;</code>
@@ -1113,7 +1106,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional bytes legacyMessage = 6;
       private com.google.protobuf.ByteString legacyMessage_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes legacyMessage = 6;</code>
@@ -1165,7 +1157,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional bytes content = 8;
       private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes content = 8;</code>
@@ -1228,10 +1219,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.Envelope)
   }
 
-  public interface ContentOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ContentOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.Content)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.DataMessage dataMessage = 1;
     /**
      * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
      */
@@ -1245,7 +1236,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder getDataMessageOrBuilder();
 
-    // optional .textsecure.SyncMessage syncMessage = 2;
     /**
      * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
      */
@@ -1263,8 +1253,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.Content}
    */
   public static final class Content extends
-      com.google.protobuf.GeneratedMessage
-      implements ContentOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.Content)
+      ContentOrBuilder {
     // Use Content.newBuilder() to construct.
     private Content(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -1376,7 +1367,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional .textsecure.DataMessage dataMessage = 1;
     public static final int DATAMESSAGE_FIELD_NUMBER = 1;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage dataMessage_;
     /**
@@ -1398,7 +1388,6 @@ public final class TextSecureProtos {
       return dataMessage_;
     }
 
-    // optional .textsecure.SyncMessage syncMessage = 2;
     public static final int SYNCMESSAGE_FIELD_NUMBER = 2;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage syncMessage_;
     /**
@@ -1427,7 +1416,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -1541,8 +1531,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.Content}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.ContentOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.Content)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.ContentOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_Content_descriptor;
@@ -1682,7 +1673,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.DataMessage dataMessage = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage dataMessage_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder> dataMessageBuilder_;
@@ -1791,7 +1781,7 @@ public final class TextSecureProtos {
         if (dataMessageBuilder_ == null) {
           dataMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder>(
-                  dataMessage_,
+                  getDataMessage(),
                   getParentForChildren(),
                   isClean());
           dataMessage_ = null;
@@ -1799,7 +1789,6 @@ public final class TextSecureProtos {
         return dataMessageBuilder_;
       }
 
-      // optional .textsecure.SyncMessage syncMessage = 2;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage syncMessage_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessageOrBuilder> syncMessageBuilder_;
@@ -1908,7 +1897,7 @@ public final class TextSecureProtos {
         if (syncMessageBuilder_ == null) {
           syncMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessageOrBuilder>(
-                  syncMessage_,
+                  getSyncMessage(),
                   getParentForChildren(),
                   isClean());
           syncMessage_ = null;
@@ -1927,10 +1916,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.Content)
   }
 
-  public interface DataMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface DataMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.DataMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional string body = 1;
     /**
      * <code>optional string body = 1;</code>
      */
@@ -1945,7 +1934,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getBodyBytes();
 
-    // repeated .textsecure.AttachmentPointer attachments = 2;
     /**
      * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
      */
@@ -1970,7 +1958,6 @@ public final class TextSecureProtos {
     org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder getAttachmentsOrBuilder(
         int index);
 
-    // optional .textsecure.GroupContext group = 3;
     /**
      * <code>optional .textsecure.GroupContext group = 3;</code>
      */
@@ -1984,7 +1971,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContextOrBuilder getGroupOrBuilder();
 
-    // optional uint32 flags = 4;
     /**
      * <code>optional uint32 flags = 4;</code>
      */
@@ -1993,13 +1979,28 @@ public final class TextSecureProtos {
      * <code>optional uint32 flags = 4;</code>
      */
     int getFlags();
+
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    boolean hasNickname();
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    java.lang.String getNickname();
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getNicknameBytes();
   }
   /**
    * Protobuf type {@code textsecure.DataMessage}
    */
   public static final class DataMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements DataMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.DataMessage)
+      DataMessageOrBuilder {
     // Use DataMessage.newBuilder() to construct.
     private DataMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -2046,8 +2047,9 @@ public final class TextSecureProtos {
               break;
             }
             case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              body_ = input.readBytes();
+              body_ = bs;
               break;
             }
             case 18: {
@@ -2074,6 +2076,12 @@ public final class TextSecureProtos {
             case 32: {
               bitField0_ |= 0x00000004;
               flags_ = input.readUInt32();
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              nickname_ = bs;
               break;
             }
           }
@@ -2192,7 +2200,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional string body = 1;
     public static final int BODY_FIELD_NUMBER = 1;
     private java.lang.Object body_;
     /**
@@ -2235,7 +2242,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // repeated .textsecure.AttachmentPointer attachments = 2;
     public static final int ATTACHMENTS_FIELD_NUMBER = 2;
     private java.util.List<org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer> attachments_;
     /**
@@ -2271,7 +2277,6 @@ public final class TextSecureProtos {
       return attachments_.get(index);
     }
 
-    // optional .textsecure.GroupContext group = 3;
     public static final int GROUP_FIELD_NUMBER = 3;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext group_;
     /**
@@ -2293,7 +2298,6 @@ public final class TextSecureProtos {
       return group_;
     }
 
-    // optional uint32 flags = 4;
     public static final int FLAGS_FIELD_NUMBER = 4;
     private int flags_;
     /**
@@ -2309,16 +2313,60 @@ public final class TextSecureProtos {
       return flags_;
     }
 
+    public static final int NICKNAME_FIELD_NUMBER = 5;
+    private java.lang.Object nickname_;
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    public boolean hasNickname() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    public java.lang.String getNickname() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          nickname_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string nickname = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNicknameBytes() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       body_ = "";
       attachments_ = java.util.Collections.emptyList();
       group_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.getDefaultInstance();
       flags_ = 0;
+      nickname_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -2338,6 +2386,9 @@ public final class TextSecureProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(4, flags_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, getNicknameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2363,6 +2414,10 @@ public final class TextSecureProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, flags_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getNicknameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2446,8 +2501,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.DataMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.DataMessage)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_DataMessage_descriptor;
@@ -2498,6 +2554,8 @@ public final class TextSecureProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         flags_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        nickname_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2551,6 +2609,10 @@ public final class TextSecureProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.flags_ = flags_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.nickname_ = nickname_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2604,6 +2666,11 @@ public final class TextSecureProtos {
         if (other.hasFlags()) {
           setFlags(other.getFlags());
         }
+        if (other.hasNickname()) {
+          bitField0_ |= 0x00000010;
+          nickname_ = other.nickname_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2631,7 +2698,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional string body = 1;
       private java.lang.Object body_ = "";
       /**
        * <code>optional string body = 1;</code>
@@ -2645,9 +2711,12 @@ public final class TextSecureProtos {
       public java.lang.String getBody() {
         java.lang.Object ref = body_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          body_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            body_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -2705,7 +2774,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // repeated .textsecure.AttachmentPointer attachments = 2;
       private java.util.List<org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer> attachments_ =
         java.util.Collections.emptyList();
       private void ensureAttachmentsIsMutable() {
@@ -2847,7 +2915,8 @@ public final class TextSecureProtos {
           java.lang.Iterable<? extends org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer> values) {
         if (attachmentsBuilder_ == null) {
           ensureAttachmentsIsMutable();
-          super.addAll(values, attachments_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, attachments_);
           onChanged();
         } else {
           attachmentsBuilder_.addAllMessages(values);
@@ -2945,7 +3014,6 @@ public final class TextSecureProtos {
         return attachmentsBuilder_;
       }
 
-      // optional .textsecure.GroupContext group = 3;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext group_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContextOrBuilder> groupBuilder_;
@@ -3054,7 +3122,7 @@ public final class TextSecureProtos {
         if (groupBuilder_ == null) {
           groupBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContextOrBuilder>(
-                  group_,
+                  getGroup(),
                   getParentForChildren(),
                   isClean());
           group_ = null;
@@ -3062,7 +3130,6 @@ public final class TextSecureProtos {
         return groupBuilder_;
       }
 
-      // optional uint32 flags = 4;
       private int flags_ ;
       /**
        * <code>optional uint32 flags = 4;</code>
@@ -3095,6 +3162,82 @@ public final class TextSecureProtos {
         return this;
       }
 
+      private java.lang.Object nickname_ = "";
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public boolean hasNickname() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public java.lang.String getNickname() {
+        java.lang.Object ref = nickname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            nickname_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNicknameBytes() {
+        java.lang.Object ref = nickname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public Builder setNickname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public Builder clearNickname() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        nickname_ = getDefaultInstance().getNickname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 5;</code>
+       */
+      public Builder setNicknameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:textsecure.DataMessage)
     }
 
@@ -3106,10 +3249,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.DataMessage)
   }
 
-  public interface SyncMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SyncMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SyncMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.SyncMessage.Sent sent = 1;
     /**
      * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
      */
@@ -3123,7 +3266,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.SentOrBuilder getSentOrBuilder();
 
-    // optional .textsecure.SyncMessage.Contacts contacts = 2;
     /**
      * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
      */
@@ -3137,7 +3279,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.ContactsOrBuilder getContactsOrBuilder();
 
-    // optional .textsecure.SyncMessage.Groups groups = 3;
     /**
      * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
      */
@@ -3151,7 +3292,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.GroupsOrBuilder getGroupsOrBuilder();
 
-    // optional .textsecure.SyncMessage.Request request = 4;
     /**
      * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
      */
@@ -3169,8 +3309,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.SyncMessage}
    */
   public static final class SyncMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements SyncMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SyncMessage)
+      SyncMessageOrBuilder {
     // Use SyncMessage.newBuilder() to construct.
     private SyncMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -3307,10 +3448,10 @@ public final class TextSecureProtos {
       return PARSER;
     }
 
-    public interface SentOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface SentOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SyncMessage.Sent)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional string destination = 1;
       /**
        * <code>optional string destination = 1;</code>
        */
@@ -3325,7 +3466,6 @@ public final class TextSecureProtos {
       com.google.protobuf.ByteString
           getDestinationBytes();
 
-      // optional uint64 timestamp = 2;
       /**
        * <code>optional uint64 timestamp = 2;</code>
        */
@@ -3335,7 +3475,6 @@ public final class TextSecureProtos {
        */
       long getTimestamp();
 
-      // optional .textsecure.DataMessage message = 3;
       /**
        * <code>optional .textsecure.DataMessage message = 3;</code>
        */
@@ -3353,8 +3492,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.SyncMessage.Sent}
      */
     public static final class Sent extends
-        com.google.protobuf.GeneratedMessage
-        implements SentOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SyncMessage.Sent)
+        SentOrBuilder {
       // Use Sent.newBuilder() to construct.
       private Sent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -3401,8 +3541,9 @@ public final class TextSecureProtos {
                 break;
               }
               case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000001;
-                destination_ = input.readBytes();
+                destination_ = bs;
                 break;
               }
               case 16: {
@@ -3463,7 +3604,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional string destination = 1;
       public static final int DESTINATION_FIELD_NUMBER = 1;
       private java.lang.Object destination_;
       /**
@@ -3506,7 +3646,6 @@ public final class TextSecureProtos {
         }
       }
 
-      // optional uint64 timestamp = 2;
       public static final int TIMESTAMP_FIELD_NUMBER = 2;
       private long timestamp_;
       /**
@@ -3522,7 +3661,6 @@ public final class TextSecureProtos {
         return timestamp_;
       }
 
-      // optional .textsecure.DataMessage message = 3;
       public static final int MESSAGE_FIELD_NUMBER = 3;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage message_;
       /**
@@ -3552,7 +3690,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -3673,8 +3812,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.SyncMessage.Sent}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.SentOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SyncMessage.Sent)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.SentOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_SyncMessage_Sent_descriptor;
@@ -3816,7 +3956,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional string destination = 1;
         private java.lang.Object destination_ = "";
         /**
          * <code>optional string destination = 1;</code>
@@ -3830,9 +3969,12 @@ public final class TextSecureProtos {
         public java.lang.String getDestination() {
           java.lang.Object ref = destination_;
           if (!(ref instanceof java.lang.String)) {
-            java.lang.String s = ((com.google.protobuf.ByteString) ref)
-                .toStringUtf8();
-            destination_ = s;
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              destination_ = s;
+            }
             return s;
           } else {
             return (java.lang.String) ref;
@@ -3890,7 +4032,6 @@ public final class TextSecureProtos {
           return this;
         }
 
-        // optional uint64 timestamp = 2;
         private long timestamp_ ;
         /**
          * <code>optional uint64 timestamp = 2;</code>
@@ -3923,7 +4064,6 @@ public final class TextSecureProtos {
           return this;
         }
 
-        // optional .textsecure.DataMessage message = 3;
         private org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage message_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder> messageBuilder_;
@@ -4032,7 +4172,7 @@ public final class TextSecureProtos {
           if (messageBuilder_ == null) {
             messageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
                 org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessageOrBuilder>(
-                    message_,
+                    getMessage(),
                     getParentForChildren(),
                     isClean());
             message_ = null;
@@ -4051,10 +4191,10 @@ public final class TextSecureProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Sent)
     }
 
-    public interface ContactsOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface ContactsOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SyncMessage.Contacts)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.AttachmentPointer blob = 1;
       /**
        * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
        */
@@ -4072,8 +4212,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.SyncMessage.Contacts}
      */
     public static final class Contacts extends
-        com.google.protobuf.GeneratedMessage
-        implements ContactsOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SyncMessage.Contacts)
+        ContactsOrBuilder {
       // Use Contacts.newBuilder() to construct.
       private Contacts(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -4172,7 +4313,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional .textsecure.AttachmentPointer blob = 1;
       public static final int BLOB_FIELD_NUMBER = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer blob_;
       /**
@@ -4200,7 +4340,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -4307,8 +4448,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.SyncMessage.Contacts}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.ContactsOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SyncMessage.Contacts)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.ContactsOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_SyncMessage_Contacts_descriptor;
@@ -4430,7 +4572,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.AttachmentPointer blob = 1;
         private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer blob_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder> blobBuilder_;
@@ -4539,7 +4680,7 @@ public final class TextSecureProtos {
           if (blobBuilder_ == null) {
             blobBuilder_ = new com.google.protobuf.SingleFieldBuilder<
                 org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder>(
-                    blob_,
+                    getBlob(),
                     getParentForChildren(),
                     isClean());
             blob_ = null;
@@ -4558,10 +4699,10 @@ public final class TextSecureProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Contacts)
     }
 
-    public interface GroupsOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface GroupsOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SyncMessage.Groups)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.AttachmentPointer blob = 1;
       /**
        * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
        */
@@ -4579,8 +4720,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.SyncMessage.Groups}
      */
     public static final class Groups extends
-        com.google.protobuf.GeneratedMessage
-        implements GroupsOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SyncMessage.Groups)
+        GroupsOrBuilder {
       // Use Groups.newBuilder() to construct.
       private Groups(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -4679,7 +4821,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional .textsecure.AttachmentPointer blob = 1;
       public static final int BLOB_FIELD_NUMBER = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer blob_;
       /**
@@ -4707,7 +4848,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -4814,8 +4956,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.SyncMessage.Groups}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.GroupsOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SyncMessage.Groups)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.GroupsOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_SyncMessage_Groups_descriptor;
@@ -4937,7 +5080,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.AttachmentPointer blob = 1;
         private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer blob_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder> blobBuilder_;
@@ -5046,7 +5188,7 @@ public final class TextSecureProtos {
           if (blobBuilder_ == null) {
             blobBuilder_ = new com.google.protobuf.SingleFieldBuilder<
                 org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder>(
-                    blob_,
+                    getBlob(),
                     getParentForChildren(),
                     isClean());
             blob_ = null;
@@ -5065,10 +5207,10 @@ public final class TextSecureProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Groups)
     }
 
-    public interface RequestOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface RequestOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SyncMessage.Request)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.SyncMessage.Request.Type type = 1;
       /**
        * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
        */
@@ -5082,8 +5224,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.SyncMessage.Request}
      */
     public static final class Request extends
-        com.google.protobuf.GeneratedMessage
-        implements RequestOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SyncMessage.Request)
+        RequestOrBuilder {
       // Use Request.newBuilder() to construct.
       private Request(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -5271,7 +5414,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional .textsecure.SyncMessage.Request.Type type = 1;
       public static final int TYPE_FIELD_NUMBER = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.Type type_;
       /**
@@ -5293,7 +5435,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -5400,8 +5543,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.SyncMessage.Request}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.RequestOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SyncMessage.Request)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.RequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_SyncMessage_Request_descriptor;
@@ -5514,7 +5658,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.SyncMessage.Request.Type type = 1;
         private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.Type type_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.Type.UNKNOWN;
         /**
          * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
@@ -5562,7 +5705,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional .textsecure.SyncMessage.Sent sent = 1;
     public static final int SENT_FIELD_NUMBER = 1;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent sent_;
     /**
@@ -5584,7 +5726,6 @@ public final class TextSecureProtos {
       return sent_;
     }
 
-    // optional .textsecure.SyncMessage.Contacts contacts = 2;
     public static final int CONTACTS_FIELD_NUMBER = 2;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts contacts_;
     /**
@@ -5606,7 +5747,6 @@ public final class TextSecureProtos {
       return contacts_;
     }
 
-    // optional .textsecure.SyncMessage.Groups groups = 3;
     public static final int GROUPS_FIELD_NUMBER = 3;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups groups_;
     /**
@@ -5628,7 +5768,6 @@ public final class TextSecureProtos {
       return groups_;
     }
 
-    // optional .textsecure.SyncMessage.Request request = 4;
     public static final int REQUEST_FIELD_NUMBER = 4;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request request_;
     /**
@@ -5659,7 +5798,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -5787,8 +5927,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.SyncMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SyncMessage)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_SyncMessage_descriptor;
@@ -5964,7 +6105,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.SyncMessage.Sent sent = 1;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent sent_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.SentOrBuilder> sentBuilder_;
@@ -6073,7 +6213,7 @@ public final class TextSecureProtos {
         if (sentBuilder_ == null) {
           sentBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Sent.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.SentOrBuilder>(
-                  sent_,
+                  getSent(),
                   getParentForChildren(),
                   isClean());
           sent_ = null;
@@ -6081,7 +6221,6 @@ public final class TextSecureProtos {
         return sentBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Contacts contacts = 2;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts contacts_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.ContactsOrBuilder> contactsBuilder_;
@@ -6190,7 +6329,7 @@ public final class TextSecureProtos {
         if (contactsBuilder_ == null) {
           contactsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Contacts.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.ContactsOrBuilder>(
-                  contacts_,
+                  getContacts(),
                   getParentForChildren(),
                   isClean());
           contacts_ = null;
@@ -6198,7 +6337,6 @@ public final class TextSecureProtos {
         return contactsBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Groups groups = 3;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups groups_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.GroupsOrBuilder> groupsBuilder_;
@@ -6307,7 +6445,7 @@ public final class TextSecureProtos {
         if (groupsBuilder_ == null) {
           groupsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Groups.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.GroupsOrBuilder>(
-                  groups_,
+                  getGroups(),
                   getParentForChildren(),
                   isClean());
           groups_ = null;
@@ -6315,7 +6453,6 @@ public final class TextSecureProtos {
         return groupsBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Request request = 4;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request request_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.RequestOrBuilder> requestBuilder_;
@@ -6424,7 +6561,7 @@ public final class TextSecureProtos {
         if (requestBuilder_ == null) {
           requestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.RequestOrBuilder>(
-                  request_,
+                  getRequest(),
                   getParentForChildren(),
                   isClean());
           request_ = null;
@@ -6443,10 +6580,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SyncMessage)
   }
 
-  public interface AttachmentPointerOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface AttachmentPointerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.AttachmentPointer)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional fixed64 id = 1;
     /**
      * <code>optional fixed64 id = 1;</code>
      */
@@ -6456,7 +6593,6 @@ public final class TextSecureProtos {
      */
     long getId();
 
-    // optional string contentType = 2;
     /**
      * <code>optional string contentType = 2;</code>
      */
@@ -6471,7 +6607,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getContentTypeBytes();
 
-    // optional bytes key = 3;
     /**
      * <code>optional bytes key = 3;</code>
      */
@@ -6481,7 +6616,6 @@ public final class TextSecureProtos {
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional uint32 size = 4;
     /**
      * <code>optional uint32 size = 4;</code>
      */
@@ -6491,7 +6625,6 @@ public final class TextSecureProtos {
      */
     int getSize();
 
-    // optional bytes thumbnail = 5;
     /**
      * <code>optional bytes thumbnail = 5;</code>
      */
@@ -6505,8 +6638,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.AttachmentPointer}
    */
   public static final class AttachmentPointer extends
-      com.google.protobuf.GeneratedMessage
-      implements AttachmentPointerOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.AttachmentPointer)
+      AttachmentPointerOrBuilder {
     // Use AttachmentPointer.newBuilder() to construct.
     private AttachmentPointer(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -6558,8 +6692,9 @@ public final class TextSecureProtos {
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              contentType_ = input.readBytes();
+              contentType_ = bs;
               break;
             }
             case 26: {
@@ -6617,7 +6752,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional fixed64 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private long id_;
     /**
@@ -6633,7 +6767,6 @@ public final class TextSecureProtos {
       return id_;
     }
 
-    // optional string contentType = 2;
     public static final int CONTENTTYPE_FIELD_NUMBER = 2;
     private java.lang.Object contentType_;
     /**
@@ -6676,7 +6809,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // optional bytes key = 3;
     public static final int KEY_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString key_;
     /**
@@ -6692,7 +6824,6 @@ public final class TextSecureProtos {
       return key_;
     }
 
-    // optional uint32 size = 4;
     public static final int SIZE_FIELD_NUMBER = 4;
     private int size_;
     /**
@@ -6708,7 +6839,6 @@ public final class TextSecureProtos {
       return size_;
     }
 
-    // optional bytes thumbnail = 5;
     public static final int THUMBNAIL_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString thumbnail_;
     /**
@@ -6734,7 +6864,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -6869,8 +7000,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.AttachmentPointer}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.AttachmentPointer)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_AttachmentPointer_descriptor;
@@ -7021,7 +7153,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional fixed64 id = 1;
       private long id_ ;
       /**
        * <code>optional fixed64 id = 1;</code>
@@ -7054,7 +7185,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string contentType = 2;
       private java.lang.Object contentType_ = "";
       /**
        * <code>optional string contentType = 2;</code>
@@ -7068,9 +7198,12 @@ public final class TextSecureProtos {
       public java.lang.String getContentType() {
         java.lang.Object ref = contentType_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          contentType_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            contentType_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -7128,7 +7261,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional bytes key = 3;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 3;</code>
@@ -7164,7 +7296,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional uint32 size = 4;
       private int size_ ;
       /**
        * <code>optional uint32 size = 4;</code>
@@ -7197,7 +7328,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional bytes thumbnail = 5;
       private com.google.protobuf.ByteString thumbnail_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes thumbnail = 5;</code>
@@ -7244,10 +7374,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.AttachmentPointer)
   }
 
-  public interface GroupContextOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface GroupContextOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.GroupContext)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes id = 1;
     /**
      * <code>optional bytes id = 1;</code>
      */
@@ -7257,7 +7387,6 @@ public final class TextSecureProtos {
      */
     com.google.protobuf.ByteString getId();
 
-    // optional .textsecure.GroupContext.Type type = 2;
     /**
      * <code>optional .textsecure.GroupContext.Type type = 2;</code>
      */
@@ -7267,7 +7396,6 @@ public final class TextSecureProtos {
      */
     org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Type getType();
 
-    // optional string name = 3;
     /**
      * <code>optional string name = 3;</code>
      */
@@ -7282,12 +7410,11 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // repeated string members = 4;
     /**
      * <code>repeated string members = 4;</code>
      */
-    java.util.List<java.lang.String>
-    getMembersList();
+    com.google.protobuf.ProtocolStringList
+        getMembersList();
     /**
      * <code>repeated string members = 4;</code>
      */
@@ -7302,7 +7429,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getMembersBytes(int index);
 
-    // optional .textsecure.AttachmentPointer avatar = 5;
     /**
      * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
      */
@@ -7320,8 +7446,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.GroupContext}
    */
   public static final class GroupContext extends
-      com.google.protobuf.GeneratedMessage
-      implements GroupContextOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.GroupContext)
+      GroupContextOrBuilder {
     // Use GroupContext.newBuilder() to construct.
     private GroupContext(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -7384,16 +7511,18 @@ public final class TextSecureProtos {
               break;
             }
             case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              name_ = input.readBytes();
+              name_ = bs;
               break;
             }
             case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 members_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000008;
               }
-              members_.add(input.readBytes());
+              members_.add(bs);
               break;
             }
             case 42: {
@@ -7418,7 +7547,7 @@ public final class TextSecureProtos {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          members_ = new com.google.protobuf.UnmodifiableLazyStringList(members_);
+          members_ = members_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7552,7 +7681,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional bytes id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString id_;
     /**
@@ -7568,7 +7696,6 @@ public final class TextSecureProtos {
       return id_;
     }
 
-    // optional .textsecure.GroupContext.Type type = 2;
     public static final int TYPE_FIELD_NUMBER = 2;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Type type_;
     /**
@@ -7584,7 +7711,6 @@ public final class TextSecureProtos {
       return type_;
     }
 
-    // optional string name = 3;
     public static final int NAME_FIELD_NUMBER = 3;
     private java.lang.Object name_;
     /**
@@ -7627,13 +7753,12 @@ public final class TextSecureProtos {
       }
     }
 
-    // repeated string members = 4;
     public static final int MEMBERS_FIELD_NUMBER = 4;
     private com.google.protobuf.LazyStringList members_;
     /**
      * <code>repeated string members = 4;</code>
      */
-    public java.util.List<java.lang.String>
+    public com.google.protobuf.ProtocolStringList
         getMembersList() {
       return members_;
     }
@@ -7657,7 +7782,6 @@ public final class TextSecureProtos {
       return members_.getByteString(index);
     }
 
-    // optional .textsecure.AttachmentPointer avatar = 5;
     public static final int AVATAR_FIELD_NUMBER = 5;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer avatar_;
     /**
@@ -7689,7 +7813,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -7829,8 +7954,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.GroupContext}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContextOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.GroupContext)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContextOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_GroupContext_descriptor;
@@ -7919,8 +8045,7 @@ public final class TextSecureProtos {
         }
         result.name_ = name_;
         if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          members_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              members_);
+          members_ = members_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.members_ = members_;
@@ -7999,7 +8124,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional bytes id = 1;
       private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes id = 1;</code>
@@ -8035,7 +8159,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional .textsecure.GroupContext.Type type = 2;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Type type_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Type.UNKNOWN;
       /**
        * <code>optional .textsecure.GroupContext.Type type = 2;</code>
@@ -8071,7 +8194,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string name = 3;
       private java.lang.Object name_ = "";
       /**
        * <code>optional string name = 3;</code>
@@ -8085,9 +8207,12 @@ public final class TextSecureProtos {
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          name_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -8145,7 +8270,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // repeated string members = 4;
       private com.google.protobuf.LazyStringList members_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureMembersIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
@@ -8156,9 +8280,9 @@ public final class TextSecureProtos {
       /**
        * <code>repeated string members = 4;</code>
        */
-      public java.util.List<java.lang.String>
+      public com.google.protobuf.ProtocolStringList
           getMembersList() {
-        return java.util.Collections.unmodifiableList(members_);
+        return members_.getUnmodifiableView();
       }
       /**
        * <code>repeated string members = 4;</code>
@@ -8211,7 +8335,8 @@ public final class TextSecureProtos {
       public Builder addAllMembers(
           java.lang.Iterable<java.lang.String> values) {
         ensureMembersIsMutable();
-        super.addAll(values, members_);
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, members_);
         onChanged();
         return this;
       }
@@ -8238,7 +8363,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional .textsecure.AttachmentPointer avatar = 5;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer avatar_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder> avatarBuilder_;
@@ -8347,7 +8471,7 @@ public final class TextSecureProtos {
         if (avatarBuilder_ == null) {
           avatarBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointerOrBuilder>(
-                  avatar_,
+                  getAvatar(),
                   getParentForChildren(),
                   isClean());
           avatar_ = null;
@@ -8366,10 +8490,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.GroupContext)
   }
 
-  public interface ContactDetailsOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ContactDetailsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.ContactDetails)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional string number = 1;
     /**
      * <code>optional string number = 1;</code>
      */
@@ -8384,7 +8508,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getNumberBytes();
 
-    // optional string name = 2;
     /**
      * <code>optional string name = 2;</code>
      */
@@ -8399,7 +8522,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // optional .textsecure.ContactDetails.Avatar avatar = 3;
     /**
      * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
      */
@@ -8417,8 +8539,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.ContactDetails}
    */
   public static final class ContactDetails extends
-      com.google.protobuf.GeneratedMessage
-      implements ContactDetailsOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.ContactDetails)
+      ContactDetailsOrBuilder {
     // Use ContactDetails.newBuilder() to construct.
     private ContactDetails(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -8465,13 +8588,15 @@ public final class TextSecureProtos {
               break;
             }
             case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              number_ = input.readBytes();
+              number_ = bs;
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              name_ = input.readBytes();
+              name_ = bs;
               break;
             }
             case 26: {
@@ -8526,10 +8651,10 @@ public final class TextSecureProtos {
       return PARSER;
     }
 
-    public interface AvatarOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface AvatarOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.ContactDetails.Avatar)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional string contentType = 1;
       /**
        * <code>optional string contentType = 1;</code>
        */
@@ -8544,7 +8669,6 @@ public final class TextSecureProtos {
       com.google.protobuf.ByteString
           getContentTypeBytes();
 
-      // optional uint32 length = 2;
       /**
        * <code>optional uint32 length = 2;</code>
        */
@@ -8558,8 +8682,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.ContactDetails.Avatar}
      */
     public static final class Avatar extends
-        com.google.protobuf.GeneratedMessage
-        implements AvatarOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.ContactDetails.Avatar)
+        AvatarOrBuilder {
       // Use Avatar.newBuilder() to construct.
       private Avatar(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -8606,8 +8731,9 @@ public final class TextSecureProtos {
                 break;
               }
               case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000001;
-                contentType_ = input.readBytes();
+                contentType_ = bs;
                 break;
               }
               case 16: {
@@ -8655,7 +8781,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional string contentType = 1;
       public static final int CONTENTTYPE_FIELD_NUMBER = 1;
       private java.lang.Object contentType_;
       /**
@@ -8698,7 +8823,6 @@ public final class TextSecureProtos {
         }
       }
 
-      // optional uint32 length = 2;
       public static final int LENGTH_FIELD_NUMBER = 2;
       private int length_;
       /**
@@ -8721,7 +8845,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -8835,8 +8960,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.ContactDetails.Avatar}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.AvatarOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.ContactDetails.Avatar)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.AvatarOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_ContactDetails_Avatar_descriptor;
@@ -8960,7 +9086,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional string contentType = 1;
         private java.lang.Object contentType_ = "";
         /**
          * <code>optional string contentType = 1;</code>
@@ -8974,9 +9099,12 @@ public final class TextSecureProtos {
         public java.lang.String getContentType() {
           java.lang.Object ref = contentType_;
           if (!(ref instanceof java.lang.String)) {
-            java.lang.String s = ((com.google.protobuf.ByteString) ref)
-                .toStringUtf8();
-            contentType_ = s;
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              contentType_ = s;
+            }
             return s;
           } else {
             return (java.lang.String) ref;
@@ -9034,7 +9162,6 @@ public final class TextSecureProtos {
           return this;
         }
 
-        // optional uint32 length = 2;
         private int length_ ;
         /**
          * <code>optional uint32 length = 2;</code>
@@ -9079,7 +9206,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional string number = 1;
     public static final int NUMBER_FIELD_NUMBER = 1;
     private java.lang.Object number_;
     /**
@@ -9122,7 +9248,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
@@ -9165,7 +9290,6 @@ public final class TextSecureProtos {
       }
     }
 
-    // optional .textsecure.ContactDetails.Avatar avatar = 3;
     public static final int AVATAR_FIELD_NUMBER = 3;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar avatar_;
     /**
@@ -9195,7 +9319,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -9316,8 +9441,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.ContactDetails}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetailsOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.ContactDetails)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetailsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_ContactDetails_descriptor;
@@ -9461,7 +9587,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional string number = 1;
       private java.lang.Object number_ = "";
       /**
        * <code>optional string number = 1;</code>
@@ -9475,9 +9600,12 @@ public final class TextSecureProtos {
       public java.lang.String getNumber() {
         java.lang.Object ref = number_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          number_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            number_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -9535,7 +9663,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
        * <code>optional string name = 2;</code>
@@ -9549,9 +9676,12 @@ public final class TextSecureProtos {
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          name_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -9609,7 +9739,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional .textsecure.ContactDetails.Avatar avatar = 3;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar avatar_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar, org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.AvatarOrBuilder> avatarBuilder_;
@@ -9718,7 +9847,7 @@ public final class TextSecureProtos {
         if (avatarBuilder_ == null) {
           avatarBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar, org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.Avatar.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.ContactDetails.AvatarOrBuilder>(
-                  avatar_,
+                  getAvatar(),
                   getParentForChildren(),
                   isClean());
           avatar_ = null;
@@ -9737,10 +9866,10 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.ContactDetails)
   }
 
-  public interface GroupDetailsOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface GroupDetailsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.GroupDetails)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes id = 1;
     /**
      * <code>optional bytes id = 1;</code>
      */
@@ -9750,7 +9879,6 @@ public final class TextSecureProtos {
      */
     com.google.protobuf.ByteString getId();
 
-    // optional string name = 2;
     /**
      * <code>optional string name = 2;</code>
      */
@@ -9765,12 +9893,11 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // repeated string members = 3;
     /**
      * <code>repeated string members = 3;</code>
      */
-    java.util.List<java.lang.String>
-    getMembersList();
+    com.google.protobuf.ProtocolStringList
+        getMembersList();
     /**
      * <code>repeated string members = 3;</code>
      */
@@ -9785,7 +9912,6 @@ public final class TextSecureProtos {
     com.google.protobuf.ByteString
         getMembersBytes(int index);
 
-    // optional .textsecure.GroupDetails.Avatar avatar = 4;
     /**
      * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
      */
@@ -9803,8 +9929,9 @@ public final class TextSecureProtos {
    * Protobuf type {@code textsecure.GroupDetails}
    */
   public static final class GroupDetails extends
-      com.google.protobuf.GeneratedMessage
-      implements GroupDetailsOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.GroupDetails)
+      GroupDetailsOrBuilder {
     // Use GroupDetails.newBuilder() to construct.
     private GroupDetails(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -9856,16 +9983,18 @@ public final class TextSecureProtos {
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              name_ = input.readBytes();
+              name_ = bs;
               break;
             }
             case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 members_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              members_.add(input.readBytes());
+              members_.add(bs);
               break;
             }
             case 34: {
@@ -9890,7 +10019,7 @@ public final class TextSecureProtos {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          members_ = new com.google.protobuf.UnmodifiableLazyStringList(members_);
+          members_ = members_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9923,10 +10052,10 @@ public final class TextSecureProtos {
       return PARSER;
     }
 
-    public interface AvatarOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface AvatarOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.GroupDetails.Avatar)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional string contentType = 1;
       /**
        * <code>optional string contentType = 1;</code>
        */
@@ -9941,7 +10070,6 @@ public final class TextSecureProtos {
       com.google.protobuf.ByteString
           getContentTypeBytes();
 
-      // optional uint32 length = 2;
       /**
        * <code>optional uint32 length = 2;</code>
        */
@@ -9955,8 +10083,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.GroupDetails.Avatar}
      */
     public static final class Avatar extends
-        com.google.protobuf.GeneratedMessage
-        implements AvatarOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.GroupDetails.Avatar)
+        AvatarOrBuilder {
       // Use Avatar.newBuilder() to construct.
       private Avatar(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -10003,8 +10132,9 @@ public final class TextSecureProtos {
                 break;
               }
               case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000001;
-                contentType_ = input.readBytes();
+                contentType_ = bs;
                 break;
               }
               case 16: {
@@ -10052,7 +10182,6 @@ public final class TextSecureProtos {
       }
 
       private int bitField0_;
-      // optional string contentType = 1;
       public static final int CONTENTTYPE_FIELD_NUMBER = 1;
       private java.lang.Object contentType_;
       /**
@@ -10095,7 +10224,6 @@ public final class TextSecureProtos {
         }
       }
 
-      // optional uint32 length = 2;
       public static final int LENGTH_FIELD_NUMBER = 2;
       private int length_;
       /**
@@ -10118,7 +10246,8 @@ public final class TextSecureProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -10232,8 +10361,9 @@ public final class TextSecureProtos {
        * Protobuf type {@code textsecure.GroupDetails.Avatar}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.AvatarOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.GroupDetails.Avatar)
+          org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.AvatarOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_GroupDetails_Avatar_descriptor;
@@ -10357,7 +10487,6 @@ public final class TextSecureProtos {
         }
         private int bitField0_;
 
-        // optional string contentType = 1;
         private java.lang.Object contentType_ = "";
         /**
          * <code>optional string contentType = 1;</code>
@@ -10371,9 +10500,12 @@ public final class TextSecureProtos {
         public java.lang.String getContentType() {
           java.lang.Object ref = contentType_;
           if (!(ref instanceof java.lang.String)) {
-            java.lang.String s = ((com.google.protobuf.ByteString) ref)
-                .toStringUtf8();
-            contentType_ = s;
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              contentType_ = s;
+            }
             return s;
           } else {
             return (java.lang.String) ref;
@@ -10431,7 +10563,6 @@ public final class TextSecureProtos {
           return this;
         }
 
-        // optional uint32 length = 2;
         private int length_ ;
         /**
          * <code>optional uint32 length = 2;</code>
@@ -10476,7 +10607,6 @@ public final class TextSecureProtos {
     }
 
     private int bitField0_;
-    // optional bytes id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString id_;
     /**
@@ -10492,7 +10622,6 @@ public final class TextSecureProtos {
       return id_;
     }
 
-    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
@@ -10535,13 +10664,12 @@ public final class TextSecureProtos {
       }
     }
 
-    // repeated string members = 3;
     public static final int MEMBERS_FIELD_NUMBER = 3;
     private com.google.protobuf.LazyStringList members_;
     /**
      * <code>repeated string members = 3;</code>
      */
-    public java.util.List<java.lang.String>
+    public com.google.protobuf.ProtocolStringList
         getMembersList() {
       return members_;
     }
@@ -10565,7 +10693,6 @@ public final class TextSecureProtos {
       return members_.getByteString(index);
     }
 
-    // optional .textsecure.GroupDetails.Avatar avatar = 4;
     public static final int AVATAR_FIELD_NUMBER = 4;
     private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar avatar_;
     /**
@@ -10596,7 +10723,8 @@ public final class TextSecureProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -10729,8 +10857,9 @@ public final class TextSecureProtos {
      * Protobuf type {@code textsecure.GroupDetails}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetailsOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.GroupDetails)
+        org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetailsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.textsecure.internal.push.TextSecureProtos.internal_static_textsecure_GroupDetails_descriptor;
@@ -10813,8 +10942,7 @@ public final class TextSecureProtos {
         }
         result.name_ = name_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          members_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              members_);
+          members_ = members_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.members_ = members_;
@@ -10890,7 +11018,6 @@ public final class TextSecureProtos {
       }
       private int bitField0_;
 
-      // optional bytes id = 1;
       private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes id = 1;</code>
@@ -10926,7 +11053,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
        * <code>optional string name = 2;</code>
@@ -10940,9 +11066,12 @@ public final class TextSecureProtos {
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          name_ = s;
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
           return s;
         } else {
           return (java.lang.String) ref;
@@ -11000,7 +11129,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // repeated string members = 3;
       private com.google.protobuf.LazyStringList members_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureMembersIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
@@ -11011,9 +11139,9 @@ public final class TextSecureProtos {
       /**
        * <code>repeated string members = 3;</code>
        */
-      public java.util.List<java.lang.String>
+      public com.google.protobuf.ProtocolStringList
           getMembersList() {
-        return java.util.Collections.unmodifiableList(members_);
+        return members_.getUnmodifiableView();
       }
       /**
        * <code>repeated string members = 3;</code>
@@ -11066,7 +11194,8 @@ public final class TextSecureProtos {
       public Builder addAllMembers(
           java.lang.Iterable<java.lang.String> values) {
         ensureMembersIsMutable();
-        super.addAll(values, members_);
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, members_);
         onChanged();
         return this;
       }
@@ -11093,7 +11222,6 @@ public final class TextSecureProtos {
         return this;
       }
 
-      // optional .textsecure.GroupDetails.Avatar avatar = 4;
       private org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar avatar_ = org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.AvatarOrBuilder> avatarBuilder_;
@@ -11202,7 +11330,7 @@ public final class TextSecureProtos {
         if (avatarBuilder_ == null) {
           avatarBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.Avatar.Builder, org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupDetails.AvatarOrBuilder>(
-                  avatar_,
+                  getAvatar(),
                   getParentForChildren(),
                   isClean());
           avatar_ = null;
@@ -11221,72 +11349,72 @@ public final class TextSecureProtos {
     // @@protoc_insertion_point(class_scope:textsecure.GroupDetails)
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_Envelope_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_Envelope_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_Content_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_Content_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_DataMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_DataMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SyncMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SyncMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SyncMessage_Sent_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SyncMessage_Contacts_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SyncMessage_Groups_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SyncMessage_Request_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SyncMessage_Request_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_AttachmentPointer_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_AttachmentPointer_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_GroupContext_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_GroupContext_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_ContactDetails_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_ContactDetails_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_ContactDetails_Avatar_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_GroupDetails_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_GroupDetails_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_GroupDetails_Avatar_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11309,138 +11437,139 @@ public final class TextSecureProtos {
       "_EXCHANGE\020\002\022\021\n\rPREKEY_BUNDLE\020\003\022\013\n\007RECEIP" +
       "T\020\005\"e\n\007Content\022,\n\013dataMessage\030\001 \001(\0132\027.te" +
       "xtsecure.DataMessage\022,\n\013syncMessage\030\002 \001(" +
-      "\0132\027.textsecure.SyncMessage\"\241\001\n\013DataMessa",
+      "\0132\027.textsecure.SyncMessage\"\263\001\n\013DataMessa",
       "ge\022\014\n\004body\030\001 \001(\t\0222\n\013attachments\030\002 \003(\0132\035." +
       "textsecure.AttachmentPointer\022\'\n\005group\030\003 " +
       "\001(\0132\030.textsecure.GroupContext\022\r\n\005flags\030\004" +
-      " \001(\r\"\030\n\005Flags\022\017\n\013END_SESSION\020\001\"\207\004\n\013SyncM" +
-      "essage\022*\n\004sent\030\001 \001(\0132\034.textsecure.SyncMe" +
-      "ssage.Sent\0222\n\010contacts\030\002 \001(\0132 .textsecur" +
-      "e.SyncMessage.Contacts\022.\n\006groups\030\003 \001(\0132\036" +
-      ".textsecure.SyncMessage.Groups\0220\n\007reques" +
-      "t\030\004 \001(\0132\037.textsecure.SyncMessage.Request" +
-      "\032X\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttimesta",
-      "mp\030\002 \001(\004\022(\n\007message\030\003 \001(\0132\027.textsecure.D" +
-      "ataMessage\0327\n\010Contacts\022+\n\004blob\030\001 \001(\0132\035.t" +
-      "extsecure.AttachmentPointer\0325\n\006Groups\022+\n" +
-      "\004blob\030\001 \001(\0132\035.textsecure.AttachmentPoint" +
-      "er\032l\n\007Request\0222\n\004type\030\001 \001(\0162$.textsecure" +
-      ".SyncMessage.Request.Type\"-\n\004Type\022\013\n\007UNK" +
-      "NOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\"b\n\021Atta" +
-      "chmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType" +
-      "\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthu" +
-      "mbnail\030\005 \001(\014\"\315\001\n\014GroupContext\022\n\n\002id\030\001 \001(",
-      "\014\022+\n\004type\030\002 \001(\0162\035.textsecure.GroupContex" +
-      "t.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\022-\n" +
-      "\006avatar\030\005 \001(\0132\035.textsecure.AttachmentPoi" +
-      "nter\"6\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n" +
-      "\007DELIVER\020\002\022\010\n\004QUIT\020\003\"\220\001\n\016ContactDetails\022" +
-      "\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0221\n\006avatar\030" +
-      "\003 \001(\0132!.textsecure.ContactDetails.Avatar" +
-      "\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006lengt" +
-      "h\030\002 \001(\r\"\231\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004" +
-      "name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\022/\n\006avatar\030\004 ",
-      "\001(\0132\037.textsecure.GroupDetails.Avatar\032-\n\006" +
-      "Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 " +
-      "\001(\rB?\n+org.whispersystems.textsecure.int" +
-      "ernal.pushB\020TextSecureProtos"
+      " \001(\r\022\020\n\010nickname\030\005 \001(\t\"\030\n\005Flags\022\017\n\013END_S" +
+      "ESSION\020\001\"\207\004\n\013SyncMessage\022*\n\004sent\030\001 \001(\0132\034" +
+      ".textsecure.SyncMessage.Sent\0222\n\010contacts" +
+      "\030\002 \001(\0132 .textsecure.SyncMessage.Contacts" +
+      "\022.\n\006groups\030\003 \001(\0132\036.textsecure.SyncMessag" +
+      "e.Groups\0220\n\007request\030\004 \001(\0132\037.textsecure.S" +
+      "yncMessage.Request\032X\n\004Sent\022\023\n\013destinatio",
+      "n\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022(\n\007message\030\003 " +
+      "\001(\0132\027.textsecure.DataMessage\0327\n\010Contacts" +
+      "\022+\n\004blob\030\001 \001(\0132\035.textsecure.AttachmentPo" +
+      "inter\0325\n\006Groups\022+\n\004blob\030\001 \001(\0132\035.textsecu" +
+      "re.AttachmentPointer\032l\n\007Request\0222\n\004type\030" +
+      "\001 \001(\0162$.textsecure.SyncMessage.Request.T" +
+      "ype\"-\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n" +
+      "\n\006GROUPS\020\002\"b\n\021AttachmentPointer\022\n\n\002id\030\001 " +
+      "\001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n" +
+      "\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\"\315\001\n\014Group",
+      "Context\022\n\n\002id\030\001 \001(\014\022+\n\004type\030\002 \001(\0162\035.text" +
+      "secure.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017" +
+      "\n\007members\030\004 \003(\t\022-\n\006avatar\030\005 \001(\0132\035.textse" +
+      "cure.AttachmentPointer\"6\n\004Type\022\013\n\007UNKNOW" +
+      "N\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\"\220" +
+      "\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004nam" +
+      "e\030\002 \001(\t\0221\n\006avatar\030\003 \001(\0132!.textsecure.Con" +
+      "tactDetails.Avatar\032-\n\006Avatar\022\023\n\013contentT" +
+      "ype\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\231\001\n\014GroupDetai" +
+      "ls\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030",
+      "\003 \003(\t\022/\n\006avatar\030\004 \001(\0132\037.textsecure.Group" +
+      "Details.Avatar\032-\n\006Avatar\022\023\n\013contentType\030" +
+      "\001 \001(\t\022\016\n\006length\030\002 \001(\rB?\n+org.whispersyst" +
+      "ems.textsecure.internal.pushB\020TextSecure" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_textsecure_Envelope_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_Envelope_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_Envelope_descriptor,
-              new java.lang.String[] { "Type", "Source", "SourceDevice", "Relay", "Timestamp", "LegacyMessage", "Content", });
-          internal_static_textsecure_Content_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_Content_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_Content_descriptor,
-              new java.lang.String[] { "DataMessage", "SyncMessage", });
-          internal_static_textsecure_DataMessage_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_textsecure_DataMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_DataMessage_descriptor,
-              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", });
-          internal_static_textsecure_SyncMessage_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_textsecure_SyncMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_descriptor,
-              new java.lang.String[] { "Sent", "Contacts", "Groups", "Request", });
-          internal_static_textsecure_SyncMessage_Sent_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Sent_descriptor,
-              new java.lang.String[] { "Destination", "Timestamp", "Message", });
-          internal_static_textsecure_SyncMessage_Contacts_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(1);
-          internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Contacts_descriptor,
-              new java.lang.String[] { "Blob", });
-          internal_static_textsecure_SyncMessage_Groups_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(2);
-          internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Groups_descriptor,
-              new java.lang.String[] { "Blob", });
-          internal_static_textsecure_SyncMessage_Request_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(3);
-          internal_static_textsecure_SyncMessage_Request_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Request_descriptor,
-              new java.lang.String[] { "Type", });
-          internal_static_textsecure_AttachmentPointer_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_textsecure_AttachmentPointer_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_AttachmentPointer_descriptor,
-              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", });
-          internal_static_textsecure_GroupContext_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_textsecure_GroupContext_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupContext_descriptor,
-              new java.lang.String[] { "Id", "Type", "Name", "Members", "Avatar", });
-          internal_static_textsecure_ContactDetails_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_textsecure_ContactDetails_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ContactDetails_descriptor,
-              new java.lang.String[] { "Number", "Name", "Avatar", });
-          internal_static_textsecure_ContactDetails_Avatar_descriptor =
-            internal_static_textsecure_ContactDetails_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ContactDetails_Avatar_descriptor,
-              new java.lang.String[] { "ContentType", "Length", });
-          internal_static_textsecure_GroupDetails_descriptor =
-            getDescriptor().getMessageTypes().get(7);
-          internal_static_textsecure_GroupDetails_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupDetails_descriptor,
-              new java.lang.String[] { "Id", "Name", "Members", "Avatar", });
-          internal_static_textsecure_GroupDetails_Avatar_descriptor =
-            internal_static_textsecure_GroupDetails_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupDetails_Avatar_descriptor,
-              new java.lang.String[] { "ContentType", "Length", });
-          return null;
-        }
-      };
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
+    internal_static_textsecure_Envelope_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_textsecure_Envelope_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_Envelope_descriptor,
+        new java.lang.String[] { "Type", "Source", "SourceDevice", "Relay", "Timestamp", "LegacyMessage", "Content", });
+    internal_static_textsecure_Content_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_textsecure_Content_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_Content_descriptor,
+        new java.lang.String[] { "DataMessage", "SyncMessage", });
+    internal_static_textsecure_DataMessage_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_textsecure_DataMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_DataMessage_descriptor,
+        new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "Nickname", });
+    internal_static_textsecure_SyncMessage_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_textsecure_SyncMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SyncMessage_descriptor,
+        new java.lang.String[] { "Sent", "Contacts", "Groups", "Request", });
+    internal_static_textsecure_SyncMessage_Sent_descriptor =
+      internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SyncMessage_Sent_descriptor,
+        new java.lang.String[] { "Destination", "Timestamp", "Message", });
+    internal_static_textsecure_SyncMessage_Contacts_descriptor =
+      internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(1);
+    internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SyncMessage_Contacts_descriptor,
+        new java.lang.String[] { "Blob", });
+    internal_static_textsecure_SyncMessage_Groups_descriptor =
+      internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(2);
+    internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SyncMessage_Groups_descriptor,
+        new java.lang.String[] { "Blob", });
+    internal_static_textsecure_SyncMessage_Request_descriptor =
+      internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(3);
+    internal_static_textsecure_SyncMessage_Request_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SyncMessage_Request_descriptor,
+        new java.lang.String[] { "Type", });
+    internal_static_textsecure_AttachmentPointer_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_textsecure_AttachmentPointer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_AttachmentPointer_descriptor,
+        new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", });
+    internal_static_textsecure_GroupContext_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_textsecure_GroupContext_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_GroupContext_descriptor,
+        new java.lang.String[] { "Id", "Type", "Name", "Members", "Avatar", });
+    internal_static_textsecure_ContactDetails_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_textsecure_ContactDetails_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_ContactDetails_descriptor,
+        new java.lang.String[] { "Number", "Name", "Avatar", });
+    internal_static_textsecure_ContactDetails_Avatar_descriptor =
+      internal_static_textsecure_ContactDetails_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_ContactDetails_Avatar_descriptor,
+        new java.lang.String[] { "ContentType", "Length", });
+    internal_static_textsecure_GroupDetails_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_textsecure_GroupDetails_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_GroupDetails_descriptor,
+        new java.lang.String[] { "Id", "Name", "Members", "Avatar", });
+    internal_static_textsecure_GroupDetails_Avatar_descriptor =
+      internal_static_textsecure_GroupDetails_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_GroupDetails_Avatar_descriptor,
+        new java.lang.String[] { "ContentType", "Length", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
