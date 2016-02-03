@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.5.0'
+    compile 'com.google.protobuf:protobuf-java:2.6.1'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
 
