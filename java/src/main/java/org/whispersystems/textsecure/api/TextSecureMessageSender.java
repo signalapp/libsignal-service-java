@@ -32,6 +32,7 @@ import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
 import org.whispersystems.textsecure.api.messages.TextSecureAttachmentStream;
 import org.whispersystems.textsecure.api.messages.TextSecureDataMessage;
 import org.whispersystems.textsecure.api.messages.TextSecureGroup;
+import org.whispersystems.textsecure.api.messages.multidevice.ReadMessage;
 import org.whispersystems.textsecure.api.messages.multidevice.TextSecureSyncMessage;
 import org.whispersystems.textsecure.api.push.TextSecureAddress;
 import org.whispersystems.textsecure.api.push.TrustStore;
@@ -171,6 +172,8 @@ public class TextSecureMessageSender {
       content = createMultiDeviceContactsContent(message.getContacts().get().asStream());
     } else if (message.getGroups().isPresent()) {
       content = createMultiDeviceGroupsContent(message.getGroups().get().asStream());
+    } else if (message.getRead().isPresent()) {
+      content = createMultiDeviceReadContent(message.getRead().get());
     } else {
       throw new IOException("Unsupported sync message!");
     }
@@ -236,6 +239,19 @@ public class TextSecureMessageSender {
     } catch (InvalidProtocolBufferException e) {
       throw new AssertionError(e);
     }
+  }
+
+  private byte[] createMultiDeviceReadContent(List<ReadMessage> readMessages) {
+    Content.Builder     container = Content.newBuilder();
+    SyncMessage.Builder builder   = SyncMessage.newBuilder();
+
+    for (ReadMessage readMessage : readMessages) {
+      builder.addRead(SyncMessage.Read.newBuilder()
+                                      .setTimestamp(readMessage.getTimestamp())
+                                      .setSender(readMessage.getSender()));
+    }
+
+    return container.setSyncMessage(builder).build().toByteArray();
   }
 
   private GroupContext createGroupContent(TextSecureGroup group) throws IOException {
