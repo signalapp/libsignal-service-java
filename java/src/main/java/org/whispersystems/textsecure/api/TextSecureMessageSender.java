@@ -19,13 +19,13 @@ package org.whispersystems.textsecure.api;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import org.whispersystems.libaxolotl.AxolotlAddress;
-import org.whispersystems.libaxolotl.InvalidKeyException;
-import org.whispersystems.libaxolotl.SessionBuilder;
-import org.whispersystems.libaxolotl.logging.Log;
-import org.whispersystems.libaxolotl.state.AxolotlStore;
-import org.whispersystems.libaxolotl.state.PreKeyBundle;
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.SessionBuilder;
+import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.libsignal.state.SignalProtocolStore;
+import org.whispersystems.libsignal.state.PreKeyBundle;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.textsecure.api.crypto.TextSecureCipher;
 import org.whispersystems.textsecure.api.crypto.UntrustedIdentityException;
 import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
@@ -71,7 +71,7 @@ public class TextSecureMessageSender {
   private static final String TAG = TextSecureMessageSender.class.getSimpleName();
 
   private final PushServiceSocket       socket;
-  private final AxolotlStore            store;
+  private final SignalProtocolStore     store;
   private final TextSecureAddress       localAddress;
   private final Optional<EventListener> eventListener;
 
@@ -88,7 +88,7 @@ public class TextSecureMessageSender {
    */
   public TextSecureMessageSender(String url, TrustStore trustStore,
                                  String user, String password,
-                                 AxolotlStore store,
+                                 SignalProtocolStore store,
                                  String userAgent,
                                  Optional<EventListener> eventListener)
   {
@@ -394,19 +394,19 @@ public class TextSecureMessageSender {
   private OutgoingPushMessage getEncryptedMessage(PushServiceSocket socket, TextSecureAddress recipient, int deviceId, byte[] plaintext, boolean legacy)
       throws IOException, UntrustedIdentityException
   {
-    AxolotlAddress   axolotlAddress = new AxolotlAddress(recipient.getNumber(), deviceId);
-    TextSecureCipher cipher         = new TextSecureCipher(localAddress, store);
+    SignalProtocolAddress signalProtocolAddress = new SignalProtocolAddress(recipient.getNumber(), deviceId);
+    TextSecureCipher      cipher                = new TextSecureCipher(localAddress, store);
 
-    if (!store.containsSession(axolotlAddress)) {
+    if (!store.containsSession(signalProtocolAddress)) {
       try {
         List<PreKeyBundle> preKeys = socket.getPreKeys(recipient, deviceId);
 
         for (PreKeyBundle preKey : preKeys) {
           try {
-            AxolotlAddress preKeyAddress  = new AxolotlAddress(recipient.getNumber(), preKey.getDeviceId());
-            SessionBuilder sessionBuilder = new SessionBuilder(store, preKeyAddress);
+            SignalProtocolAddress preKeyAddress  = new SignalProtocolAddress(recipient.getNumber(), preKey.getDeviceId());
+            SessionBuilder        sessionBuilder = new SessionBuilder(store, preKeyAddress);
             sessionBuilder.process(preKey);
-          } catch (org.whispersystems.libaxolotl.UntrustedIdentityException e) {
+          } catch (org.whispersystems.libsignal.UntrustedIdentityException e) {
             throw new UntrustedIdentityException("Untrusted identity key!", recipient.getNumber(), preKey.getIdentityKey());
           }
         }
@@ -419,7 +419,7 @@ public class TextSecureMessageSender {
       }
     }
 
-    return cipher.encrypt(axolotlAddress, plaintext, legacy);
+    return cipher.encrypt(signalProtocolAddress, plaintext, legacy);
   }
 
   private void handleMismatchedDevices(PushServiceSocket socket, TextSecureAddress recipient,
@@ -428,16 +428,16 @@ public class TextSecureMessageSender {
   {
     try {
       for (int extraDeviceId : mismatchedDevices.getExtraDevices()) {
-        store.deleteSession(new AxolotlAddress(recipient.getNumber(), extraDeviceId));
+        store.deleteSession(new SignalProtocolAddress(recipient.getNumber(), extraDeviceId));
       }
 
       for (int missingDeviceId : mismatchedDevices.getMissingDevices()) {
         PreKeyBundle preKey = socket.getPreKey(recipient, missingDeviceId);
 
         try {
-          SessionBuilder sessionBuilder = new SessionBuilder(store, new AxolotlAddress(recipient.getNumber(), missingDeviceId));
+          SessionBuilder sessionBuilder = new SessionBuilder(store, new SignalProtocolAddress(recipient.getNumber(), missingDeviceId));
           sessionBuilder.process(preKey);
-        } catch (org.whispersystems.libaxolotl.UntrustedIdentityException e) {
+        } catch (org.whispersystems.libsignal.UntrustedIdentityException e) {
           throw new UntrustedIdentityException("Untrusted identity key!", recipient.getNumber(), preKey.getIdentityKey());
         }
       }
@@ -448,7 +448,7 @@ public class TextSecureMessageSender {
 
   private void handleStaleDevices(TextSecureAddress recipient, StaleDevices staleDevices) {
     for (int staleDeviceId : staleDevices.getStaleDevices()) {
-      store.deleteSession(new AxolotlAddress(recipient.getNumber(), staleDeviceId));
+      store.deleteSession(new SignalProtocolAddress(recipient.getNumber(), staleDeviceId));
     }
   }
 

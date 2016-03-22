@@ -16,7 +16,7 @@
  */
 package org.whispersystems.textsecure.api.crypto;
 
-import org.whispersystems.libaxolotl.IdentityKey;
+import org.whispersystems.libsignal.IdentityKey;
 
 public class UntrustedIdentityException extends Exception {
 

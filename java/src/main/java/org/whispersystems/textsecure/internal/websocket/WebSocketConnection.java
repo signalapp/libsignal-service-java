@@ -2,7 +2,7 @@ package org.whispersystems.textsecure.internal.websocket;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import org.whispersystems.libaxolotl.logging.Log;
+import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.textsecure.api.push.TrustStore;
 import org.whispersystems.textsecure.api.util.CredentialsProvider;
 import org.whispersystems.textsecure.internal.util.Util;

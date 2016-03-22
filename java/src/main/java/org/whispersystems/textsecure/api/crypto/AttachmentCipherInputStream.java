@@ -16,8 +16,8 @@
  */
 package org.whispersystems.textsecure.api.crypto;
 
-import org.whispersystems.libaxolotl.InvalidMacException;
-import org.whispersystems.libaxolotl.InvalidMessageException;
+import org.whispersystems.libsignal.InvalidMacException;
+import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.textsecure.internal.util.Util;
 
 import java.io.File;

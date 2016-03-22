@@ -16,7 +16,7 @@
  */
 package org.whispersystems.textsecure.api.push;
 
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.util.guava.Optional;
 
 /**
  * A class representing a message destination or origin.

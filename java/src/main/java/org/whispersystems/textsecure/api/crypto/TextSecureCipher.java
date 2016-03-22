@@ -18,21 +18,21 @@ package org.whispersystems.textsecure.api.crypto;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import org.whispersystems.libaxolotl.AxolotlAddress;
-import org.whispersystems.libaxolotl.DuplicateMessageException;
-import org.whispersystems.libaxolotl.InvalidKeyException;
-import org.whispersystems.libaxolotl.InvalidKeyIdException;
-import org.whispersystems.libaxolotl.InvalidMessageException;
-import org.whispersystems.libaxolotl.InvalidVersionException;
-import org.whispersystems.libaxolotl.LegacyMessageException;
-import org.whispersystems.libaxolotl.NoSessionException;
-import org.whispersystems.libaxolotl.SessionCipher;
-import org.whispersystems.libaxolotl.UntrustedIdentityException;
-import org.whispersystems.libaxolotl.protocol.CiphertextMessage;
-import org.whispersystems.libaxolotl.protocol.PreKeyWhisperMessage;
-import org.whispersystems.libaxolotl.protocol.WhisperMessage;
-import org.whispersystems.libaxolotl.state.AxolotlStore;
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.whispersystems.libsignal.DuplicateMessageException;
+import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.InvalidKeyIdException;
+import org.whispersystems.libsignal.InvalidMessageException;
+import org.whispersystems.libsignal.InvalidVersionException;
+import org.whispersystems.libsignal.LegacyMessageException;
+import org.whispersystems.libsignal.NoSessionException;
+import org.whispersystems.libsignal.SessionCipher;
+import org.whispersystems.libsignal.UntrustedIdentityException;
+import org.whispersystems.libsignal.protocol.CiphertextMessage;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
+import org.whispersystems.libsignal.state.SignalProtocolStore;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
 import org.whispersystems.textsecure.api.messages.TextSecureAttachmentPointer;
 import org.whispersystems.textsecure.api.messages.TextSecureContent;
@@ -67,16 +67,16 @@ public class TextSecureCipher {
 
   private static final String TAG = TextSecureCipher.class.getSimpleName();
 
-  private final AxolotlStore      axolotlStore;
+  private final SignalProtocolStore      signalProtocolStore;
   private final TextSecureAddress localAddress;
 
-  public TextSecureCipher(TextSecureAddress localAddress, AxolotlStore axolotlStore) {
-    this.axolotlStore = axolotlStore;
+  public TextSecureCipher(TextSecureAddress localAddress, SignalProtocolStore signalProtocolStore) {
+    this.signalProtocolStore = signalProtocolStore;
     this.localAddress = localAddress;
   }
 
-  public OutgoingPushMessage encrypt(AxolotlAddress destination, byte[] unpaddedMessage, boolean legacy) {
-    SessionCipher        sessionCipher        = new SessionCipher(axolotlStore, destination);
+  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy) {
+    SessionCipher        sessionCipher        = new SessionCipher(signalProtocolStore, destination);
     PushTransportDetails transportDetails     = new PushTransportDetails(sessionCipher.getSessionVersion());
     CiphertextMessage    message              = sessionCipher.encrypt(transportDetails.getPaddedMessageBody(unpaddedMessage));
     int                  remoteRegistrationId = sessionCipher.getRemoteRegistrationId();
@@ -140,15 +140,15 @@ public class TextSecureCipher {
              DuplicateMessageException, InvalidKeyIdException, UntrustedIdentityException,
              LegacyMessageException, NoSessionException
   {
-    AxolotlAddress sourceAddress = new AxolotlAddress(envelope.getSource(), envelope.getSourceDevice());
-    SessionCipher  sessionCipher = new SessionCipher(axolotlStore, sourceAddress);
+    SignalProtocolAddress sourceAddress = new SignalProtocolAddress(envelope.getSource(), envelope.getSourceDevice());
+    SessionCipher         sessionCipher = new SessionCipher(signalProtocolStore, sourceAddress);
 
     byte[] paddedMessage;
 
-    if (envelope.isPreKeyWhisperMessage()) {
-      paddedMessage = sessionCipher.decrypt(new PreKeyWhisperMessage(ciphertext));
-    } else if (envelope.isWhisperMessage()) {
-      paddedMessage = sessionCipher.decrypt(new WhisperMessage(ciphertext));
+    if (envelope.isPreKeySignalMessage()) {
+      paddedMessage = sessionCipher.decrypt(new PreKeySignalMessage(ciphertext));
+    } else if (envelope.isSignalMessage()) {
+      paddedMessage = sessionCipher.decrypt(new SignalMessage(ciphertext));
     } else {
       throw new InvalidMessageException("Unknown type: " + envelope.getType());
     }

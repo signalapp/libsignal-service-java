@@ -2,11 +2,11 @@ package org.whispersystems.textsecure.internal.crypto;
 
 import com.google.protobuf.ByteString;
 
-import org.whispersystems.libaxolotl.InvalidKeyException;
-import org.whispersystems.libaxolotl.ecc.Curve;
-import org.whispersystems.libaxolotl.ecc.ECKeyPair;
-import org.whispersystems.libaxolotl.ecc.ECPublicKey;
-import org.whispersystems.libaxolotl.kdf.HKDFv3;
+import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.ecc.Curve;
+import org.whispersystems.libsignal.ecc.ECKeyPair;
+import org.whispersystems.libsignal.ecc.ECPublicKey;
+import org.whispersystems.libsignal.kdf.HKDFv3;
 import org.whispersystems.textsecure.internal.util.Util;
 
 import java.security.NoSuchAlgorithmException;

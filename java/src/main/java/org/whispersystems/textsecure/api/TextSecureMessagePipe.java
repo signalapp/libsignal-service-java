@@ -1,6 +1,6 @@
 package org.whispersystems.textsecure.api;
 
-import org.whispersystems.libaxolotl.InvalidVersionException;
+import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.textsecure.api.messages.TextSecureEnvelope;
 import org.whispersystems.textsecure.api.util.CredentialsProvider;
 import org.whispersystems.textsecure.internal.websocket.WebSocketConnection;

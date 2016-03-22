@@ -6,7 +6,7 @@ import com.squareup.okhttp.Response;
 import com.squareup.okhttp.internal.ws.WebSocket;
 import com.squareup.okhttp.internal.ws.WebSocketListener;
 
-import org.whispersystems.libaxolotl.logging.Log;
+import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.textsecure.api.push.TrustStore;
 import org.whispersystems.textsecure.api.util.CredentialsProvider;
 import org.whispersystems.textsecure.internal.util.BlacklistingTrustManager;

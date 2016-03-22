@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.whispersystems:axolotl-android:${axolotl_version}"
+    compile "org.whispersystems:signal-android:${signal_version}"
     compile (project(':java')) {
         exclude group: 'org.whispersystems', module: 'axolotl-java'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'

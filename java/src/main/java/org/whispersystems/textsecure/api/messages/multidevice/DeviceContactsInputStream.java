@@ -1,6 +1,6 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.textsecure.api.messages.TextSecureAttachmentStream;
 import org.whispersystems.textsecure.internal.push.TextSecureProtos;
 import org.whispersystems.textsecure.internal.util.Util;

@@ -17,7 +17,7 @@
 package org.whispersystems.textsecure.internal.push;
 
 
-import org.whispersystems.libaxolotl.logging.Log;
+import org.whispersystems.libsignal.logging.Log;
 
 public class PushTransportDetails {
 

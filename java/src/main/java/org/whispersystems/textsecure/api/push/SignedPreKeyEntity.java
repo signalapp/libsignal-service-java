@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import org.whispersystems.libaxolotl.ecc.ECPublicKey;
+import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.textsecure.internal.push.PreKeyEntity;
 import org.whispersystems.textsecure.internal.util.Base64;
 

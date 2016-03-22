@@ -18,9 +18,9 @@ package org.whispersystems.textsecure.api.messages;
 
 import com.google.protobuf.ByteString;
 
-import org.whispersystems.libaxolotl.InvalidVersionException;
-import org.whispersystems.libaxolotl.logging.Log;
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.InvalidVersionException;
+import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.textsecure.api.push.TextSecureAddress;
 import org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope;
 import org.whispersystems.textsecure.internal.util.Base64;
@@ -192,16 +192,16 @@ public class TextSecureEnvelope {
   }
 
   /**
-   * @return true if the containing message is a {@link org.whispersystems.libaxolotl.protocol.WhisperMessage}
+   * @return true if the containing message is a {@link org.whispersystems.libsignal.protocol.SignalMessage}
    */
-  public boolean isWhisperMessage() {
+  public boolean isSignalMessage() {
     return envelope.getType().getNumber() == Envelope.Type.CIPHERTEXT_VALUE;
   }
 
   /**
-   * @return true if the containing message is a {@link org.whispersystems.libaxolotl.protocol.PreKeyWhisperMessage}
+   * @return true if the containing message is a {@link org.whispersystems.libsignal.protocol.PreKeySignalMessage}
    */
-  public boolean isPreKeyWhisperMessage() {
+  public boolean isPreKeySignalMessage() {
     return envelope.getType().getNumber() == Envelope.Type.PREKEY_BUNDLE_VALUE;
   }
 

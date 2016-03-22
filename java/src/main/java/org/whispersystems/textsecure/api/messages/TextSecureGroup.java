@@ -16,7 +16,7 @@
  */
 package org.whispersystems.textsecure.api.messages;
 
-import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.libsignal.util.guava.Optional;
 
 import java.util.List;
 
