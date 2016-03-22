@@ -19,9 +19,6 @@ package org.whispersystems.textsecure.internal.push;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.whispersystems.textsecure.api.push.TextSecureAddress;
-import org.whispersystems.textsecure.internal.util.Base64;
-
 public class OutgoingPushMessage {
 
   @JsonProperty

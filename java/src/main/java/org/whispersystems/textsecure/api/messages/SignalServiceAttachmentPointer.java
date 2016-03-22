@@ -17,15 +17,16 @@
 package org.whispersystems.textsecure.api.messages;
 
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.textsecure.api.SignalServiceMessageReceiver;
 
 /**
- * Represents a received TextSecureMessage attachment "handle."  This
+ * Represents a received SignalServiceAttachment "handle."  This
  * is a pointer to the actual attachment content, which needs to be
- * retrieved using {@link org.whispersystems.textsecure.api.TextSecureMessageReceiver#retrieveAttachment(TextSecureAttachmentPointer, java.io.File)}
+ * retrieved using {@link SignalServiceMessageReceiver#retrieveAttachment(SignalServiceAttachmentPointer, java.io.File)}
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureAttachmentPointer extends TextSecureAttachment {
+public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   private final long              id;
   private final byte[]            key;
@@ -33,12 +34,12 @@ public class TextSecureAttachmentPointer extends TextSecureAttachment {
   private final Optional<Integer> size;
   private final Optional<byte[]>  preview;
 
-  public TextSecureAttachmentPointer(long id, String contentType, byte[] key, String relay) {
+  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay) {
     this(id, contentType, key, relay, Optional.<Integer>absent(), Optional.<byte[]>absent());
   }
 
-  public TextSecureAttachmentPointer(long id, String contentType, byte[] key, String relay,
-                                     Optional<Integer> size, Optional<byte[]> preview)
+  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay,
+                                        Optional<Integer> size, Optional<byte[]> preview)
   {
     super(contentType);
     this.id      = id;

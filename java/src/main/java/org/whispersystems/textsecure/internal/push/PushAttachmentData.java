@@ -16,7 +16,7 @@
  */
 package org.whispersystems.textsecure.internal.push;
 
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment.ProgressListener;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachment.ProgressListener;
 
 import java.io.InputStream;
 

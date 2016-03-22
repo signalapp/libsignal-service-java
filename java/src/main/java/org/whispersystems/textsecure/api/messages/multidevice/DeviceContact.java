@@ -1,21 +1,21 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachmentStream;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachmentStream;
 
 public class DeviceContact {
 
   private final String                               number;
   private final Optional<String>                     name;
-  private final Optional<TextSecureAttachmentStream> avatar;
+  private final Optional<SignalServiceAttachmentStream> avatar;
 
-  public DeviceContact(String number, Optional<String> name, Optional<TextSecureAttachmentStream> avatar) {
+  public DeviceContact(String number, Optional<String> name, Optional<SignalServiceAttachmentStream> avatar) {
     this.number = number;
     this.name   = name;
     this.avatar = avatar;
   }
 
-  public Optional<TextSecureAttachmentStream> getAvatar() {
+  public Optional<SignalServiceAttachmentStream> getAvatar() {
     return avatar;
   }
 

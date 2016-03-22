@@ -18,15 +18,14 @@ package org.whispersystems.textsecure.api;
 
 import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.textsecure.api.crypto.AttachmentCipherInputStream;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment.ProgressListener;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachmentPointer;
-import org.whispersystems.textsecure.api.messages.TextSecureDataMessage;
-import org.whispersystems.textsecure.api.messages.TextSecureEnvelope;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachment.ProgressListener;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachmentPointer;
+import org.whispersystems.textsecure.api.messages.SignalServiceDataMessage;
+import org.whispersystems.textsecure.api.messages.SignalServiceEnvelope;
 import org.whispersystems.textsecure.api.push.TrustStore;
 import org.whispersystems.textsecure.api.util.CredentialsProvider;
 import org.whispersystems.textsecure.internal.push.PushServiceSocket;
-import org.whispersystems.textsecure.internal.push.TextSecureEnvelopeEntity;
+import org.whispersystems.textsecure.internal.push.SignalServiceEnvelopeEntity;
 import org.whispersystems.textsecure.internal.util.StaticCredentialsProvider;
 import org.whispersystems.textsecure.internal.websocket.WebSocketConnection;
 
@@ -37,11 +36,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The primary interface for receiving TextSecure messages.
+ * The primary interface for receiving Signal Service messages.
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureMessageReceiver {
+public class SignalServiceMessageReceiver {
 
   private final PushServiceSocket   socket;
   private final TrustStore          trustStore;
@@ -50,32 +49,32 @@ public class TextSecureMessageReceiver {
   private final String              userAgent;
 
   /**
-   * Construct a TextSecureMessageReceiver.
+   * Construct a SignalServiceMessageReceiver.
    *
-   * @param url The URL of the TextSecure server.
+   * @param url The URL of the Signal Service.
    * @param trustStore The {@link org.whispersystems.textsecure.api.push.TrustStore} containing
    *                   the server's TLS signing certificate.
-   * @param user The TextSecure user's username (eg. phone number).
-   * @param password The TextSecure user's password.
+   * @param user The Signal Service username (eg. phone number).
+   * @param password The Signal Service user password.
    * @param signalingKey The 52 byte signaling key assigned to this user at registration.
    */
-  public TextSecureMessageReceiver(String url, TrustStore trustStore,
-                                   String user, String password,
-                                   String signalingKey, String userAgent)
+  public SignalServiceMessageReceiver(String url, TrustStore trustStore,
+                                      String user, String password,
+                                      String signalingKey, String userAgent)
   {
     this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey), userAgent);
   }
 
   /**
-   * Construct a TextSecureMessageReceiver.
+   * Construct a SignalServiceMessageReceiver.
    *
-   * @param url The URL of the TextSecure server.
+   * @param url The URL of the Signal Service.
    * @param trustStore The {@link org.whispersystems.textsecure.api.push.TrustStore} containing
    *                   the server's TLS signing certificate.
-   * @param credentials The TextSecure user's credentials.
+   * @param credentials The Signal Service user's credentials.
    */
-  public TextSecureMessageReceiver(String url, TrustStore trustStore,
-                                   CredentialsProvider credentials, String userAgent)
+  public SignalServiceMessageReceiver(String url, TrustStore trustStore,
+                                      CredentialsProvider credentials, String userAgent)
   {
     this.url                 = url;
     this.trustStore          = trustStore;
@@ -85,17 +84,17 @@ public class TextSecureMessageReceiver {
   }
 
   /**
-   * Retrieves a TextSecure attachment.
+   * Retrieves a SignalServiceAttachment.
    *
-   * @param pointer The {@link org.whispersystems.textsecure.api.messages.TextSecureAttachmentPointer}
-   *                received in a {@link TextSecureDataMessage}.
+   * @param pointer The {@link SignalServiceAttachmentPointer}
+   *                received in a {@link SignalServiceDataMessage}.
    * @param destination The download destination for this attachment.
    *
    * @return An InputStream that streams the plaintext attachment contents.
    * @throws IOException
    * @throws InvalidMessageException
    */
-  public InputStream retrieveAttachment(TextSecureAttachmentPointer pointer, File destination)
+  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination)
       throws IOException, InvalidMessageException
   {
     return retrieveAttachment(pointer, destination, null);
@@ -103,10 +102,10 @@ public class TextSecureMessageReceiver {
 
 
   /**
-   * Retrieves a TextSecure attachment.
+   * Retrieves a SignalServiceAttachment.
    *
-   * @param pointer The {@link org.whispersystems.textsecure.api.messages.TextSecureAttachmentPointer}
-   *                received in a {@link TextSecureDataMessage}.
+   * @param pointer The {@link SignalServiceAttachmentPointer}
+   *                received in a {@link SignalServiceDataMessage}.
    * @param destination The download destination for this attachment.
    * @param listener An optional listener (may be null) to receive callbacks on download progress.
    *
@@ -114,7 +113,7 @@ public class TextSecureMessageReceiver {
    * @throws IOException
    * @throws InvalidMessageException
    */
-  public InputStream retrieveAttachment(TextSecureAttachmentPointer pointer, File destination, ProgressListener listener)
+  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination, ProgressListener listener)
       throws IOException, InvalidMessageException
   {
     socket.retrieveAttachment(pointer.getRelay().orNull(), pointer.getId(), destination, listener);
@@ -122,32 +121,32 @@ public class TextSecureMessageReceiver {
   }
 
   /**
-   * Creates a pipe for receiving TextSecure messages.
+   * Creates a pipe for receiving SignalService messages.
    *
-   * Callers must call {@link TextSecureMessagePipe#shutdown()} when finished with the pipe.
+   * Callers must call {@link SignalServiceMessagePipe#shutdown()} when finished with the pipe.
    *
-   * @return A TextSecureMessagePipe for receiving TextSecure messages.
+   * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
-  public TextSecureMessagePipe createMessagePipe() {
+  public SignalServiceMessagePipe createMessagePipe() {
     WebSocketConnection webSocket = new WebSocketConnection(url, trustStore, credentialsProvider, userAgent);
-    return new TextSecureMessagePipe(webSocket, credentialsProvider);
+    return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
 
-  public List<TextSecureEnvelope> retrieveMessages() throws IOException {
+  public List<SignalServiceEnvelope> retrieveMessages() throws IOException {
     return retrieveMessages(new NullMessageReceivedCallback());
   }
 
-  public List<TextSecureEnvelope> retrieveMessages(MessageReceivedCallback callback)
+  public List<SignalServiceEnvelope> retrieveMessages(MessageReceivedCallback callback)
       throws IOException
   {
-    List<TextSecureEnvelope>       results  = new LinkedList<>();
-    List<TextSecureEnvelopeEntity> entities = socket.getMessages();
+    List<SignalServiceEnvelope>       results  = new LinkedList<>();
+    List<SignalServiceEnvelopeEntity> entities = socket.getMessages();
 
-    for (TextSecureEnvelopeEntity entity : entities) {
-      TextSecureEnvelope envelope =  new TextSecureEnvelope(entity.getType(), entity.getSource(),
-                                                            entity.getSourceDevice(), entity.getRelay(),
-                                                            entity.getTimestamp(), entity.getMessage(),
-                                                            entity.getContent());
+    for (SignalServiceEnvelopeEntity entity : entities) {
+      SignalServiceEnvelope envelope =  new SignalServiceEnvelope(entity.getType(), entity.getSource(),
+                                                                  entity.getSourceDevice(), entity.getRelay(),
+                                                                  entity.getTimestamp(), entity.getMessage(),
+                                                                  entity.getContent());
 
       callback.onMessage(envelope);
       results.add(envelope);
@@ -160,12 +159,12 @@ public class TextSecureMessageReceiver {
 
 
   public interface MessageReceivedCallback {
-    public void onMessage(TextSecureEnvelope envelope);
+    public void onMessage(SignalServiceEnvelope envelope);
   }
 
   public static class NullMessageReceivedCallback implements MessageReceivedCallback {
     @Override
-    public void onMessage(TextSecureEnvelope envelope) {}
+    public void onMessage(SignalServiceEnvelope envelope) {}
   }
 
 }

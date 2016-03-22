@@ -21,9 +21,9 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import java.util.List;
 
 /**
- * Group information to include in TextSecureMessages destined to groups.
+ * Group information to include in SignalServiceMessages destined to groups.
  *
- * This class represents a "context" that is included with textsecure messages
+ * This class represents a "context" that is included with Signal Service messages
  * to make them group messages.  There are three types of context:
  *
  * 1) Update -- Sent when either creating a group, or updating the properties
@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureGroup {
+public class SignalServiceGroup {
 
   public enum Type {
     UNKNOWN,
@@ -46,14 +46,14 @@ public class TextSecureGroup {
   private final Type                           type;
   private final Optional<String>               name;
   private final Optional<List<String>>         members;
-  private final Optional<TextSecureAttachment> avatar;
+  private final Optional<SignalServiceAttachment> avatar;
 
 
   /**
    * Construct a DELIVER group context.
    * @param groupId
    */
-  public TextSecureGroup(byte[] groupId) {
+  public SignalServiceGroup(byte[] groupId) {
     this(Type.DELIVER, groupId, null, null, null);
   }
 
@@ -65,9 +65,9 @@ public class TextSecureGroup {
    * @param members The group membership list.
    * @param avatar The group avatar icon.
    */
-  public TextSecureGroup(Type type, byte[] groupId, String name,
-                         List<String> members,
-                         TextSecureAttachment avatar)
+  public SignalServiceGroup(Type type, byte[] groupId, String name,
+                            List<String> members,
+                            SignalServiceAttachment avatar)
   {
     this.type    = type;
     this.groupId = groupId;
@@ -92,7 +92,7 @@ public class TextSecureGroup {
     return members;
   }
 
-  public Optional<TextSecureAttachment> getAvatar() {
+  public Optional<SignalServiceAttachment> getAvatar() {
     return avatar;
   }
 
@@ -110,7 +110,7 @@ public class TextSecureGroup {
     private byte[]               id;
     private String               name;
     private List<String>         members;
-    private TextSecureAttachment avatar;
+    private SignalServiceAttachment avatar;
 
     private Builder(Type type) {
       this.type = type;
@@ -131,19 +131,19 @@ public class TextSecureGroup {
       return this;
     }
 
-    public Builder withAvatar(TextSecureAttachment avatar) {
+    public Builder withAvatar(SignalServiceAttachment avatar) {
       this.avatar = avatar;
       return this;
     }
 
-    public TextSecureGroup build() {
+    public SignalServiceGroup build() {
       if (id == null) throw new IllegalArgumentException("No group ID specified!");
 
       if (type == Type.UPDATE && name == null && members == null && avatar == null) {
         throw new IllegalArgumentException("Group update with no updates!");
       }
 
-      return new TextSecureGroup(type, id, name, members, avatar);
+      return new SignalServiceGroup(type, id, name, members, avatar);
     }
 
   }

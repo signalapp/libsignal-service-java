@@ -2,7 +2,7 @@ package org.whispersystems.textsecure.api.messages.multidevice;
 
 import com.google.protobuf.ByteString;
 
-import org.whispersystems.textsecure.internal.push.TextSecureProtos;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,7 +29,7 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
   }
 
   private void writeGroupDetails(DeviceGroup group) throws IOException {
-    TextSecureProtos.GroupDetails.Builder groupDetails = TextSecureProtos.GroupDetails.newBuilder();
+    SignalServiceProtos.GroupDetails.Builder groupDetails = SignalServiceProtos.GroupDetails.newBuilder();
     groupDetails.setId(ByteString.copyFrom(group.getId()));
 
     if (group.getName().isPresent()) {
@@ -37,7 +37,7 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
     }
 
     if (group.getAvatar().isPresent()) {
-      TextSecureProtos.GroupDetails.Avatar.Builder avatarBuilder = TextSecureProtos.GroupDetails.Avatar.newBuilder();
+      SignalServiceProtos.GroupDetails.Avatar.Builder avatarBuilder = SignalServiceProtos.GroupDetails.Avatar.newBuilder();
       avatarBuilder.setContentType(group.getAvatar().get().getContentType());
       avatarBuilder.setLength((int)group.getAvatar().get().getLength());
       groupDetails.setAvatar(avatarBuilder);

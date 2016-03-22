@@ -21,7 +21,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
 /**
  * A class representing a message destination or origin.
  */
-public class TextSecureAddress {
+public class SignalServiceAddress {
 
   public static final int DEFAULT_DEVICE_ID = 1;
 
@@ -31,15 +31,15 @@ public class TextSecureAddress {
   /**
    * Construct a PushAddress.
    *
-   * @param e164number The TextSecure username of this destination (eg e164 representation of a phone number).
-   * @param relay The TextSecure federated server this user is registered with (if not your own server).
+   * @param e164number The Signal Service username of this destination (eg e164 representation of a phone number).
+   * @param relay The Signal SErvicefederated server this user is registered with (if not your own server).
    */
-  public TextSecureAddress(String e164number, Optional<String> relay) {
+  public SignalServiceAddress(String e164number, Optional<String> relay) {
     this.e164number  = e164number;
     this.relay       = relay;
   }
 
-  public TextSecureAddress(String e164number) {
+  public SignalServiceAddress(String e164number) {
     this(e164number, Optional.<String>absent());
   }
 
@@ -53,9 +53,9 @@ public class TextSecureAddress {
 
   @Override
   public boolean equals(Object other) {
-    if (other == null || !(other instanceof TextSecureAddress)) return false;
+    if (other == null || !(other instanceof SignalServiceAddress)) return false;
 
-    TextSecureAddress that = (TextSecureAddress)other;
+    SignalServiceAddress that = (SignalServiceAddress)other;
 
     return equals(this.e164number, that.e164number) &&
            equals(this.relay, that.relay);

@@ -21,8 +21,8 @@ import com.google.protobuf.ByteString;
 import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.push.TextSecureAddress;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope;
+import org.whispersystems.textsecure.api.push.SignalServiceAddress;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.Envelope;
 import org.whispersystems.textsecure.internal.util.Base64;
 import org.whispersystems.textsecure.internal.util.Hex;
 
@@ -41,16 +41,16 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * This class represents an encrypted TextSecure envelope.
+ * This class represents an encrypted Signal Service envelope.
  *
  * The envelope contains the wrapping information, such as the sender, the
  * message timestamp, the encrypted message type, etc.
  *
   * @author  Moxie Marlinspike
  */
-public class TextSecureEnvelope {
+public class SignalServiceEnvelope {
 
-  private static final String TAG = TextSecureEnvelope.class.getSimpleName();
+  private static final String TAG = SignalServiceEnvelope.class.getSimpleName();
 
   private static final int SUPPORTED_VERSION =  1;
   private static final int CIPHER_KEY_SIZE   = 32;
@@ -66,29 +66,29 @@ public class TextSecureEnvelope {
   private final Envelope envelope;
 
   /**
-   * Construct an envelope from a serialized, Base64 encoded TextSecureEnvelope, encrypted
+   * Construct an envelope from a serialized, Base64 encoded SignalServiceEnvelope, encrypted
    * with a signaling key.
    *
-   * @param message The serialized TextSecureEnvelope, base64 encoded and encrypted.
+   * @param message The serialized SignalServiceEnvelope, base64 encoded and encrypted.
    * @param signalingKey The signaling key.
    * @throws IOException
    * @throws InvalidVersionException
    */
-  public TextSecureEnvelope(String message, String signalingKey)
+  public SignalServiceEnvelope(String message, String signalingKey)
       throws IOException, InvalidVersionException
   {
     this(Base64.decode(message), signalingKey);
   }
 
   /**
-   * Construct an envelope from a serialized TextSecureEnvelope, encrypted with a signaling key.
+   * Construct an envelope from a serialized SignalServiceEnvelope, encrypted with a signaling key.
    *
-   * @param ciphertext The serialized and encrypted TextSecureEnvelope.
+   * @param ciphertext The serialized and encrypted SignalServiceEnvelope.
    * @param signalingKey The signaling key.
    * @throws InvalidVersionException
    * @throws IOException
    */
-  public TextSecureEnvelope(byte[] ciphertext, String signalingKey)
+  public SignalServiceEnvelope(byte[] ciphertext, String signalingKey)
       throws InvalidVersionException, IOException
   {
     if (ciphertext.length < VERSION_LENGTH || ciphertext[VERSION_OFFSET] != SUPPORTED_VERSION)
@@ -102,9 +102,9 @@ public class TextSecureEnvelope {
     this.envelope = Envelope.parseFrom(getPlaintext(ciphertext, cipherKey));
   }
 
-  public TextSecureEnvelope(int type, String source, int sourceDevice,
-                            String relay, long timestamp,
-                            byte[] legacyMessage, byte[] content)
+  public SignalServiceEnvelope(int type, String source, int sourceDevice,
+                               String relay, long timestamp,
+                               byte[] legacyMessage, byte[] content)
   {
     Envelope.Builder builder = Envelope.newBuilder()
                                        .setType(Envelope.Type.valueOf(type))
@@ -134,11 +134,11 @@ public class TextSecureEnvelope {
   }
 
   /**
-   * @return The envelope's sender as a TextSecureAddress.
+   * @return The envelope's sender as a SignalServiceAddress.
    */
-  public TextSecureAddress getSourceAddress() {
-    return new TextSecureAddress(envelope.getSource(),
-                                 envelope.hasRelay() ? Optional.fromNullable(envelope.getRelay()) :
+  public SignalServiceAddress getSourceAddress() {
+    return new SignalServiceAddress(envelope.getSource(),
+                                    envelope.hasRelay() ? Optional.fromNullable(envelope.getRelay()) :
                                                      Optional.<String>absent());
   }
 
@@ -164,28 +164,28 @@ public class TextSecureEnvelope {
   }
 
   /**
-   * @return Whether the envelope contains a TextSecureDataMessage
+   * @return Whether the envelope contains a SignalServiceDataMessage
    */
   public boolean hasLegacyMessage() {
     return envelope.hasLegacyMessage();
   }
 
   /**
-   * @return The envelope's containing TextSecure message.
+   * @return The envelope's containing SignalService message.
    */
   public byte[] getLegacyMessage() {
     return envelope.getLegacyMessage().toByteArray();
   }
 
   /**
-   * @return Whether the envelope contains an encrypted TextSecureContent
+   * @return Whether the envelope contains an encrypted SignalServiceContent
    */
   public boolean hasContent() {
     return envelope.hasContent();
   }
 
   /**
-   * @return The envelope's encrypted TextSecureContent.
+   * @return The envelope's encrypted SignalServiceContent.
    */
   public byte[] getContent() {
     return envelope.getContent().toByteArray();

@@ -18,11 +18,11 @@ package org.whispersystems.textsecure.api.messages;
 
 import java.io.InputStream;
 
-public abstract class TextSecureAttachment {
+public abstract class SignalServiceAttachment {
 
   private final String contentType;
 
-  protected TextSecureAttachment(String contentType) {
+  protected SignalServiceAttachment(String contentType) {
     this.contentType = contentType;
   }
 
@@ -33,12 +33,12 @@ public abstract class TextSecureAttachment {
   public abstract boolean isStream();
   public abstract boolean isPointer();
 
-  public TextSecureAttachmentStream asStream() {
-    return (TextSecureAttachmentStream)this;
+  public SignalServiceAttachmentStream asStream() {
+    return (SignalServiceAttachmentStream)this;
   }
 
-  public TextSecureAttachmentPointer asPointer() {
-    return (TextSecureAttachmentPointer)this;
+  public SignalServiceAttachmentPointer asPointer() {
+    return (SignalServiceAttachmentPointer)this;
   }
 
   public static Builder newStreamBuilder() {
@@ -74,12 +74,12 @@ public abstract class TextSecureAttachment {
       return this;
     }
 
-    public TextSecureAttachmentStream build() {
+    public SignalServiceAttachmentStream build() {
       if (inputStream == null) throw new IllegalArgumentException("Must specify stream!");
       if (contentType == null) throw new IllegalArgumentException("No content type specified!");
       if (length == 0)         throw new IllegalArgumentException("No length specified!");
 
-      return new TextSecureAttachmentStream(inputStream, contentType, length, listener);
+      return new SignalServiceAttachmentStream(inputStream, contentType, length, listener);
     }
   }
 

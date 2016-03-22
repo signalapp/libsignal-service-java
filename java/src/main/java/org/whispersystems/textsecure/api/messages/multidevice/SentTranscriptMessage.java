@@ -1,21 +1,21 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.messages.TextSecureDataMessage;
+import org.whispersystems.textsecure.api.messages.SignalServiceDataMessage;
 
 public class SentTranscriptMessage {
 
   private final Optional<String>      destination;
   private final long                  timestamp;
-  private final TextSecureDataMessage message;
+  private final SignalServiceDataMessage message;
 
-  public SentTranscriptMessage(String destination, long timestamp, TextSecureDataMessage message) {
+  public SentTranscriptMessage(String destination, long timestamp, SignalServiceDataMessage message) {
     this.destination = Optional.of(destination);
     this.timestamp   = timestamp;
     this.message     = message;
   }
 
-  public SentTranscriptMessage(long timestamp, TextSecureDataMessage message) {
+  public SentTranscriptMessage(long timestamp, SignalServiceDataMessage message) {
     this.destination = Optional.absent();
     this.timestamp   = timestamp;
     this.message     = message;
@@ -29,7 +29,7 @@ public class SentTranscriptMessage {
     return timestamp;
   }
 
-  public TextSecureDataMessage getMessage() {
+  public SignalServiceDataMessage getMessage() {
     return message;
   }
 }

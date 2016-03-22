@@ -1,7 +1,7 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachmentStream;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachmentStream;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ public class DeviceGroup {
   private final byte[]                               id;
   private final Optional<String>                     name;
   private final List<String>                         members;
-  private final Optional<TextSecureAttachmentStream> avatar;
+  private final Optional<SignalServiceAttachmentStream> avatar;
   private final boolean                              active;
 
-  public DeviceGroup(byte[] id, Optional<String> name, List<String> members, Optional<TextSecureAttachmentStream> avatar, boolean active) {
+  public DeviceGroup(byte[] id, Optional<String> name, List<String> members, Optional<SignalServiceAttachmentStream> avatar, boolean active) {
     this.id       = id;
     this.name     = name;
     this.members  = members;
@@ -21,7 +21,7 @@ public class DeviceGroup {
     this.active   = active;
   }
 
-  public Optional<TextSecureAttachmentStream> getAvatar() {
+  public Optional<SignalServiceAttachmentStream> getAvatar() {
     return avatar;
   }
 

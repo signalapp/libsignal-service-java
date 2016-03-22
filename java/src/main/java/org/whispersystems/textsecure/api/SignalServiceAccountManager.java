@@ -49,28 +49,28 @@ import static org.whispersystems.textsecure.internal.push.ProvisioningProtos.Pro
 
 /**
  * The main interface for creating, registering, and
- * managing a TextSecure account.
+ * managing a Signal Service account.
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureAccountManager {
+public class SignalServiceAccountManager {
 
   private final PushServiceSocket pushServiceSocket;
   private final String            user;
   private final String            userAgent;
 
   /**
-   * Construct a TextSecureAccountManager.
+   * Construct a SignalServiceAccountManager.
    *
-   * @param url The URL for the TextSecure server.
-   * @param trustStore The {@link org.whispersystems.textsecure.api.push.TrustStore} for the TextSecure server's TLS certificate.
-   * @param user A TextSecure phone number.
-   * @param password A TextSecure password.
+   * @param url The URL for the Signal Service.
+   * @param trustStore The {@link org.whispersystems.textsecure.api.push.TrustStore} for the SignalService server's TLS certificate.
+   * @param user A Signal Service phone number.
+   * @param password A Signal Service password.
    * @param userAgent A string which identifies the client software.
    */
-  public TextSecureAccountManager(String url, TrustStore trustStore,
-                                  String user, String password,
-                                  String userAgent)
+  public SignalServiceAccountManager(String url, TrustStore trustStore,
+                                     String user, String password,
+                                     String userAgent)
   {
     this.pushServiceSocket = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
     this.user              = user;
@@ -93,7 +93,7 @@ public class TextSecureAccountManager {
 
   /**
    * Request an SMS verification code.  On success, the server will send
-   * an SMS verification code to this TextSecure user.
+   * an SMS verification code to this Signal user.
    *
    * @throws IOException
    */
@@ -103,7 +103,7 @@ public class TextSecureAccountManager {
 
   /**
    * Request a Voice verification code.  On success, the server will
-   * make a voice call to this TextSecure user.
+   * make a voice call to this Signal user.
    *
     * @throws IOException
    */
@@ -112,14 +112,14 @@ public class TextSecureAccountManager {
   }
 
   /**
-   * Verify a TextSecure account with a received SMS or voice verification code.
+   * Verify a Signal Service account with a received SMS or voice verification code.
    *
    * @param verificationCode The verification code received via SMS or Voice
    *                         (see {@link #requestSmsVerificationCode} and
    *                         {@link #requestVoiceVerificationCode}).
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
-   * @param axolotlRegistrationId A random 14-bit number that identifies this TextSecure install.
+   * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the
    *                              same install, but probabilistically differ across registrations
    *                              for separate installs.
@@ -127,21 +127,21 @@ public class TextSecureAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int axolotlRegistrationId, boolean voice)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice)
       throws IOException
   {
     this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
-                                             axolotlRegistrationId, voice);
+                                             signalProtocolRegistrationId, voice);
   }
 
   /**
-   * Verify a TextSecure account with a signed token from a trusted source.
+   * Verify a Signal Service account with a signed token from a trusted source.
    *
    * @param verificationToken The signed token provided by a trusted server.
 
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
-   * @param axolotlRegistrationId A random 14-bit number that identifies this TextSecure install.
+   * @param axolotlRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the
    *                              same install, but probabilistically differ across registrations
    *                              for separate installs.
@@ -159,7 +159,7 @@ public class TextSecureAccountManager {
    * Refresh account attributes with server.
    *
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key, concatenated.
-   * @param axolotlRegistrationId A random 14-bit number that identifies this TextSecure install.
+   * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the same
    *                              install, but probabilistically differ across registrations for
    *                              separate installs.
@@ -167,10 +167,10 @@ public class TextSecureAccountManager {
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int axolotlRegistrationId, boolean voice)
+  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, axolotlRegistrationId, voice);
+    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice);
   }
 
   /**

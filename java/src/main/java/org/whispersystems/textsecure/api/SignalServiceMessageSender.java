@@ -26,15 +26,15 @@ import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.crypto.TextSecureCipher;
+import org.whispersystems.textsecure.api.crypto.SignalServiceCipher;
 import org.whispersystems.textsecure.api.crypto.UntrustedIdentityException;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachmentStream;
-import org.whispersystems.textsecure.api.messages.TextSecureDataMessage;
-import org.whispersystems.textsecure.api.messages.TextSecureGroup;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachment;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachmentStream;
+import org.whispersystems.textsecure.api.messages.SignalServiceDataMessage;
+import org.whispersystems.textsecure.api.messages.SignalServiceGroup;
 import org.whispersystems.textsecure.api.messages.multidevice.ReadMessage;
-import org.whispersystems.textsecure.api.messages.multidevice.TextSecureSyncMessage;
-import org.whispersystems.textsecure.api.push.TextSecureAddress;
+import org.whispersystems.textsecure.api.messages.multidevice.SignalServiceSyncMessage;
+import org.whispersystems.textsecure.api.push.SignalServiceAddress;
 import org.whispersystems.textsecure.api.push.TrustStore;
 import org.whispersystems.textsecure.api.push.exceptions.EncapsulatedExceptions;
 import org.whispersystems.textsecure.api.push.exceptions.NetworkFailureException;
@@ -47,11 +47,11 @@ import org.whispersystems.textsecure.internal.push.PushAttachmentData;
 import org.whispersystems.textsecure.internal.push.PushServiceSocket;
 import org.whispersystems.textsecure.internal.push.SendMessageResponse;
 import org.whispersystems.textsecure.internal.push.StaleDevices;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.Content;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.AttachmentPointer;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.Content;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.DataMessage;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.GroupContext;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.textsecure.internal.push.exceptions.MismatchedDevicesException;
 import org.whispersystems.textsecure.internal.push.exceptions.StaleDevicesException;
 import org.whispersystems.textsecure.internal.util.StaticCredentialsProvider;
@@ -62,50 +62,51 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The main interface for sending TextSecure messages.
+ * The main interface for sending Signal Service messages.
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureMessageSender {
+public class SignalServiceMessageSender {
 
-  private static final String TAG = TextSecureMessageSender.class.getSimpleName();
+  private static final String TAG = SignalServiceMessageSender.class.getSimpleName();
 
   private final PushServiceSocket       socket;
   private final SignalProtocolStore     store;
-  private final TextSecureAddress       localAddress;
+  private final SignalServiceAddress localAddress;
   private final Optional<EventListener> eventListener;
 
   /**
-   * Construct a TextSecureMessageSender.
+   * Construct a SignalServiceMessageSender.
    *
-   * @param url The URL of the TextSecure server.
-   * @param trustStore The trust store containing the TextSecure server's signing TLS certificate.
-   * @param user The TextSecure username (eg phone number).
-   * @param password The TextSecure user's password.
-   * @param store The AxolotlStore.
+   * @param url The URL of the Signal Service.
+   * @param trustStore The trust store containing the Signal Service's signing TLS certificate.
+   * @param user The Signal Service username (eg phone number).
+   * @param password The Signal Service user password.
+   * @param store The SignalProtocolStore.
    * @param eventListener An optional event listener, which fires whenever sessions are
    *                      setup or torn down for a recipient.
    */
-  public TextSecureMessageSender(String url, TrustStore trustStore,
-                                 String user, String password,
-                                 SignalProtocolStore store,
-                                 String userAgent,
-                                 Optional<EventListener> eventListener)
+  public SignalServiceMessageSender(String url, TrustStore trustStore,
+                                    String user, String password,
+                                    SignalProtocolStore store,
+                                    String userAgent,
+                                    Optional<EventListener> eventListener)
   {
     this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
     this.store         = store;
-    this.localAddress  = new TextSecureAddress(user);
+    this.localAddress  = new SignalServiceAddress(user);
     this.eventListener = eventListener;
   }
 
   /**
    * Send a delivery receipt for a received message.  It is not necessary to call this
-   * when receiving messages through {@link org.whispersystems.textsecure.api.TextSecureMessagePipe}.
+   * when receiving messages through {@link SignalServiceMessagePipe}.
+   *
    * @param recipient The sender of the received message you're acknowledging.
    * @param messageId The message id of the received message you're acknowledging.
    * @throws IOException
    */
-  public void sendDeliveryReceipt(TextSecureAddress recipient, long messageId) throws IOException {
+  public void sendDeliveryReceipt(SignalServiceAddress recipient, long messageId) throws IOException {
     this.socket.sendReceipt(recipient.getNumber(), messageId, recipient.getRelay());
   }
 
@@ -117,7 +118,7 @@ public class TextSecureMessageSender {
    * @throws UntrustedIdentityException
    * @throws IOException
    */
-  public void sendMessage(TextSecureAddress recipient, TextSecureDataMessage message)
+  public void sendMessage(SignalServiceAddress recipient, SignalServiceDataMessage message)
       throws UntrustedIdentityException, IOException
   {
     byte[]              content   = createMessageContent(message);
@@ -146,7 +147,7 @@ public class TextSecureMessageSender {
    * @throws IOException
    * @throws EncapsulatedExceptions
    */
-  public void sendMessage(List<TextSecureAddress> recipients, TextSecureDataMessage message)
+  public void sendMessage(List<SignalServiceAddress> recipients, SignalServiceDataMessage message)
       throws IOException, EncapsulatedExceptions
   {
     byte[]              content   = createMessageContent(message);
@@ -155,7 +156,7 @@ public class TextSecureMessageSender {
 
     try {
       if (response != null && response.getNeedsSync()) {
-        byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<TextSecureAddress>absent(), timestamp);
+        byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp);
         sendMessage(localAddress, timestamp, syncMessage, false);
       }
     } catch (UntrustedIdentityException e) {
@@ -163,7 +164,7 @@ public class TextSecureMessageSender {
     }
   }
 
-  public void sendMessage(TextSecureSyncMessage message)
+  public void sendMessage(SignalServiceSyncMessage message)
       throws IOException, UntrustedIdentityException
   {
     byte[] content;
@@ -181,7 +182,7 @@ public class TextSecureMessageSender {
     sendMessage(localAddress, System.currentTimeMillis(), content, false);
   }
 
-  private byte[] createMessageContent(TextSecureDataMessage message) throws IOException {
+  private byte[] createMessageContent(SignalServiceDataMessage message) throws IOException {
     DataMessage.Builder     builder  = DataMessage.newBuilder();
     List<AttachmentPointer> pointers = createAttachmentPointers(message.getAttachments());
 
@@ -204,7 +205,7 @@ public class TextSecureMessageSender {
     return builder.build().toByteArray();
   }
 
-  private byte[] createMultiDeviceContactsContent(TextSecureAttachmentStream contacts) throws IOException {
+  private byte[] createMultiDeviceContactsContent(SignalServiceAttachmentStream contacts) throws IOException {
     Content.Builder     container = Content.newBuilder();
     SyncMessage.Builder builder   = SyncMessage.newBuilder();
     builder.setContacts(SyncMessage.Contacts.newBuilder()
@@ -213,7 +214,7 @@ public class TextSecureMessageSender {
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
-  private byte[] createMultiDeviceGroupsContent(TextSecureAttachmentStream groups) throws IOException {
+  private byte[] createMultiDeviceGroupsContent(SignalServiceAttachmentStream groups) throws IOException {
     Content.Builder     container = Content.newBuilder();
     SyncMessage.Builder builder   = SyncMessage.newBuilder();
     builder.setGroups(SyncMessage.Groups.newBuilder()
@@ -222,7 +223,7 @@ public class TextSecureMessageSender {
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
-  private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<TextSecureAddress> recipient, long timestamp) {
+  private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<SignalServiceAddress> recipient, long timestamp) {
     try {
       Content.Builder          container   = Content.newBuilder();
       SyncMessage.Builder      syncMessage = SyncMessage.newBuilder();
@@ -254,13 +255,13 @@ public class TextSecureMessageSender {
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
-  private GroupContext createGroupContent(TextSecureGroup group) throws IOException {
+  private GroupContext createGroupContent(SignalServiceGroup group) throws IOException {
     GroupContext.Builder builder = GroupContext.newBuilder();
     builder.setId(ByteString.copyFrom(group.getGroupId()));
 
-    if (group.getType() != TextSecureGroup.Type.DELIVER) {
-      if      (group.getType() == TextSecureGroup.Type.UPDATE) builder.setType(GroupContext.Type.UPDATE);
-      else if (group.getType() == TextSecureGroup.Type.QUIT)   builder.setType(GroupContext.Type.QUIT);
+    if (group.getType() != SignalServiceGroup.Type.DELIVER) {
+      if      (group.getType() == SignalServiceGroup.Type.UPDATE) builder.setType(GroupContext.Type.UPDATE);
+      else if (group.getType() == SignalServiceGroup.Type.QUIT)   builder.setType(GroupContext.Type.QUIT);
       else                                                     throw new AssertionError("Unknown type: " + group.getType());
 
       if (group.getName().isPresent()) builder.setName(group.getName().get());
@@ -277,7 +278,7 @@ public class TextSecureMessageSender {
     return builder.build();
   }
 
-  private SendMessageResponse sendMessage(List<TextSecureAddress> recipients, long timestamp, byte[] content, boolean legacy)
+  private SendMessageResponse sendMessage(List<SignalServiceAddress> recipients, long timestamp, byte[] content, boolean legacy)
       throws IOException, EncapsulatedExceptions
   {
     List<UntrustedIdentityException> untrustedIdentities = new LinkedList<>();
@@ -286,7 +287,7 @@ public class TextSecureMessageSender {
 
     SendMessageResponse response = null;
 
-    for (TextSecureAddress recipient : recipients) {
+    for (SignalServiceAddress recipient : recipients) {
       try {
         response = sendMessage(recipient, timestamp, content, legacy);
       } catch (UntrustedIdentityException e) {
@@ -308,7 +309,7 @@ public class TextSecureMessageSender {
     return response;
   }
 
-  private SendMessageResponse sendMessage(TextSecureAddress recipient, long timestamp, byte[] content, boolean legacy)
+  private SendMessageResponse sendMessage(SignalServiceAddress recipient, long timestamp, byte[] content, boolean legacy)
       throws UntrustedIdentityException, IOException
   {
     for (int i=0;i<3;i++) {
@@ -327,7 +328,7 @@ public class TextSecureMessageSender {
     throw new IOException("Failed to resolve conflicts after 3 attempts!");
   }
 
-  private List<AttachmentPointer> createAttachmentPointers(Optional<List<TextSecureAttachment>> attachments) throws IOException {
+  private List<AttachmentPointer> createAttachmentPointers(Optional<List<SignalServiceAttachment>> attachments) throws IOException {
     List<AttachmentPointer> pointers = new LinkedList<>();
 
     if (!attachments.isPresent() || attachments.get().isEmpty()) {
@@ -335,7 +336,7 @@ public class TextSecureMessageSender {
       return pointers;
     }
 
-    for (TextSecureAttachment attachment : attachments.get()) {
+    for (SignalServiceAttachment attachment : attachments.get()) {
       if (attachment.isStream()) {
         Log.w(TAG, "Found attachment, creating pointer...");
         pointers.add(createAttachmentPointer(attachment.asStream()));
@@ -345,7 +346,7 @@ public class TextSecureMessageSender {
     return pointers;
   }
 
-  private AttachmentPointer createAttachmentPointer(TextSecureAttachmentStream attachment)
+  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
       throws IOException
   {
     byte[]             attachmentKey  = Util.getSecretBytes(64);
@@ -372,7 +373,7 @@ public class TextSecureMessageSender {
 
 
   private OutgoingPushMessageList getEncryptedMessages(PushServiceSocket socket,
-                                                       TextSecureAddress recipient,
+                                                       SignalServiceAddress recipient,
                                                        long timestamp,
                                                        byte[] plaintext,
                                                        boolean legacy)
@@ -381,7 +382,7 @@ public class TextSecureMessageSender {
     List<OutgoingPushMessage> messages = new LinkedList<>();
 
     if (!recipient.equals(localAddress)) {
-      messages.add(getEncryptedMessage(socket, recipient, TextSecureAddress.DEFAULT_DEVICE_ID, plaintext, legacy));
+      messages.add(getEncryptedMessage(socket, recipient, SignalServiceAddress.DEFAULT_DEVICE_ID, plaintext, legacy));
     }
 
     for (int deviceId : store.getSubDeviceSessions(recipient.getNumber())) {
@@ -391,11 +392,11 @@ public class TextSecureMessageSender {
     return new OutgoingPushMessageList(recipient.getNumber(), timestamp, recipient.getRelay().orNull(), messages);
   }
 
-  private OutgoingPushMessage getEncryptedMessage(PushServiceSocket socket, TextSecureAddress recipient, int deviceId, byte[] plaintext, boolean legacy)
+  private OutgoingPushMessage getEncryptedMessage(PushServiceSocket socket, SignalServiceAddress recipient, int deviceId, byte[] plaintext, boolean legacy)
       throws IOException, UntrustedIdentityException
   {
     SignalProtocolAddress signalProtocolAddress = new SignalProtocolAddress(recipient.getNumber(), deviceId);
-    TextSecureCipher      cipher                = new TextSecureCipher(localAddress, store);
+    SignalServiceCipher cipher                = new SignalServiceCipher(localAddress, store);
 
     if (!store.containsSession(signalProtocolAddress)) {
       try {
@@ -422,7 +423,7 @@ public class TextSecureMessageSender {
     return cipher.encrypt(signalProtocolAddress, plaintext, legacy);
   }
 
-  private void handleMismatchedDevices(PushServiceSocket socket, TextSecureAddress recipient,
+  private void handleMismatchedDevices(PushServiceSocket socket, SignalServiceAddress recipient,
                                        MismatchedDevices mismatchedDevices)
       throws IOException, UntrustedIdentityException
   {
@@ -446,14 +447,14 @@ public class TextSecureMessageSender {
     }
   }
 
-  private void handleStaleDevices(TextSecureAddress recipient, StaleDevices staleDevices) {
+  private void handleStaleDevices(SignalServiceAddress recipient, StaleDevices staleDevices) {
     for (int staleDeviceId : staleDevices.getStaleDevices()) {
       store.deleteSession(new SignalProtocolAddress(recipient.getNumber(), staleDeviceId));
     }
   }
 
   public static interface EventListener {
-    public void onSecurityEvent(TextSecureAddress address);
+    public void onSecurityEvent(SignalServiceAddress address);
   }
 
 }

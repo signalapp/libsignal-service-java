@@ -33,11 +33,11 @@ import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.textsecure.api.crypto.AttachmentCipherOutputStream;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment.ProgressListener;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.textsecure.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.textsecure.api.push.ContactTokenDetails;
 import org.whispersystems.textsecure.api.push.SignedPreKeyEntity;
-import org.whispersystems.textsecure.api.push.TextSecureAddress;
+import org.whispersystems.textsecure.api.push.SignalServiceAddress;
 import org.whispersystems.textsecure.api.push.TrustStore;
 import org.whispersystems.textsecure.api.push.exceptions.AuthorizationFailedException;
 import org.whispersystems.textsecure.api.push.exceptions.ExpectationFailedException;
@@ -73,9 +73,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 
 /**
- *
- * Network interface to the TextSecure server API.
- *
  * @author Moxie Marlinspike
  */
 public class PushServiceSocket {
@@ -201,9 +198,9 @@ public class PushServiceSocket {
     }
   }
 
-  public List<TextSecureEnvelopeEntity> getMessages() throws IOException {
+  public List<SignalServiceEnvelopeEntity> getMessages() throws IOException {
     String responseText = makeRequest(String.format(MESSAGE_PATH, ""), "GET", null);
-    return JsonUtil.fromJson(responseText, TextSecureEnvelopeEntityList.class).getMessages();
+    return JsonUtil.fromJson(responseText, SignalServiceEnvelopeEntityList.class).getMessages();
   }
 
   public void acknowledgeMessage(String sender, long timestamp) throws IOException {
@@ -244,7 +241,7 @@ public class PushServiceSocket {
     return preKeyStatus.getCount();
   }
 
-  public List<PreKeyBundle> getPreKeys(TextSecureAddress destination, int deviceIdInteger) throws IOException {
+  public List<PreKeyBundle> getPreKeys(SignalServiceAddress destination, int deviceIdInteger) throws IOException {
     try {
       String deviceId = String.valueOf(deviceIdInteger);
 
@@ -290,7 +287,7 @@ public class PushServiceSocket {
     }
   }
 
-  public PreKeyBundle getPreKey(TextSecureAddress destination, int deviceId) throws IOException {
+  public PreKeyBundle getPreKey(SignalServiceAddress destination, int deviceId) throws IOException {
     try {
       String path = String.format(PREKEY_DEVICE_PATH, destination.getNumber(),
                                   String.valueOf(deviceId));

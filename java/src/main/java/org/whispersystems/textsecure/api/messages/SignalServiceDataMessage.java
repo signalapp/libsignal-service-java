@@ -22,55 +22,55 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represents a decrypted text secure message.
+ * Represents a decrypted Signal Service data message.
  */
-public class TextSecureDataMessage {
+public class SignalServiceDataMessage {
 
-  private final long                                 timestamp;
-  private final Optional<List<TextSecureAttachment>> attachments;
-  private final Optional<String>                     body;
-  private final Optional<TextSecureGroup>            group;
-  private final boolean                              endSession;
+  private final long                                    timestamp;
+  private final Optional<List<SignalServiceAttachment>> attachments;
+  private final Optional<String>                        body;
+  private final Optional<SignalServiceGroup>            group;
+  private final boolean                                 endSession;
 
   /**
-   * Construct a TextSecureMessage with a body and no attachments.
+   * Construct a SignalServiceDataMessage with a body and no attachments.
    *
    * @param timestamp The sent timestamp.
    * @param body The message contents.
    */
-  public TextSecureDataMessage(long timestamp, String body) {
-    this(timestamp, (List<TextSecureAttachment>)null, body);
+  public SignalServiceDataMessage(long timestamp, String body) {
+    this(timestamp, (List<SignalServiceAttachment>)null, body);
   }
 
-  public TextSecureDataMessage(final long timestamp, final TextSecureAttachment attachment, final String body) {
-    this(timestamp, new LinkedList<TextSecureAttachment>() {{add(attachment);}}, body);
+  public SignalServiceDataMessage(final long timestamp, final SignalServiceAttachment attachment, final String body) {
+    this(timestamp, new LinkedList<SignalServiceAttachment>() {{add(attachment);}}, body);
   }
 
   /**
-   * Construct a TextSecureMessage with a body and list of attachments.
+   * Construct a SignalServiceDataMessage with a body and list of attachments.
    *
    * @param timestamp The sent timestamp.
    * @param attachments The attachments.
    * @param body The message contents.
    */
-  public TextSecureDataMessage(long timestamp, List<TextSecureAttachment> attachments, String body) {
+  public SignalServiceDataMessage(long timestamp, List<SignalServiceAttachment> attachments, String body) {
     this(timestamp, null, attachments, body);
   }
 
   /**
-   * Construct a TextSecure group message with attachments and body.
+   * Construct a SignalServiceDataMessage group message with attachments and body.
    *
    * @param timestamp The sent timestamp.
    * @param group The group information.
    * @param attachments The attachments.
    * @param body The message contents.
    */
-  public TextSecureDataMessage(long timestamp, TextSecureGroup group, List<TextSecureAttachment> attachments, String body) {
+  public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body) {
     this(timestamp, group, attachments, body, false);
   }
 
   /**
-   * Construct a TextSecureMessage.
+   * Construct a SignalServiceDataMessage.
    *
    * @param timestamp The sent timestamp.
    * @param group The group information (or null if none).
@@ -78,7 +78,7 @@ public class TextSecureDataMessage {
    * @param body The message contents.
    * @param endSession Flag indicating whether this message should close a session.
    */
-  public TextSecureDataMessage(long timestamp, TextSecureGroup group, List<TextSecureAttachment> attachments, String body, boolean endSession) {
+  public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, boolean endSession) {
     this.timestamp   = timestamp;
     this.body        = Optional.fromNullable(body);
     this.group       = Optional.fromNullable(group);
@@ -105,7 +105,7 @@ public class TextSecureDataMessage {
   /**
    * @return The message attachments (if any).
    */
-  public Optional<List<TextSecureAttachment>> getAttachments() {
+  public Optional<List<SignalServiceAttachment>> getAttachments() {
     return attachments;
   }
 
@@ -119,7 +119,7 @@ public class TextSecureDataMessage {
   /**
    * @return The message group info (if any).
    */
-  public Optional<TextSecureGroup> getGroupInfo() {
+  public Optional<SignalServiceGroup> getGroupInfo() {
     return group;
   }
 
@@ -128,14 +128,14 @@ public class TextSecureDataMessage {
   }
 
   public boolean isGroupUpdate() {
-    return group.isPresent() && group.get().getType() != TextSecureGroup.Type.DELIVER;
+    return group.isPresent() && group.get().getType() != SignalServiceGroup.Type.DELIVER;
   }
 
   public static class Builder {
 
-    private List<TextSecureAttachment> attachments = new LinkedList<>();
+    private List<SignalServiceAttachment> attachments = new LinkedList<>();
     private long                       timestamp;
-    private TextSecureGroup            group;
+    private SignalServiceGroup group;
     private String                     body;
     private boolean                    endSession;
 
@@ -146,17 +146,17 @@ public class TextSecureDataMessage {
       return this;
     }
 
-    public Builder asGroupMessage(TextSecureGroup group) {
+    public Builder asGroupMessage(SignalServiceGroup group) {
       this.group = group;
       return this;
     }
 
-    public Builder withAttachment(TextSecureAttachment attachment) {
+    public Builder withAttachment(SignalServiceAttachment attachment) {
       this.attachments.add(attachment);
       return this;
     }
 
-    public Builder withAttachments(List<TextSecureAttachment> attachments) {
+    public Builder withAttachments(List<SignalServiceAttachment> attachments) {
       this.attachments.addAll(attachments);
       return this;
     }
@@ -176,9 +176,9 @@ public class TextSecureDataMessage {
       return this;
     }
 
-    public TextSecureDataMessage build() {
+    public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
-      return new TextSecureDataMessage(timestamp, group, attachments, body, endSession);
+      return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession);
     }
   }
 }

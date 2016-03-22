@@ -1,6 +1,6 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage.Request;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.SyncMessage.Request;
 
 public class RequestMessage {
 

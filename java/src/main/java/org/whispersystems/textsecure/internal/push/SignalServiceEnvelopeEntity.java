@@ -2,7 +2,7 @@ package org.whispersystems.textsecure.internal.push;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TextSecureEnvelopeEntity {
+public class SignalServiceEnvelopeEntity {
   
   @JsonProperty
   private int type;
@@ -25,7 +25,7 @@ public class TextSecureEnvelopeEntity {
   @JsonProperty
   private byte[] content;
 
-  public TextSecureEnvelopeEntity() {}
+  public SignalServiceEnvelopeEntity() {}
 
   public int getType() {
     return type;

@@ -1,6 +1,6 @@
 package org.whispersystems.textsecure.api.messages.multidevice;
 
-import org.whispersystems.textsecure.internal.push.TextSecureProtos;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,7 +27,7 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
   }
 
   private void writeContactDetails(DeviceContact contact) throws IOException {
-    TextSecureProtos.ContactDetails.Builder contactDetails = TextSecureProtos.ContactDetails.newBuilder();
+    SignalServiceProtos.ContactDetails.Builder contactDetails = SignalServiceProtos.ContactDetails.newBuilder();
     contactDetails.setNumber(contact.getNumber());
 
     if (contact.getName().isPresent()) {
@@ -35,7 +35,7 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
     }
 
     if (contact.getAvatar().isPresent()) {
-      TextSecureProtos.ContactDetails.Avatar.Builder avatarBuilder = TextSecureProtos.ContactDetails.Avatar.newBuilder();
+      SignalServiceProtos.ContactDetails.Avatar.Builder avatarBuilder = SignalServiceProtos.ContactDetails.Avatar.newBuilder();
       avatarBuilder.setContentType(contact.getAvatar().get().getContentType());
       avatarBuilder.setLength((int)contact.getAvatar().get().getLength());
       contactDetails.setAvatar(avatarBuilder);

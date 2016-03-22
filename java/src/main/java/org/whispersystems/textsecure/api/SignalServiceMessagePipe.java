@@ -1,7 +1,7 @@
 package org.whispersystems.textsecure.api;
 
 import org.whispersystems.libsignal.InvalidVersionException;
-import org.whispersystems.textsecure.api.messages.TextSecureEnvelope;
+import org.whispersystems.textsecure.api.messages.SignalServiceEnvelope;
 import org.whispersystems.textsecure.api.util.CredentialsProvider;
 import org.whispersystems.textsecure.internal.websocket.WebSocketConnection;
 
@@ -13,16 +13,16 @@ import static org.whispersystems.textsecure.internal.websocket.WebSocketProtos.W
 import static org.whispersystems.textsecure.internal.websocket.WebSocketProtos.WebSocketResponseMessage;
 
 /**
- * A TextSecureMessagePipe represents a dedicated connection
- * to the TextSecure server, which the server can push messages
- * down.
+ * A SignalServiceMessagePipe represents a dedicated connection
+ * to the Signal Service, which the server can push messages
+ * down through.
  */
-public class TextSecureMessagePipe {
+public class SignalServiceMessagePipe {
 
   private final WebSocketConnection websocket;
   private final CredentialsProvider credentialsProvider;
 
-  TextSecureMessagePipe(WebSocketConnection websocket, CredentialsProvider credentialsProvider) {
+  SignalServiceMessagePipe(WebSocketConnection websocket, CredentialsProvider credentialsProvider) {
     this.websocket           = websocket;
     this.credentialsProvider = credentialsProvider;
 
@@ -42,7 +42,7 @@ public class TextSecureMessagePipe {
    * @throws IOException
    * @throws TimeoutException
    */
-  public TextSecureEnvelope read(long timeout, TimeUnit unit)
+  public SignalServiceEnvelope read(long timeout, TimeUnit unit)
       throws InvalidVersionException, IOException, TimeoutException
   {
     return read(timeout, unit, new NullMessagePipeCallback());
@@ -65,7 +65,7 @@ public class TextSecureMessagePipe {
    * @throws IOException
    * @throws InvalidVersionException
    */
-  public TextSecureEnvelope read(long timeout, TimeUnit unit, MessagePipeCallback callback)
+  public SignalServiceEnvelope read(long timeout, TimeUnit unit, MessagePipeCallback callback)
       throws TimeoutException, IOException, InvalidVersionException
   {
     while (true) {
@@ -73,9 +73,9 @@ public class TextSecureMessagePipe {
       WebSocketResponseMessage response = createWebSocketResponse(request);
 
       try {
-        if (isTextSecureEnvelope(request)) {
-          TextSecureEnvelope envelope = new TextSecureEnvelope(request.getBody().toByteArray(),
-                                                               credentialsProvider.getSignalingKey());
+        if (isSignalServiceEnvelope(request)) {
+          SignalServiceEnvelope envelope = new SignalServiceEnvelope(request.getBody().toByteArray(),
+                                                                     credentialsProvider.getSignalingKey());
 
           callback.onMessage(envelope);
           return envelope;
@@ -93,12 +93,12 @@ public class TextSecureMessagePipe {
     websocket.disconnect();
   }
 
-  private boolean isTextSecureEnvelope(WebSocketRequestMessage message) {
+  private boolean isSignalServiceEnvelope(WebSocketRequestMessage message) {
     return "PUT".equals(message.getVerb()) && "/api/v1/message".equals(message.getPath());
   }
 
   private WebSocketResponseMessage createWebSocketResponse(WebSocketRequestMessage request) {
-    if (isTextSecureEnvelope(request)) {
+    if (isSignalServiceEnvelope(request)) {
       return WebSocketResponseMessage.newBuilder()
                                      .setId(request.getId())
                                      .setStatus(200)
@@ -118,12 +118,12 @@ public class TextSecureMessagePipe {
    * received.
    */
   public static interface MessagePipeCallback {
-    public void onMessage(TextSecureEnvelope envelope);
+    public void onMessage(SignalServiceEnvelope envelope);
   }
 
   private static class NullMessagePipeCallback implements MessagePipeCallback {
     @Override
-    public void onMessage(TextSecureEnvelope envelope) {}
+    public void onMessage(SignalServiceEnvelope envelope) {}
   }
 
 }

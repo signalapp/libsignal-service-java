@@ -33,44 +33,44 @@ import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachment;
-import org.whispersystems.textsecure.api.messages.TextSecureAttachmentPointer;
-import org.whispersystems.textsecure.api.messages.TextSecureContent;
-import org.whispersystems.textsecure.api.messages.TextSecureDataMessage;
-import org.whispersystems.textsecure.api.messages.TextSecureEnvelope;
-import org.whispersystems.textsecure.api.messages.TextSecureGroup;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachment;
+import org.whispersystems.textsecure.api.messages.SignalServiceAttachmentPointer;
+import org.whispersystems.textsecure.api.messages.SignalServiceContent;
+import org.whispersystems.textsecure.api.messages.SignalServiceDataMessage;
+import org.whispersystems.textsecure.api.messages.SignalServiceEnvelope;
+import org.whispersystems.textsecure.api.messages.SignalServiceGroup;
 import org.whispersystems.textsecure.api.messages.multidevice.ReadMessage;
 import org.whispersystems.textsecure.api.messages.multidevice.RequestMessage;
 import org.whispersystems.textsecure.api.messages.multidevice.SentTranscriptMessage;
-import org.whispersystems.textsecure.api.messages.multidevice.TextSecureSyncMessage;
-import org.whispersystems.textsecure.api.push.TextSecureAddress;
+import org.whispersystems.textsecure.api.messages.multidevice.SignalServiceSyncMessage;
+import org.whispersystems.textsecure.api.push.SignalServiceAddress;
 import org.whispersystems.textsecure.internal.push.OutgoingPushMessage;
 import org.whispersystems.textsecure.internal.push.PushTransportDetails;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.AttachmentPointer;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.Content;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.DataMessage;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.Envelope.Type;
-import org.whispersystems.textsecure.internal.push.TextSecureProtos.SyncMessage;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.AttachmentPointer;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.Content;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.DataMessage;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.Envelope.Type;
+import org.whispersystems.textsecure.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.textsecure.internal.util.Base64;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.whispersystems.textsecure.internal.push.TextSecureProtos.GroupContext.Type.DELIVER;
+import static org.whispersystems.textsecure.internal.push.SignalServiceProtos.GroupContext.Type.DELIVER;
 
 /**
- * This is used to decrypt received {@link org.whispersystems.textsecure.api.messages.TextSecureEnvelope}s.
+ * This is used to decrypt received {@link SignalServiceEnvelope}s.
  *
  * @author Moxie Marlinspike
  */
-public class TextSecureCipher {
+public class SignalServiceCipher {
 
-  private static final String TAG = TextSecureCipher.class.getSimpleName();
+  private static final String TAG = SignalServiceCipher.class.getSimpleName();
 
   private final SignalProtocolStore      signalProtocolStore;
-  private final TextSecureAddress localAddress;
+  private final SignalServiceAddress localAddress;
 
-  public TextSecureCipher(TextSecureAddress localAddress, SignalProtocolStore signalProtocolStore) {
+  public SignalServiceCipher(SignalServiceAddress localAddress, SignalProtocolStore signalProtocolStore) {
     this.signalProtocolStore = signalProtocolStore;
     this.localAddress = localAddress;
   }
@@ -95,10 +95,11 @@ public class TextSecureCipher {
   }
 
   /**
-   * Decrypt a received {@link org.whispersystems.textsecure.api.messages.TextSecureEnvelope}
+   * Decrypt a received {@link SignalServiceEnvelope}
    *
-   * @param envelope The received TextSecureEnvelope
-   * @return a decrypted TextSecureMessage
+   * @param envelope The received SignalServiceEnvelope
+   *
+   * @return a decrypted SignalServiceContent
    * @throws InvalidVersionException
    * @throws InvalidMessageException
    * @throws InvalidKeyException
@@ -108,24 +109,24 @@ public class TextSecureCipher {
    * @throws LegacyMessageException
    * @throws NoSessionException
    */
-  public TextSecureContent decrypt(TextSecureEnvelope envelope)
+  public SignalServiceContent decrypt(SignalServiceEnvelope envelope)
       throws InvalidVersionException, InvalidMessageException, InvalidKeyException,
              DuplicateMessageException, InvalidKeyIdException, UntrustedIdentityException,
              LegacyMessageException, NoSessionException
   {
     try {
-      TextSecureContent content = new TextSecureContent();
+      SignalServiceContent content = new SignalServiceContent();
 
       if (envelope.hasLegacyMessage()) {
         DataMessage message = DataMessage.parseFrom(decrypt(envelope, envelope.getLegacyMessage()));
-        content = new TextSecureContent(createTextSecureMessage(envelope, message));
+        content = new SignalServiceContent(createSignalServiceMessage(envelope, message));
       } else if (envelope.hasContent()) {
         Content message = Content.parseFrom(decrypt(envelope, envelope.getContent()));
 
         if (message.hasDataMessage()) {
-          content = new TextSecureContent(createTextSecureMessage(envelope, message.getDataMessage()));
+          content = new SignalServiceContent(createSignalServiceMessage(envelope, message.getDataMessage()));
         } else if (message.hasSyncMessage() && localAddress.getNumber().equals(envelope.getSource())) {
-          content = new TextSecureContent(createSynchronizeMessage(envelope, message.getSyncMessage()));
+          content = new SignalServiceContent(createSynchronizeMessage(envelope, message.getSyncMessage()));
         }
       }
 
@@ -135,7 +136,7 @@ public class TextSecureCipher {
     }
   }
 
-  private byte[] decrypt(TextSecureEnvelope envelope, byte[] ciphertext)
+  private byte[] decrypt(SignalServiceEnvelope envelope, byte[] ciphertext)
       throws InvalidVersionException, InvalidMessageException, InvalidKeyException,
              DuplicateMessageException, InvalidKeyIdException, UntrustedIdentityException,
              LegacyMessageException, NoSessionException
@@ -157,34 +158,34 @@ public class TextSecureCipher {
     return transportDetails.getStrippedPaddingMessageBody(paddedMessage);
   }
 
-  private TextSecureDataMessage createTextSecureMessage(TextSecureEnvelope envelope, DataMessage content) {
-    TextSecureGroup            groupInfo   = createGroupInfo(envelope, content);
-    List<TextSecureAttachment> attachments = new LinkedList<>();
+  private SignalServiceDataMessage createSignalServiceMessage(SignalServiceEnvelope envelope, DataMessage content) {
+    SignalServiceGroup groupInfo   = createGroupInfo(envelope, content);
+    List<SignalServiceAttachment> attachments = new LinkedList<>();
     boolean                    endSession  = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE) != 0);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
-      attachments.add(new TextSecureAttachmentPointer(pointer.getId(),
-                                                      pointer.getContentType(),
-                                                      pointer.getKey().toByteArray(),
-                                                      envelope.getRelay(),
-                                                      pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
-                                                      pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent()));
+      attachments.add(new SignalServiceAttachmentPointer(pointer.getId(),
+                                                         pointer.getContentType(),
+                                                         pointer.getKey().toByteArray(),
+                                                         envelope.getRelay(),
+                                                         pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
+                                                         pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent()));
     }
 
-    return new TextSecureDataMessage(envelope.getTimestamp(), groupInfo, attachments,
-                                     content.getBody(), endSession);
+    return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
+                                        content.getBody(), endSession);
   }
 
-  private TextSecureSyncMessage createSynchronizeMessage(TextSecureEnvelope envelope, SyncMessage content) {
+  private SignalServiceSyncMessage createSynchronizeMessage(SignalServiceEnvelope envelope, SyncMessage content) {
     if (content.hasSent()) {
       SyncMessage.Sent sentContent = content.getSent();
-      return TextSecureSyncMessage.forSentTranscript(new SentTranscriptMessage(sentContent.getDestination(),
-                                                                               sentContent.getTimestamp(),
-                                                                               createTextSecureMessage(envelope, sentContent.getMessage())));
+      return SignalServiceSyncMessage.forSentTranscript(new SentTranscriptMessage(sentContent.getDestination(),
+                                                                                  sentContent.getTimestamp(),
+                                                                                  createSignalServiceMessage(envelope, sentContent.getMessage())));
     }
 
     if (content.hasRequest()) {
-      return TextSecureSyncMessage.forRequest(new RequestMessage(content.getRequest()));
+      return SignalServiceSyncMessage.forRequest(new RequestMessage(content.getRequest()));
     }
 
     if (content.getReadList().size() > 0) {
@@ -194,28 +195,28 @@ public class TextSecureCipher {
         readMessages.add(new ReadMessage(read.getSender(), read.getTimestamp()));
       }
 
-      return TextSecureSyncMessage.forRead(readMessages);
+      return SignalServiceSyncMessage.forRead(readMessages);
     }
 
-    return TextSecureSyncMessage.empty();
+    return SignalServiceSyncMessage.empty();
   }
 
-  private TextSecureGroup createGroupInfo(TextSecureEnvelope envelope, DataMessage content) {
+  private SignalServiceGroup createGroupInfo(SignalServiceEnvelope envelope, DataMessage content) {
     if (!content.hasGroup()) return null;
 
-    TextSecureGroup.Type type;
+    SignalServiceGroup.Type type;
 
     switch (content.getGroup().getType()) {
-      case DELIVER: type = TextSecureGroup.Type.DELIVER; break;
-      case UPDATE:  type = TextSecureGroup.Type.UPDATE;  break;
-      case QUIT:    type = TextSecureGroup.Type.QUIT;    break;
-      default:      type = TextSecureGroup.Type.UNKNOWN; break;
+      case DELIVER: type = SignalServiceGroup.Type.DELIVER; break;
+      case UPDATE:  type = SignalServiceGroup.Type.UPDATE;  break;
+      case QUIT:    type = SignalServiceGroup.Type.QUIT;    break;
+      default:      type = SignalServiceGroup.Type.UNKNOWN; break;
     }
 
     if (content.getGroup().getType() != DELIVER) {
       String                      name    = null;
       List<String>                members = null;
-      TextSecureAttachmentPointer avatar  = null;
+      SignalServiceAttachmentPointer avatar  = null;
 
       if (content.getGroup().hasName()) {
         name = content.getGroup().getName();
@@ -226,16 +227,16 @@ public class TextSecureCipher {
       }
 
       if (content.getGroup().hasAvatar()) {
-        avatar = new TextSecureAttachmentPointer(content.getGroup().getAvatar().getId(),
-                                                 content.getGroup().getAvatar().getContentType(),
-                                                 content.getGroup().getAvatar().getKey().toByteArray(),
-                                                 envelope.getRelay());
+        avatar = new SignalServiceAttachmentPointer(content.getGroup().getAvatar().getId(),
+                                                    content.getGroup().getAvatar().getContentType(),
+                                                    content.getGroup().getAvatar().getKey().toByteArray(),
+                                                    envelope.getRelay());
       }
 
-      return new TextSecureGroup(type, content.getGroup().getId().toByteArray(), name, members, avatar);
+      return new SignalServiceGroup(type, content.getGroup().getId().toByteArray(), name, members, avatar);
     }
 
-    return new TextSecureGroup(content.getGroup().getId().toByteArray());
+    return new SignalServiceGroup(content.getGroup().getId().toByteArray());
   }
 
 

@@ -21,20 +21,20 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import java.io.InputStream;
 
 /**
- * Represents a local TextSecureAttachment to be sent.
+ * Represents a local SignalServiceAttachment to be sent.
  */
-public class TextSecureAttachmentStream extends TextSecureAttachment {
+public class SignalServiceAttachmentStream extends SignalServiceAttachment {
 
   private final InputStream      inputStream;
   private final long             length;
   private final ProgressListener listener;
   private final Optional<byte[]> preview;
 
-  public TextSecureAttachmentStream(InputStream inputStream, String contentType, long length, ProgressListener listener) {
+  public SignalServiceAttachmentStream(InputStream inputStream, String contentType, long length, ProgressListener listener) {
     this(inputStream, contentType, length, Optional.<byte[]>absent(), listener);
   }
 
-  public TextSecureAttachmentStream(InputStream inputStream, String contentType, long length, Optional<byte[]> preview, ProgressListener listener) {
+  public SignalServiceAttachmentStream(InputStream inputStream, String contentType, long length, Optional<byte[]> preview, ProgressListener listener) {
     super(contentType);
     this.inputStream = inputStream;
     this.length      = length;
