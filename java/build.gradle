@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 sourceCompatibility = 1.7
-archivesBaseName    = "textsecure-java"
+archivesBaseName    = "signal-service-java"
 version             = version_number
 group               = group_info
 
@@ -50,15 +50,15 @@ uploadArchives {
         }
 
         pom.project {
-            name 'textscure-java'
+            name 'signal-service-java'
             packaging 'jar'
-            description 'TetSecure library for Java'
-            url 'https://github.com/WhisperSystems/libtextsecure-java'
+            description 'Signal Service communication library for Java'
+            url 'https://github.com/WhisperSystems/libsignal-service-java'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
+                url 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                connection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
             }
 
             licenses {

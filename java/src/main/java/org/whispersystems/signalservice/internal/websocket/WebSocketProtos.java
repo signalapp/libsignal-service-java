@@ -62,7 +62,7 @@ public final class WebSocketProtos {
     long getId();
   }
   /**
-   * Protobuf type {@code textsecure.WebSocketRequestMessage}
+   * Protobuf type {@code signalservice.WebSocketRequestMessage}
    */
   public static final class WebSocketRequestMessage extends
       com.google.protobuf.GeneratedMessage
@@ -146,12 +146,12 @@ public final class WebSocketProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketRequestMessage_descriptor;
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketRequestMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketRequestMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketRequestMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder.class);
     }
@@ -424,19 +424,19 @@ public final class WebSocketProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.WebSocketRequestMessage}
+     * Protobuf type {@code signalservice.WebSocketRequestMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketRequestMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketRequestMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketRequestMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketRequestMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder.class);
       }
@@ -478,7 +478,7 @@ public final class WebSocketProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketRequestMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketRequestMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage getDefaultInstanceForType() {
@@ -789,7 +789,7 @@ public final class WebSocketProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.WebSocketRequestMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.WebSocketRequestMessage)
     }
 
     static {
@@ -797,7 +797,7 @@ public final class WebSocketProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.WebSocketRequestMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.WebSocketRequestMessage)
   }
 
   public interface WebSocketResponseMessageOrBuilder
@@ -849,7 +849,7 @@ public final class WebSocketProtos {
     com.google.protobuf.ByteString getBody();
   }
   /**
-   * Protobuf type {@code textsecure.WebSocketResponseMessage}
+   * Protobuf type {@code signalservice.WebSocketResponseMessage}
    */
   public static final class WebSocketResponseMessage extends
       com.google.protobuf.GeneratedMessage
@@ -933,12 +933,12 @@ public final class WebSocketProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketResponseMessage_descriptor;
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketResponseMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketResponseMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketResponseMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder.class);
     }
@@ -1184,19 +1184,19 @@ public final class WebSocketProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.WebSocketResponseMessage}
+     * Protobuf type {@code signalservice.WebSocketResponseMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketResponseMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketResponseMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketResponseMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketResponseMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder.class);
       }
@@ -1238,7 +1238,7 @@ public final class WebSocketProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketResponseMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketResponseMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage getDefaultInstanceForType() {
@@ -1506,7 +1506,7 @@ public final class WebSocketProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.WebSocketResponseMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.WebSocketResponseMessage)
     }
 
     static {
@@ -1514,52 +1514,52 @@ public final class WebSocketProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.WebSocketResponseMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.WebSocketResponseMessage)
   }
 
   public interface WebSocketMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.WebSocketMessage.Type type = 1;
+    // optional .signalservice.WebSocketMessage.Type type = 1;
     /**
-     * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+     * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
      */
     boolean hasType();
     /**
-     * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+     * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
      */
     org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type getType();
 
-    // optional .textsecure.WebSocketRequestMessage request = 2;
+    // optional .signalservice.WebSocketRequestMessage request = 2;
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     boolean hasRequest();
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage getRequest();
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder getRequestOrBuilder();
 
-    // optional .textsecure.WebSocketResponseMessage response = 3;
+    // optional .signalservice.WebSocketResponseMessage response = 3;
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     boolean hasResponse();
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage getResponse();
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder getResponseOrBuilder();
   }
   /**
-   * Protobuf type {@code textsecure.WebSocketMessage}
+   * Protobuf type {@code signalservice.WebSocketMessage}
    */
   public static final class WebSocketMessage extends
       com.google.protobuf.GeneratedMessage
@@ -1660,12 +1660,12 @@ public final class WebSocketProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketMessage_descriptor;
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Builder.class);
     }
@@ -1686,7 +1686,7 @@ public final class WebSocketProtos {
     }
 
     /**
-     * Protobuf enum {@code textsecure.WebSocketMessage.Type}
+     * Protobuf enum {@code signalservice.WebSocketMessage.Type}
      */
     public enum Type
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -1773,65 +1773,65 @@ public final class WebSocketProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:textsecure.WebSocketMessage.Type)
+      // @@protoc_insertion_point(enum_scope:signalservice.WebSocketMessage.Type)
     }
 
     private int bitField0_;
-    // optional .textsecure.WebSocketMessage.Type type = 1;
+    // optional .signalservice.WebSocketMessage.Type type = 1;
     public static final int TYPE_FIELD_NUMBER = 1;
     private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type type_;
     /**
-     * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+     * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
      */
     public boolean hasType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+     * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
      */
     public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type getType() {
       return type_;
     }
 
-    // optional .textsecure.WebSocketRequestMessage request = 2;
+    // optional .signalservice.WebSocketRequestMessage request = 2;
     public static final int REQUEST_FIELD_NUMBER = 2;
     private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage request_;
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     public boolean hasRequest() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage getRequest() {
       return request_;
     }
     /**
-     * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+     * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
      */
     public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder getRequestOrBuilder() {
       return request_;
     }
 
-    // optional .textsecure.WebSocketResponseMessage response = 3;
+    // optional .signalservice.WebSocketResponseMessage response = 3;
     public static final int RESPONSE_FIELD_NUMBER = 3;
     private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage response_;
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     public boolean hasResponse() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage getResponse() {
       return response_;
     }
     /**
-     * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+     * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
      */
     public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder getResponseOrBuilder() {
       return response_;
@@ -1963,19 +1963,19 @@ public final class WebSocketProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.WebSocketMessage}
+     * Protobuf type {@code signalservice.WebSocketMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.class, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Builder.class);
       }
@@ -2025,7 +2025,7 @@ public final class WebSocketProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_textsecure_WebSocketMessage_descriptor;
+        return org.whispersystems.signalservice.internal.websocket.WebSocketProtos.internal_static_signalservice_WebSocketMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage getDefaultInstanceForType() {
@@ -2116,22 +2116,22 @@ public final class WebSocketProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.WebSocketMessage.Type type = 1;
+      // optional .signalservice.WebSocketMessage.Type type = 1;
       private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type type_ = org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type.UNKNOWN;
       /**
-       * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+       * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
        */
       public boolean hasType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+       * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type getType() {
         return type_;
       }
       /**
-       * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+       * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
        */
       public Builder setType(org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage.Type value) {
         if (value == null) {
@@ -2143,7 +2143,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketMessage.Type type = 1;</code>
+       * <code>optional .signalservice.WebSocketMessage.Type type = 1;</code>
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2152,18 +2152,18 @@ public final class WebSocketProtos {
         return this;
       }
 
-      // optional .textsecure.WebSocketRequestMessage request = 2;
+      // optional .signalservice.WebSocketRequestMessage request = 2;
       private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage request_ = org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder> requestBuilder_;
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public boolean hasRequest() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage getRequest() {
         if (requestBuilder_ == null) {
@@ -2173,7 +2173,7 @@ public final class WebSocketProtos {
         }
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public Builder setRequest(org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage value) {
         if (requestBuilder_ == null) {
@@ -2189,7 +2189,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public Builder setRequest(
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder builderForValue) {
@@ -2203,7 +2203,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public Builder mergeRequest(org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage value) {
         if (requestBuilder_ == null) {
@@ -2222,7 +2222,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public Builder clearRequest() {
         if (requestBuilder_ == null) {
@@ -2235,7 +2235,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder getRequestBuilder() {
         bitField0_ |= 0x00000002;
@@ -2243,7 +2243,7 @@ public final class WebSocketProtos {
         return getRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder getRequestOrBuilder() {
         if (requestBuilder_ != null) {
@@ -2253,7 +2253,7 @@ public final class WebSocketProtos {
         }
       }
       /**
-       * <code>optional .textsecure.WebSocketRequestMessage request = 2;</code>
+       * <code>optional .signalservice.WebSocketRequestMessage request = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage.Builder, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessageOrBuilder> 
@@ -2269,18 +2269,18 @@ public final class WebSocketProtos {
         return requestBuilder_;
       }
 
-      // optional .textsecure.WebSocketResponseMessage response = 3;
+      // optional .signalservice.WebSocketResponseMessage response = 3;
       private org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage response_ = org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder> responseBuilder_;
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public boolean hasResponse() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage getResponse() {
         if (responseBuilder_ == null) {
@@ -2290,7 +2290,7 @@ public final class WebSocketProtos {
         }
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public Builder setResponse(org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage value) {
         if (responseBuilder_ == null) {
@@ -2306,7 +2306,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public Builder setResponse(
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder builderForValue) {
@@ -2320,7 +2320,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public Builder mergeResponse(org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage value) {
         if (responseBuilder_ == null) {
@@ -2339,7 +2339,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public Builder clearResponse() {
         if (responseBuilder_ == null) {
@@ -2352,7 +2352,7 @@ public final class WebSocketProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder getResponseBuilder() {
         bitField0_ |= 0x00000004;
@@ -2360,7 +2360,7 @@ public final class WebSocketProtos {
         return getResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       public org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder getResponseOrBuilder() {
         if (responseBuilder_ != null) {
@@ -2370,7 +2370,7 @@ public final class WebSocketProtos {
         }
       }
       /**
-       * <code>optional .textsecure.WebSocketResponseMessage response = 3;</code>
+       * <code>optional .signalservice.WebSocketResponseMessage response = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage.Builder, org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessageOrBuilder> 
@@ -2386,7 +2386,7 @@ public final class WebSocketProtos {
         return responseBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.WebSocketMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.WebSocketMessage)
     }
 
     static {
@@ -2394,24 +2394,24 @@ public final class WebSocketProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.WebSocketMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.WebSocketMessage)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_WebSocketRequestMessage_descriptor;
+    internal_static_signalservice_WebSocketRequestMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_WebSocketRequestMessage_fieldAccessorTable;
+      internal_static_signalservice_WebSocketRequestMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_WebSocketResponseMessage_descriptor;
+    internal_static_signalservice_WebSocketResponseMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_WebSocketResponseMessage_fieldAccessorTable;
+      internal_static_signalservice_WebSocketResponseMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_WebSocketMessage_descriptor;
+    internal_static_signalservice_WebSocketMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_WebSocketMessage_fieldAccessorTable;
+      internal_static_signalservice_WebSocketMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2421,42 +2421,42 @@ public final class WebSocketProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\030WebSocketResources.proto\022\ntextsecure\"O" +
-      "\n\027WebSocketRequestMessage\022\014\n\004verb\030\001 \001(\t\022" +
-      "\014\n\004path\030\002 \001(\t\022\014\n\004body\030\003 \001(\014\022\n\n\002id\030\004 \001(\004\"" +
-      "U\n\030WebSocketResponseMessage\022\n\n\002id\030\001 \001(\004\022" +
-      "\016\n\006status\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\022\014\n\004body" +
-      "\030\004 \001(\014\"\341\001\n\020WebSocketMessage\022/\n\004type\030\001 \001(" +
-      "\0162!.textsecure.WebSocketMessage.Type\0224\n\007" +
-      "request\030\002 \001(\0132#.textsecure.WebSocketRequ" +
-      "estMessage\0226\n\010response\030\003 \001(\0132$.textsecur" +
-      "e.WebSocketResponseMessage\".\n\004Type\022\013\n\007UN",
-      "KNOWN\020\000\022\013\n\007REQUEST\020\001\022\014\n\010RESPONSE\020\002BC\n0or" +
-      "g.whispersystems.textsecure.internal.web" +
-      "socketB\017WebSocketProtos"
+      "\n\030WebSocketResources.proto\022\rsignalservic" +
+      "e\"O\n\027WebSocketRequestMessage\022\014\n\004verb\030\001 \001" +
+      "(\t\022\014\n\004path\030\002 \001(\t\022\014\n\004body\030\003 \001(\014\022\n\n\002id\030\004 \001" +
+      "(\004\"U\n\030WebSocketResponseMessage\022\n\n\002id\030\001 \001" +
+      "(\004\022\016\n\006status\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\022\014\n\004b" +
+      "ody\030\004 \001(\014\"\352\001\n\020WebSocketMessage\0222\n\004type\030\001" +
+      " \001(\0162$.signalservice.WebSocketMessage.Ty" +
+      "pe\0227\n\007request\030\002 \001(\0132&.signalservice.WebS" +
+      "ocketRequestMessage\0229\n\010response\030\003 \001(\0132\'." +
+      "signalservice.WebSocketResponseMessage\".",
+      "\n\004Type\022\013\n\007UNKNOWN\020\000\022\013\n\007REQUEST\020\001\022\014\n\010RESP" +
+      "ONSE\020\002BF\n3org.whispersystems.signalservi" +
+      "ce.internal.websocketB\017WebSocketProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_textsecure_WebSocketRequestMessage_descriptor =
+          internal_static_signalservice_WebSocketRequestMessage_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_WebSocketRequestMessage_fieldAccessorTable = new
+          internal_static_signalservice_WebSocketRequestMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_WebSocketRequestMessage_descriptor,
+              internal_static_signalservice_WebSocketRequestMessage_descriptor,
               new java.lang.String[] { "Verb", "Path", "Body", "Id", });
-          internal_static_textsecure_WebSocketResponseMessage_descriptor =
+          internal_static_signalservice_WebSocketResponseMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_WebSocketResponseMessage_fieldAccessorTable = new
+          internal_static_signalservice_WebSocketResponseMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_WebSocketResponseMessage_descriptor,
+              internal_static_signalservice_WebSocketResponseMessage_descriptor,
               new java.lang.String[] { "Id", "Status", "Message", "Body", });
-          internal_static_textsecure_WebSocketMessage_descriptor =
+          internal_static_signalservice_WebSocketMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_textsecure_WebSocketMessage_fieldAccessorTable = new
+          internal_static_signalservice_WebSocketMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_WebSocketMessage_descriptor,
+              internal_static_signalservice_WebSocketMessage_descriptor,
               new java.lang.String[] { "Type", "Request", "Response", });
           return null;
         }

@@ -40,7 +40,7 @@ public final class ProvisioningProtos {
     com.google.protobuf.ByteString getBody();
   }
   /**
-   * Protobuf type {@code textsecure.ProvisionEnvelope}
+   * Protobuf type {@code signalservice.ProvisionEnvelope}
    */
   public static final class ProvisionEnvelope extends
       com.google.protobuf.GeneratedMessage
@@ -114,12 +114,12 @@ public final class ProvisioningProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionEnvelope_descriptor;
+      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionEnvelope_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionEnvelope_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionEnvelope_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelope.class, org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelope.Builder.class);
     }
@@ -298,19 +298,19 @@ public final class ProvisioningProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.ProvisionEnvelope}
+     * Protobuf type {@code signalservice.ProvisionEnvelope}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelopeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionEnvelope_descriptor;
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionEnvelope_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionEnvelope_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionEnvelope_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelope.class, org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelope.Builder.class);
       }
@@ -348,7 +348,7 @@ public final class ProvisioningProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionEnvelope_descriptor;
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionEnvelope_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionEnvelope getDefaultInstanceForType() {
@@ -512,7 +512,7 @@ public final class ProvisioningProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.ProvisionEnvelope)
+      // @@protoc_insertion_point(builder_scope:signalservice.ProvisionEnvelope)
     }
 
     static {
@@ -520,7 +520,7 @@ public final class ProvisioningProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.ProvisionEnvelope)
+    // @@protoc_insertion_point(class_scope:signalservice.ProvisionEnvelope)
   }
 
   public interface ProvisionMessageOrBuilder
@@ -577,7 +577,7 @@ public final class ProvisioningProtos {
         getProvisioningCodeBytes();
   }
   /**
-   * Protobuf type {@code textsecure.ProvisionMessage}
+   * Protobuf type {@code signalservice.ProvisionMessage}
    */
   public static final class ProvisionMessage extends
       com.google.protobuf.GeneratedMessage
@@ -661,12 +661,12 @@ public final class ProvisioningProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionMessage_descriptor;
+      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage.class, org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage.Builder.class);
     }
@@ -939,19 +939,19 @@ public final class ProvisioningProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.ProvisionMessage}
+     * Protobuf type {@code signalservice.ProvisionMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage.class, org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage.Builder.class);
       }
@@ -993,7 +993,7 @@ public final class ProvisioningProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_textsecure_ProvisionMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.ProvisioningProtos.internal_static_signalservice_ProvisionMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage getDefaultInstanceForType() {
@@ -1307,7 +1307,7 @@ public final class ProvisioningProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.ProvisionMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.ProvisionMessage)
     }
 
     static {
@@ -1315,19 +1315,19 @@ public final class ProvisioningProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.ProvisionMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.ProvisionMessage)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_ProvisionEnvelope_descriptor;
+    internal_static_signalservice_ProvisionEnvelope_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_ProvisionEnvelope_fieldAccessorTable;
+      internal_static_signalservice_ProvisionEnvelope_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_ProvisionMessage_descriptor;
+    internal_static_signalservice_ProvisionMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_ProvisionMessage_fieldAccessorTable;
+      internal_static_signalservice_ProvisionMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1337,30 +1337,30 @@ public final class ProvisioningProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022Provisioning.proto\022\ntextsecure\"4\n\021Prov" +
-      "isionEnvelope\022\021\n\tpublicKey\030\001 \001(\014\022\014\n\004body" +
-      "\030\002 \001(\014\"s\n\020ProvisionMessage\022\031\n\021identityKe" +
-      "yPublic\030\001 \001(\014\022\032\n\022identityKeyPrivate\030\002 \001(" +
-      "\014\022\016\n\006number\030\003 \001(\t\022\030\n\020provisioningCode\030\004 " +
-      "\001(\tBA\n+org.whispersystems.signalservice.int" +
-      "ernal.pushB\022ProvisioningProtos"
+      "\n\022Provisioning.proto\022\rsignalservice\"4\n\021P" +
+      "rovisionEnvelope\022\021\n\tpublicKey\030\001 \001(\014\022\014\n\004b" +
+      "ody\030\002 \001(\014\"s\n\020ProvisionMessage\022\031\n\021identit" +
+      "yKeyPublic\030\001 \001(\014\022\032\n\022identityKeyPrivate\030\002" +
+      " \001(\014\022\016\n\006number\030\003 \001(\t\022\030\n\020provisioningCode" +
+      "\030\004 \001(\tBD\n.org.whispersystems.signalservi" +
+      "ce.internal.pushB\022ProvisioningProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_textsecure_ProvisionEnvelope_descriptor =
+          internal_static_signalservice_ProvisionEnvelope_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_ProvisionEnvelope_fieldAccessorTable = new
+          internal_static_signalservice_ProvisionEnvelope_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ProvisionEnvelope_descriptor,
+              internal_static_signalservice_ProvisionEnvelope_descriptor,
               new java.lang.String[] { "PublicKey", "Body", });
-          internal_static_textsecure_ProvisionMessage_descriptor =
+          internal_static_signalservice_ProvisionMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_ProvisionMessage_fieldAccessorTable = new
+          internal_static_signalservice_ProvisionMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ProvisionMessage_descriptor,
+              internal_static_signalservice_ProvisionMessage_descriptor,
               new java.lang.String[] { "IdentityKeyPublic", "IdentityKeyPrivate", "Number", "ProvisioningCode", });
           return null;
         }

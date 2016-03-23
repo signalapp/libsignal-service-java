@@ -12,7 +12,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = "textsecure-android"
+archivesBaseName = "signal-service-android"
 version          = version_number
 group            = group_info
 
@@ -76,15 +76,15 @@ uploadArchives {
         }
 
         pom.project {
-            name 'textsecure-android'
+            name 'signal-service-android'
             packaging 'aar'
-            description 'TextSecure library for Android'
-            url 'https://github.com/WhisperSystems/libtextsecure-java'
+            description 'Signal Service communication library for Android'
+            url 'https://github.com/WhisperSystems/libsignal-service-java'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libtextsecure-java.git'
+                url 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                connection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
             }
 
             licenses {

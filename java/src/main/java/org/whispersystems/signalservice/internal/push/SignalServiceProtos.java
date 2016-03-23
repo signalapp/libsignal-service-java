@@ -11,13 +11,13 @@ public final class SignalServiceProtos {
   public interface EnvelopeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.Envelope.Type type = 1;
+    // optional .signalservice.Envelope.Type type = 1;
     /**
-     * <code>optional .textsecure.Envelope.Type type = 1;</code>
+     * <code>optional .signalservice.Envelope.Type type = 1;</code>
      */
     boolean hasType();
     /**
-     * <code>optional .textsecure.Envelope.Type type = 1;</code>
+     * <code>optional .signalservice.Envelope.Type type = 1;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type getType();
 
@@ -108,7 +108,7 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString getContent();
   }
   /**
-   * Protobuf type {@code textsecure.Envelope}
+   * Protobuf type {@code signalservice.Envelope}
    */
   public static final class Envelope extends
       com.google.protobuf.GeneratedMessage
@@ -213,12 +213,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Envelope_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Envelope_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Envelope_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Envelope_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Builder.class);
     }
@@ -239,7 +239,7 @@ public final class SignalServiceProtos {
     }
 
     /**
-     * Protobuf enum {@code textsecure.Envelope.Type}
+     * Protobuf enum {@code signalservice.Envelope.Type}
      */
     public enum Type
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -344,21 +344,21 @@ public final class SignalServiceProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:textsecure.Envelope.Type)
+      // @@protoc_insertion_point(enum_scope:signalservice.Envelope.Type)
     }
 
     private int bitField0_;
-    // optional .textsecure.Envelope.Type type = 1;
+    // optional .signalservice.Envelope.Type type = 1;
     public static final int TYPE_FIELD_NUMBER = 1;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type type_;
     /**
-     * <code>optional .textsecure.Envelope.Type type = 1;</code>
+     * <code>optional .signalservice.Envelope.Type type = 1;</code>
      */
     public boolean hasType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .textsecure.Envelope.Type type = 1;</code>
+     * <code>optional .signalservice.Envelope.Type type = 1;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type getType() {
       return type_;
@@ -688,19 +688,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.Envelope}
+     * Protobuf type {@code signalservice.Envelope}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.EnvelopeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Envelope_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Envelope_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Envelope_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Envelope_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Builder.class);
       }
@@ -748,7 +748,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Envelope_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Envelope_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope getDefaultInstanceForType() {
@@ -863,22 +863,22 @@ public final class SignalServiceProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.Envelope.Type type = 1;
+      // optional .signalservice.Envelope.Type type = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type.UNKNOWN;
       /**
-       * <code>optional .textsecure.Envelope.Type type = 1;</code>
+       * <code>optional .signalservice.Envelope.Type type = 1;</code>
        */
       public boolean hasType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.Envelope.Type type = 1;</code>
+       * <code>optional .signalservice.Envelope.Type type = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type getType() {
         return type_;
       }
       /**
-       * <code>optional .textsecure.Envelope.Type type = 1;</code>
+       * <code>optional .signalservice.Envelope.Type type = 1;</code>
        */
       public Builder setType(org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type value) {
         if (value == null) {
@@ -890,7 +890,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.Envelope.Type type = 1;</code>
+       * <code>optional .signalservice.Envelope.Type type = 1;</code>
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1217,7 +1217,7 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.Envelope)
+      // @@protoc_insertion_point(builder_scope:signalservice.Envelope)
     }
 
     static {
@@ -1225,42 +1225,42 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.Envelope)
+    // @@protoc_insertion_point(class_scope:signalservice.Envelope)
   }
 
   public interface ContentOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.DataMessage dataMessage = 1;
+    // optional .signalservice.DataMessage dataMessage = 1;
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     boolean hasDataMessage();
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getDataMessage();
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getDataMessageOrBuilder();
 
-    // optional .textsecure.SyncMessage syncMessage = 2;
+    // optional .signalservice.SyncMessage syncMessage = 2;
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     boolean hasSyncMessage();
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage getSyncMessage();
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder getSyncMessageOrBuilder();
   }
   /**
-   * Protobuf type {@code textsecure.Content}
+   * Protobuf type {@code signalservice.Content}
    */
   public static final class Content extends
       com.google.protobuf.GeneratedMessage
@@ -1350,12 +1350,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Content_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Content_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Content_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Content_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content.Builder.class);
     }
@@ -1376,45 +1376,45 @@ public final class SignalServiceProtos {
     }
 
     private int bitField0_;
-    // optional .textsecure.DataMessage dataMessage = 1;
+    // optional .signalservice.DataMessage dataMessage = 1;
     public static final int DATAMESSAGE_FIELD_NUMBER = 1;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage dataMessage_;
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     public boolean hasDataMessage() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getDataMessage() {
       return dataMessage_;
     }
     /**
-     * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+     * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getDataMessageOrBuilder() {
       return dataMessage_;
     }
 
-    // optional .textsecure.SyncMessage syncMessage = 2;
+    // optional .signalservice.SyncMessage syncMessage = 2;
     public static final int SYNCMESSAGE_FIELD_NUMBER = 2;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage syncMessage_;
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     public boolean hasSyncMessage() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage getSyncMessage() {
       return syncMessage_;
     }
     /**
-     * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+     * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder getSyncMessageOrBuilder() {
       return syncMessage_;
@@ -1538,19 +1538,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.Content}
+     * Protobuf type {@code signalservice.Content}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContentOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Content_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Content_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Content_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Content_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content.Builder.class);
       }
@@ -1598,7 +1598,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_Content_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_Content_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content getDefaultInstanceForType() {
@@ -1682,18 +1682,18 @@ public final class SignalServiceProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.DataMessage dataMessage = 1;
+      // optional .signalservice.DataMessage dataMessage = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage dataMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder> dataMessageBuilder_;
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public boolean hasDataMessage() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getDataMessage() {
         if (dataMessageBuilder_ == null) {
@@ -1703,7 +1703,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public Builder setDataMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage value) {
         if (dataMessageBuilder_ == null) {
@@ -1719,7 +1719,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public Builder setDataMessage(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder builderForValue) {
@@ -1733,7 +1733,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public Builder mergeDataMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage value) {
         if (dataMessageBuilder_ == null) {
@@ -1752,7 +1752,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public Builder clearDataMessage() {
         if (dataMessageBuilder_ == null) {
@@ -1765,7 +1765,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder getDataMessageBuilder() {
         bitField0_ |= 0x00000001;
@@ -1773,7 +1773,7 @@ public final class SignalServiceProtos {
         return getDataMessageFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getDataMessageOrBuilder() {
         if (dataMessageBuilder_ != null) {
@@ -1783,7 +1783,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.DataMessage dataMessage = 1;</code>
+       * <code>optional .signalservice.DataMessage dataMessage = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder> 
@@ -1799,18 +1799,18 @@ public final class SignalServiceProtos {
         return dataMessageBuilder_;
       }
 
-      // optional .textsecure.SyncMessage syncMessage = 2;
+      // optional .signalservice.SyncMessage syncMessage = 2;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage syncMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder> syncMessageBuilder_;
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public boolean hasSyncMessage() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage getSyncMessage() {
         if (syncMessageBuilder_ == null) {
@@ -1820,7 +1820,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public Builder setSyncMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage value) {
         if (syncMessageBuilder_ == null) {
@@ -1836,7 +1836,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public Builder setSyncMessage(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder builderForValue) {
@@ -1850,7 +1850,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public Builder mergeSyncMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage value) {
         if (syncMessageBuilder_ == null) {
@@ -1869,7 +1869,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public Builder clearSyncMessage() {
         if (syncMessageBuilder_ == null) {
@@ -1882,7 +1882,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder getSyncMessageBuilder() {
         bitField0_ |= 0x00000002;
@@ -1890,7 +1890,7 @@ public final class SignalServiceProtos {
         return getSyncMessageFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder getSyncMessageOrBuilder() {
         if (syncMessageBuilder_ != null) {
@@ -1900,7 +1900,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage syncMessage = 2;</code>
+       * <code>optional .signalservice.SyncMessage syncMessage = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder> 
@@ -1916,7 +1916,7 @@ public final class SignalServiceProtos {
         return syncMessageBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.Content)
+      // @@protoc_insertion_point(builder_scope:signalservice.Content)
     }
 
     static {
@@ -1924,7 +1924,7 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.Content)
+    // @@protoc_insertion_point(class_scope:signalservice.Content)
   }
 
   public interface DataMessageOrBuilder
@@ -1945,42 +1945,42 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString
         getBodyBytes();
 
-    // repeated .textsecure.AttachmentPointer attachments = 2;
+    // repeated .signalservice.AttachmentPointer attachments = 2;
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> 
         getAttachmentsList();
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAttachments(int index);
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     int getAttachmentsCount();
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
         getAttachmentsOrBuilderList();
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAttachmentsOrBuilder(
         int index);
 
-    // optional .textsecure.GroupContext group = 3;
+    // optional .signalservice.GroupContext group = 3;
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     boolean hasGroup();
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext getGroup();
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder getGroupOrBuilder();
 
@@ -1995,7 +1995,7 @@ public final class SignalServiceProtos {
     int getFlags();
   }
   /**
-   * Protobuf type {@code textsecure.DataMessage}
+   * Protobuf type {@code signalservice.DataMessage}
    */
   public static final class DataMessage extends
       com.google.protobuf.GeneratedMessage
@@ -2093,12 +2093,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_DataMessage_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_DataMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder.class);
     }
@@ -2119,7 +2119,7 @@ public final class SignalServiceProtos {
     }
 
     /**
-     * Protobuf enum {@code textsecure.DataMessage.Flags}
+     * Protobuf enum {@code signalservice.DataMessage.Flags}
      */
     public enum Flags
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -2188,7 +2188,7 @@ public final class SignalServiceProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:textsecure.DataMessage.Flags)
+      // @@protoc_insertion_point(enum_scope:signalservice.DataMessage.Flags)
     }
 
     private int bitField0_;
@@ -2235,59 +2235,59 @@ public final class SignalServiceProtos {
       }
     }
 
-    // repeated .textsecure.AttachmentPointer attachments = 2;
+    // repeated .signalservice.AttachmentPointer attachments = 2;
     public static final int ATTACHMENTS_FIELD_NUMBER = 2;
     private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> attachments_;
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> getAttachmentsList() {
       return attachments_;
     }
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
         getAttachmentsOrBuilderList() {
       return attachments_;
     }
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     public int getAttachmentsCount() {
       return attachments_.size();
     }
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAttachments(int index) {
       return attachments_.get(index);
     }
     /**
-     * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+     * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAttachmentsOrBuilder(
         int index) {
       return attachments_.get(index);
     }
 
-    // optional .textsecure.GroupContext group = 3;
+    // optional .signalservice.GroupContext group = 3;
     public static final int GROUP_FIELD_NUMBER = 3;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext group_;
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     public boolean hasGroup() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext getGroup() {
       return group_;
     }
     /**
-     * <code>optional .textsecure.GroupContext group = 3;</code>
+     * <code>optional .signalservice.GroupContext group = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder getGroupOrBuilder() {
       return group_;
@@ -2443,19 +2443,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.DataMessage}
+     * Protobuf type {@code signalservice.DataMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_DataMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_DataMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder.class);
       }
@@ -2507,7 +2507,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_DataMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getDefaultInstanceForType() {
@@ -2705,7 +2705,7 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // repeated .textsecure.AttachmentPointer attachments = 2;
+      // repeated .signalservice.AttachmentPointer attachments = 2;
       private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> attachments_ =
         java.util.Collections.emptyList();
       private void ensureAttachmentsIsMutable() {
@@ -2719,7 +2719,7 @@ public final class SignalServiceProtos {
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> attachmentsBuilder_;
 
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> getAttachmentsList() {
         if (attachmentsBuilder_ == null) {
@@ -2729,7 +2729,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public int getAttachmentsCount() {
         if (attachmentsBuilder_ == null) {
@@ -2739,7 +2739,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAttachments(int index) {
         if (attachmentsBuilder_ == null) {
@@ -2749,7 +2749,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder setAttachments(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
@@ -2766,7 +2766,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder setAttachments(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -2780,7 +2780,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder addAttachments(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
         if (attachmentsBuilder_ == null) {
@@ -2796,7 +2796,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder addAttachments(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
@@ -2813,7 +2813,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder addAttachments(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -2827,7 +2827,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder addAttachments(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -2841,7 +2841,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder addAllAttachments(
           java.lang.Iterable<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer> values) {
@@ -2855,7 +2855,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder clearAttachments() {
         if (attachmentsBuilder_ == null) {
@@ -2868,7 +2868,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public Builder removeAttachments(int index) {
         if (attachmentsBuilder_ == null) {
@@ -2881,14 +2881,14 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder getAttachmentsBuilder(
           int index) {
         return getAttachmentsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAttachmentsOrBuilder(
           int index) {
@@ -2898,7 +2898,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
            getAttachmentsOrBuilderList() {
@@ -2909,14 +2909,14 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder addAttachmentsBuilder() {
         return getAttachmentsFieldBuilder().addBuilder(
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance());
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder addAttachmentsBuilder(
           int index) {
@@ -2924,7 +2924,7 @@ public final class SignalServiceProtos {
             index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance());
       }
       /**
-       * <code>repeated .textsecure.AttachmentPointer attachments = 2;</code>
+       * <code>repeated .signalservice.AttachmentPointer attachments = 2;</code>
        */
       public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder> 
            getAttachmentsBuilderList() {
@@ -2945,18 +2945,18 @@ public final class SignalServiceProtos {
         return attachmentsBuilder_;
       }
 
-      // optional .textsecure.GroupContext group = 3;
+      // optional .signalservice.GroupContext group = 3;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext group_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder> groupBuilder_;
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public boolean hasGroup() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext getGroup() {
         if (groupBuilder_ == null) {
@@ -2966,7 +2966,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public Builder setGroup(org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext value) {
         if (groupBuilder_ == null) {
@@ -2982,7 +2982,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public Builder setGroup(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder builderForValue) {
@@ -2996,7 +2996,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public Builder mergeGroup(org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext value) {
         if (groupBuilder_ == null) {
@@ -3015,7 +3015,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public Builder clearGroup() {
         if (groupBuilder_ == null) {
@@ -3028,7 +3028,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder getGroupBuilder() {
         bitField0_ |= 0x00000004;
@@ -3036,7 +3036,7 @@ public final class SignalServiceProtos {
         return getGroupFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder getGroupOrBuilder() {
         if (groupBuilder_ != null) {
@@ -3046,7 +3046,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.GroupContext group = 3;</code>
+       * <code>optional .signalservice.GroupContext group = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder> 
@@ -3095,7 +3095,7 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.DataMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.DataMessage)
     }
 
     static {
@@ -3103,95 +3103,95 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.DataMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.DataMessage)
   }
 
   public interface SyncMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.SyncMessage.Sent sent = 1;
+    // optional .signalservice.SyncMessage.Sent sent = 1;
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     boolean hasSent();
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent getSent();
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder getSentOrBuilder();
 
-    // optional .textsecure.SyncMessage.Contacts contacts = 2;
+    // optional .signalservice.SyncMessage.Contacts contacts = 2;
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     boolean hasContacts();
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts getContacts();
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder getContactsOrBuilder();
 
-    // optional .textsecure.SyncMessage.Groups groups = 3;
+    // optional .signalservice.SyncMessage.Groups groups = 3;
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     boolean hasGroups();
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups getGroups();
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder getGroupsOrBuilder();
 
-    // optional .textsecure.SyncMessage.Request request = 4;
+    // optional .signalservice.SyncMessage.Request request = 4;
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     boolean hasRequest();
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request getRequest();
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder getRequestOrBuilder();
 
-    // repeated .textsecure.SyncMessage.Read read = 5;
+    // repeated .signalservice.SyncMessage.Read read = 5;
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> 
         getReadList();
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read getRead(int index);
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     int getReadCount();
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder> 
         getReadOrBuilderList();
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder getReadOrBuilder(
         int index);
   }
   /**
-   * Protobuf type {@code textsecure.SyncMessage}
+   * Protobuf type {@code signalservice.SyncMessage}
    */
   public static final class SyncMessage extends
       com.google.protobuf.GeneratedMessage
@@ -3318,12 +3318,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder.class);
     }
@@ -3371,22 +3371,22 @@ public final class SignalServiceProtos {
        */
       long getTimestamp();
 
-      // optional .textsecure.DataMessage message = 3;
+      // optional .signalservice.DataMessage message = 3;
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       boolean hasMessage();
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getMessage();
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getMessageOrBuilder();
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage.Sent}
+     * Protobuf type {@code signalservice.SyncMessage.Sent}
      */
     public static final class Sent extends
         com.google.protobuf.GeneratedMessage
@@ -3473,12 +3473,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Sent_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Sent_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Sent_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder.class);
       }
@@ -3558,23 +3558,23 @@ public final class SignalServiceProtos {
         return timestamp_;
       }
 
-      // optional .textsecure.DataMessage message = 3;
+      // optional .signalservice.DataMessage message = 3;
       public static final int MESSAGE_FIELD_NUMBER = 3;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage message_;
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       public boolean hasMessage() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getMessage() {
         return message_;
       }
       /**
-       * <code>optional .textsecure.DataMessage message = 3;</code>
+       * <code>optional .signalservice.DataMessage message = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getMessageOrBuilder() {
         return message_;
@@ -3706,19 +3706,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.SyncMessage.Sent}
+       * Protobuf type {@code signalservice.SyncMessage.Sent}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Sent_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Sent_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Sent_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder.class);
         }
@@ -3763,7 +3763,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Sent_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Sent_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent getDefaultInstanceForType() {
@@ -3959,18 +3959,18 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // optional .textsecure.DataMessage message = 3;
+        // optional .signalservice.DataMessage message = 3;
         private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage message_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder> messageBuilder_;
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public boolean hasMessage() {
           return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage getMessage() {
           if (messageBuilder_ == null) {
@@ -3980,7 +3980,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public Builder setMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage value) {
           if (messageBuilder_ == null) {
@@ -3996,7 +3996,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public Builder setMessage(
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder builderForValue) {
@@ -4010,7 +4010,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public Builder mergeMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage value) {
           if (messageBuilder_ == null) {
@@ -4029,7 +4029,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public Builder clearMessage() {
           if (messageBuilder_ == null) {
@@ -4042,7 +4042,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder getMessageBuilder() {
           bitField0_ |= 0x00000004;
@@ -4050,7 +4050,7 @@ public final class SignalServiceProtos {
           return getMessageFieldBuilder().getBuilder();
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder getMessageOrBuilder() {
           if (messageBuilder_ != null) {
@@ -4060,7 +4060,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.DataMessage message = 3;</code>
+         * <code>optional .signalservice.DataMessage message = 3;</code>
          */
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessageOrBuilder> 
@@ -4076,7 +4076,7 @@ public final class SignalServiceProtos {
           return messageBuilder_;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage.Sent)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Sent)
       }
 
       static {
@@ -4084,28 +4084,28 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Sent)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.Sent)
     }
 
     public interface ContactsOrBuilder
         extends com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.AttachmentPointer blob = 1;
+      // optional .signalservice.AttachmentPointer blob = 1;
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       boolean hasBlob();
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob();
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder();
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage.Contacts}
+     * Protobuf type {@code signalservice.SyncMessage.Contacts}
      */
     public static final class Contacts extends
         com.google.protobuf.GeneratedMessage
@@ -4182,12 +4182,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Contacts_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Contacts_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Contacts_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder.class);
       }
@@ -4208,23 +4208,23 @@ public final class SignalServiceProtos {
       }
 
       private int bitField0_;
-      // optional .textsecure.AttachmentPointer blob = 1;
+      // optional .signalservice.AttachmentPointer blob = 1;
       public static final int BLOB_FIELD_NUMBER = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer blob_;
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public boolean hasBlob() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob() {
         return blob_;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder() {
         return blob_;
@@ -4340,19 +4340,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.SyncMessage.Contacts}
+       * Protobuf type {@code signalservice.SyncMessage.Contacts}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Contacts_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Contacts_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Contacts_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder.class);
         }
@@ -4393,7 +4393,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Contacts_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Contacts_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts getDefaultInstanceForType() {
@@ -4466,18 +4466,18 @@ public final class SignalServiceProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.AttachmentPointer blob = 1;
+        // optional .signalservice.AttachmentPointer blob = 1;
         private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer blob_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> blobBuilder_;
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public boolean hasBlob() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob() {
           if (blobBuilder_ == null) {
@@ -4487,7 +4487,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder setBlob(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
           if (blobBuilder_ == null) {
@@ -4503,7 +4503,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder setBlob(
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -4517,7 +4517,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder mergeBlob(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
           if (blobBuilder_ == null) {
@@ -4536,7 +4536,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder clearBlob() {
           if (blobBuilder_ == null) {
@@ -4549,7 +4549,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder getBlobBuilder() {
           bitField0_ |= 0x00000001;
@@ -4557,7 +4557,7 @@ public final class SignalServiceProtos {
           return getBlobFieldBuilder().getBuilder();
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder() {
           if (blobBuilder_ != null) {
@@ -4567,7 +4567,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
@@ -4583,7 +4583,7 @@ public final class SignalServiceProtos {
           return blobBuilder_;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage.Contacts)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Contacts)
       }
 
       static {
@@ -4591,28 +4591,28 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Contacts)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.Contacts)
     }
 
     public interface GroupsOrBuilder
         extends com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.AttachmentPointer blob = 1;
+      // optional .signalservice.AttachmentPointer blob = 1;
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       boolean hasBlob();
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob();
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder();
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage.Groups}
+     * Protobuf type {@code signalservice.SyncMessage.Groups}
      */
     public static final class Groups extends
         com.google.protobuf.GeneratedMessage
@@ -4689,12 +4689,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Groups_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Groups_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Groups_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder.class);
       }
@@ -4715,23 +4715,23 @@ public final class SignalServiceProtos {
       }
 
       private int bitField0_;
-      // optional .textsecure.AttachmentPointer blob = 1;
+      // optional .signalservice.AttachmentPointer blob = 1;
       public static final int BLOB_FIELD_NUMBER = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer blob_;
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public boolean hasBlob() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob() {
         return blob_;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+       * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder() {
         return blob_;
@@ -4847,19 +4847,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.SyncMessage.Groups}
+       * Protobuf type {@code signalservice.SyncMessage.Groups}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Groups_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Groups_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Groups_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder.class);
         }
@@ -4900,7 +4900,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Groups_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Groups_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups getDefaultInstanceForType() {
@@ -4973,18 +4973,18 @@ public final class SignalServiceProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.AttachmentPointer blob = 1;
+        // optional .signalservice.AttachmentPointer blob = 1;
         private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer blob_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> blobBuilder_;
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public boolean hasBlob() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getBlob() {
           if (blobBuilder_ == null) {
@@ -4994,7 +4994,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder setBlob(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
           if (blobBuilder_ == null) {
@@ -5010,7 +5010,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder setBlob(
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -5024,7 +5024,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder mergeBlob(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
           if (blobBuilder_ == null) {
@@ -5043,7 +5043,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public Builder clearBlob() {
           if (blobBuilder_ == null) {
@@ -5056,7 +5056,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder getBlobBuilder() {
           bitField0_ |= 0x00000001;
@@ -5064,7 +5064,7 @@ public final class SignalServiceProtos {
           return getBlobFieldBuilder().getBuilder();
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder() {
           if (blobBuilder_ != null) {
@@ -5074,7 +5074,7 @@ public final class SignalServiceProtos {
           }
         }
         /**
-         * <code>optional .textsecure.AttachmentPointer blob = 1;</code>
+         * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
          */
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
@@ -5090,7 +5090,7 @@ public final class SignalServiceProtos {
           return blobBuilder_;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage.Groups)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Groups)
       }
 
       static {
@@ -5098,24 +5098,24 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Groups)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.Groups)
     }
 
     public interface RequestOrBuilder
         extends com.google.protobuf.MessageOrBuilder {
 
-      // optional .textsecure.SyncMessage.Request.Type type = 1;
+      // optional .signalservice.SyncMessage.Request.Type type = 1;
       /**
-       * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
        */
       boolean hasType();
       /**
-       * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type getType();
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage.Request}
+     * Protobuf type {@code signalservice.SyncMessage.Request}
      */
     public static final class Request extends
         com.google.protobuf.GeneratedMessage
@@ -5190,12 +5190,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Request_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Request_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Request_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Request_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder.class);
       }
@@ -5216,7 +5216,7 @@ public final class SignalServiceProtos {
       }
 
       /**
-       * Protobuf enum {@code textsecure.SyncMessage.Request.Type}
+       * Protobuf enum {@code signalservice.SyncMessage.Request.Type}
        */
       public enum Type
           implements com.google.protobuf.ProtocolMessageEnum {
@@ -5303,21 +5303,21 @@ public final class SignalServiceProtos {
           this.value = value;
         }
 
-        // @@protoc_insertion_point(enum_scope:textsecure.SyncMessage.Request.Type)
+        // @@protoc_insertion_point(enum_scope:signalservice.SyncMessage.Request.Type)
       }
 
       private int bitField0_;
-      // optional .textsecure.SyncMessage.Request.Type type = 1;
+      // optional .signalservice.SyncMessage.Request.Type type = 1;
       public static final int TYPE_FIELD_NUMBER = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type type_;
       /**
-       * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
        */
       public boolean hasType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type getType() {
         return type_;
@@ -5433,19 +5433,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.SyncMessage.Request}
+       * Protobuf type {@code signalservice.SyncMessage.Request}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Request_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Request_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Request_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Request_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder.class);
         }
@@ -5481,7 +5481,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Request_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Request_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request getDefaultInstanceForType() {
@@ -5550,22 +5550,22 @@ public final class SignalServiceProtos {
         }
         private int bitField0_;
 
-        // optional .textsecure.SyncMessage.Request.Type type = 1;
+        // optional .signalservice.SyncMessage.Request.Type type = 1;
         private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type.UNKNOWN;
         /**
-         * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+         * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
          */
         public boolean hasType() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+         * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
          */
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type getType() {
           return type_;
         }
         /**
-         * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+         * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
          */
         public Builder setType(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Type value) {
           if (value == null) {
@@ -5577,7 +5577,7 @@ public final class SignalServiceProtos {
           return this;
         }
         /**
-         * <code>optional .textsecure.SyncMessage.Request.Type type = 1;</code>
+         * <code>optional .signalservice.SyncMessage.Request.Type type = 1;</code>
          */
         public Builder clearType() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -5586,7 +5586,7 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage.Request)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Request)
       }
 
       static {
@@ -5594,7 +5594,7 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Request)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.Request)
     }
 
     public interface ReadOrBuilder
@@ -5626,7 +5626,7 @@ public final class SignalServiceProtos {
       long getTimestamp();
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage.Read}
+     * Protobuf type {@code signalservice.SyncMessage.Read}
      */
     public static final class Read extends
         com.google.protobuf.GeneratedMessage
@@ -5700,12 +5700,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Read_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Read_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Read_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Read_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder.class);
       }
@@ -5903,19 +5903,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.SyncMessage.Read}
+       * Protobuf type {@code signalservice.SyncMessage.Read}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Read_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Read_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Read_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Read_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder.class);
         }
@@ -5953,7 +5953,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_Read_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_Read_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read getDefaultInstanceForType() {
@@ -6138,7 +6138,7 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage.Read)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Read)
       }
 
       static {
@@ -6146,128 +6146,128 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.SyncMessage.Read)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.Read)
     }
 
     private int bitField0_;
-    // optional .textsecure.SyncMessage.Sent sent = 1;
+    // optional .signalservice.SyncMessage.Sent sent = 1;
     public static final int SENT_FIELD_NUMBER = 1;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent sent_;
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     public boolean hasSent() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent getSent() {
       return sent_;
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+     * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder getSentOrBuilder() {
       return sent_;
     }
 
-    // optional .textsecure.SyncMessage.Contacts contacts = 2;
+    // optional .signalservice.SyncMessage.Contacts contacts = 2;
     public static final int CONTACTS_FIELD_NUMBER = 2;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts contacts_;
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     public boolean hasContacts() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts getContacts() {
       return contacts_;
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+     * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder getContactsOrBuilder() {
       return contacts_;
     }
 
-    // optional .textsecure.SyncMessage.Groups groups = 3;
+    // optional .signalservice.SyncMessage.Groups groups = 3;
     public static final int GROUPS_FIELD_NUMBER = 3;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups groups_;
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     public boolean hasGroups() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups getGroups() {
       return groups_;
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+     * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder getGroupsOrBuilder() {
       return groups_;
     }
 
-    // optional .textsecure.SyncMessage.Request request = 4;
+    // optional .signalservice.SyncMessage.Request request = 4;
     public static final int REQUEST_FIELD_NUMBER = 4;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request request_;
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     public boolean hasRequest() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request getRequest() {
       return request_;
     }
     /**
-     * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+     * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder getRequestOrBuilder() {
       return request_;
     }
 
-    // repeated .textsecure.SyncMessage.Read read = 5;
+    // repeated .signalservice.SyncMessage.Read read = 5;
     public static final int READ_FIELD_NUMBER = 5;
     private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> read_;
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> getReadList() {
       return read_;
     }
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder> 
         getReadOrBuilderList() {
       return read_;
     }
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     public int getReadCount() {
       return read_.size();
     }
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read getRead(int index) {
       return read_.get(index);
     }
     /**
-     * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+     * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder getReadOrBuilder(
         int index) {
@@ -6416,19 +6416,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.SyncMessage}
+     * Protobuf type {@code signalservice.SyncMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Builder.class);
       }
@@ -6497,7 +6497,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_SyncMessage_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage getDefaultInstanceForType() {
@@ -6638,18 +6638,18 @@ public final class SignalServiceProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.SyncMessage.Sent sent = 1;
+      // optional .signalservice.SyncMessage.Sent sent = 1;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent sent_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder> sentBuilder_;
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public boolean hasSent() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent getSent() {
         if (sentBuilder_ == null) {
@@ -6659,7 +6659,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public Builder setSent(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent value) {
         if (sentBuilder_ == null) {
@@ -6675,7 +6675,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public Builder setSent(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder builderForValue) {
@@ -6689,7 +6689,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public Builder mergeSent(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent value) {
         if (sentBuilder_ == null) {
@@ -6708,7 +6708,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public Builder clearSent() {
         if (sentBuilder_ == null) {
@@ -6721,7 +6721,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder getSentBuilder() {
         bitField0_ |= 0x00000001;
@@ -6729,7 +6729,7 @@ public final class SignalServiceProtos {
         return getSentFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder getSentOrBuilder() {
         if (sentBuilder_ != null) {
@@ -6739,7 +6739,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Sent sent = 1;</code>
+       * <code>optional .signalservice.SyncMessage.Sent sent = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Sent.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.SentOrBuilder> 
@@ -6755,18 +6755,18 @@ public final class SignalServiceProtos {
         return sentBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Contacts contacts = 2;
+      // optional .signalservice.SyncMessage.Contacts contacts = 2;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts contacts_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder> contactsBuilder_;
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public boolean hasContacts() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts getContacts() {
         if (contactsBuilder_ == null) {
@@ -6776,7 +6776,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public Builder setContacts(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts value) {
         if (contactsBuilder_ == null) {
@@ -6792,7 +6792,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public Builder setContacts(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder builderForValue) {
@@ -6806,7 +6806,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public Builder mergeContacts(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts value) {
         if (contactsBuilder_ == null) {
@@ -6825,7 +6825,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public Builder clearContacts() {
         if (contactsBuilder_ == null) {
@@ -6838,7 +6838,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder getContactsBuilder() {
         bitField0_ |= 0x00000002;
@@ -6846,7 +6846,7 @@ public final class SignalServiceProtos {
         return getContactsFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder getContactsOrBuilder() {
         if (contactsBuilder_ != null) {
@@ -6856,7 +6856,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Contacts contacts = 2;</code>
+       * <code>optional .signalservice.SyncMessage.Contacts contacts = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ContactsOrBuilder> 
@@ -6872,18 +6872,18 @@ public final class SignalServiceProtos {
         return contactsBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Groups groups = 3;
+      // optional .signalservice.SyncMessage.Groups groups = 3;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups groups_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder> groupsBuilder_;
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public boolean hasGroups() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups getGroups() {
         if (groupsBuilder_ == null) {
@@ -6893,7 +6893,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public Builder setGroups(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups value) {
         if (groupsBuilder_ == null) {
@@ -6909,7 +6909,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public Builder setGroups(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder builderForValue) {
@@ -6923,7 +6923,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public Builder mergeGroups(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups value) {
         if (groupsBuilder_ == null) {
@@ -6942,7 +6942,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public Builder clearGroups() {
         if (groupsBuilder_ == null) {
@@ -6955,7 +6955,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder getGroupsBuilder() {
         bitField0_ |= 0x00000004;
@@ -6963,7 +6963,7 @@ public final class SignalServiceProtos {
         return getGroupsFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder getGroupsOrBuilder() {
         if (groupsBuilder_ != null) {
@@ -6973,7 +6973,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Groups groups = 3;</code>
+       * <code>optional .signalservice.SyncMessage.Groups groups = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Groups.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.GroupsOrBuilder> 
@@ -6989,18 +6989,18 @@ public final class SignalServiceProtos {
         return groupsBuilder_;
       }
 
-      // optional .textsecure.SyncMessage.Request request = 4;
+      // optional .signalservice.SyncMessage.Request request = 4;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request request_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder> requestBuilder_;
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public boolean hasRequest() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request getRequest() {
         if (requestBuilder_ == null) {
@@ -7010,7 +7010,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public Builder setRequest(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request value) {
         if (requestBuilder_ == null) {
@@ -7026,7 +7026,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public Builder setRequest(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder builderForValue) {
@@ -7040,7 +7040,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public Builder mergeRequest(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request value) {
         if (requestBuilder_ == null) {
@@ -7059,7 +7059,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public Builder clearRequest() {
         if (requestBuilder_ == null) {
@@ -7072,7 +7072,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder getRequestBuilder() {
         bitField0_ |= 0x00000008;
@@ -7080,7 +7080,7 @@ public final class SignalServiceProtos {
         return getRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder getRequestOrBuilder() {
         if (requestBuilder_ != null) {
@@ -7090,7 +7090,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.SyncMessage.Request request = 4;</code>
+       * <code>optional .signalservice.SyncMessage.Request request = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.RequestOrBuilder> 
@@ -7106,7 +7106,7 @@ public final class SignalServiceProtos {
         return requestBuilder_;
       }
 
-      // repeated .textsecure.SyncMessage.Read read = 5;
+      // repeated .signalservice.SyncMessage.Read read = 5;
       private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> read_ =
         java.util.Collections.emptyList();
       private void ensureReadIsMutable() {
@@ -7120,7 +7120,7 @@ public final class SignalServiceProtos {
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder> readBuilder_;
 
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> getReadList() {
         if (readBuilder_ == null) {
@@ -7130,7 +7130,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public int getReadCount() {
         if (readBuilder_ == null) {
@@ -7140,7 +7140,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read getRead(int index) {
         if (readBuilder_ == null) {
@@ -7150,7 +7150,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder setRead(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read value) {
@@ -7167,7 +7167,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder setRead(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder builderForValue) {
@@ -7181,7 +7181,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder addRead(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read value) {
         if (readBuilder_ == null) {
@@ -7197,7 +7197,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder addRead(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read value) {
@@ -7214,7 +7214,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder addRead(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder builderForValue) {
@@ -7228,7 +7228,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder addRead(
           int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder builderForValue) {
@@ -7242,7 +7242,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder addAllRead(
           java.lang.Iterable<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read> values) {
@@ -7256,7 +7256,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder clearRead() {
         if (readBuilder_ == null) {
@@ -7269,7 +7269,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public Builder removeRead(int index) {
         if (readBuilder_ == null) {
@@ -7282,14 +7282,14 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder getReadBuilder(
           int index) {
         return getReadFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder getReadOrBuilder(
           int index) {
@@ -7299,7 +7299,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ReadOrBuilder> 
            getReadOrBuilderList() {
@@ -7310,14 +7310,14 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder addReadBuilder() {
         return getReadFieldBuilder().addBuilder(
             org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.getDefaultInstance());
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder addReadBuilder(
           int index) {
@@ -7325,7 +7325,7 @@ public final class SignalServiceProtos {
             index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.getDefaultInstance());
       }
       /**
-       * <code>repeated .textsecure.SyncMessage.Read read = 5;</code>
+       * <code>repeated .signalservice.SyncMessage.Read read = 5;</code>
        */
       public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Read.Builder> 
            getReadBuilderList() {
@@ -7346,7 +7346,7 @@ public final class SignalServiceProtos {
         return readBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.SyncMessage)
+      // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage)
     }
 
     static {
@@ -7354,7 +7354,7 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.SyncMessage)
+    // @@protoc_insertion_point(class_scope:signalservice.SyncMessage)
   }
 
   public interface AttachmentPointerOrBuilder
@@ -7416,7 +7416,7 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString getThumbnail();
   }
   /**
-   * Protobuf type {@code textsecure.AttachmentPointer}
+   * Protobuf type {@code signalservice.AttachmentPointer}
    */
   public static final class AttachmentPointer extends
       com.google.protobuf.GeneratedMessage
@@ -7505,12 +7505,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_AttachmentPointer_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_AttachmentPointer_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_AttachmentPointer_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_AttachmentPointer_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder.class);
     }
@@ -7780,19 +7780,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.AttachmentPointer}
+     * Protobuf type {@code signalservice.AttachmentPointer}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_AttachmentPointer_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_AttachmentPointer_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_AttachmentPointer_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_AttachmentPointer_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder.class);
       }
@@ -7836,7 +7836,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_AttachmentPointer_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_AttachmentPointer_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getDefaultInstanceForType() {
@@ -8147,7 +8147,7 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.AttachmentPointer)
+      // @@protoc_insertion_point(builder_scope:signalservice.AttachmentPointer)
     }
 
     static {
@@ -8155,7 +8155,7 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.AttachmentPointer)
+    // @@protoc_insertion_point(class_scope:signalservice.AttachmentPointer)
   }
 
   public interface GroupContextOrBuilder
@@ -8171,13 +8171,13 @@ public final class SignalServiceProtos {
      */
     com.google.protobuf.ByteString getId();
 
-    // optional .textsecure.GroupContext.Type type = 2;
+    // optional .signalservice.GroupContext.Type type = 2;
     /**
-     * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+     * <code>optional .signalservice.GroupContext.Type type = 2;</code>
      */
     boolean hasType();
     /**
-     * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+     * <code>optional .signalservice.GroupContext.Type type = 2;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type getType();
 
@@ -8216,22 +8216,22 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString
         getMembersBytes(int index);
 
-    // optional .textsecure.AttachmentPointer avatar = 5;
+    // optional .signalservice.AttachmentPointer avatar = 5;
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     boolean hasAvatar();
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAvatar();
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAvatarOrBuilder();
   }
   /**
-   * Protobuf type {@code textsecure.GroupContext}
+   * Protobuf type {@code signalservice.GroupContext}
    */
   public static final class GroupContext extends
       com.google.protobuf.GeneratedMessage
@@ -8340,12 +8340,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupContext_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupContext_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupContext_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupContext_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder.class);
     }
@@ -8366,7 +8366,7 @@ public final class SignalServiceProtos {
     }
 
     /**
-     * Protobuf enum {@code textsecure.GroupContext.Type}
+     * Protobuf enum {@code signalservice.GroupContext.Type}
      */
     public enum Type
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -8462,7 +8462,7 @@ public final class SignalServiceProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:textsecure.GroupContext.Type)
+      // @@protoc_insertion_point(enum_scope:signalservice.GroupContext.Type)
     }
 
     private int bitField0_;
@@ -8482,17 +8482,17 @@ public final class SignalServiceProtos {
       return id_;
     }
 
-    // optional .textsecure.GroupContext.Type type = 2;
+    // optional .signalservice.GroupContext.Type type = 2;
     public static final int TYPE_FIELD_NUMBER = 2;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type type_;
     /**
-     * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+     * <code>optional .signalservice.GroupContext.Type type = 2;</code>
      */
     public boolean hasType() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+     * <code>optional .signalservice.GroupContext.Type type = 2;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type getType() {
       return type_;
@@ -8571,23 +8571,23 @@ public final class SignalServiceProtos {
       return members_.getByteString(index);
     }
 
-    // optional .textsecure.AttachmentPointer avatar = 5;
+    // optional .signalservice.AttachmentPointer avatar = 5;
     public static final int AVATAR_FIELD_NUMBER = 5;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer avatar_;
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     public boolean hasAvatar() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAvatar() {
       return avatar_;
     }
     /**
-     * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+     * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAvatarOrBuilder() {
       return avatar_;
@@ -8740,19 +8740,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.GroupContext}
+     * Protobuf type {@code signalservice.GroupContext}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContextOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupContext_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupContext_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupContext_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupContext_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Builder.class);
       }
@@ -8801,7 +8801,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupContext_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupContext_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext getDefaultInstanceForType() {
@@ -8949,22 +8949,22 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // optional .textsecure.GroupContext.Type type = 2;
+      // optional .signalservice.GroupContext.Type type = 2;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type.UNKNOWN;
       /**
-       * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+       * <code>optional .signalservice.GroupContext.Type type = 2;</code>
        */
       public boolean hasType() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+       * <code>optional .signalservice.GroupContext.Type type = 2;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type getType() {
         return type_;
       }
       /**
-       * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+       * <code>optional .signalservice.GroupContext.Type type = 2;</code>
        */
       public Builder setType(org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type value) {
         if (value == null) {
@@ -8976,7 +8976,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupContext.Type type = 2;</code>
+       * <code>optional .signalservice.GroupContext.Type type = 2;</code>
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -9152,18 +9152,18 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // optional .textsecure.AttachmentPointer avatar = 5;
+      // optional .signalservice.AttachmentPointer avatar = 5;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> avatarBuilder_;
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public boolean hasAvatar() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getAvatar() {
         if (avatarBuilder_ == null) {
@@ -9173,7 +9173,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public Builder setAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
         if (avatarBuilder_ == null) {
@@ -9189,7 +9189,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public Builder setAvatar(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
@@ -9203,7 +9203,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public Builder mergeAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
         if (avatarBuilder_ == null) {
@@ -9222,7 +9222,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public Builder clearAvatar() {
         if (avatarBuilder_ == null) {
@@ -9235,7 +9235,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder getAvatarBuilder() {
         bitField0_ |= 0x00000010;
@@ -9243,7 +9243,7 @@ public final class SignalServiceProtos {
         return getAvatarFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getAvatarOrBuilder() {
         if (avatarBuilder_ != null) {
@@ -9253,7 +9253,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.AttachmentPointer avatar = 5;</code>
+       * <code>optional .signalservice.AttachmentPointer avatar = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
@@ -9269,7 +9269,7 @@ public final class SignalServiceProtos {
         return avatarBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.GroupContext)
+      // @@protoc_insertion_point(builder_scope:signalservice.GroupContext)
     }
 
     static {
@@ -9277,7 +9277,7 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.GroupContext)
+    // @@protoc_insertion_point(class_scope:signalservice.GroupContext)
   }
 
   public interface ContactDetailsOrBuilder
@@ -9313,22 +9313,22 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // optional .textsecure.ContactDetails.Avatar avatar = 3;
+    // optional .signalservice.ContactDetails.Avatar avatar = 3;
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     boolean hasAvatar();
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar getAvatar();
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder getAvatarOrBuilder();
   }
   /**
-   * Protobuf type {@code textsecure.ContactDetails}
+   * Protobuf type {@code signalservice.ContactDetails}
    */
   public static final class ContactDetails extends
       com.google.protobuf.GeneratedMessage
@@ -9415,12 +9415,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Builder.class);
     }
@@ -9469,7 +9469,7 @@ public final class SignalServiceProtos {
       int getLength();
     }
     /**
-     * Protobuf type {@code textsecure.ContactDetails.Avatar}
+     * Protobuf type {@code signalservice.ContactDetails.Avatar}
      */
     public static final class Avatar extends
         com.google.protobuf.GeneratedMessage
@@ -9543,12 +9543,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_Avatar_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_Avatar_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder.class);
       }
@@ -9746,19 +9746,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.ContactDetails.Avatar}
+       * Protobuf type {@code signalservice.ContactDetails.Avatar}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_Avatar_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_Avatar_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder.class);
         }
@@ -9796,7 +9796,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_Avatar_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_Avatar_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar getDefaultInstanceForType() {
@@ -9981,7 +9981,7 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.ContactDetails.Avatar)
+        // @@protoc_insertion_point(builder_scope:signalservice.ContactDetails.Avatar)
       }
 
       static {
@@ -9989,7 +9989,7 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.ContactDetails.Avatar)
+      // @@protoc_insertion_point(class_scope:signalservice.ContactDetails.Avatar)
     }
 
     private int bitField0_;
@@ -10079,23 +10079,23 @@ public final class SignalServiceProtos {
       }
     }
 
-    // optional .textsecure.ContactDetails.Avatar avatar = 3;
+    // optional .signalservice.ContactDetails.Avatar avatar = 3;
     public static final int AVATAR_FIELD_NUMBER = 3;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar avatar_;
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     public boolean hasAvatar() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar getAvatar() {
       return avatar_;
     }
     /**
-     * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+     * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder getAvatarOrBuilder() {
       return avatar_;
@@ -10227,19 +10227,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.ContactDetails}
+     * Protobuf type {@code signalservice.ContactDetails}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetailsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Builder.class);
       }
@@ -10284,7 +10284,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_ContactDetails_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ContactDetails_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails getDefaultInstanceForType() {
@@ -10523,18 +10523,18 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // optional .textsecure.ContactDetails.Avatar avatar = 3;
+      // optional .signalservice.ContactDetails.Avatar avatar = 3;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder> avatarBuilder_;
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public boolean hasAvatar() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar getAvatar() {
         if (avatarBuilder_ == null) {
@@ -10544,7 +10544,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public Builder setAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar value) {
         if (avatarBuilder_ == null) {
@@ -10560,7 +10560,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public Builder setAvatar(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder builderForValue) {
@@ -10574,7 +10574,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public Builder mergeAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar value) {
         if (avatarBuilder_ == null) {
@@ -10593,7 +10593,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public Builder clearAvatar() {
         if (avatarBuilder_ == null) {
@@ -10606,7 +10606,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder getAvatarBuilder() {
         bitField0_ |= 0x00000004;
@@ -10614,7 +10614,7 @@ public final class SignalServiceProtos {
         return getAvatarFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder getAvatarOrBuilder() {
         if (avatarBuilder_ != null) {
@@ -10624,7 +10624,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.ContactDetails.Avatar avatar = 3;</code>
+       * <code>optional .signalservice.ContactDetails.Avatar avatar = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.AvatarOrBuilder> 
@@ -10640,7 +10640,7 @@ public final class SignalServiceProtos {
         return avatarBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.ContactDetails)
+      // @@protoc_insertion_point(builder_scope:signalservice.ContactDetails)
     }
 
     static {
@@ -10648,7 +10648,7 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.ContactDetails)
+    // @@protoc_insertion_point(class_scope:signalservice.ContactDetails)
   }
 
   public interface GroupDetailsOrBuilder
@@ -10699,17 +10699,17 @@ public final class SignalServiceProtos {
     com.google.protobuf.ByteString
         getMembersBytes(int index);
 
-    // optional .textsecure.GroupDetails.Avatar avatar = 4;
+    // optional .signalservice.GroupDetails.Avatar avatar = 4;
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     boolean hasAvatar();
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar getAvatar();
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder getAvatarOrBuilder();
 
@@ -10724,7 +10724,7 @@ public final class SignalServiceProtos {
     boolean getActive();
   }
   /**
-   * Protobuf type {@code textsecure.GroupDetails}
+   * Protobuf type {@code signalservice.GroupDetails}
    */
   public static final class GroupDetails extends
       com.google.protobuf.GeneratedMessage
@@ -10827,12 +10827,12 @@ public final class SignalServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_descriptor;
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_fieldAccessorTable
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Builder.class);
     }
@@ -10881,7 +10881,7 @@ public final class SignalServiceProtos {
       int getLength();
     }
     /**
-     * Protobuf type {@code textsecure.GroupDetails.Avatar}
+     * Protobuf type {@code signalservice.GroupDetails.Avatar}
      */
     public static final class Avatar extends
         com.google.protobuf.GeneratedMessage
@@ -10955,12 +10955,12 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_Avatar_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_Avatar_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder.class);
       }
@@ -11158,19 +11158,19 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code textsecure.GroupDetails.Avatar}
+       * Protobuf type {@code signalservice.GroupDetails.Avatar}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
          implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_Avatar_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_Avatar_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
                   org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder.class);
         }
@@ -11208,7 +11208,7 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_Avatar_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_Avatar_descriptor;
         }
 
         public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar getDefaultInstanceForType() {
@@ -11393,7 +11393,7 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:textsecure.GroupDetails.Avatar)
+        // @@protoc_insertion_point(builder_scope:signalservice.GroupDetails.Avatar)
       }
 
       static {
@@ -11401,7 +11401,7 @@ public final class SignalServiceProtos {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:textsecure.GroupDetails.Avatar)
+      // @@protoc_insertion_point(class_scope:signalservice.GroupDetails.Avatar)
     }
 
     private int bitField0_;
@@ -11494,23 +11494,23 @@ public final class SignalServiceProtos {
       return members_.getByteString(index);
     }
 
-    // optional .textsecure.GroupDetails.Avatar avatar = 4;
+    // optional .signalservice.GroupDetails.Avatar avatar = 4;
     public static final int AVATAR_FIELD_NUMBER = 4;
     private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar avatar_;
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     public boolean hasAvatar() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar getAvatar() {
       return avatar_;
     }
     /**
-     * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+     * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
      */
     public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder getAvatarOrBuilder() {
       return avatar_;
@@ -11679,19 +11679,19 @@ public final class SignalServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.GroupDetails}
+     * Protobuf type {@code signalservice.GroupDetails}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetailsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Builder.class);
       }
@@ -11740,7 +11740,7 @@ public final class SignalServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_textsecure_GroupDetails_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_GroupDetails_descriptor;
       }
 
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails getDefaultInstanceForType() {
@@ -12055,18 +12055,18 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // optional .textsecure.GroupDetails.Avatar avatar = 4;
+      // optional .signalservice.GroupDetails.Avatar avatar = 4;
       private org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder> avatarBuilder_;
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public boolean hasAvatar() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar getAvatar() {
         if (avatarBuilder_ == null) {
@@ -12076,7 +12076,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public Builder setAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar value) {
         if (avatarBuilder_ == null) {
@@ -12092,7 +12092,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public Builder setAvatar(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder builderForValue) {
@@ -12106,7 +12106,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public Builder mergeAvatar(org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar value) {
         if (avatarBuilder_ == null) {
@@ -12125,7 +12125,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public Builder clearAvatar() {
         if (avatarBuilder_ == null) {
@@ -12138,7 +12138,7 @@ public final class SignalServiceProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder getAvatarBuilder() {
         bitField0_ |= 0x00000008;
@@ -12146,7 +12146,7 @@ public final class SignalServiceProtos {
         return getAvatarFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       public org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder getAvatarOrBuilder() {
         if (avatarBuilder_ != null) {
@@ -12156,7 +12156,7 @@ public final class SignalServiceProtos {
         }
       }
       /**
-       * <code>optional .textsecure.GroupDetails.Avatar avatar = 4;</code>
+       * <code>optional .signalservice.GroupDetails.Avatar avatar = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.AvatarOrBuilder> 
@@ -12205,7 +12205,7 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.GroupDetails)
+      // @@protoc_insertion_point(builder_scope:signalservice.GroupDetails)
     }
 
     static {
@@ -12213,84 +12213,84 @@ public final class SignalServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.GroupDetails)
+    // @@protoc_insertion_point(class_scope:signalservice.GroupDetails)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_Envelope_descriptor;
+    internal_static_signalservice_Envelope_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_Envelope_fieldAccessorTable;
+      internal_static_signalservice_Envelope_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_Content_descriptor;
+    internal_static_signalservice_Content_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_Content_fieldAccessorTable;
+      internal_static_signalservice_Content_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_DataMessage_descriptor;
+    internal_static_signalservice_DataMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_DataMessage_fieldAccessorTable;
+      internal_static_signalservice_DataMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_descriptor;
+    internal_static_signalservice_SyncMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_Sent_descriptor;
+    internal_static_signalservice_SyncMessage_Sent_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_Sent_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_Contacts_descriptor;
+    internal_static_signalservice_SyncMessage_Contacts_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_Contacts_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_Groups_descriptor;
+    internal_static_signalservice_SyncMessage_Groups_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_Groups_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_Request_descriptor;
+    internal_static_signalservice_SyncMessage_Request_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_Request_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_Request_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SyncMessage_Read_descriptor;
+    internal_static_signalservice_SyncMessage_Read_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SyncMessage_Read_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_Read_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_AttachmentPointer_descriptor;
+    internal_static_signalservice_AttachmentPointer_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_AttachmentPointer_fieldAccessorTable;
+      internal_static_signalservice_AttachmentPointer_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_GroupContext_descriptor;
+    internal_static_signalservice_GroupContext_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_GroupContext_fieldAccessorTable;
+      internal_static_signalservice_GroupContext_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_ContactDetails_descriptor;
+    internal_static_signalservice_ContactDetails_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_ContactDetails_fieldAccessorTable;
+      internal_static_signalservice_ContactDetails_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_ContactDetails_Avatar_descriptor;
+    internal_static_signalservice_ContactDetails_Avatar_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable;
+      internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_GroupDetails_descriptor;
+    internal_static_signalservice_GroupDetails_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_GroupDetails_fieldAccessorTable;
+      internal_static_signalservice_GroupDetails_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_GroupDetails_Avatar_descriptor;
+    internal_static_signalservice_GroupDetails_Avatar_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable;
+      internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -12300,148 +12300,150 @@ public final class SignalServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023SignalService.proto\022\ntextsecure\"\372\001\n\010En" +
-      "velope\022\'\n\004type\030\001 \001(\0162\031.textsecure.Envelo" +
-      "pe.Type\022\016\n\006source\030\002 \001(\t\022\024\n\014sourceDevice\030" +
-      "\007 \001(\r\022\r\n\005relay\030\003 \001(\t\022\021\n\ttimestamp\030\005 \001(\004\022" +
-      "\025\n\rlegacyMessage\030\006 \001(\014\022\017\n\007content\030\010 \001(\014\"" +
-      "U\n\004Type\022\013\n\007UNKNOWN\020\000\022\016\n\nCIPHERTEXT\020\001\022\020\n\014" +
-      "KEY_EXCHANGE\020\002\022\021\n\rPREKEY_BUNDLE\020\003\022\013\n\007REC" +
-      "EIPT\020\005\"e\n\007Content\022,\n\013dataMessage\030\001 \001(\0132\027" +
-      ".textsecure.DataMessage\022,\n\013syncMessage\030\002" +
-      " \001(\0132\027.textsecure.SyncMessage\"\241\001\n\013DataMe",
-      "ssage\022\014\n\004body\030\001 \001(\t\0222\n\013attachments\030\002 \003(\013" +
-      "2\035.textsecure.AttachmentPointer\022\'\n\005group" +
-      "\030\003 \001(\0132\030.textsecure.GroupContext\022\r\n\005flag" +
-      "s\030\004 \001(\r\"\030\n\005Flags\022\017\n\013END_SESSION\020\001\"\336\004\n\013Sy" +
-      "ncMessage\022*\n\004sent\030\001 \001(\0132\034.textsecure.Syn" +
-      "cMessage.Sent\0222\n\010contacts\030\002 \001(\0132 .textse" +
-      "cure.SyncMessage.Contacts\022.\n\006groups\030\003 \001(" +
-      "\0132\036.textsecure.SyncMessage.Groups\0220\n\007req" +
-      "uest\030\004 \001(\0132\037.textsecure.SyncMessage.Requ" +
-      "est\022*\n\004read\030\005 \003(\0132\034.textsecure.SyncMessa",
-      "ge.Read\032X\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\t" +
-      "timestamp\030\002 \001(\004\022(\n\007message\030\003 \001(\0132\027.texts" +
-      "ecure.DataMessage\0327\n\010Contacts\022+\n\004blob\030\001 " +
-      "\001(\0132\035.textsecure.AttachmentPointer\0325\n\006Gr" +
-      "oups\022+\n\004blob\030\001 \001(\0132\035.textsecure.Attachme" +
-      "ntPointer\032l\n\007Request\0222\n\004type\030\001 \001(\0162$.tex" +
-      "tsecure.SyncMessage.Request.Type\"-\n\004Type" +
-      "\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\032" +
-      ")\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001" +
-      "(\004\"b\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013c",
-      "ontentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 " +
-      "\001(\r\022\021\n\tthumbnail\030\005 \001(\014\"\315\001\n\014GroupContext\022" +
-      "\n\n\002id\030\001 \001(\014\022+\n\004type\030\002 \001(\0162\035.textsecure.G" +
-      "roupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007member" +
-      "s\030\004 \003(\t\022-\n\006avatar\030\005 \001(\0132\035.textsecure.Att" +
-      "achmentPointer\"6\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006U" +
-      "PDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\"\220\001\n\016Conta" +
-      "ctDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022" +
-      "1\n\006avatar\030\003 \001(\0132!.textsecure.ContactDeta" +
-      "ils.Avatar\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(",
-      "\t\022\016\n\006length\030\002 \001(\r\"\257\001\n\014GroupDetails\022\n\n\002id" +
-      "\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\022/\n" +
-      "\006avatar\030\004 \001(\0132\037.textsecure.GroupDetails." +
-      "Avatar\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023" +
-      "\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBB\n+o" +
-      "rg.whispersystems.textsecure.internal.pu" +
-      "shB\023SignalServiceProtos"
+      "\n\023SignalService.proto\022\rsignalservice\"\375\001\n" +
+      "\010Envelope\022*\n\004type\030\001 \001(\0162\034.signalservice." +
+      "Envelope.Type\022\016\n\006source\030\002 \001(\t\022\024\n\014sourceD" +
+      "evice\030\007 \001(\r\022\r\n\005relay\030\003 \001(\t\022\021\n\ttimestamp\030" +
+      "\005 \001(\004\022\025\n\rlegacyMessage\030\006 \001(\014\022\017\n\007content\030" +
+      "\010 \001(\014\"U\n\004Type\022\013\n\007UNKNOWN\020\000\022\016\n\nCIPHERTEXT" +
+      "\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\rPREKEY_BUNDLE\020\003\022" +
+      "\013\n\007RECEIPT\020\005\"k\n\007Content\022/\n\013dataMessage\030\001" +
+      " \001(\0132\032.signalservice.DataMessage\022/\n\013sync" +
+      "Message\030\002 \001(\0132\032.signalservice.SyncMessag",
+      "e\"\247\001\n\013DataMessage\022\014\n\004body\030\001 \001(\t\0225\n\013attac" +
+      "hments\030\002 \003(\0132 .signalservice.AttachmentP" +
+      "ointer\022*\n\005group\030\003 \001(\0132\033.signalservice.Gr" +
+      "oupContext\022\r\n\005flags\030\004 \001(\r\"\030\n\005Flags\022\017\n\013EN" +
+      "D_SESSION\020\001\"\371\004\n\013SyncMessage\022-\n\004sent\030\001 \001(" +
+      "\0132\037.signalservice.SyncMessage.Sent\0225\n\010co" +
+      "ntacts\030\002 \001(\0132#.signalservice.SyncMessage" +
+      ".Contacts\0221\n\006groups\030\003 \001(\0132!.signalservic" +
+      "e.SyncMessage.Groups\0223\n\007request\030\004 \001(\0132\"." +
+      "signalservice.SyncMessage.Request\022-\n\004rea",
+      "d\030\005 \003(\0132\037.signalservice.SyncMessage.Read" +
+      "\032[\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttimesta" +
+      "mp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signalservic" +
+      "e.DataMessage\032:\n\010Contacts\022.\n\004blob\030\001 \001(\0132" +
+      " .signalservice.AttachmentPointer\0328\n\006Gro" +
+      "ups\022.\n\004blob\030\001 \001(\0132 .signalservice.Attach" +
+      "mentPointer\032o\n\007Request\0225\n\004type\030\001 \001(\0162\'.s" +
+      "ignalservice.SyncMessage.Request.Type\"-\n" +
+      "\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROU" +
+      "PS\020\002\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestam",
+      "p\030\002 \001(\004\"b\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006" +
+      "\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004si" +
+      "ze\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\"\323\001\n\014GroupCon" +
+      "text\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signals" +
+      "ervice.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017" +
+      "\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signal" +
+      "service.AttachmentPointer\"6\n\004Type\022\013\n\007UNK" +
+      "NOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020" +
+      "\003\"\223\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004" +
+      "name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservi",
+      "ce.ContactDetails.Avatar\032-\n\006Avatar\022\023\n\013co" +
+      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014Grou" +
+      "pDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007me" +
+      "mbers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalserv" +
+      "ice.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:" +
+      "\004true\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006" +
+      "length\030\002 \001(\rBE\n.org.whispersystems.signa" +
+      "lservice.internal.pushB\023SignalServicePro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_textsecure_Envelope_descriptor =
+          internal_static_signalservice_Envelope_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_Envelope_fieldAccessorTable = new
+          internal_static_signalservice_Envelope_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_Envelope_descriptor,
+              internal_static_signalservice_Envelope_descriptor,
               new java.lang.String[] { "Type", "Source", "SourceDevice", "Relay", "Timestamp", "LegacyMessage", "Content", });
-          internal_static_textsecure_Content_descriptor =
+          internal_static_signalservice_Content_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_Content_fieldAccessorTable = new
+          internal_static_signalservice_Content_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_Content_descriptor,
+              internal_static_signalservice_Content_descriptor,
               new java.lang.String[] { "DataMessage", "SyncMessage", });
-          internal_static_textsecure_DataMessage_descriptor =
+          internal_static_signalservice_DataMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_textsecure_DataMessage_fieldAccessorTable = new
+          internal_static_signalservice_DataMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_DataMessage_descriptor,
+              internal_static_signalservice_DataMessage_descriptor,
               new java.lang.String[] { "Body", "Attachments", "Group", "Flags", });
-          internal_static_textsecure_SyncMessage_descriptor =
+          internal_static_signalservice_SyncMessage_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_textsecure_SyncMessage_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_descriptor,
+              internal_static_signalservice_SyncMessage_descriptor,
               new java.lang.String[] { "Sent", "Contacts", "Groups", "Request", "Read", });
-          internal_static_textsecure_SyncMessage_Sent_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_SyncMessage_Sent_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_Sent_descriptor =
+            internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(0);
+          internal_static_signalservice_SyncMessage_Sent_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Sent_descriptor,
+              internal_static_signalservice_SyncMessage_Sent_descriptor,
               new java.lang.String[] { "Destination", "Timestamp", "Message", });
-          internal_static_textsecure_SyncMessage_Contacts_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(1);
-          internal_static_textsecure_SyncMessage_Contacts_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_Contacts_descriptor =
+            internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(1);
+          internal_static_signalservice_SyncMessage_Contacts_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Contacts_descriptor,
+              internal_static_signalservice_SyncMessage_Contacts_descriptor,
               new java.lang.String[] { "Blob", });
-          internal_static_textsecure_SyncMessage_Groups_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(2);
-          internal_static_textsecure_SyncMessage_Groups_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_Groups_descriptor =
+            internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(2);
+          internal_static_signalservice_SyncMessage_Groups_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Groups_descriptor,
+              internal_static_signalservice_SyncMessage_Groups_descriptor,
               new java.lang.String[] { "Blob", });
-          internal_static_textsecure_SyncMessage_Request_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(3);
-          internal_static_textsecure_SyncMessage_Request_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_Request_descriptor =
+            internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(3);
+          internal_static_signalservice_SyncMessage_Request_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Request_descriptor,
+              internal_static_signalservice_SyncMessage_Request_descriptor,
               new java.lang.String[] { "Type", });
-          internal_static_textsecure_SyncMessage_Read_descriptor =
-            internal_static_textsecure_SyncMessage_descriptor.getNestedTypes().get(4);
-          internal_static_textsecure_SyncMessage_Read_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_Read_descriptor =
+            internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(4);
+          internal_static_signalservice_SyncMessage_Read_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SyncMessage_Read_descriptor,
+              internal_static_signalservice_SyncMessage_Read_descriptor,
               new java.lang.String[] { "Sender", "Timestamp", });
-          internal_static_textsecure_AttachmentPointer_descriptor =
+          internal_static_signalservice_AttachmentPointer_descriptor =
             getDescriptor().getMessageTypes().get(4);
-          internal_static_textsecure_AttachmentPointer_fieldAccessorTable = new
+          internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_AttachmentPointer_descriptor,
+              internal_static_signalservice_AttachmentPointer_descriptor,
               new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", });
-          internal_static_textsecure_GroupContext_descriptor =
+          internal_static_signalservice_GroupContext_descriptor =
             getDescriptor().getMessageTypes().get(5);
-          internal_static_textsecure_GroupContext_fieldAccessorTable = new
+          internal_static_signalservice_GroupContext_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupContext_descriptor,
+              internal_static_signalservice_GroupContext_descriptor,
               new java.lang.String[] { "Id", "Type", "Name", "Members", "Avatar", });
-          internal_static_textsecure_ContactDetails_descriptor =
+          internal_static_signalservice_ContactDetails_descriptor =
             getDescriptor().getMessageTypes().get(6);
-          internal_static_textsecure_ContactDetails_fieldAccessorTable = new
+          internal_static_signalservice_ContactDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ContactDetails_descriptor,
+              internal_static_signalservice_ContactDetails_descriptor,
               new java.lang.String[] { "Number", "Name", "Avatar", });
-          internal_static_textsecure_ContactDetails_Avatar_descriptor =
-            internal_static_textsecure_ContactDetails_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_ContactDetails_Avatar_fieldAccessorTable = new
+          internal_static_signalservice_ContactDetails_Avatar_descriptor =
+            internal_static_signalservice_ContactDetails_descriptor.getNestedTypes().get(0);
+          internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_ContactDetails_Avatar_descriptor,
+              internal_static_signalservice_ContactDetails_Avatar_descriptor,
               new java.lang.String[] { "ContentType", "Length", });
-          internal_static_textsecure_GroupDetails_descriptor =
+          internal_static_signalservice_GroupDetails_descriptor =
             getDescriptor().getMessageTypes().get(7);
-          internal_static_textsecure_GroupDetails_fieldAccessorTable = new
+          internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupDetails_descriptor,
+              internal_static_signalservice_GroupDetails_descriptor,
               new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", });
-          internal_static_textsecure_GroupDetails_Avatar_descriptor =
-            internal_static_textsecure_GroupDetails_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_GroupDetails_Avatar_fieldAccessorTable = new
+          internal_static_signalservice_GroupDetails_Avatar_descriptor =
+            internal_static_signalservice_GroupDetails_descriptor.getNestedTypes().get(0);
+          internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_GroupDetails_Avatar_descriptor,
+              internal_static_signalservice_GroupDetails_Avatar_descriptor,
               new java.lang.String[] { "ContentType", "Length", });
           return null;
         }

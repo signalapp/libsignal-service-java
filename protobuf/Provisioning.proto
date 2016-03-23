@@ -1,6 +1,6 @@
-package textsecure;
+package signalservice;
 
-option java_package = "org.whispersystems.textsecure.internal.push";
+option java_package = "org.whispersystems.signalservice.internal.push";
 option java_outer_classname = "ProvisioningProtos";
 
 message ProvisionEnvelope {

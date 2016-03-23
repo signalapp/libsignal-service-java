@@ -1,11 +1,11 @@
-# libtextsecure-java
+# signal-service-java
 
-A Java library for communicating via TextSecure.
+A Java library for communicating via Signal.
 
-## Implementing the Axolotl interfaces
+## Implementing the Signal Protocol interfaces
 
-The axolotl encryption protocol is a stateful protocol, so libtextsecure users
-need to implement the storage interface `AxolotlStore`, which handles load/store
+The Signal encryption protocol is a stateful protocol, so libsignal-service users
+need to implement the storage interface `SignalProtocolStore`, which handles load/store
 of your key and session information to durable media.
 
 ## Creating keys
@@ -13,24 +13,23 @@ of your key and session information to durable media.
 `````
 IdentityKeyPair    identityKey        = KeyHelper.generateIdentityKeyPair();
 List<PreKeyRecord> oneTimePreKeys     = KeyHelper.generatePreKeys(100);
-PreKeyRecord       lastResortKey      = KeyHelper.generateLastResortKey();
 SignedPreKeyRecord signedPreKeyRecord = KeyHelper.generateSignedPreKey(identityKey, signedPreKeyId);
 `````
 
-The above are then stored locally so that they're available for load via the `AxolotlStore`.
+The above are then stored locally so that they're available for load via the `SignalProtocolStore`.
 
 ## Registering
 
-At install time, clients need to register with the TextSecure server.
+At install time, clients need to register with the Signal server.
 
 `````
-private final String     URL         = "https://my.textsecure.server.com";
+private final String     URL         = "https://my.signal.server.com";
 private final TrustStore TRUST_STORE = new MyTrustStoreImpl();
 private final String     USERNAME    = "+14151231234";
 private final String     PASSWORD    = generateRandomPassword();
 
-TextSecureAccountManager accountManager = new TextSecureAccountManager(URL, TRUST_STORE,
-                                                                       USERNAME, PASSWORD);
+SignalServiceAccountManager accountManager = new SignalServiceAccountManager(URL, TRUST_STORE,
+                                                                             USERNAME, PASSWORD);
 
 accountManager.requestSmsVerificationCode();
 accountManager.verifyAccount(receivedSmsVerificationCode, generateRandomSignalingKey(),
@@ -42,52 +41,52 @@ accountManager.setPreKeys(identityKey.getPublic(), lastResortKey, signedPreKey, 
 ## Sending text messages
 
 `````
-TextSecureMessageSender messageSender = new TextSecureMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                    localRecipientId, new MyAxolotlStore(),
-                                                                    Optional.absent());
+SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
+                                                                          localRecipientId, new MySignalProtocolStore(),
+                                                                          Optional.absent());
 
-messageSender.sendMessage(new TextSecureAddress("+14159998888"),
-                          TextSecureMessage.newBuilder()
-                                           .withBody("Hello, world!")
-                                           .build());
+messageSender.sendMessage(new SignalProtocolAddress("+14159998888"),
+                          SignalProtocolMessage.newBuilder()
+                                               .withBody("Hello, world!")
+                                               .build());
 `````
 
 ## Sending media messages
 
 `````
-TextSecureMessageSender messageSender = new TextSecureMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                    localRecipientId, new MyAxolotlStore(),
-                                                                    Optional.absent());
+SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
+                                                                          localRecipientId, new MySignalProtocolStore(),
+                                                                          Optional.absent());
 
 File                 myAttachment     = new File("/path/to/my.attachment");
 FileInputStream      attachmentStream = new FileInputStream(myAttachment);
-TextSecureAttachment attachment       = TextSecureAttachment.newStreamBuilder()
-                                                            .withStream(attachmentStream)
-                                                            .withContentType("image/png")
-                                                            .withLength(myAttachment.size())
-                                                            .build();
+TextSecureAttachment attachment       = SignalServiceAttachment.newStreamBuilder()
+                                                               .withStream(attachmentStream)
+                                                               .withContentType("image/png")
+                                                               .withLength(myAttachment.size())
+                                                               .build();
 
-messageSender.sendMessage(new TextSecureAddress("+14159998888"),
-                          TextSecureMessage.newBuilder()
-                                           .withBody("An attachment!")
-                                           .withAttachment(attachment)
-                                           .build());
+messageSender.sendMessage(new SignalProtocolAddress("+14159998888"),
+                          SignalProtocolMessage.newBuilder()
+                                               .withBody("An attachment!")
+                                               .withAttachment(attachment)
+                                               .build());
 
 `````
 
 ## Receiving messages
 
 `````
-TextSecureMessageReceiver messageReceiver = new TextSecureMessageReceiver(URL, TRUST_STORE, USERNAME, PASSWORD, mySignalingKey);
-TextSecureMessagePipe     messagePipe;
+SignalServiceMessageReceiver messageReceiver = new SignalServiceMessageReceiver(URL, TRUST_STORE, USERNAME, PASSWORD, mySignalingKey);
+SignalServiceMessagePipe     messagePipe;
 
 try {
   messagePipe = messageReciever.createMessagePipe();
 
   while (listeningForMessages) {
-    TextSecureEnvelope envelope = messagePipe.read(timeout, timeoutTimeUnit);
-    TextSecureCipher   cipher   = new TextSecureCipher(new MyAxolotlStore());
-    TextSecureMessage message   = cipher.decrypt(envelope);
+    SignalServiceEnvelope envelope = messagePipe.read(timeout, timeoutTimeUnit);
+    SignalServiceCipher   cipher   = new SignalServiceCipher(new MySignalProtocolStore());
+    SignalServiceMessage  message  = cipher.decrypt(envelope);
 
     System.out.println("Received message: " + message.getBody().get());
   }
@@ -111,7 +110,7 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2013-2015 Open Whisper Systems
+Copyright 2013-2016 Open Whisper Systems
 
 Licensed under the AGPLv3: https://www.gnu.org/licenses/agpl-3.0.html
 
