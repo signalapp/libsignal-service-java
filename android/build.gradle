@@ -22,9 +22,9 @@ repositories {
 }
 
 dependencies {
-    compile "org.whispersystems:signal-android:${signal_version}"
+    compile "org.whispersystems:signal-protocol-android:${signal_version}"
     compile (project(':java')) {
-        exclude group: 'org.whispersystems', module: 'signal-java'
+        exclude group: 'org.whispersystems', module: 'signal-protocol-java'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
 }
