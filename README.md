@@ -10,9 +10,10 @@ of your key and session information to durable media.
 
 ## Creating keys
 
-`````
+`````java
 IdentityKeyPair    identityKey        = KeyHelper.generateIdentityKeyPair();
-List<PreKeyRecord> oneTimePreKeys     = KeyHelper.generatePreKeys(100);
+List<PreKeyRecord> oneTimePreKeys     = KeyHelper.generatePreKeys(0, 100);
+PreKeyRecord       lastResortKey      = KeyHelper.generateLastResortPreKey();
 SignedPreKeyRecord signedPreKeyRecord = KeyHelper.generateSignedPreKey(identityKey, signedPreKeyId);
 `````
 
@@ -22,78 +23,82 @@ The above are then stored locally so that they're available for load via the `Si
 
 At install time, clients need to register with the Signal server.
 
-`````
+`````java
 private final String     URL         = "https://my.signal.server.com";
 private final TrustStore TRUST_STORE = new MyTrustStoreImpl();
 private final String     USERNAME    = "+14151231234";
 private final String     PASSWORD    = generateRandomPassword();
+private final String     USER_AGENT  = "[FILL_IN]";
 
 SignalServiceAccountManager accountManager = new SignalServiceAccountManager(URL, TRUST_STORE,
-                                                                             USERNAME, PASSWORD);
+                                                                             USERNAME, PASSWORD, USER_AGENT);
 
 accountManager.requestSmsVerificationCode();
-accountManager.verifyAccount(receivedSmsVerificationCode, generateRandomSignalingKey(),
-                             false, generateRandomInstallId());
+accountManager.verifyAccountWithCode(receivedSmsVerificationCode, generateRandomSignalingKey(),
+                                     generateRandomInstallId(), false);
 accountManager.setGcmId(Optional.of(GoogleCloudMessaging.getInstance(this).register(REGISTRATION_ID)));
-accountManager.setPreKeys(identityKey.getPublic(), lastResortKey, signedPreKey, oneTimePreKeys);
+accountManager.setPreKeys(identityKey.getPublicKey(), lastResortKey, signedPreKeyRecord, oneTimePreKeys);
 `````
 
 ## Sending text messages
 
-`````
+`````java
 SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                          localRecipientId, new MySignalProtocolStore(),
-                                                                          Optional.absent());
+                                                                          new MySignalProtocolStore(),
+                                                                          USER_AGENT, Optional.absent());
 
-messageSender.sendMessage(new SignalProtocolAddress("+14159998888"),
-                          SignalProtocolMessage.newBuilder()
-                                               .withBody("Hello, world!")
-                                               .build());
+messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
+                          SignalServiceDataMessage.newBuilder()
+                                                  .withBody("Hello, world!")
+                                                  .build());
 `````
 
 ## Sending media messages
 
-`````
+`````java
 SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                          localRecipientId, new MySignalProtocolStore(),
-                                                                          Optional.absent());
+                                                                          new MySignalProtocolStore(),
+                                                                          USER_AGENT, Optional.absent());
 
-File                 myAttachment     = new File("/path/to/my.attachment");
-FileInputStream      attachmentStream = new FileInputStream(myAttachment);
-TextSecureAttachment attachment       = SignalServiceAttachment.newStreamBuilder()
-                                                               .withStream(attachmentStream)
-                                                               .withContentType("image/png")
-                                                               .withLength(myAttachment.size())
-                                                               .build();
+File                    myAttachment     = new File("/path/to/my.attachment");
+FileInputStream         attachmentStream = new FileInputStream(myAttachment);
+SignalServiceAttachment attachment       = SignalServiceAttachment.newStreamBuilder()
+                                                                  .withStream(attachmentStream)
+                                                                  .withContentType("image/png")
+                                                                  .withLength(myAttachment.length())
+                                                                  .build();
 
-messageSender.sendMessage(new SignalProtocolAddress("+14159998888"),
-                          SignalProtocolMessage.newBuilder()
-                                               .withBody("An attachment!")
-                                               .withAttachment(attachment)
-                                               .build());
+messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
+                          SignalServiceDataMessage.newBuilder()
+                                                  .withBody("An attachment!")
+                                                  .withAttachment(attachment)
+                                                  .build());
 
 `````
 
 ## Receiving messages
 
-`````
-SignalServiceMessageReceiver messageReceiver = new SignalServiceMessageReceiver(URL, TRUST_STORE, USERNAME, PASSWORD, mySignalingKey);
-SignalServiceMessagePipe     messagePipe;
+`````java
+SignalServiceMessageReceiver messageReceiver = new SignalServiceMessageReceiver(URL, TRUST_STORE, USERNAME,
+                                                                                PASSWORD, mySignalingKey,
+                                                                                USER_AGENT);
+SignalServiceMessagePipe     messagePipe     = null;
 
 try {
-  messagePipe = messageReciever.createMessagePipe();
+  messagePipe = messageReceiver.createMessagePipe();
 
   while (listeningForMessages) {
     SignalServiceEnvelope envelope = messagePipe.read(timeout, timeoutTimeUnit);
-    SignalServiceCipher   cipher   = new SignalServiceCipher(new MySignalProtocolStore());
-    SignalServiceMessage  message  = cipher.decrypt(envelope);
+    SignalServiceCipher   cipher   = new SignalServiceCipher(new SignalServiceAddress(USERNAME),
+                                                             new MySignalProtocolStore());
+    SignalServiceContent  message  = cipher.decrypt(envelope);
 
-    System.out.println("Received message: " + message.getBody().get());
+    System.out.println("Received message: " + message.getDataMessage().get().getBody().get());
   }
 
 } finally {
   if (messagePipe != null)
-    messagePipe.close();
+    messagePipe.shutdown();
 }
 `````
 
