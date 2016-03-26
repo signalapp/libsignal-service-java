@@ -10,7 +10,7 @@ of your key and session information to durable media.
 
 ## Creating keys
 
-`````
+`````java
 IdentityKeyPair    identityKey        = KeyHelper.generateIdentityKeyPair();
 List<PreKeyRecord> oneTimePreKeys     = KeyHelper.generatePreKeys(0, 100);
 PreKeyRecord       lastResortKey      = KeyHelper.generateLastResortPreKey();
@@ -23,7 +23,7 @@ The above are then stored locally so that they're available for load via the `Si
 
 At install time, clients need to register with the Signal server.
 
-`````
+`````java
 private final String     URL         = "https://my.signal.server.com";
 private final TrustStore TRUST_STORE = new MyTrustStoreImpl();
 private final String     USERNAME    = "+14151231234";
@@ -42,7 +42,7 @@ accountManager.setPreKeys(identityKey.getPublicKey(), lastResortKey, signedPreKe
 
 ## Sending text messages
 
-`````
+`````java
 SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
                                                                           new MySignalProtocolStore(),
                                                                           USER_AGENT, Optional.absent());
@@ -55,7 +55,7 @@ messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
 
 ## Sending media messages
 
-`````
+`````java
 SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
                                                                           new MySignalProtocolStore(),
                                                                           USER_AGENT, Optional.absent());
@@ -78,7 +78,7 @@ messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
 
 ## Receiving messages
 
-`````
+`````java
 SignalServiceMessageReceiver messageReceiver = new SignalServiceMessageReceiver(URL, TRUST_STORE, USERNAME,
                                                                                 PASSWORD, mySignalingKey,
                                                                                 USER_AGENT);
