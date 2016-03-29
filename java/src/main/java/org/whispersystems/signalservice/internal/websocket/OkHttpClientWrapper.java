@@ -1,17 +1,5 @@
 package org.whispersystems.signalservice.internal.websocket;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.internal.ws.WebSocket;
-import com.squareup.okhttp.internal.ws.WebSocketListener;
-
-import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.signalservice.api.push.TrustStore;
-import org.whispersystems.signalservice.api.util.CredentialsProvider;
-import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
-import org.whispersystems.signalservice.internal.util.Util;
-
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -19,6 +7,18 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+
+import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.signalservice.api.push.TrustStore;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
+import org.whispersystems.signalservice.internal.util.Util;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.internal.ws.WebSocket;
+import com.squareup.okhttp.internal.ws.WebSocketListener;
 
 import okio.Buffer;
 import okio.BufferedSource;
@@ -123,7 +123,12 @@ public class OkHttpClientWrapper implements WebSocketListener {
   private synchronized WebSocket newSocket(int timeout, TimeUnit unit) {
     if (closed) return null;
 
-    String       filledUri    = String.format(uri, credentialsProvider.getUser(), credentialsProvider.getPassword());
+    String filledUri;
+    if(credentialsProvider != null) {
+      filledUri = String.format(uri, credentialsProvider.getUser(), credentialsProvider.getPassword());
+    } else {
+      filledUri = uri;
+    }
     OkHttpClient okHttpClient = new OkHttpClient();
 
     okHttpClient.setSslSocketFactory(createTlsSocketFactory(trustStore));

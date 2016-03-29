@@ -17,11 +17,21 @@
 package org.whispersystems.signalservice.api;
 
 
-import com.google.protobuf.ByteString;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
 import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.ecc.Curve;
+import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
@@ -31,21 +41,14 @@ import org.whispersystems.signalservice.api.push.ContactTokenDetails;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.internal.crypto.ProvisioningCipher;
+import org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage;
+import org.whispersystems.signalservice.internal.push.ProvisioningSocket;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.util.Base64;
-import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
+import org.whispersystems.signalservice.internal.util.DynamicCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage;
+import com.google.protobuf.ByteString;
 
 /**
  * The main interface for creating, registering, and
@@ -55,10 +58,29 @@ import static org.whispersystems.signalservice.internal.push.ProvisioningProtos.
  */
 public class SignalServiceAccountManager {
 
-  private final PushServiceSocket pushServiceSocket;
-  private final String            user;
-  private final String            userAgent;
+  private final DynamicCredentialsProvider credentialsProvider;
+  private final PushServiceSocket          pushServiceSocket;
+  private final ProvisioningSocket         provisioningSocket;
 
+  /**
+   * Construct a SignalServiceAccountManager.
+   *
+   * @param url The URL for the Signal Service.
+   * @param trustStore The {@link org.whispersystems.signalservice.api.push.TrustStore} for the SignalService server's TLS certificate.
+   * @param user A Signal Service phone number.
+   * @param password A Signal Service password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param userAgent A string which identifies the client software.
+   */
+  public SignalServiceAccountManager(String url, TrustStore trustStore,
+                                     String user, String password, int deviceId,
+                                     String userAgent)
+  {
+    this.credentialsProvider = new DynamicCredentialsProvider(user, password, null, deviceId);
+    this.provisioningSocket  = new ProvisioningSocket(url, trustStore, userAgent);
+    this.pushServiceSocket   = new PushServiceSocket(url, trustStore, credentialsProvider, userAgent);
+  }
+  
   /**
    * Construct a SignalServiceAccountManager.
    *
@@ -72,9 +94,7 @@ public class SignalServiceAccountManager {
                                      String user, String password,
                                      String userAgent)
   {
-    this.pushServiceSocket = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
-    this.user              = user;
-    this.userAgent         = userAgent;
+    this(url, trustStore, user, password, -1, userAgent);
   }
 
   /**
@@ -258,9 +278,52 @@ public class SignalServiceAccountManager {
   public String getAccountVerificationToken() throws IOException {
     return this.pushServiceSocket.getAccountVerificationToken();
   }
+  
+  /**
+   * Request a UUID from the server for linking as a new device.
+   * Called by the new device.
+   * @return The UUID, Base64 encoded
+   * @throws TimeoutException
+   * @throws IOException
+   */
+  public String getNewDeviceUuid() throws TimeoutException, IOException {
+    return provisioningSocket.getProvisioningUuid().getUuid();
+  }
 
+  /**
+   * Request a Code for verification of a new device.
+   * Called by an already verified device.
+   * @return An verification code. String of 6 digits
+   * @throws IOException
+   */
   public String getNewDeviceVerificationCode() throws IOException {
     return this.pushServiceSocket.getNewDeviceVerificationCode();
+  }
+  
+  /**
+   * Finishes a registration as a new device. Called by the new device.<br>
+   * This method blocks until the already verified device has verified this device.
+   * @param tempIdentity A temporary identity. Must be the same as the one given to the already verified device.
+   * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key, concatenated.
+   * @param supportsSms A boolean which indicates whether this device can receive SMS to the account's number.
+   * @param fetchesMessages A boolean which indicates whether this device fetches messages.
+   * @param registrationId A random integer generated at install time.
+   * @param deviceName A name for this device, not its user agent.
+   * @return Contains the account's permanent IdentityKeyPair and it's number along the deviceId given by the server.
+   * @throws TimeoutException
+   * @throws IOException
+   * @throws InvalidKeyException
+   */
+  public NewDeviceRegistrationReturn finishNewDeviceRegistration(IdentityKeyPair tempIdentity, String signalingKey, boolean supportsSms, boolean fetchesMessages, int registrationId, String deviceName) throws TimeoutException, IOException, InvalidKeyException {
+    ProvisionMessage msg = provisioningSocket.getProvisioningMessage(tempIdentity);
+    credentialsProvider.setUser(msg.getNumber());
+    String provisioningCode = msg.getProvisioningCode();
+    ECPublicKey publicKey = Curve.decodePoint(msg.getIdentityKeyPublic().toByteArray(), 0);
+    ECPrivateKey privateKey = Curve.decodePrivatePoint(msg.getIdentityKeyPrivate().toByteArray());
+    IdentityKeyPair identity = new IdentityKeyPair(new IdentityKey(publicKey), privateKey);
+    int deviceId = this.pushServiceSocket.finishNewDeviceRegistration(provisioningCode, signalingKey, supportsSms, fetchesMessages, registrationId, deviceName);
+    credentialsProvider.setDeviceId(deviceId);
+    return new NewDeviceRegistrationReturn(identity, deviceId, msg.getNumber());
   }
 
   public void addDevice(String deviceIdentifier,
@@ -273,7 +336,7 @@ public class SignalServiceAccountManager {
     ProvisionMessage   message = ProvisionMessage.newBuilder()
                                                  .setIdentityKeyPublic(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
                                                  .setIdentityKeyPrivate(ByteString.copyFrom(identityKeyPair.getPrivateKey().serialize()))
-                                                 .setNumber(user)
+                                                 .setNumber(credentialsProvider.getUser())
                                                  .setProvisioningCode(code)
                                                  .build();
 
@@ -310,6 +373,42 @@ public class SignalServiceAccountManager {
     }
 
     return tokenMap;
+  }
+  
+  /**
+   * Helper class for holding the returns of finishNewDeviceRegistration()
+   */
+  public class NewDeviceRegistrationReturn {
+    private final IdentityKeyPair identity;
+    private final int deviceId;
+    private final String number;
+    
+    NewDeviceRegistrationReturn(IdentityKeyPair identity, int deviceId, String number) {
+      this.identity = identity;
+      this.deviceId = deviceId;
+      this.number = number;
+    }
+
+    /**
+     * @return The account's permanent IdentityKeyPair
+     */
+    public IdentityKeyPair getIdentity() {
+      return identity;
+    }
+
+    /**
+     * @return The deviceId for this device given by the server
+     */
+    public int getDeviceId() {
+      return deviceId;
+    }
+
+    /**
+     * @return The account's number
+     */
+    public String getNumber() {
+      return number;
+    }
   }
 
 }

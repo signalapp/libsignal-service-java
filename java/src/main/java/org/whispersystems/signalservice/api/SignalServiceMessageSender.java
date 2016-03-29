@@ -82,6 +82,30 @@ public class SignalServiceMessageSender {
    * @param trustStore The trust store containing the Signal Service's signing TLS certificate.
    * @param user The Signal Service username (eg phone number).
    * @param password The Signal Service user password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param store The SignalProtocolStore.
+   * @param eventListener An optional event listener, which fires whenever sessions are
+   *                      setup or torn down for a recipient.
+   */
+  public SignalServiceMessageSender(String url, TrustStore trustStore,
+                                    String user, String password, int deviceId,
+                                    SignalProtocolStore store,
+                                    String userAgent,
+                                    Optional<EventListener> eventListener)
+  {
+    this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null, deviceId), userAgent);
+    this.store         = store;
+    this.localAddress  = new SignalServiceAddress(user);
+    this.eventListener = eventListener;
+  }
+  
+  /**
+   * Construct a SignalServiceMessageSender.
+   *
+   * @param url The URL of the Signal Service.
+   * @param trustStore The trust store containing the Signal Service's signing TLS certificate.
+   * @param user The Signal Service username (eg phone number).
+   * @param password The Signal Service user password.
    * @param store The SignalProtocolStore.
    * @param eventListener An optional event listener, which fires whenever sessions are
    *                      setup or torn down for a recipient.
@@ -92,7 +116,7 @@ public class SignalServiceMessageSender {
                                     String userAgent,
                                     Optional<EventListener> eventListener)
   {
-    this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
+    this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null, -1), userAgent);
     this.store         = store;
     this.localAddress  = new SignalServiceAddress(user);
     this.eventListener = eventListener;

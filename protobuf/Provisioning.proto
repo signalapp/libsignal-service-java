@@ -1,7 +1,11 @@
-package signalservice;
+package textsecure;
 
 option java_package = "org.whispersystems.signalservice.internal.push";
 option java_outer_classname = "ProvisioningProtos";
+
+message ProvisioningUuid {
+ optional string uuid = 1;
+}
 
 message ProvisionEnvelope {
   optional bytes publicKey = 1;
