@@ -22,6 +22,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.Pro
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
@@ -80,7 +81,7 @@ public class SignalServiceMessageReceiver {
                                       String user, String password,
                                       String signalingKey, String userAgent)
   {
-    this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey, -1), userAgent);
+    this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey, SignalServiceAddress.DEFAULT_DEVICE_ID), userAgent);
   }
 
   /**

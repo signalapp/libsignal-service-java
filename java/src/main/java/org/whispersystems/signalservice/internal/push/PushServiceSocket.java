@@ -610,7 +610,7 @@ public class PushServiceSocket {
 
   private String getAuthorizationHeader() {
     try {
-      if(credentialsProvider.getDeviceId() == -1) {
+      if(credentialsProvider.getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID) {
         return "Basic " + Base64.encodeBytes((credentialsProvider.getUser() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
       } else {
         return "Basic " + Base64.encodeBytes((credentialsProvider.getUser() + "." + credentialsProvider.getDeviceId() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));

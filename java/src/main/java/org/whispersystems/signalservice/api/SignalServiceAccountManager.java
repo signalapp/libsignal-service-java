@@ -38,6 +38,7 @@ import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.internal.crypto.ProvisioningCipher;
@@ -94,7 +95,7 @@ public class SignalServiceAccountManager {
                                      String user, String password,
                                      String userAgent)
   {
-    this(url, trustStore, user, password, -1, userAgent);
+    this(url, trustStore, user, password, SignalServiceAddress.DEFAULT_DEVICE_ID, userAgent);
   }
 
   /**
