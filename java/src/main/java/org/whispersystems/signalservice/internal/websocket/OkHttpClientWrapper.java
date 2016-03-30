@@ -9,6 +9,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 
 import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
@@ -125,7 +126,11 @@ public class OkHttpClientWrapper implements WebSocketListener {
 
     String filledUri;
     if(credentialsProvider != null) {
-      filledUri = String.format(uri, credentialsProvider.getUser(), credentialsProvider.getPassword());
+      if(credentialsProvider.getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID) {
+        filledUri = String.format(uri, credentialsProvider.getUser(), credentialsProvider.getPassword());
+      } else {
+        filledUri = String.format(uri, credentialsProvider.getUser() + "." + credentialsProvider.getDeviceId(), credentialsProvider.getPassword());
+      }
     } else {
       filledUri = uri;
     }
