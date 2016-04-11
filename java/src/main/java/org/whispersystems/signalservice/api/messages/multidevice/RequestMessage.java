@@ -17,4 +17,8 @@ public class RequestMessage {
   public boolean isGroupsRequest() {
     return request.getType() == Request.Type.GROUPS;
   }
+  
+  public Request getRequest() {
+    return request;
+  }
 }

@@ -197,6 +197,12 @@ public class SignalServiceCipher {
 
       return SignalServiceSyncMessage.forRead(readMessages);
     }
+    
+    if(content.hasContacts()) {
+      AttachmentPointer pointer = content.getContacts().getBlob();
+      return SignalServiceSyncMessage.forContacts(new SignalServiceAttachmentPointer(pointer.getId(), 
+          pointer.getContentType(), pointer.getKey().toByteArray(), envelope.getRelay()));
+    }
 
     return SignalServiceSyncMessage.empty();
   }
