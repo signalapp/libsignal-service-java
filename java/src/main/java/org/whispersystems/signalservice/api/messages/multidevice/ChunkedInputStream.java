@@ -13,7 +13,11 @@ public class ChunkedInputStream {
   }
 
   protected int readRawVarint32() throws IOException {
-    byte tmp = (byte)in.read();
+    int tmpInt = in.read();
+    if (tmpInt == -1) {
+      return -1;
+    }
+    byte tmp = (byte)tmpInt;
     if (tmp >= 0) {
       return tmp;
     }

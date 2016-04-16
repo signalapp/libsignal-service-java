@@ -16,8 +16,11 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
   }
 
   public DeviceGroup read() throws IOException {
-    long   detailsLength     = readRawVarint32();
-    byte[] detailsSerialized = new byte[(int)detailsLength];
+    int detailsLength = readRawVarint32();
+    if (detailsLength == -1) {
+      return null;
+    }
+    byte[] detailsSerialized = new byte[detailsLength];
     Util.readFully(in, detailsSerialized);
 
     SignalServiceProtos.GroupDetails details = SignalServiceProtos.GroupDetails.parseFrom(detailsSerialized);
