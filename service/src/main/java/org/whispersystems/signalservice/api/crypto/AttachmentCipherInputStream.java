@@ -137,8 +137,28 @@ public class AttachmentCipherInputStream extends FilterInputStream {
 
   @Override
   public int read(byte[] buffer, int offset, int length) throws IOException {
-    if      (totalRead != totalDataSize) return readIncremental(buffer, offset, length);
-    else if (!done)                      return readFinal(buffer, offset, length);
+    int readLength = 0;
+    if (null != overflowBuffer) {
+      if (overflowBuffer.length > length) {
+        System.arraycopy(overflowBuffer, 0, buffer, offset, length);
+        overflowBuffer = Arrays.copyOfRange(overflowBuffer, length, overflowBuffer.length);
+        return length;
+      } else if (overflowBuffer.length == length) {
+        System.arraycopy(overflowBuffer, 0, buffer, offset, length);
+        overflowBuffer = null;
+        return length;
+      } else {
+        System.arraycopy(overflowBuffer, 0, buffer, offset, overflowBuffer.length);
+        readLength += overflowBuffer.length;
+        offset += readLength;
+        length -= readLength;
+        overflowBuffer = null;
+      }
+    }
+
+    if      (totalRead != totalDataSize) return readLength + readIncremental(buffer, offset, length);
+    else if (!done)                      return readLength + readFinal(buffer, offset, length);
+    else if (readLength > 0)             return readLength;
     else                                 return -1;
   }
 
@@ -162,35 +182,30 @@ public class AttachmentCipherInputStream extends FilterInputStream {
 
   private int readFinal(byte[] buffer, int offset, int length) throws IOException {
     try {
-      int flourish = cipher.doFinal(buffer, offset);
+      int outputLen = cipher.getOutputSize(0);
 
+      if (outputLen <= length) {
+        done = true;
+        return cipher.doFinal(buffer, offset);
+      }
+
+      byte[] transientBuffer = new byte[outputLen];
+      outputLen = cipher.doFinal(transientBuffer, 0);
       done = true;
-      return flourish;
+      if (outputLen <= length) {
+        System.arraycopy(transientBuffer, 0, buffer, offset, outputLen);
+        return outputLen;
+      } else {
+        System.arraycopy(transientBuffer, 0, buffer, offset, length);
+        overflowBuffer = Arrays.copyOfRange(transientBuffer, length, outputLen);
+        return length;
+      }
     } catch (IllegalBlockSizeException | BadPaddingException | ShortBufferException e) {
       throw new IOException(e);
     }
   }
 
   private int readIncremental(byte[] buffer, int offset, int length) throws IOException {
-    int readLength = 0;
-    if (null != overflowBuffer) {
-      if (overflowBuffer.length > length) {
-        System.arraycopy(overflowBuffer, 0, buffer, offset, length);
-        overflowBuffer = Arrays.copyOfRange(overflowBuffer, length, overflowBuffer.length);
-        return length;
-      } else if (overflowBuffer.length == length) {
-        System.arraycopy(overflowBuffer, 0, buffer, offset, length);
-        overflowBuffer = null;
-        return length;
-      } else {
-        System.arraycopy(overflowBuffer, 0, buffer, offset, overflowBuffer.length);
-        readLength += overflowBuffer.length;
-        offset += readLength;
-        length -= readLength;
-        overflowBuffer = null;
-      }
-    }
-
     if (length + totalRead > totalDataSize)
       length = (int)(totalDataSize - totalRead);
 
@@ -202,21 +217,19 @@ public class AttachmentCipherInputStream extends FilterInputStream {
       int outputLen = cipher.getOutputSize(read);
 
       if (outputLen <= length) {
-        readLength += cipher.update(internalBuffer, 0, read, buffer, offset);
-        return readLength;
+        return cipher.update(internalBuffer, 0, read, buffer, offset);
       }
 
       byte[] transientBuffer = new byte[outputLen];
       outputLen = cipher.update(internalBuffer, 0, read, transientBuffer, 0);
       if (outputLen <= length) {
         System.arraycopy(transientBuffer, 0, buffer, offset, outputLen);
-        readLength += outputLen;
+        return outputLen;
       } else {
         System.arraycopy(transientBuffer, 0, buffer, offset, length);
         overflowBuffer = Arrays.copyOfRange(transientBuffer, length, outputLen);
-        readLength += length;
+        return length;
       }
-      return readLength;
     } catch (ShortBufferException e) {
       throw new AssertionError(e);
     }
