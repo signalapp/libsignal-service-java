@@ -130,6 +130,21 @@ public class AttachmentCipherInputStream extends FilterInputStream {
     }
   }
 
+  private static int toUnsignedInt(byte b) {
+    return ((int)b) & 0xFF;
+  }
+
+  @Override
+  public int read() throws IOException {
+    byte[] buffer = new byte[1];
+
+    int read;
+    while ((read = read(buffer)) == 0) { }
+
+    if (read == -1) return -1;
+    else            return toUnsignedInt(buffer[0]);
+  }
+
   @Override
   public int read(byte[] buffer) throws IOException {
     return read(buffer, 0, buffer.length);
