@@ -203,6 +203,12 @@ public class SignalServiceCipher {
       return SignalServiceSyncMessage.forContacts(new SignalServiceAttachmentPointer(pointer.getId(), 
           pointer.getContentType(), pointer.getKey().toByteArray(), envelope.getRelay()));
     }
+    
+    if(content.hasGroups()) {
+      AttachmentPointer pointer = content.getGroups().getBlob();
+      return SignalServiceSyncMessage.forGroups(new SignalServiceAttachmentPointer(pointer.getId(),
+          pointer.getContentType(), pointer.getKey().toByteArray(), envelope.getRelay()));
+    }
 
     return SignalServiceSyncMessage.empty();
   }
