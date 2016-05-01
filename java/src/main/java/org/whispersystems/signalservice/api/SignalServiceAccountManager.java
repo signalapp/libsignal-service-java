@@ -110,9 +110,9 @@ public class SignalServiceAccountManager {
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
    * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
-   *                              This value should remain consistent across registrations for the
-   *                              same install, but probabilistically differ across registrations
-   *                              for separate installs.
+   *                                     This value should remain consistent across registrations for the
+   *                                     same install, but probabilistically differ across registrations
+   *                                     for separate installs.
    * @param voice A boolean that indicates whether the client supports secure voice (RedPhone) calls.
    *
    * @throws IOException
@@ -131,18 +131,18 @@ public class SignalServiceAccountManager {
 
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
-   * @param axolotlRegistrationId A random 14-bit number that identifies this Signal install.
-   *                              This value should remain consistent across registrations for the
-   *                              same install, but probabilistically differ across registrations
-   *                              for separate installs.
+   * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
+   *                                     This value should remain consistent across registrations for the
+   *                                     same install, but probabilistically differ across registrations
+   *                                     for separate installs.
    * @param voice A boolean that indicates whether the client supports secure voice (RedPhone) calls.
    *
    * @throws IOException
    */
-  public void verifyAccountWithToken(String verificationToken, String signalingKey, int axolotlRegistrationId, boolean voice)
+  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, axolotlRegistrationId, voice);
+    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice);
   }
 
   /**
@@ -150,9 +150,9 @@ public class SignalServiceAccountManager {
    *
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key, concatenated.
    * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
-   *                              This value should remain consistent across registrations for the same
-   *                              install, but probabilistically differ across registrations for
-   *                              separate installs.
+   *                                     This value should remain consistent across registrations for the same
+   *                                     install, but probabilistically differ across registrations for
+   *                                     separate installs.
    * @param voice A boolean that indicates whether the client supports secure voice (RedPhone)
    *
    * @throws IOException
