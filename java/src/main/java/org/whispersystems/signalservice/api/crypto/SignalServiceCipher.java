@@ -8,7 +8,6 @@ package org.whispersystems.signalservice.api.crypto;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.DuplicateMessageException;
 import org.whispersystems.libsignal.InvalidKeyException;
 import org.whispersystems.libsignal.InvalidKeyIdException;
@@ -17,6 +16,7 @@ import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.LegacyMessageException;
 import org.whispersystems.libsignal.NoSessionException;
 import org.whispersystems.libsignal.SessionCipher;
+import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.UntrustedIdentityException;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
@@ -149,9 +149,10 @@ public class SignalServiceCipher {
   }
 
   private SignalServiceDataMessage createSignalServiceMessage(SignalServiceEnvelope envelope, DataMessage content) {
-    SignalServiceGroup groupInfo   = createGroupInfo(envelope, content);
-    List<SignalServiceAttachment> attachments = new LinkedList<>();
-    boolean                    endSession  = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE) != 0);
+    SignalServiceGroup            groupInfo        = createGroupInfo(envelope, content);
+    List<SignalServiceAttachment> attachments      = new LinkedList<>();
+    boolean                       endSession       = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE) != 0);
+    boolean                       expirationUpdate = ((content.getFlags() & DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE) != 0);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
       attachments.add(new SignalServiceAttachmentPointer(pointer.getId(),
@@ -163,7 +164,8 @@ public class SignalServiceCipher {
     }
 
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
-                                        content.getBody(), endSession);
+                                        content.getBody(), endSession, content.getExpireTimer(),
+                                        expirationUpdate);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(SignalServiceEnvelope envelope, SyncMessage content) {
@@ -171,7 +173,8 @@ public class SignalServiceCipher {
       SyncMessage.Sent sentContent = content.getSent();
       return SignalServiceSyncMessage.forSentTranscript(new SentTranscriptMessage(sentContent.getDestination(),
                                                                                   sentContent.getTimestamp(),
-                                                                                  createSignalServiceMessage(envelope, sentContent.getMessage())));
+                                                                                  createSignalServiceMessage(envelope, sentContent.getMessage()),
+                                                                                  sentContent.getExpirationStartTimestamp()));
     }
 
     if (content.hasRequest()) {
