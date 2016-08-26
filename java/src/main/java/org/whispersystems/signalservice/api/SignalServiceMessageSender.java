@@ -21,6 +21,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
+import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
@@ -164,6 +165,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceGroupsContent(message.getGroups().get().asStream());
     } else if (message.getRead().isPresent()) {
       content = createMultiDeviceReadContent(message.getRead().get());
+    } else if (message.getBlockedList().isPresent()) {
+      content = createMultiDeviceBlockedContent(message.getBlockedList().get());
     } else {
       throw new IOException("Unsupported sync message!");
     }
@@ -257,6 +260,16 @@ public class SignalServiceMessageSender {
     }
 
     return container.setSyncMessage(builder).build().toByteArray();
+  }
+
+  private byte[] createMultiDeviceBlockedContent(BlockedListMessage blocked) {
+    Content.Builder             container      = Content.newBuilder();
+    SyncMessage.Builder         syncMessage    = SyncMessage.newBuilder();
+    SyncMessage.Blocked.Builder blockedMessage = SyncMessage.Blocked.newBuilder();
+
+    blockedMessage.addAllNumbers(blocked.getNumbers());
+
+    return container.setSyncMessage(syncMessage.setBlocked(blockedMessage)).build().toByteArray();
   }
 
   private GroupContext createGroupContent(SignalServiceGroup group) throws IOException {
