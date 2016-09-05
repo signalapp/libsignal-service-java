@@ -66,6 +66,10 @@ public class PhoneNumberFormatter {
   public static String formatNumber(String number, String localNumber)
       throws InvalidNumberException
   {
+    if (number == null) {
+      throw new InvalidNumberException("Null String passed as number.");
+    }
+
     if (number.contains("@")) {
       throw new InvalidNumberException("Possible attempt to use email address.");
     }
