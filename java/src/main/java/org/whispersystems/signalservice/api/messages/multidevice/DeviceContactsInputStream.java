@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2014-2016 Open Whisper Systems
+ *
+ * Licensed according to the LICENSE file in this repository.
+ */
+
 package org.whispersystems.signalservice.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
@@ -23,6 +29,7 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
     String                                  number  = details.getNumber();
     Optional<String>                        name    = Optional.fromNullable(details.getName());
     Optional<SignalServiceAttachmentStream> avatar  = Optional.absent();
+    Optional<String>                        color   = details.hasColor() ? Optional.of(details.getColor()) : Optional.<String>absent();
 
     if (details.hasAvatar()) {
       long        avatarLength      = details.getAvatar().getLength();
@@ -32,7 +39,7 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
       avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, null));
     }
 
-    return new DeviceContact(number, name, avatar);
+    return new DeviceContact(number, name, avatar, color);
   }
 
 }

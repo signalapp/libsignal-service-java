@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2014-2016 Open Whisper Systems
+ *
+ * Licensed according to the LICENSE file in this repository.
+ */
+
 package org.whispersystems.signalservice.api.messages.multidevice;
 
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
@@ -39,6 +45,10 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
       avatarBuilder.setContentType(contact.getAvatar().get().getContentType());
       avatarBuilder.setLength((int)contact.getAvatar().get().getLength());
       contactDetails.setAvatar(avatarBuilder);
+    }
+
+    if (contact.getColor().isPresent()) {
+      contactDetails.setColor(contact.getColor().get());
     }
 
     byte[] serializedContactDetails = contactDetails.build().toByteArray();

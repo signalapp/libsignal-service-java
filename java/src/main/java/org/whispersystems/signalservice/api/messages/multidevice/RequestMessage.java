@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2014-2016 Open Whisper Systems
+ *
+ * Licensed according to the LICENSE file in this repository.
+ */
+
 package org.whispersystems.signalservice.api.messages.multidevice;
 
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Request;
@@ -20,5 +26,9 @@ public class RequestMessage {
   
   public Request getRequest() {
     return request;
+  }
+
+  public boolean isBlockedListRequest() {
+    return request.getType() == Request.Type.BLOCKED;
   }
 }

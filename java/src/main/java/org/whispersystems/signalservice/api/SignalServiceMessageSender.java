@@ -1,18 +1,7 @@
 /**
- * Copyright (C) 2014 Open Whisper Systems
+ * Copyright (C) 2014-2016 Open Whisper Systems
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Licensed according to the LICENSE file in this repository.
  */
 package org.whispersystems.signalservice.api;
 
@@ -33,6 +22,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
+import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
@@ -206,6 +196,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceReadContent(message.getRead().get());
     } else if (message.getRequest().isPresent()) {
       content = createRequestContent(message.getRequest().get());
+    } else if (message.getBlockedList().isPresent()) {
+      content = createMultiDeviceBlockedContent(message.getBlockedList().get());
     } else {
       throw new IOException("Unsupported sync message!");
     }
@@ -233,6 +225,14 @@ public class SignalServiceMessageSender {
       builder.setFlags(DataMessage.Flags.END_SESSION_VALUE);
     }
 
+    if (message.isExpirationUpdate()) {
+      builder.setFlags(DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE);
+    }
+
+    if (message.getExpiresInSeconds() > 0) {
+      builder.setExpireTimer(message.getExpiresInSeconds());
+    }
+
     return builder.build().toByteArray();
   }
 
@@ -254,17 +254,24 @@ public class SignalServiceMessageSender {
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
-  private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<SignalServiceAddress> recipient, long timestamp) {
+  private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<SignalServiceAddress> recipient, long timestamp)
+  {
     try {
       Content.Builder          container   = Content.newBuilder();
       SyncMessage.Builder      syncMessage = SyncMessage.newBuilder();
       SyncMessage.Sent.Builder sentMessage = SyncMessage.Sent.newBuilder();
+      DataMessage              dataMessage = DataMessage.parseFrom(content);
 
       sentMessage.setTimestamp(timestamp);
-      sentMessage.setMessage(DataMessage.parseFrom(content));
+      sentMessage.setMessage(dataMessage);
+
 
       if (recipient.isPresent()) {
         sentMessage.setDestination(recipient.get().getNumber());
+      }
+
+      if (dataMessage.getExpireTimer() > 0) {
+        sentMessage.setExpirationStartTimestamp(System.currentTimeMillis());
       }
 
       return container.setSyncMessage(syncMessage.setSent(sentMessage)).build().toByteArray();
@@ -293,6 +300,16 @@ public class SignalServiceMessageSender {
     builder.setRequest(request.getRequest());
     
     return container.setSyncMessage(builder).build().toByteArray();
+  }
+
+  private byte[] createMultiDeviceBlockedContent(BlockedListMessage blocked) {
+    Content.Builder             container      = Content.newBuilder();
+    SyncMessage.Builder         syncMessage    = SyncMessage.newBuilder();
+    SyncMessage.Blocked.Builder blockedMessage = SyncMessage.Blocked.newBuilder();
+
+    blockedMessage.addAllNumbers(blocked.getNumbers());
+
+    return container.setSyncMessage(syncMessage.setBlocked(blockedMessage)).build().toByteArray();
   }
 
   private GroupContext createGroupContent(SignalServiceGroup group) throws IOException {

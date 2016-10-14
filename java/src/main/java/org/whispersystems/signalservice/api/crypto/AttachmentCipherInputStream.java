@@ -1,19 +1,9 @@
 /**
- * Copyright (C) 2013-2014 Open Whisper Systems
+ * Copyright (C) 2014-2016 Open Whisper Systems
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Licensed according to the LICENSE file in this repository.
  */
+
 package org.whispersystems.signalservice.api.crypto;
 
 import org.whispersystems.libsignal.InvalidMacException;
@@ -26,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -184,7 +175,7 @@ public class AttachmentCipherInputStream extends FileInputStream {
   private void verifyMac(File file, Mac mac) throws FileNotFoundException, InvalidMacException {
     try {
       FileInputStream fin           = new FileInputStream(file);
-      int             remainingData = (int) file.length() - mac.getMacLength();
+      int             remainingData = Util.toIntExact(file.length()) - mac.getMacLength();
       byte[]          buffer        = new byte[4096];
 
       while (remainingData > 0) {
@@ -197,10 +188,10 @@ public class AttachmentCipherInputStream extends FileInputStream {
       byte[] theirMac = new byte[mac.getMacLength()];
       Util.readFully(fin, theirMac);
 
-      if (!Arrays.equals(ourMac, theirMac)) {
+      if (!MessageDigest.isEqual(ourMac, theirMac)) {
         throw new InvalidMacException("MAC doesn't match!");
       }
-    } catch (IOException e1) {
+    } catch (IOException | ArithmeticException e1) {
       throw new InvalidMacException(e1);
     }
   }
