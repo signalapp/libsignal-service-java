@@ -438,12 +438,15 @@ public class SignalServiceMessageSender {
   {
     List<OutgoingPushMessage> messages = new LinkedList<>();
 
-    if (!(recipient.equals(localAddress) && credentialsProvider.getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID)) {
+    boolean myself = recipient.equals(localAddress);
+    if (!myself || credentialsProvider.getDeviceId() != SignalServiceAddress.DEFAULT_DEVICE_ID) {
       messages.add(getEncryptedMessage(socket, recipient, SignalServiceAddress.DEFAULT_DEVICE_ID, plaintext, legacy));
     }
 
     for (int deviceId : store.getSubDeviceSessions(recipient.getNumber())) {
-      messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy));
+      if(!myself || deviceId != credentialsProvider.getDeviceId()) {
+        messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy));
+      }
     }
 
     return new OutgoingPushMessageList(recipient.getNumber(), timestamp, recipient.getRelay().orNull(), messages);
