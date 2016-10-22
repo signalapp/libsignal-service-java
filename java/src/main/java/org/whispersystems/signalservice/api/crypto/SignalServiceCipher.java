@@ -6,7 +6,10 @@
 
 package org.whispersystems.signalservice.api.crypto;
 
-import com.google.protobuf.InvalidProtocolBufferException;
+import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type.DELIVER;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import org.whispersystems.libsignal.DuplicateMessageException;
 import org.whispersystems.libsignal.InvalidKeyException;
@@ -29,6 +32,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceContent;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
+import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
@@ -41,12 +45,10 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Conten
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Blocked;
 import org.whispersystems.signalservice.internal.util.Base64;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type.DELIVER;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 /**
  * This is used to decrypt received {@link SignalServiceEnvelope}s.
@@ -201,6 +203,12 @@ public class SignalServiceCipher {
       AttachmentPointer pointer = content.getGroups().getBlob();
       return SignalServiceSyncMessage.forGroups(new SignalServiceAttachmentPointer(pointer.getId(),
           pointer.getContentType(), pointer.getKey().toByteArray(), envelope.getRelay()));
+    }
+    
+    if(content.hasBlocked()) {
+      Blocked blocked = content.getBlocked();
+      BlockedListMessage message = new BlockedListMessage(blocked.getNumbersList());
+      return SignalServiceSyncMessage.forBlocked(message);
     }
 
     return SignalServiceSyncMessage.empty();
