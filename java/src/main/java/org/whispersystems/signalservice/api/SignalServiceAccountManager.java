@@ -135,14 +135,16 @@ public class SignalServiceAccountManager {
    *                              same install, but probabilistically differ across registrations
    *                              for separate installs.
    * @param voice A boolean that indicates whether the client supports secure voice (RedPhone) calls.
+   * @param fetchesMessages A boolean that indicates whether the client fetches messages instead of relying on GCM
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, 
+      boolean voice, boolean fetchesMessages)
       throws IOException
   {
     this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
-                                             signalProtocolRegistrationId, voice);
+                                             signalProtocolRegistrationId, voice, fetchesMessages);
   }
 
   /**
