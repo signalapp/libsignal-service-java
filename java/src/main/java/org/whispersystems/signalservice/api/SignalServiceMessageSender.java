@@ -5,8 +5,9 @@
  */
 package org.whispersystems.signalservice.api;
 
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.whispersystems.libsignal.InvalidKeyException;
 import org.whispersystems.libsignal.SessionBuilder;
@@ -23,6 +24,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
 import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.TrustStore;
@@ -30,6 +32,7 @@ import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptio
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
@@ -47,9 +50,8 @@ import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesExc
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 /**
  * The main interface for sending Signal Service messages.
@@ -64,7 +66,33 @@ public class SignalServiceMessageSender {
   private final SignalProtocolStore     store;
   private final SignalServiceAddress localAddress;
   private final Optional<EventListener> eventListener;
+  private final CredentialsProvider     credentialsProvider;
 
+  /**
+   * Construct a SignalServiceMessageSender.
+   *
+   * @param url The URL of the Signal Service.
+   * @param trustStore The trust store containing the Signal Service's signing TLS certificate.
+   * @param user The Signal Service username (eg phone number).
+   * @param password The Signal Service user password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param store The SignalProtocolStore.
+   * @param eventListener An optional event listener, which fires whenever sessions are
+   *                      setup or torn down for a recipient.
+   */
+  public SignalServiceMessageSender(String url, TrustStore trustStore,
+                                    String user, String password, int deviceId,
+                                    SignalProtocolStore store,
+                                    String userAgent,
+                                    Optional<EventListener> eventListener)
+  {
+    this.credentialsProvider = new StaticCredentialsProvider(user, password, null, deviceId);
+    this.socket        = new PushServiceSocket(url, trustStore, credentialsProvider, userAgent);
+    this.store         = store;
+    this.localAddress  = new SignalServiceAddress(user);
+    this.eventListener = eventListener;
+  }
+  
   /**
    * Construct a SignalServiceMessageSender.
    *
@@ -82,7 +110,8 @@ public class SignalServiceMessageSender {
                                     String userAgent,
                                     Optional<EventListener> eventListener)
   {
-    this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
+    this.credentialsProvider = new StaticCredentialsProvider(user, password, null, SignalServiceAddress.DEFAULT_DEVICE_ID);
+    this.socket        = new PushServiceSocket(url, trustStore, credentialsProvider, userAgent);
     this.store         = store;
     this.localAddress  = new SignalServiceAddress(user);
     this.eventListener = eventListener;
@@ -165,6 +194,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceGroupsContent(message.getGroups().get().asStream());
     } else if (message.getRead().isPresent()) {
       content = createMultiDeviceReadContent(message.getRead().get());
+    } else if (message.getRequest().isPresent()) {
+      content = createRequestContent(message.getRequest().get());
     } else if (message.getBlockedList().isPresent()) {
       content = createMultiDeviceBlockedContent(message.getBlockedList().get());
     } else {
@@ -259,6 +290,15 @@ public class SignalServiceMessageSender {
                                       .setSender(readMessage.getSender()));
     }
 
+    return container.setSyncMessage(builder).build().toByteArray();
+  }
+  
+  private byte[] createRequestContent(RequestMessage request) {
+    Content.Builder     container = Content.newBuilder();
+    SyncMessage.Builder builder   = SyncMessage.newBuilder();
+    
+    builder.setRequest(request.getRequest());
+    
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
@@ -398,12 +438,15 @@ public class SignalServiceMessageSender {
   {
     List<OutgoingPushMessage> messages = new LinkedList<>();
 
-    if (!recipient.equals(localAddress)) {
+    boolean myself = recipient.equals(localAddress);
+    if (!myself || credentialsProvider.getDeviceId() != SignalServiceAddress.DEFAULT_DEVICE_ID) {
       messages.add(getEncryptedMessage(socket, recipient, SignalServiceAddress.DEFAULT_DEVICE_ID, plaintext, legacy));
     }
 
     for (int deviceId : store.getSubDeviceSessions(recipient.getNumber())) {
-      messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy));
+      if(!myself || deviceId != credentialsProvider.getDeviceId()) {
+        messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy));
+      }
     }
 
     return new OutgoingPushMessageList(recipient.getNumber(), timestamp, recipient.getRelay().orNull(), messages);

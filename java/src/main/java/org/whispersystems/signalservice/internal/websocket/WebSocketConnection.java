@@ -1,21 +1,20 @@
 package org.whispersystems.signalservice.internal.websocket;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-
-import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.signalservice.api.push.TrustStore;
-import org.whispersystems.signalservice.api.util.CredentialsProvider;
-import org.whispersystems.signalservice.internal.util.Util;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage;
-import static org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage;
-import static org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage;
+import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.signalservice.api.push.TrustStore;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.internal.util.Util;
+import org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketMessage;
+import org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketRequestMessage;
+import org.whispersystems.signalservice.internal.websocket.WebSocketProtos.WebSocketResponseMessage;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 public class WebSocketConnection implements WebSocketEventListener {
 
@@ -38,6 +37,14 @@ public class WebSocketConnection implements WebSocketEventListener {
     this.userAgent           = userAgent;
     this.wsUri               = httpUri.replace("https://", "wss://")
                                       .replace("http://", "ws://") + "/v1/websocket/?login=%s&password=%s";
+  }
+  
+  public WebSocketConnection(String httpUri, TrustStore trustStore, String userAgent) {
+    this.trustStore          = trustStore;
+    this.credentialsProvider = null;
+    this.userAgent           = userAgent;
+    this.wsUri               = httpUri.replace("https://", "wss://")
+                                      .replace("http://", "ws://") + "/v1/websocket/provisioning/";
   }
 
   public synchronized void connect() {

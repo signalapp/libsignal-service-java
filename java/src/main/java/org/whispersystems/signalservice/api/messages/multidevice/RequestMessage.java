@@ -23,6 +23,10 @@ public class RequestMessage {
   public boolean isGroupsRequest() {
     return request.getType() == Request.Type.GROUPS;
   }
+  
+  public Request getRequest() {
+    return request;
+  }
 
   public boolean isBlockedListRequest() {
     return request.getType() == Request.Type.BLOCKED;

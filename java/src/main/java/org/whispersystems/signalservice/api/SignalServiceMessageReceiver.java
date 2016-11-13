@@ -12,6 +12,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.Pro
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
@@ -46,13 +47,31 @@ public class SignalServiceMessageReceiver {
    *                   the server's TLS signing certificate.
    * @param user The Signal Service username (eg. phone number).
    * @param password The Signal Service user password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param signalingKey The 52 byte signaling key assigned to this user at registration.
+   */
+  public SignalServiceMessageReceiver(String url, TrustStore trustStore,
+                                      String user, String password, int deviceId,
+                                      String signalingKey, String userAgent)
+  {
+    this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey, deviceId), userAgent);
+  }
+  
+  /**
+   * Construct a SignalServiceMessageReceiver.
+   *
+   * @param url The URL of the Signal Service.
+   * @param trustStore The {@link org.whispersystems.signalservice.api.push.TrustStore} containing
+   *                   the server's TLS signing certificate.
+   * @param user The Signal Service username (eg. phone number).
+   * @param password The Signal Service user password.
    * @param signalingKey The 52 byte signaling key assigned to this user at registration.
    */
   public SignalServiceMessageReceiver(String url, TrustStore trustStore,
                                       String user, String password,
                                       String signalingKey, String userAgent)
   {
-    this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey), userAgent);
+    this(url, trustStore, new StaticCredentialsProvider(user, password, signalingKey, SignalServiceAddress.DEFAULT_DEVICE_ID), userAgent);
   }
 
   /**

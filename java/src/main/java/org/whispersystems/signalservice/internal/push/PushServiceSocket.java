@@ -6,44 +6,6 @@
 
 package org.whispersystems.signalservice.internal.push;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
-import org.whispersystems.libsignal.IdentityKey;
-import org.whispersystems.libsignal.ecc.ECPublicKey;
-import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.libsignal.state.PreKeyBundle;
-import org.whispersystems.libsignal.state.PreKeyRecord;
-import org.whispersystems.libsignal.state.SignedPreKeyRecord;
-import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
-import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
-import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
-import org.whispersystems.signalservice.api.push.ContactTokenDetails;
-import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
-import org.whispersystems.signalservice.api.push.SignalServiceAddress;
-import org.whispersystems.signalservice.api.push.TrustStore;
-import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
-import org.whispersystems.signalservice.api.push.exceptions.ExpectationFailedException;
-import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
-import org.whispersystems.signalservice.api.push.exceptions.NotFoundException;
-import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
-import org.whispersystems.signalservice.api.push.exceptions.RateLimitException;
-import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
-import org.whispersystems.signalservice.api.util.CredentialsProvider;
-import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
-import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
-import org.whispersystems.signalservice.internal.util.Base64;
-import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
-import org.whispersystems.signalservice.internal.util.JsonUtil;
-import org.whispersystems.signalservice.internal.util.Util;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,7 +24,48 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 
+import org.apache.http.conn.ssl.StrictHostnameVerifier;
+import org.whispersystems.libsignal.IdentityKey;
+import org.whispersystems.libsignal.ecc.ECPublicKey;
+import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.libsignal.state.PreKeyBundle;
+import org.whispersystems.libsignal.state.PreKeyRecord;
+import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
+import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
+import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
+import org.whispersystems.signalservice.api.push.ContactTokenDetails;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
+import org.whispersystems.signalservice.api.push.TrustStore;
+import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
+import org.whispersystems.signalservice.api.push.exceptions.ExpectationFailedException;
+import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
+import org.whispersystems.signalservice.api.push.exceptions.NotFoundException;
+import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
+import org.whispersystems.signalservice.api.push.exceptions.RateLimitException;
+import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
+import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
+import org.whispersystems.signalservice.internal.util.Base64;
+import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
+import org.whispersystems.signalservice.internal.util.JsonUtil;
+import org.whispersystems.signalservice.internal.util.Util;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
 /**
+ *
+ * Network interface to the TextSecure server API.
+ *
  * @author Moxie Marlinspike
  */
 public class PushServiceSocket {
@@ -81,7 +84,7 @@ public class PushServiceSocket {
   private static final String PREKEY_PATH               = "/v2/keys/%s";
   private static final String PREKEY_DEVICE_PATH        = "/v2/keys/%s/%s";
   private static final String SIGNED_PREKEY_PATH        = "/v2/keys/signed";
-
+  
   private static final String PROVISIONING_CODE_PATH    = "/v1/devices/provisioning/code";
   private static final String PROVISIONING_MESSAGE_PATH = "/v1/provisioning/%s";
   private static final String DEVICE_PATH               = "/v1/devices/%s";
@@ -111,10 +114,10 @@ public class PushServiceSocket {
     makeRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
   }
 
-  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean voice)
+  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean voice, boolean fetchesMessages)
       throws IOException
   {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, voice);
+    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, voice, fetchesMessages);
     makeRequest(String.format(VERIFY_ACCOUNT_CODE_PATH, verificationCode),
                 "PUT", JsonUtil.toJson(signalingKeyEntity));
   }
@@ -135,6 +138,15 @@ public class PushServiceSocket {
   public String getAccountVerificationToken() throws IOException {
     String responseText = makeRequest(REQUEST_TOKEN_PATH, "GET", null);
     return JsonUtil.fromJson(responseText, AuthorizationToken.class).getToken();
+  }
+  
+  public int finishNewDeviceRegistration(String code, String signalingKey, boolean supportsSms, boolean fetchesMessages,
+      int registrationId, String deviceName) throws IOException {
+    ConfirmCodeMessage javaJson = new ConfirmCodeMessage(signalingKey, supportsSms, fetchesMessages, registrationId, deviceName);
+    String json = JsonUtil.toJson(javaJson);
+    String responseText = makeRequest(String.format(DEVICE_PATH, code), "PUT", json);
+    DeviceId response = JsonUtil.fromJson(responseText, DeviceId.class);
+    return response.getDeviceId();
   }
 
   public String getNewDeviceVerificationCode() throws IOException {
@@ -588,7 +600,11 @@ public class PushServiceSocket {
 
   private String getAuthorizationHeader() {
     try {
-      return "Basic " + Base64.encodeBytes((credentialsProvider.getUser() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      if(credentialsProvider.getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID) {
+        return "Basic " + Base64.encodeBytes((credentialsProvider.getUser() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      } else {
+        return "Basic " + Base64.encodeBytes((credentialsProvider.getUser() + "." + credentialsProvider.getDeviceId() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      }
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError(e);
     }

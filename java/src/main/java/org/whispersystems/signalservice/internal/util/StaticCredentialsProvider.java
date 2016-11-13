@@ -13,11 +13,13 @@ public class StaticCredentialsProvider implements CredentialsProvider {
   private final String user;
   private final String password;
   private final String signalingKey;
+  private final int deviceId;
 
-  public StaticCredentialsProvider(String user, String password, String signalingKey) {
+  public StaticCredentialsProvider(String user, String password, String signalingKey, int deviceId) {
     this.user         = user;
     this.password     = password;
     this.signalingKey = signalingKey;
+    this.deviceId     = deviceId;
   }
 
   @Override
@@ -33,5 +35,10 @@ public class StaticCredentialsProvider implements CredentialsProvider {
   @Override
   public String getSignalingKey() {
     return signalingKey;
+  }
+
+  @Override
+  public int getDeviceId() {
+    return deviceId;
   }
 }
