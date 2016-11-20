@@ -21,16 +21,21 @@ public class OutgoingPushMessage {
   private String body;
   @JsonProperty
   private String content;
+  @JsonProperty
+  private boolean silent;
 
   public OutgoingPushMessage(int type,
                              int destinationDeviceId,
                              int destinationRegistrationId,
-                             String legacyMessage, String content)
+                             String legacyMessage,
+                             String content,
+                             boolean silent)
   {
     this.type                      = type;
     this.destinationDeviceId       = destinationDeviceId;
     this.destinationRegistrationId = destinationRegistrationId;
     this.body                      = legacyMessage;
     this.content                   = content;
+    this.silent                    = silent;
   }
 }

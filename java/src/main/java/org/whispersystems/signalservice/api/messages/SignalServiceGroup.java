@@ -29,7 +29,8 @@ public class SignalServiceGroup {
     UNKNOWN,
     UPDATE,
     DELIVER,
-    QUIT
+    QUIT,
+    REQUEST_INFO
   }
 
   private final byte[]                         groupId;

@@ -9255,6 +9255,10 @@ public final class SignalServiceProtos {
        * <code>QUIT = 3;</code>
        */
       QUIT(3, 3),
+      /**
+       * <code>REQUEST_INFO = 4;</code>
+       */
+      REQUEST_INFO(4, 4),
       ;
 
       /**
@@ -9273,6 +9277,10 @@ public final class SignalServiceProtos {
        * <code>QUIT = 3;</code>
        */
       public static final int QUIT_VALUE = 3;
+      /**
+       * <code>REQUEST_INFO = 4;</code>
+       */
+      public static final int REQUEST_INFO_VALUE = 4;
 
 
       public final int getNumber() { return value; }
@@ -9283,6 +9291,7 @@ public final class SignalServiceProtos {
           case 1: return UPDATE;
           case 2: return DELIVER;
           case 3: return QUIT;
+          case 4: return REQUEST_INFO;
           default: return null;
         }
       }
@@ -13367,22 +13376,23 @@ public final class SignalServiceProtos {
       "\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"b\n\021AttachmentP" +
       "ointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022" +
       "\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030" +
-      "\005 \001(\014\"\323\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n\004ty" +
+      "\005 \001(\014\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n\004ty" +
       "pe\030\002 \001(\0162 .signalservice.GroupContext.Ty" +
       "pe\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006ava",
       "tar\030\005 \001(\0132 .signalservice.AttachmentPoin" +
-      "ter\"6\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007" +
-      "DELIVER\020\002\022\010\n\004QUIT\020\003\"\242\001\n\016ContactDetails\022\016" +
-      "\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003" +
-      " \001(\0132$.signalservice.ContactDetails.Avat" +
-      "ar\022\r\n\005color\030\004 \001(\t\032-\n\006Avatar\022\023\n\013contentTy" +
-      "pe\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014GroupDetail" +
-      "s\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003" +
-      " \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice.Gro" +
-      "upDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004true\032-",
-      "\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030" +
-      "\002 \001(\rBE\n.org.whispersystems.signalservic" +
-      "e.internal.pushB\023SignalServiceProtos"
+      "ter\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007" +
+      "DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\242\001" +
+      "\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004name" +
+      "\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservice.C" +
+      "ontactDetails.Avatar\022\r\n\005color\030\004 \001(\t\032-\n\006A" +
+      "vatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001" +
+      "(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030" +
+      "\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\"" +
+      ".signalservice.GroupDetails.Avatar\022\024\n\006ac",
+      "tive\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013contentTyp" +
+      "e\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whispersy" +
+      "stems.signalservice.internal.pushB\023Signa" +
+      "lServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -65,7 +65,7 @@ public class SignalServiceCipher {
     this.localAddress = localAddress;
   }
 
-  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy) {
+  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy, boolean silent) {
     SessionCipher        sessionCipher        = new SessionCipher(signalProtocolStore, destination);
     PushTransportDetails transportDetails     = new PushTransportDetails(sessionCipher.getSessionVersion());
     CiphertextMessage    message              = sessionCipher.encrypt(transportDetails.getPaddedMessageBody(unpaddedMessage));
@@ -81,7 +81,7 @@ public class SignalServiceCipher {
     }
 
     return new OutgoingPushMessage(type, destination.getDeviceId(), remoteRegistrationId,
-                                   legacy ? body : null, legacy ? null : body);
+                                   legacy ? body : null, legacy ? null : body, silent);
   }
 
   /**
@@ -200,10 +200,11 @@ public class SignalServiceCipher {
     SignalServiceGroup.Type type;
 
     switch (content.getGroup().getType()) {
-      case DELIVER: type = SignalServiceGroup.Type.DELIVER; break;
-      case UPDATE:  type = SignalServiceGroup.Type.UPDATE;  break;
-      case QUIT:    type = SignalServiceGroup.Type.QUIT;    break;
-      default:      type = SignalServiceGroup.Type.UNKNOWN; break;
+      case DELIVER:      type = SignalServiceGroup.Type.DELIVER;      break;
+      case UPDATE:       type = SignalServiceGroup.Type.UPDATE;       break;
+      case QUIT:         type = SignalServiceGroup.Type.QUIT;         break;
+      case REQUEST_INFO: type = SignalServiceGroup.Type.REQUEST_INFO; break;
+      default:           type = SignalServiceGroup.Type.UNKNOWN;      break;
     }
 
     if (content.getGroup().getType() != DELIVER) {
