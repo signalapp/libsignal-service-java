@@ -76,8 +76,8 @@ public class PhoneNumberFormatter {
       throw new InvalidNumberException("No valid characters found.");
     }
 
-    if (number.charAt(0) == '+')
-      return number;
+//    if (number.charAt(0) == '+')
+//      return number;
 
     try {
       PhoneNumberUtil util          = PhoneNumberUtil.getInstance();

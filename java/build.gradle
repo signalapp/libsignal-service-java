@@ -22,6 +22,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.4'
 
     testCompile 'junit:junit:3.8.2'
+    testCompile 'org.assertj:assertj-core:1.7.1'
 }
 
 tasks.whenTaskAdded { task ->
