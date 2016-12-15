@@ -118,12 +118,12 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
       throws IOException
   {
     this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
                                              signalProtocolRegistrationId,
-                                             voice, video);
+                                             voice, video, fetchesMessages);
   }
 
   /**
@@ -141,10 +141,10 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video)
+  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice, video);
+    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice, video, fetchesMessages);
   }
 
   /**
@@ -159,10 +159,10 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video)
+  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice, video);
+    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice, video, fetchesMessages);
   }
 
   /**
