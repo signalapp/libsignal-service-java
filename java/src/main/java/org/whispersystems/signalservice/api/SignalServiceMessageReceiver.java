@@ -16,6 +16,7 @@ import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
+import org.whispersystems.signalservice.internal.push.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 
@@ -34,7 +35,7 @@ public class SignalServiceMessageReceiver {
 
   private final PushServiceSocket   socket;
   private final TrustStore          trustStore;
-  private final String              url;
+  private final SignalServiceUrl    url;
   private final CredentialsProvider credentialsProvider;
   private final String              userAgent;
 
@@ -48,7 +49,7 @@ public class SignalServiceMessageReceiver {
    * @param password The Signal Service user password.
    * @param signalingKey The 52 byte signaling key assigned to this user at registration.
    */
-  public SignalServiceMessageReceiver(String url, TrustStore trustStore,
+  public SignalServiceMessageReceiver(SignalServiceUrl url, TrustStore trustStore,
                                       String user, String password,
                                       String signalingKey, String userAgent)
   {
@@ -63,7 +64,7 @@ public class SignalServiceMessageReceiver {
    *                   the server's TLS signing certificate.
    * @param credentials The Signal Service user's credentials.
    */
-  public SignalServiceMessageReceiver(String url, TrustStore trustStore,
+  public SignalServiceMessageReceiver(SignalServiceUrl url, TrustStore trustStore,
                                       CredentialsProvider credentials, String userAgent)
   {
     this.url                 = url;
@@ -118,7 +119,7 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
-    WebSocketConnection webSocket = new WebSocketConnection(url, trustStore, credentialsProvider, userAgent);
+    WebSocketConnection webSocket = new WebSocketConnection(url.getUrl(), trustStore, credentialsProvider, userAgent);
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
 

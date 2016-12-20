@@ -41,6 +41,7 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Conten
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
+import org.whispersystems.signalservice.internal.push.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.push.StaleDevices;
 import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
 import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
@@ -76,7 +77,7 @@ public class SignalServiceMessageSender {
    * @param eventListener An optional event listener, which fires whenever sessions are
    *                      setup or torn down for a recipient.
    */
-  public SignalServiceMessageSender(String url, TrustStore trustStore,
+  public SignalServiceMessageSender(SignalServiceUrl url, TrustStore trustStore,
                                     String user, String password,
                                     SignalProtocolStore store,
                                     String userAgent,

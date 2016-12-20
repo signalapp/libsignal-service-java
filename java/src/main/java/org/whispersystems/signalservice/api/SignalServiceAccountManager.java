@@ -22,6 +22,7 @@ import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.internal.crypto.ProvisioningCipher;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
+import org.whispersystems.signalservice.internal.push.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.util.Base64;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -58,7 +59,7 @@ public class SignalServiceAccountManager {
    * @param password A Signal Service password.
    * @param userAgent A string which identifies the client software.
    */
-  public SignalServiceAccountManager(String url, TrustStore trustStore,
+  public SignalServiceAccountManager(SignalServiceUrl url, TrustStore trustStore,
                                      String user, String password,
                                      String userAgent)
   {
