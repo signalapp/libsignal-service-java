@@ -69,21 +69,20 @@ public class SignalServiceMessageSender {
   /**
    * Construct a SignalServiceMessageSender.
    *
-   * @param url The URL of the Signal Service.
-   * @param trustStore The trust store containing the Signal Service's signing TLS certificate.
+   * @param urls The URL of the Signal Service.
    * @param user The Signal Service username (eg phone number).
    * @param password The Signal Service user password.
    * @param store The SignalProtocolStore.
    * @param eventListener An optional event listener, which fires whenever sessions are
    *                      setup or torn down for a recipient.
    */
-  public SignalServiceMessageSender(SignalServiceUrl url, TrustStore trustStore,
+  public SignalServiceMessageSender(SignalServiceUrl[] urls,
                                     String user, String password,
                                     SignalProtocolStore store,
                                     String userAgent,
                                     Optional<EventListener> eventListener)
   {
-    this.socket        = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
+    this.socket        = new PushServiceSocket(urls, new StaticCredentialsProvider(user, password, null), userAgent);
     this.store         = store;
     this.localAddress  = new SignalServiceAddress(user);
     this.eventListener = eventListener;

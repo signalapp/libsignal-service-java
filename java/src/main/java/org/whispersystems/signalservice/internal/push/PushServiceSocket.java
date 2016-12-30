@@ -27,9 +27,8 @@ import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
-import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
-import org.whispersystems.signalservice.api.push.TrustStore;
+import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
 import org.whispersystems.signalservice.api.push.exceptions.ExpectationFailedException;
 import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
@@ -55,6 +54,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -94,17 +94,24 @@ public class PushServiceSocket {
   private static final String RECEIPT_PATH              = "/v1/receipt/%s/%d";
   private static final String ATTACHMENT_PATH           = "/v1/attachments/%s";
 
-  private final SignalServiceUrl    serviceUrl;
-  private final TrustManager[]      trustManagers;
-  private final CredentialsProvider credentialsProvider;
-  private final String              userAgent;
+  private final SignalConnectionInformation[] signalConnectionInformation;
+  private final CredentialsProvider           credentialsProvider;
+  private final String                        userAgent;
+  private final SecureRandom                  random;
 
-  public PushServiceSocket(SignalServiceUrl serviceUrl, TrustStore trustStore, CredentialsProvider credentialsProvider, String userAgent)
-  {
-    this.serviceUrl          = serviceUrl;
-    this.credentialsProvider = credentialsProvider;
-    this.trustManagers       = BlacklistingTrustManager.createFor(trustStore);
-    this.userAgent           = userAgent;
+  public PushServiceSocket(SignalServiceUrl[] serviceUrls, CredentialsProvider credentialsProvider, String userAgent) {
+    try {
+      this.credentialsProvider         = credentialsProvider;
+      this.userAgent                   = userAgent;
+      this.signalConnectionInformation = new SignalConnectionInformation[serviceUrls.length];
+      this.random                      = SecureRandom.getInstance("SHA1PRNG");
+
+      for (int i = 0; i < serviceUrls.length; i++) {
+        signalConnectionInformation[i] = new SignalConnectionInformation(serviceUrls[i]);
+      }
+    } catch (NoSuchAlgorithmException e) {
+      throw new AssertionError(e);
+    }
   }
 
   public void createAccount(boolean voice) throws IOException {
@@ -552,8 +559,13 @@ public class PushServiceSocket {
       throws PushNetworkException
   {
     try {
-      Log.w(TAG, "Push service URL: " + serviceUrl.getUrl());
-      Log.w(TAG, "Opening URL: " + String.format("%s%s", serviceUrl.getUrl(), urlFragment));
+      SignalConnectionInformation connectionInformation = getRandom(signalConnectionInformation, random);
+      String                      url                   = connectionInformation.getUrl();
+      Optional<String>            hostHeader            = connectionInformation.getHostHeader();
+      TrustManager[]              trustManagers         = connectionInformation.getTrustManagers();
+
+      Log.w(TAG, "Push service URL: " + url);
+      Log.w(TAG, "Opening URL: " + String.format("%s%s", url, urlFragment));
 
       SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, trustManagers, null);
@@ -563,7 +575,7 @@ public class PushServiceSocket {
       okHttpClient.setHostnameVerifier(new StrictHostnameVerifier());
 
       Request.Builder request = new Request.Builder();
-      request.url(String.format("%s%s", serviceUrl.getUrl(), urlFragment));
+      request.url(String.format("%s%s", url, urlFragment));
 
       if (body != null) {
         request.method(method, RequestBody.create(MediaType.parse("application/json"), body));
@@ -579,10 +591,9 @@ public class PushServiceSocket {
         request.addHeader("X-Signal-Agent", userAgent);
       }
 
-      if (serviceUrl.getHostHeader().isPresent()) {
-        okHttpClient.networkInterceptors().add(new HostInterceptor(serviceUrl.getHostHeader().get()));
+      if (hostHeader.isPresent()) {
+        okHttpClient.networkInterceptors().add(new HostInterceptor(hostHeader.get()));
       }
-
 
       return okHttpClient.newCall(request.build()).execute();
     } catch (IOException e) {
@@ -598,6 +609,12 @@ public class PushServiceSocket {
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError(e);
     }
+  }
+
+  private SignalConnectionInformation getRandom(SignalConnectionInformation[] connections,
+                                                SecureRandom random)
+  {
+    return connections[random.nextInt(connections.length)];
   }
 
   private static class GcmRegistrationId {
@@ -644,6 +661,31 @@ public class PushServiceSocket {
     public Response intercept(Chain chain) throws IOException {
       Request request = chain.request();
       return chain.proceed(request.newBuilder().header("Host", host).build());
+    }
+  }
+
+  private static class SignalConnectionInformation {
+
+    private final String           url;
+    private final Optional<String> hostHeader;
+    private final TrustManager[]   trustManagers;
+
+    private SignalConnectionInformation(SignalServiceUrl signalServiceUrl) {
+      this.url           = signalServiceUrl.getUrl();
+      this.hostHeader    = signalServiceUrl.getHostHeader();
+      this.trustManagers = BlacklistingTrustManager.createFor(signalServiceUrl.getTrustStore());
+    }
+
+    String getUrl() {
+      return url;
+    }
+
+    Optional<String> getHostHeader() {
+      return hostHeader;
+    }
+
+    TrustManager[] getTrustManagers() {
+      return trustManagers;
     }
   }
 }

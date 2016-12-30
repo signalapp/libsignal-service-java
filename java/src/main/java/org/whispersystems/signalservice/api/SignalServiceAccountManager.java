@@ -53,17 +53,16 @@ public class SignalServiceAccountManager {
   /**
    * Construct a SignalServiceAccountManager.
    *
-   * @param url The URL for the Signal Service.
-   * @param trustStore The {@link org.whispersystems.signalservice.api.push.TrustStore} for the SignalService server's TLS certificate.
+   * @param urls The URL for the Signal Service.
    * @param user A Signal Service phone number.
    * @param password A Signal Service password.
    * @param userAgent A string which identifies the client software.
    */
-  public SignalServiceAccountManager(SignalServiceUrl url, TrustStore trustStore,
+  public SignalServiceAccountManager(SignalServiceUrl[] urls,
                                      String user, String password,
                                      String userAgent)
   {
-    this.pushServiceSocket = new PushServiceSocket(url, trustStore, new StaticCredentialsProvider(user, password, null), userAgent);
+    this.pushServiceSocket = new PushServiceSocket(urls, new StaticCredentialsProvider(user, password, null), userAgent);
     this.user              = user;
     this.userAgent         = userAgent;
   }
