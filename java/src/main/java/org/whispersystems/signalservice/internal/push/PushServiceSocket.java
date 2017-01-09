@@ -8,14 +8,7 @@ package org.whispersystems.signalservice.internal.push;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.logging.Log;
@@ -62,6 +55,14 @@ import java.util.Set;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * @author Moxie Marlinspike
@@ -570,9 +571,9 @@ public class PushServiceSocket {
       SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, trustManagers, null);
 
-      OkHttpClient okHttpClient = new OkHttpClient();
-      okHttpClient.setSslSocketFactory(context.getSocketFactory());
-      okHttpClient.setHostnameVerifier(new StrictHostnameVerifier());
+      OkHttpClient okHttpClient = new OkHttpClient.Builder()
+          .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
+          .build();
 
       Request.Builder request = new Request.Builder();
       request.url(String.format("%s%s", url, urlFragment));

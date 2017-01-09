@@ -25,7 +25,6 @@ import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMess
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
-import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptions;
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
@@ -61,10 +60,11 @@ public class SignalServiceMessageSender {
 
   private static final String TAG = SignalServiceMessageSender.class.getSimpleName();
 
-  private final PushServiceSocket       socket;
-  private final SignalProtocolStore     store;
-  private final SignalServiceAddress localAddress;
-  private final Optional<EventListener> eventListener;
+  private final PushServiceSocket                  socket;
+  private final SignalProtocolStore                store;
+  private final SignalServiceAddress               localAddress;
+  private final Optional<SignalServiceMessagePipe> pipe;
+  private final Optional<EventListener>            eventListener;
 
   /**
    * Construct a SignalServiceMessageSender.
@@ -80,11 +80,13 @@ public class SignalServiceMessageSender {
                                     String user, String password,
                                     SignalProtocolStore store,
                                     String userAgent,
+                                    Optional<SignalServiceMessagePipe> pipe,
                                     Optional<EventListener> eventListener)
   {
     this.socket        = new PushServiceSocket(urls, new StaticCredentialsProvider(user, password, null), userAgent);
     this.store         = store;
     this.localAddress  = new SignalServiceAddress(user);
+    this.pipe          = pipe;
     this.eventListener = eventListener;
   }
 
@@ -334,6 +336,18 @@ public class SignalServiceMessageSender {
     for (int i=0;i<3;i++) {
       try {
         OutgoingPushMessageList messages = getEncryptedMessages(socket, recipient, timestamp, content, legacy, silent);
+
+        if (pipe.isPresent()) {
+          try {
+            Log.w(TAG, "Transmitting over pipe...");
+            return pipe.get().send(messages);
+          } catch (IOException e) {
+            Log.w(TAG, e);
+            Log.w(TAG, "Falling back to new connection...");
+          }
+        }
+
+        Log.w(TAG, "Not transmitting over pipe...");
         return socket.sendMessage(messages);
       } catch (MismatchedDevicesException mde) {
         Log.w(TAG, mde);

@@ -51,6 +51,26 @@ public final class WebSocketProtos {
      */
     com.google.protobuf.ByteString getBody();
 
+    // repeated string headers = 5;
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    java.util.List<java.lang.String>
+    getHeadersList();
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    int getHeadersCount();
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    java.lang.String getHeaders(int index);
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadersBytes(int index);
+
     // optional uint64 id = 4;
     /**
      * <code>optional uint64 id = 4;</code>
@@ -132,6 +152,14 @@ public final class WebSocketProtos {
               id_ = input.readUInt64();
               break;
             }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                headers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              headers_.add(input.readBytes());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -140,6 +168,9 @@ public final class WebSocketProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.UnmodifiableLazyStringList(headers_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -274,6 +305,36 @@ public final class WebSocketProtos {
       return body_;
     }
 
+    // repeated string headers = 5;
+    public static final int HEADERS_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList headers_;
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public java.util.List<java.lang.String>
+        getHeadersList() {
+      return headers_;
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public int getHeadersCount() {
+      return headers_.size();
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public java.lang.String getHeaders(int index) {
+      return headers_.get(index);
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadersBytes(int index) {
+      return headers_.getByteString(index);
+    }
+
     // optional uint64 id = 4;
     public static final int ID_FIELD_NUMBER = 4;
     private long id_;
@@ -294,6 +355,7 @@ public final class WebSocketProtos {
       verb_ = "";
       path_ = "";
       body_ = com.google.protobuf.ByteString.EMPTY;
+      headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       id_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
@@ -320,6 +382,9 @@ public final class WebSocketProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt64(4, id_);
       }
+      for (int i = 0; i < headers_.size(); i++) {
+        output.writeBytes(5, headers_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -344,6 +409,15 @@ public final class WebSocketProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(4, id_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < headers_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(headers_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getHeadersList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -467,8 +541,10 @@ public final class WebSocketProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         body_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        id_ = 0L;
+        headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
+        id_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -509,7 +585,13 @@ public final class WebSocketProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.body_ = body_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              headers_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.headers_ = headers_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
         result.id_ = id_;
@@ -541,6 +623,16 @@ public final class WebSocketProtos {
         }
         if (other.hasBody()) {
           setBody(other.getBody());
+        }
+        if (!other.headers_.isEmpty()) {
+          if (headers_.isEmpty()) {
+            headers_ = other.headers_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureHeadersIsMutable();
+            headers_.addAll(other.headers_);
+          }
+          onChanged();
         }
         if (other.hasId()) {
           setId(other.getId());
@@ -756,13 +848,106 @@ public final class WebSocketProtos {
         return this;
       }
 
+      // repeated string headers = 5;
+      private com.google.protobuf.LazyStringList headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureHeadersIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.LazyStringArrayList(headers_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public java.util.List<java.lang.String>
+          getHeadersList() {
+        return java.util.Collections.unmodifiableList(headers_);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public int getHeadersCount() {
+        return headers_.size();
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public java.lang.String getHeaders(int index) {
+        return headers_.get(index);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeadersBytes(int index) {
+        return headers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder setHeaders(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addHeaders(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addAllHeaders(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureHeadersIsMutable();
+        super.addAll(values, headers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder clearHeaders() {
+        headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addHeadersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.add(value);
+        onChanged();
+        return this;
+      }
+
       // optional uint64 id = 4;
       private long id_ ;
       /**
        * <code>optional uint64 id = 4;</code>
        */
       public boolean hasId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional uint64 id = 4;</code>
@@ -774,7 +959,7 @@ public final class WebSocketProtos {
        * <code>optional uint64 id = 4;</code>
        */
       public Builder setId(long value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         id_ = value;
         onChanged();
         return this;
@@ -783,7 +968,7 @@ public final class WebSocketProtos {
        * <code>optional uint64 id = 4;</code>
        */
       public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         id_ = 0L;
         onChanged();
         return this;
@@ -837,6 +1022,26 @@ public final class WebSocketProtos {
      */
     com.google.protobuf.ByteString
         getMessageBytes();
+
+    // repeated string headers = 5;
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    java.util.List<java.lang.String>
+    getHeadersList();
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    int getHeadersCount();
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    java.lang.String getHeaders(int index);
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadersBytes(int index);
 
     // optional bytes body = 4;
     /**
@@ -919,6 +1124,14 @@ public final class WebSocketProtos {
               body_ = input.readBytes();
               break;
             }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                headers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              headers_.add(input.readBytes());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -927,6 +1140,9 @@ public final class WebSocketProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.UnmodifiableLazyStringList(headers_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1034,6 +1250,36 @@ public final class WebSocketProtos {
       }
     }
 
+    // repeated string headers = 5;
+    public static final int HEADERS_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList headers_;
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public java.util.List<java.lang.String>
+        getHeadersList() {
+      return headers_;
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public int getHeadersCount() {
+      return headers_.size();
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public java.lang.String getHeaders(int index) {
+      return headers_.get(index);
+    }
+    /**
+     * <code>repeated string headers = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadersBytes(int index) {
+      return headers_.getByteString(index);
+    }
+
     // optional bytes body = 4;
     public static final int BODY_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString body_;
@@ -1054,6 +1300,7 @@ public final class WebSocketProtos {
       id_ = 0L;
       status_ = 0;
       message_ = "";
+      headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       body_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
@@ -1080,6 +1327,9 @@ public final class WebSocketProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(4, body_);
       }
+      for (int i = 0; i < headers_.size(); i++) {
+        output.writeBytes(5, headers_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1104,6 +1354,15 @@ public final class WebSocketProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, body_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < headers_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(headers_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getHeadersList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1227,8 +1486,10 @@ public final class WebSocketProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         message_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        body_ = com.google.protobuf.ByteString.EMPTY;
+        headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
+        body_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1269,7 +1530,13 @@ public final class WebSocketProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.message_ = message_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              headers_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.headers_ = headers_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
         result.body_ = body_;
@@ -1298,6 +1565,16 @@ public final class WebSocketProtos {
         if (other.hasMessage()) {
           bitField0_ |= 0x00000004;
           message_ = other.message_;
+          onChanged();
+        }
+        if (!other.headers_.isEmpty()) {
+          if (headers_.isEmpty()) {
+            headers_ = other.headers_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureHeadersIsMutable();
+            headers_.addAll(other.headers_);
+          }
           onChanged();
         }
         if (other.hasBody()) {
@@ -1470,13 +1747,106 @@ public final class WebSocketProtos {
         return this;
       }
 
+      // repeated string headers = 5;
+      private com.google.protobuf.LazyStringList headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureHeadersIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          headers_ = new com.google.protobuf.LazyStringArrayList(headers_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public java.util.List<java.lang.String>
+          getHeadersList() {
+        return java.util.Collections.unmodifiableList(headers_);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public int getHeadersCount() {
+        return headers_.size();
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public java.lang.String getHeaders(int index) {
+        return headers_.get(index);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeadersBytes(int index) {
+        return headers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder setHeaders(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addHeaders(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addAllHeaders(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureHeadersIsMutable();
+        super.addAll(values, headers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder clearHeaders() {
+        headers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string headers = 5;</code>
+       */
+      public Builder addHeadersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeadersIsMutable();
+        headers_.add(value);
+        onChanged();
+        return this;
+      }
+
       // optional bytes body = 4;
       private com.google.protobuf.ByteString body_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes body = 4;</code>
        */
       public boolean hasBody() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional bytes body = 4;</code>
@@ -1491,7 +1861,7 @@ public final class WebSocketProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         body_ = value;
         onChanged();
         return this;
@@ -1500,7 +1870,7 @@ public final class WebSocketProtos {
        * <code>optional bytes body = 4;</code>
        */
       public Builder clearBody() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         body_ = getDefaultInstance().getBody();
         onChanged();
         return this;
@@ -2422,18 +2792,19 @@ public final class WebSocketProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\030WebSocketResources.proto\022\rsignalservic" +
-      "e\"O\n\027WebSocketRequestMessage\022\014\n\004verb\030\001 \001" +
-      "(\t\022\014\n\004path\030\002 \001(\t\022\014\n\004body\030\003 \001(\014\022\n\n\002id\030\004 \001" +
-      "(\004\"U\n\030WebSocketResponseMessage\022\n\n\002id\030\001 \001" +
-      "(\004\022\016\n\006status\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\022\014\n\004b" +
-      "ody\030\004 \001(\014\"\352\001\n\020WebSocketMessage\0222\n\004type\030\001" +
-      " \001(\0162$.signalservice.WebSocketMessage.Ty" +
-      "pe\0227\n\007request\030\002 \001(\0132&.signalservice.WebS" +
-      "ocketRequestMessage\0229\n\010response\030\003 \001(\0132\'." +
-      "signalservice.WebSocketResponseMessage\".",
-      "\n\004Type\022\013\n\007UNKNOWN\020\000\022\013\n\007REQUEST\020\001\022\014\n\010RESP" +
-      "ONSE\020\002BF\n3org.whispersystems.signalservi" +
-      "ce.internal.websocketB\017WebSocketProtos"
+      "e\"`\n\027WebSocketRequestMessage\022\014\n\004verb\030\001 \001" +
+      "(\t\022\014\n\004path\030\002 \001(\t\022\014\n\004body\030\003 \001(\014\022\017\n\007header" +
+      "s\030\005 \003(\t\022\n\n\002id\030\004 \001(\004\"f\n\030WebSocketResponse" +
+      "Message\022\n\n\002id\030\001 \001(\004\022\016\n\006status\030\002 \001(\r\022\017\n\007m" +
+      "essage\030\003 \001(\t\022\017\n\007headers\030\005 \003(\t\022\014\n\004body\030\004 " +
+      "\001(\014\"\352\001\n\020WebSocketMessage\0222\n\004type\030\001 \001(\0162$" +
+      ".signalservice.WebSocketMessage.Type\0227\n\007" +
+      "request\030\002 \001(\0132&.signalservice.WebSocketR" +
+      "equestMessage\0229\n\010response\030\003 \001(\0132\'.signal",
+      "service.WebSocketResponseMessage\".\n\004Type" +
+      "\022\013\n\007UNKNOWN\020\000\022\013\n\007REQUEST\020\001\022\014\n\010RESPONSE\020\002" +
+      "BF\n3org.whispersystems.signalservice.int" +
+      "ernal.websocketB\017WebSocketProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2445,13 +2816,13 @@ public final class WebSocketProtos {
           internal_static_signalservice_WebSocketRequestMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_WebSocketRequestMessage_descriptor,
-              new java.lang.String[] { "Verb", "Path", "Body", "Id", });
+              new java.lang.String[] { "Verb", "Path", "Body", "Headers", "Id", });
           internal_static_signalservice_WebSocketResponseMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_signalservice_WebSocketResponseMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_WebSocketResponseMessage_descriptor,
-              new java.lang.String[] { "Id", "Status", "Message", "Body", });
+              new java.lang.String[] { "Id", "Status", "Message", "Headers", "Body", });
           internal_static_signalservice_WebSocketMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_signalservice_WebSocketMessage_fieldAccessorTable = new
