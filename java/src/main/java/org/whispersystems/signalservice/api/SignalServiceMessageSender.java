@@ -29,6 +29,8 @@ import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptions;
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
+import org.whispersystems.signalservice.api.push.exceptions.RateLimitExceededException;
+import org.whispersystems.signalservice.api.push.exceptions.RateLimitException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
@@ -303,6 +305,7 @@ public class SignalServiceMessageSender {
     List<UntrustedIdentityException> untrustedIdentities = new LinkedList<>();
     List<UnregisteredUserException>  unregisteredUsers   = new LinkedList<>();
     List<NetworkFailureException>    networkExceptions   = new LinkedList<>();
+    List<RateLimitExceededException> rateLimitExceptions = new LinkedList<>();
 
     SendMessageResponse response = null;
 
@@ -318,11 +321,17 @@ public class SignalServiceMessageSender {
       } catch (PushNetworkException e) {
         Log.w(TAG, e);
         networkExceptions.add(new NetworkFailureException(recipient.getNumber(), e));
+      } catch (RateLimitException e) {
+        Log.w(TAG, e);
+        rateLimitExceptions.add(new RateLimitExceededException(recipient.getNumber(), e));
       }
     }
 
-    if (!untrustedIdentities.isEmpty() || !unregisteredUsers.isEmpty() || !networkExceptions.isEmpty()) {
-      throw new EncapsulatedExceptions(untrustedIdentities, unregisteredUsers, networkExceptions);
+    if (!untrustedIdentities.isEmpty() || !unregisteredUsers.isEmpty() ||
+        !networkExceptions.isEmpty() || !rateLimitExceptions.isEmpty())
+    {
+      throw new EncapsulatedExceptions(untrustedIdentities, unregisteredUsers, networkExceptions,
+                                       rateLimitExceptions);
     }
 
     return response;
