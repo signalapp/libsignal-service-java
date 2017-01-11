@@ -48,6 +48,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -57,9 +58,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.ConnectionSpec;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -571,9 +574,8 @@ public class PushServiceSocket {
       SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, trustManagers, null);
 
-      OkHttpClient okHttpClient = new OkHttpClient.Builder()
-          .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
-          .build();
+      OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
+          .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0]);
 
       Request.Builder request = new Request.Builder();
       request.url(String.format("%s%s", url, urlFragment));
@@ -592,11 +594,18 @@ public class PushServiceSocket {
         request.addHeader("X-Signal-Agent", userAgent);
       }
 
-      if (hostHeader.isPresent()) {
-        okHttpClient.networkInterceptors().add(new HostInterceptor(hostHeader.get()));
+      if (connectionInformation.getConnectionSpec().isPresent()) {
+        okHttpClientBuilder.connectionSpecs(Collections.singletonList(connectionInformation.getConnectionSpec().get()));
+      } else {
+        okHttpClientBuilder.connectionSpecs(Util.immutableList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS));
       }
 
-      return okHttpClient.newCall(request.build()).execute();
+      if (hostHeader.isPresent()) {
+        okHttpClientBuilder.protocols(Collections.singletonList(Protocol.HTTP_1_1));
+        request.addHeader("Host", hostHeader.get());
+      }
+
+      return okHttpClientBuilder.build().newCall(request.build()).execute();
     } catch (IOException e) {
       throw new PushNetworkException(e);
     } catch (NoSuchAlgorithmException | KeyManagementException e) {
@@ -650,31 +659,18 @@ public class PushServiceSocket {
     }
   }
 
-  private static class HostInterceptor implements Interceptor {
-
-    private final String host;
-
-    HostInterceptor(String host) {
-      this.host = host;
-    }
-
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-      Request request = chain.request();
-      return chain.proceed(request.newBuilder().header("Host", host).build());
-    }
-  }
-
   private static class SignalConnectionInformation {
 
-    private final String           url;
-    private final Optional<String> hostHeader;
-    private final TrustManager[]   trustManagers;
+    private final String                   url;
+    private final Optional<String>         hostHeader;
+    private final Optional<ConnectionSpec> connectionSpec;
+    private final TrustManager[]           trustManagers;
 
     private SignalConnectionInformation(SignalServiceUrl signalServiceUrl) {
-      this.url           = signalServiceUrl.getUrl();
-      this.hostHeader    = signalServiceUrl.getHostHeader();
-      this.trustManagers = BlacklistingTrustManager.createFor(signalServiceUrl.getTrustStore());
+      this.url            = signalServiceUrl.getUrl();
+      this.hostHeader     = signalServiceUrl.getHostHeader();
+      this.connectionSpec = signalServiceUrl.getConnectionSpec();
+      this.trustManagers  = BlacklistingTrustManager.createFor(signalServiceUrl.getTrustStore());
     }
 
     String getUrl() {
@@ -687,6 +683,10 @@ public class PushServiceSocket {
 
     TrustManager[] getTrustManagers() {
       return trustManagers;
+    }
+
+    Optional<ConnectionSpec> getConnectionSpec() {
+      return connectionSpec;
     }
   }
 }
