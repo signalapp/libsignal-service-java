@@ -117,11 +117,11 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean fetchesMessages)
       throws IOException
   {
     this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
-                                             signalProtocolRegistrationId, voice);
+                                             signalProtocolRegistrationId, voice, fetchesMessages);
   }
 
   /**
@@ -139,10 +139,10 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean fetchesMessages)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice);
+    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice, fetchesMessages);
   }
 
   /**
@@ -157,10 +157,10 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean fetchesMessages)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice);
+    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice, fetchesMessages);
   }
 
   /**
