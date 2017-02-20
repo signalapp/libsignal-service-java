@@ -173,8 +173,7 @@ public class AttachmentCipherInputStream extends FileInputStream {
   }
 
   private void verifyMac(File file, Mac mac) throws FileNotFoundException, InvalidMacException {
-    try {
-      FileInputStream fin           = new FileInputStream(file);
+    try (FileInputStream fin = new FileInputStream(file)) {
       int             remainingData = Util.toIntExact(file.length()) - mac.getMacLength();
       byte[]          buffer        = new byte[4096];
 
