@@ -100,7 +100,7 @@ public class SignalServiceMessageReceiver {
       throws IOException, InvalidMessageException
   {
     socket.retrieveAttachment(pointer.getRelay().orNull(), pointer.getId(), destination, listener);
-    return new AttachmentCipherInputStream(destination, pointer.getKey());
+    return new AttachmentCipherInputStream(destination, pointer.getKey(), pointer.getDigest());
   }
 
   /**

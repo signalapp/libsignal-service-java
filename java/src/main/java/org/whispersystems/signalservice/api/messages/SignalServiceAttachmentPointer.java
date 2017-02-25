@@ -23,13 +23,15 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   private final Optional<String>  relay;
   private final Optional<Integer> size;
   private final Optional<byte[]>  preview;
+  private final Optional<byte[]>  digest;
 
-  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay) {
-    this(id, contentType, key, relay, Optional.<Integer>absent(), Optional.<byte[]>absent());
+  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay, Optional<byte[]> digest) {
+    this(id, contentType, key, relay, Optional.<Integer>absent(), Optional.<byte[]>absent(), digest);
   }
 
   public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay,
-                                        Optional<Integer> size, Optional<byte[]> preview)
+                                        Optional<Integer> size, Optional<byte[]> preview,
+                                        Optional<byte[]> digest)
   {
     super(contentType);
     this.id      = id;
@@ -37,6 +39,7 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
     this.relay   = Optional.fromNullable(relay);
     this.size    = size;
     this.preview = preview;
+    this.digest  = digest;
   }
 
   public long getId() {
@@ -67,5 +70,9 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   public Optional<byte[]> getPreview() {
     return preview;
+  }
+
+  public Optional<byte[]> getDigest() {
+    return digest;
   }
 }

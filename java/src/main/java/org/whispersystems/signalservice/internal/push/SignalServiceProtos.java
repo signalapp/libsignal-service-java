@@ -12605,6 +12605,16 @@ public final class SignalServiceProtos {
      * <code>optional bytes thumbnail = 5;</code>
      */
     com.google.protobuf.ByteString getThumbnail();
+
+    // optional bytes digest = 6;
+    /**
+     * <code>optional bytes digest = 6;</code>
+     */
+    boolean hasDigest();
+    /**
+     * <code>optional bytes digest = 6;</code>
+     */
+    com.google.protobuf.ByteString getDigest();
   }
   /**
    * Protobuf type {@code signalservice.AttachmentPointer}
@@ -12680,6 +12690,11 @@ public final class SignalServiceProtos {
             case 42: {
               bitField0_ |= 0x00000010;
               thumbnail_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              digest_ = input.readBytes();
               break;
             }
           }
@@ -12829,12 +12844,29 @@ public final class SignalServiceProtos {
       return thumbnail_;
     }
 
+    // optional bytes digest = 6;
+    public static final int DIGEST_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString digest_;
+    /**
+     * <code>optional bytes digest = 6;</code>
+     */
+    public boolean hasDigest() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional bytes digest = 6;</code>
+     */
+    public com.google.protobuf.ByteString getDigest() {
+      return digest_;
+    }
+
     private void initFields() {
       id_ = 0L;
       contentType_ = "";
       key_ = com.google.protobuf.ByteString.EMPTY;
       size_ = 0;
       thumbnail_ = com.google.protobuf.ByteString.EMPTY;
+      digest_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12862,6 +12894,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(5, thumbnail_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, digest_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12891,6 +12926,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, thumbnail_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, digest_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13018,6 +13057,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         thumbnail_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        digest_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -13066,6 +13107,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.thumbnail_ = thumbnail_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.digest_ = digest_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13098,6 +13143,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasThumbnail()) {
           setThumbnail(other.getThumbnail());
+        }
+        if (other.hasDigest()) {
+          setDigest(other.getDigest());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13334,6 +13382,42 @@ public final class SignalServiceProtos {
       public Builder clearThumbnail() {
         bitField0_ = (bitField0_ & ~0x00000010);
         thumbnail_ = getDefaultInstance().getThumbnail();
+        onChanged();
+        return this;
+      }
+
+      // optional bytes digest = 6;
+      private com.google.protobuf.ByteString digest_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes digest = 6;</code>
+       */
+      public boolean hasDigest() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bytes digest = 6;</code>
+       */
+      public com.google.protobuf.ByteString getDigest() {
+        return digest_;
+      }
+      /**
+       * <code>optional bytes digest = 6;</code>
+       */
+      public Builder setDigest(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        digest_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes digest = 6;</code>
+       */
+      public Builder clearDigest() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        digest_ = getDefaultInstance().getDigest();
         onChanged();
         return this;
       }
@@ -17738,26 +17822,26 @@ public final class SignalServiceProtos {
       "\030\001 \001(\0162\'.signalservice.SyncMessage.Reque" +
       "st.Type\":\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS" +
       "\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006s" +
-      "ender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"b\n\021Attach" +
+      "ender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"r\n\021Attach" +
       "mentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002" +
       " \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumb",
-      "nail\030\005 \001(\014\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022" +
-      ".\n\004type\030\002 \001(\0162 .signalservice.GroupConte" +
-      "xt.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220" +
-      "\n\006avatar\030\005 \001(\0132 .signalservice.Attachmen" +
-      "tPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020" +
-      "\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO" +
-      "\020\004\"\242\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n" +
-      "\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalserv" +
-      "ice.ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t" +
-      "\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006lengt",
-      "h\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004" +
-      "name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 " +
-      "\001(\0132\".signalservice.GroupDetails.Avatar\022" +
-      "\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013conte" +
-      "ntType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whis" +
-      "persystems.signalservice.internal.pushB\023" +
-      "SignalServiceProtos"
+      "nail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\"\345\001\n\014GroupCont" +
+      "ext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signalse" +
+      "rvice.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n" +
+      "\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signals" +
+      "ervice.AttachmentPointer\"H\n\004Type\022\013\n\007UNKN" +
+      "OWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003" +
+      "\022\020\n\014REQUEST_INFO\020\004\"\242\001\n\016ContactDetails\022\016\n" +
+      "\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 " +
+      "\001(\0132$.signalservice.ContactDetails.Avata" +
+      "r\022\r\n\005color\030\004 \001(\t\032-\n\006Avatar\022\023\n\013contentTyp",
+      "e\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014GroupDetails" +
+      "\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 " +
+      "\003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice.Grou" +
+      "pDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004true\032-\n" +
+      "\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002" +
+      " \001(\rBE\n.org.whispersystems.signalservice" +
+      ".internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17865,7 +17949,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
-              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", });
+              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", });
           internal_static_signalservice_GroupContext_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new

@@ -15,6 +15,7 @@ import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
@@ -47,6 +48,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
@@ -353,7 +355,7 @@ public class PushServiceSocket {
     makeRequest(SIGNED_PREKEY_PATH, "PUT", JsonUtil.toJson(signedPreKeyEntity));
   }
 
-  public long sendAttachment(PushAttachmentData attachment) throws IOException {
+  public Pair<Long, byte[]> sendAttachment(PushAttachmentData attachment) throws IOException {
     String               response      = makeRequest(String.format(ATTACHMENT_PATH, ""), "GET", null);
     AttachmentDescriptor attachmentKey = JsonUtil.fromJson(response, AttachmentDescriptor.class);
 
@@ -363,10 +365,10 @@ public class PushServiceSocket {
 
     Log.w(TAG, "Got attachment content location: " + attachmentKey.getLocation());
 
-    uploadAttachment("PUT", attachmentKey.getLocation(), attachment.getData(),
-                     attachment.getDataSize(), attachment.getKey(), attachment.getListener());
+    byte[] digest = uploadAttachment("PUT", attachmentKey.getLocation(), attachment.getData(),
+                                     attachment.getDataSize(), attachment.getKey(), attachment.getListener());
 
-    return attachmentKey.getId();
+    return new Pair<>(attachmentKey.getId(), digest);
   }
 
   public void retrieveAttachment(String relay, long attachmentId, File destination, ProgressListener listener) throws IOException {
@@ -465,8 +467,8 @@ public class PushServiceSocket {
     }
   }
 
-  private void uploadAttachment(String method, String url, InputStream data,
-                                long dataSize, byte[] key, ProgressListener listener)
+  private byte[] uploadAttachment(String method, String url, InputStream data,
+                                  long dataSize, byte[] key, ProgressListener listener)
     throws IOException
   {
     URL                uploadUrl  = new URL(url);
@@ -506,6 +508,8 @@ public class PushServiceSocket {
       if (connection.getResponseCode() != 200) {
         throw new IOException("Bad response: " + connection.getResponseCode() + " " + connection.getResponseMessage());
       }
+
+      return out.getAttachmentDigest();
     } finally {
       connection.disconnect();
     }
