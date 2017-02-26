@@ -40,6 +40,7 @@ import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
 import org.whispersystems.signalservice.internal.push.PushAttachmentData;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
+import org.whispersystems.signalservice.internal.push.SendMessageResponseList;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content;
@@ -156,17 +157,21 @@ public class SignalServiceMessageSender {
   public void sendMessage(List<SignalServiceAddress> recipients, SignalServiceDataMessage message)
       throws IOException, EncapsulatedExceptions
   {
-    byte[]              content   = createMessageContent(message);
-    long                timestamp = message.getTimestamp();
-    SendMessageResponse response  = sendMessage(recipients, timestamp, content, true);
+    byte[]                  content   = createMessageContent(message);
+    long                    timestamp = message.getTimestamp();
+    SendMessageResponseList response  = sendMessage(recipients, timestamp, content, true);
 
     try {
-      if (response != null && response.getNeedsSync()) {
+      if (response.getNeedsSync()) {
         byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp);
         sendMessage(localAddress, timestamp, syncMessage, false, false);
       }
     } catch (UntrustedIdentityException e) {
-      throw new EncapsulatedExceptions(e);
+      response.addException(e);
+    }
+
+    if (response.hasExceptions()) {
+      throw new EncapsulatedExceptions(response.getUntrustedIdentities(), response.getUnregisteredUsers(), response.getNetworkExceptions());
     }
   }
 
@@ -354,35 +359,28 @@ public class SignalServiceMessageSender {
     return builder.build();
   }
 
-  private SendMessageResponse sendMessage(List<SignalServiceAddress> recipients, long timestamp, byte[] content, boolean legacy)
-      throws IOException, EncapsulatedExceptions
+  private SendMessageResponseList sendMessage(List<SignalServiceAddress> recipients, long timestamp, byte[] content, boolean legacy)
+      throws IOException
   {
-    List<UntrustedIdentityException> untrustedIdentities = new LinkedList<>();
-    List<UnregisteredUserException>  unregisteredUsers   = new LinkedList<>();
-    List<NetworkFailureException>    networkExceptions   = new LinkedList<>();
-
-    SendMessageResponse response = null;
+    SendMessageResponseList responseList = new SendMessageResponseList();
 
     for (SignalServiceAddress recipient : recipients) {
       try {
-        response = sendMessage(recipient, timestamp, content, legacy, false);
+        SendMessageResponse response = sendMessage(recipient, timestamp, content, legacy, false);
+        responseList.addResponse(response);
       } catch (UntrustedIdentityException e) {
         Log.w(TAG, e);
-        untrustedIdentities.add(e);
+        responseList.addException(e);
       } catch (UnregisteredUserException e) {
         Log.w(TAG, e);
-        unregisteredUsers.add(e);
+        responseList.addException(e);
       } catch (PushNetworkException e) {
         Log.w(TAG, e);
-        networkExceptions.add(new NetworkFailureException(recipient.getNumber(), e));
+        responseList.addException(new NetworkFailureException(recipient.getNumber(), e));
       }
     }
 
-    if (!untrustedIdentities.isEmpty() || !unregisteredUsers.isEmpty() || !networkExceptions.isEmpty()) {
-      throw new EncapsulatedExceptions(untrustedIdentities, unregisteredUsers, networkExceptions);
-    }
-
-    return response;
+    return responseList;
   }
 
   private SendMessageResponse sendMessage(SignalServiceAddress recipient, long timestamp, byte[] content, boolean legacy, boolean silent)
