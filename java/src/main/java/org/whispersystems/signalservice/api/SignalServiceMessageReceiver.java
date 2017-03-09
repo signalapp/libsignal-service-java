@@ -77,10 +77,10 @@ public class SignalServiceMessageReceiver {
    * @throws IOException
    * @throws InvalidMessageException
    */
-  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination)
+  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination, int maxSizeBytes)
       throws IOException, InvalidMessageException
   {
-    return retrieveAttachment(pointer, destination, null);
+    return retrieveAttachment(pointer, destination, maxSizeBytes, null);
   }
 
 
@@ -96,10 +96,10 @@ public class SignalServiceMessageReceiver {
    * @throws IOException
    * @throws InvalidMessageException
    */
-  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination, ProgressListener listener)
+  public InputStream retrieveAttachment(SignalServiceAttachmentPointer pointer, File destination, int maxSizeBytes, ProgressListener listener)
       throws IOException, InvalidMessageException
   {
-    socket.retrieveAttachment(pointer.getRelay().orNull(), pointer.getId(), destination, listener);
+    socket.retrieveAttachment(pointer.getRelay().orNull(), pointer.getId(), destination, maxSizeBytes, listener);
     return new AttachmentCipherInputStream(destination, pointer.getKey(), pointer.getDigest());
   }
 

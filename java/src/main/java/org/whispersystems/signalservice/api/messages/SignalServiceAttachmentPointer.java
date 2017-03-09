@@ -12,7 +12,7 @@ import org.whispersystems.signalservice.api.SignalServiceMessageReceiver;
 /**
  * Represents a received SignalServiceAttachment "handle."  This
  * is a pointer to the actual attachment content, which needs to be
- * retrieved using {@link SignalServiceMessageReceiver#retrieveAttachment(SignalServiceAttachmentPointer, java.io.File)}
+ * retrieved using {@link SignalServiceMessageReceiver#retrieveAttachment(SignalServiceAttachmentPointer, java.io.File, int)}
  *
  * @author Moxie Marlinspike
  */
