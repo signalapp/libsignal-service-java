@@ -43,7 +43,7 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
       InputStream avatarStream      = new ChunkedInputStream.LimitedInputStream(in, avatarLength);
       String      avatarContentType = details.getAvatar().getContentType();
 
-      avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, null));
+      avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, Optional.<String>absent(), null));
     }
 
     return new DeviceGroup(id, name, members, avatar, active);

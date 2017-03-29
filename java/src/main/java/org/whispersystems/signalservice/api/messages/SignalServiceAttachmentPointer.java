@@ -24,22 +24,24 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   private final Optional<Integer> size;
   private final Optional<byte[]>  preview;
   private final Optional<byte[]>  digest;
+  private final Optional<String>  fileName;
 
-  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay, Optional<byte[]> digest) {
-    this(id, contentType, key, relay, Optional.<Integer>absent(), Optional.<byte[]>absent(), digest);
+  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay, Optional<byte[]> digest, Optional<String> fileName) {
+    this(id, contentType, key, relay, Optional.<Integer>absent(), Optional.<byte[]>absent(), digest, fileName);
   }
 
   public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay,
                                         Optional<Integer> size, Optional<byte[]> preview,
-                                        Optional<byte[]> digest)
+                                        Optional<byte[]> digest, Optional<String> fileName)
   {
     super(contentType);
-    this.id      = id;
-    this.key     = key;
-    this.relay   = Optional.fromNullable(relay);
-    this.size    = size;
-    this.preview = preview;
-    this.digest  = digest;
+    this.id       = id;
+    this.key      = key;
+    this.relay    = Optional.fromNullable(relay);
+    this.size     = size;
+    this.preview  = preview;
+    this.digest   = digest;
+    this.fileName = fileName;
   }
 
   public long getId() {
@@ -66,6 +68,10 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   public Optional<Integer> getSize() {
     return size;
+  }
+
+  public Optional<String> getFileName() {
+    return fileName;
   }
 
   public Optional<byte[]> getPreview() {

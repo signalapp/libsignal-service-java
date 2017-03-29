@@ -6,6 +6,8 @@
 
 package org.whispersystems.signalservice.api.messages;
 
+import org.whispersystems.libsignal.util.guava.Optional;
+
 import java.io.InputStream;
 
 public abstract class SignalServiceAttachment {
@@ -39,6 +41,7 @@ public abstract class SignalServiceAttachment {
 
     private InputStream      inputStream;
     private String           contentType;
+    private String           fileName;
     private long             length;
     private ProgressListener listener;
 
@@ -59,6 +62,11 @@ public abstract class SignalServiceAttachment {
       return this;
     }
 
+    public Builder withFileName(String fileName) {
+      this.fileName = fileName;
+      return this;
+    }
+
     public Builder withListener(ProgressListener listener) {
       this.listener = listener;
       return this;
@@ -69,7 +77,7 @@ public abstract class SignalServiceAttachment {
       if (contentType == null) throw new IllegalArgumentException("No content type specified!");
       if (length == 0)         throw new IllegalArgumentException("No length specified!");
 
-      return new SignalServiceAttachmentStream(inputStream, contentType, length, listener);
+      return new SignalServiceAttachmentStream(inputStream, contentType, length, Optional.fromNullable(fileName), listener);
     }
   }
 
