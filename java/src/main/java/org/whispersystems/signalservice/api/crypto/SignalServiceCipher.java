@@ -64,7 +64,7 @@ public class SignalServiceCipher {
 
   private static final String TAG = SignalServiceCipher.class.getSimpleName();
 
-  private final SignalProtocolStore      signalProtocolStore;
+  private final SignalProtocolStore  signalProtocolStore;
   private final SignalServiceAddress localAddress;
 
   public SignalServiceCipher(SignalServiceAddress localAddress, SignalProtocolStore signalProtocolStore) {
@@ -171,7 +171,8 @@ public class SignalServiceCipher {
                                                          pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
                                                          pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent(),
                                                          pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
-                                                         pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent()));
+                                                         pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
+                                                         (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0));
     }
 
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
@@ -265,7 +266,8 @@ public class SignalServiceCipher {
                                                     pointer.getKey().toByteArray(),
                                                     envelope.getRelay(),
                                                     pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
-                                                    Optional.<String>absent());
+                                                    Optional.<String>absent(),
+                                                    false);
       }
 
       return new SignalServiceGroup(type, content.getGroup().getId().toByteArray(), name, members, avatar);

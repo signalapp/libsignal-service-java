@@ -8623,6 +8623,16 @@ public final class SignalServiceProtos {
        * <code>optional .signalservice.AttachmentPointer blob = 1;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getBlobOrBuilder();
+
+      // optional bool complete = 2 [default = false];
+      /**
+       * <code>optional bool complete = 2 [default = false];</code>
+       */
+      boolean hasComplete();
+      /**
+       * <code>optional bool complete = 2 [default = false];</code>
+       */
+      boolean getComplete();
     }
     /**
      * Protobuf type {@code signalservice.SyncMessage.Contacts}
@@ -8688,6 +8698,11 @@ public final class SignalServiceProtos {
                 bitField0_ |= 0x00000001;
                 break;
               }
+              case 16: {
+                bitField0_ |= 0x00000002;
+                complete_ = input.readBool();
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8750,8 +8765,25 @@ public final class SignalServiceProtos {
         return blob_;
       }
 
+      // optional bool complete = 2 [default = false];
+      public static final int COMPLETE_FIELD_NUMBER = 2;
+      private boolean complete_;
+      /**
+       * <code>optional bool complete = 2 [default = false];</code>
+       */
+      public boolean hasComplete() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bool complete = 2 [default = false];</code>
+       */
+      public boolean getComplete() {
+        return complete_;
+      }
+
       private void initFields() {
         blob_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
+        complete_ = false;
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -8768,6 +8800,9 @@ public final class SignalServiceProtos {
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           output.writeMessage(1, blob_);
         }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeBool(2, complete_);
+        }
         getUnknownFields().writeTo(output);
       }
 
@@ -8780,6 +8815,10 @@ public final class SignalServiceProtos {
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(1, blob_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(2, complete_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -8904,6 +8943,8 @@ public final class SignalServiceProtos {
             blobBuilder_.clear();
           }
           bitField0_ = (bitField0_ & ~0x00000001);
+          complete_ = false;
+          bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
 
@@ -8940,6 +8981,10 @@ public final class SignalServiceProtos {
           } else {
             result.blob_ = blobBuilder_.build();
           }
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.complete_ = complete_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -8958,6 +9003,9 @@ public final class SignalServiceProtos {
           if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Contacts.getDefaultInstance()) return this;
           if (other.hasBlob()) {
             mergeBlob(other.getBlob());
+          }
+          if (other.hasComplete()) {
+            setComplete(other.getComplete());
           }
           this.mergeUnknownFields(other.getUnknownFields());
           return this;
@@ -9101,6 +9149,39 @@ public final class SignalServiceProtos {
             blob_ = null;
           }
           return blobBuilder_;
+        }
+
+        // optional bool complete = 2 [default = false];
+        private boolean complete_ ;
+        /**
+         * <code>optional bool complete = 2 [default = false];</code>
+         */
+        public boolean hasComplete() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional bool complete = 2 [default = false];</code>
+         */
+        public boolean getComplete() {
+          return complete_;
+        }
+        /**
+         * <code>optional bool complete = 2 [default = false];</code>
+         */
+        public Builder setComplete(boolean value) {
+          bitField0_ |= 0x00000002;
+          complete_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional bool complete = 2 [default = false];</code>
+         */
+        public Builder clearComplete() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          complete_ = false;
+          onChanged();
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.Contacts)
@@ -12630,6 +12711,16 @@ public final class SignalServiceProtos {
      */
     com.google.protobuf.ByteString
         getFileNameBytes();
+
+    // optional uint32 flags = 8;
+    /**
+     * <code>optional uint32 flags = 8;</code>
+     */
+    boolean hasFlags();
+    /**
+     * <code>optional uint32 flags = 8;</code>
+     */
+    int getFlags();
   }
   /**
    * Protobuf type {@code signalservice.AttachmentPointer}
@@ -12717,6 +12808,11 @@ public final class SignalServiceProtos {
               fileName_ = input.readBytes();
               break;
             }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              flags_ = input.readUInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12754,6 +12850,79 @@ public final class SignalServiceProtos {
     @java.lang.Override
     public com.google.protobuf.Parser<AttachmentPointer> getParserForType() {
       return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code signalservice.AttachmentPointer.Flags}
+     */
+    public enum Flags
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>VOICE_MESSAGE = 1;</code>
+       */
+      VOICE_MESSAGE(0, 1),
+      ;
+
+      /**
+       * <code>VOICE_MESSAGE = 1;</code>
+       */
+      public static final int VOICE_MESSAGE_VALUE = 1;
+
+
+      public final int getNumber() { return value; }
+
+      public static Flags valueOf(int value) {
+        switch (value) {
+          case 1: return VOICE_MESSAGE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Flags>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<Flags>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Flags>() {
+              public Flags findValueByNumber(int number) {
+                return Flags.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Flags[] VALUES = values();
+
+      public static Flags valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private Flags(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:signalservice.AttachmentPointer.Flags)
     }
 
     private int bitField0_;
@@ -12923,6 +13092,22 @@ public final class SignalServiceProtos {
       }
     }
 
+    // optional uint32 flags = 8;
+    public static final int FLAGS_FIELD_NUMBER = 8;
+    private int flags_;
+    /**
+     * <code>optional uint32 flags = 8;</code>
+     */
+    public boolean hasFlags() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional uint32 flags = 8;</code>
+     */
+    public int getFlags() {
+      return flags_;
+    }
+
     private void initFields() {
       id_ = 0L;
       contentType_ = "";
@@ -12931,6 +13116,7 @@ public final class SignalServiceProtos {
       thumbnail_ = com.google.protobuf.ByteString.EMPTY;
       digest_ = com.google.protobuf.ByteString.EMPTY;
       fileName_ = "";
+      flags_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12964,6 +13150,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBytes(7, getFileNameBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeUInt32(8, flags_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13001,6 +13190,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getFileNameBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(8, flags_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13132,6 +13325,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         fileName_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        flags_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -13188,6 +13383,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.fileName_ = fileName_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.flags_ = flags_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13228,6 +13427,9 @@ public final class SignalServiceProtos {
           bitField0_ |= 0x00000040;
           fileName_ = other.fileName_;
           onChanged();
+        }
+        if (other.hasFlags()) {
+          setFlags(other.getFlags());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13574,6 +13776,39 @@ public final class SignalServiceProtos {
   }
   bitField0_ |= 0x00000040;
         fileName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 flags = 8;
+      private int flags_ ;
+      /**
+       * <code>optional uint32 flags = 8;</code>
+       */
+      public boolean hasFlags() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional uint32 flags = 8;</code>
+       */
+      public int getFlags() {
+        return flags_;
+      }
+      /**
+       * <code>optional uint32 flags = 8;</code>
+       */
+      public Builder setFlags(int value) {
+        bitField0_ |= 0x00000080;
+        flags_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 flags = 8;</code>
+       */
+      public Builder clearFlags() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        flags_ = 0;
         onChanged();
         return this;
       }
@@ -17959,7 +18194,7 @@ public final class SignalServiceProtos {
       "mentPointer\022*\n\005group\030\003 \001(\0132\033.signalservi" +
       "ce.GroupContext\022\r\n\005flags\030\004 \001(\r\022\023\n\013expire" +
       "Timer\030\005 \001(\r\"5\n\005Flags\022\017\n\013END_SESSION\020\001\022\033\n" +
-      "\027EXPIRATION_TIMER_UPDATE\020\002\"\371\005\n\013SyncMessa" +
+      "\027EXPIRATION_TIMER_UPDATE\020\002\"\222\006\n\013SyncMessa" +
       "ge\022-\n\004sent\030\001 \001(\0132\037.signalservice.SyncMes",
       "sage.Sent\0225\n\010contacts\030\002 \001(\0132#.signalserv" +
       "ice.SyncMessage.Contacts\0221\n\006groups\030\003 \001(\013" +
@@ -17970,35 +18205,37 @@ public final class SignalServiceProtos {
       "lservice.SyncMessage.Blocked\032}\n\004Sent\022\023\n\013" +
       "destination\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n\007" +
       "message\030\003 \001(\0132\032.signalservice.DataMessag" +
-      "e\022 \n\030expirationStartTimestamp\030\004 \001(\004\032:\n\010C",
+      "e\022 \n\030expirationStartTimestamp\030\004 \001(\004\032S\n\010C",
       "ontacts\022.\n\004blob\030\001 \001(\0132 .signalservice.At" +
-      "tachmentPointer\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132" +
-      " .signalservice.AttachmentPointer\032\032\n\007Blo" +
-      "cked\022\017\n\007numbers\030\001 \003(\t\032|\n\007Request\0225\n\004type" +
-      "\030\001 \001(\0162\'.signalservice.SyncMessage.Reque" +
-      "st.Type\":\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS" +
-      "\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006s" +
-      "ender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"\204\001\n\021Attac" +
-      "hmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030" +
-      "\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthum",
-      "bnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileName\030" +
-      "\007 \001(\t\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n\004ty" +
-      "pe\030\002 \001(\0162 .signalservice.GroupContext.Ty" +
-      "pe\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006ava" +
-      "tar\030\005 \001(\0132 .signalservice.AttachmentPoin" +
-      "ter\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007" +
-      "DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\242\001" +
-      "\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004name" +
-      "\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservice.C" +
-      "ontactDetails.Avatar\022\r\n\005color\030\004 \001(\t\032-\n\006A",
-      "vatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001" +
-      "(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030" +
-      "\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\"" +
-      ".signalservice.GroupDetails.Avatar\022\024\n\006ac" +
-      "tive\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013contentTyp" +
-      "e\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whispersy" +
-      "stems.signalservice.internal.pushB\023Signa" +
-      "lServiceProtos"
+      "tachmentPointer\022\027\n\010complete\030\002 \001(\010:\005false" +
+      "\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservice" +
+      ".AttachmentPointer\032\032\n\007Blocked\022\017\n\007numbers" +
+      "\030\001 \003(\t\032|\n\007Request\0225\n\004type\030\001 \001(\0162\'.signal" +
+      "service.SyncMessage.Request.Type\":\n\004Type" +
+      "\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022" +
+      "\013\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\t" +
+      "timestamp\030\002 \001(\004\"\257\001\n\021AttachmentPointer\022\n\n" +
+      "\002id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 ",
+      "\001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006" +
+      "digest\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030" +
+      "\010 \001(\r\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Gr" +
+      "oupContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .s" +
+      "ignalservice.GroupContext.Type\022\014\n\004name\030\003" +
+      " \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 ." +
+      "signalservice.AttachmentPointer\"H\n\004Type\022" +
+      "\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n" +
+      "\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\242\001\n\016ContactDet" +
+      "ails\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006av",
+      "atar\030\003 \001(\0132$.signalservice.ContactDetail" +
+      "s.Avatar\022\r\n\005color\030\004 \001(\t\032-\n\006Avatar\022\023\n\013con" +
+      "tentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014Group" +
+      "Details\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007mem" +
+      "bers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservi" +
+      "ce.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004" +
+      "true\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006l" +
+      "ength\030\002 \001(\rBE\n.org.whispersystems.signal" +
+      "service.internal.pushB\023SignalServiceProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -18076,7 +18313,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_SyncMessage_Contacts_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_Contacts_descriptor,
-              new java.lang.String[] { "Blob", });
+              new java.lang.String[] { "Blob", "Complete", });
           internal_static_signalservice_SyncMessage_Groups_descriptor =
             internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(2);
           internal_static_signalservice_SyncMessage_Groups_fieldAccessorTable = new
@@ -18106,7 +18343,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
-              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", });
+              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", });
           internal_static_signalservice_GroupContext_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new

@@ -36,7 +36,7 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
       InputStream avatarStream      = new LimitedInputStream(in, avatarLength);
       String      avatarContentType = details.getAvatar().getContentType();
 
-      avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, Optional.<String>absent(), null));
+      avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, Optional.<String>absent(), false, null));
     }
 
     return new DeviceContact(number, name, avatar, color);

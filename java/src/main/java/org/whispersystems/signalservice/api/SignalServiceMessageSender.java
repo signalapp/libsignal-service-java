@@ -181,7 +181,8 @@ public class SignalServiceMessageSender {
     byte[] content;
 
     if (message.getContacts().isPresent()) {
-      content = createMultiDeviceContactsContent(message.getContacts().get().asStream());
+      content = createMultiDeviceContactsContent(message.getContacts().get().getContactsStream().asStream(),
+                                                 message.getContacts().get().isComplete());
     } else if (message.getGroups().isPresent()) {
       content = createMultiDeviceGroupsContent(message.getGroups().get().asStream());
     } else if (message.getRead().isPresent()) {
@@ -268,11 +269,12 @@ public class SignalServiceMessageSender {
     return container.build().toByteArray();
   }
 
-  private byte[] createMultiDeviceContactsContent(SignalServiceAttachmentStream contacts) throws IOException {
+  private byte[] createMultiDeviceContactsContent(SignalServiceAttachmentStream contacts, boolean complete) throws IOException {
     Content.Builder     container = Content.newBuilder();
     SyncMessage.Builder builder   = SyncMessage.newBuilder();
     builder.setContacts(SyncMessage.Contacts.newBuilder()
-                                            .setBlob(createAttachmentPointer(contacts)));
+                                            .setBlob(createAttachmentPointer(contacts))
+                                            .setComplete(complete));
 
     return container.setSyncMessage(builder).build().toByteArray();
   }
@@ -457,6 +459,10 @@ public class SignalServiceMessageSender {
 
     if (attachment.getPreview().isPresent()) {
       builder.setThumbnail(ByteString.copyFrom(attachment.getPreview().get()));
+    }
+
+    if (attachment.getVoiceNote()) {
+      builder.setFlags(AttachmentPointer.Flags.VOICE_MESSAGE_VALUE);
     }
 
     return builder.build();

@@ -15,14 +15,14 @@ import java.util.List;
 public class SignalServiceSyncMessage {
 
   private final Optional<SentTranscriptMessage>   sent;
-  private final Optional<SignalServiceAttachment> contacts;
+  private final Optional<ContactsMessage>         contacts;
   private final Optional<SignalServiceAttachment> groups;
   private final Optional<BlockedListMessage>      blockedList;
   private final Optional<RequestMessage>          request;
   private final Optional<List<ReadMessage>>       reads;
 
   private SignalServiceSyncMessage(Optional<SentTranscriptMessage>   sent,
-                                   Optional<SignalServiceAttachment> contacts,
+                                   Optional<ContactsMessage>         contacts,
                                    Optional<SignalServiceAttachment> groups,
                                    Optional<BlockedListMessage>      blockedList,
                                    Optional<RequestMessage>          request,
@@ -38,14 +38,14 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage forSentTranscript(SentTranscriptMessage sent) {
     return new SignalServiceSyncMessage(Optional.of(sent),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent());
   }
 
-  public static SignalServiceSyncMessage forContacts(SignalServiceAttachment contacts) {
+  public static SignalServiceSyncMessage forContacts(ContactsMessage contacts) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
                                         Optional.of(contacts),
                                         Optional.<SignalServiceAttachment>absent(),
@@ -56,7 +56,7 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage forGroups(SignalServiceAttachment groups) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.of(groups),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
@@ -65,7 +65,7 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage forRequest(RequestMessage request) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.of(request),
@@ -74,7 +74,7 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage forRead(List<ReadMessage> reads) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
@@ -86,7 +86,7 @@ public class SignalServiceSyncMessage {
     reads.add(read);
 
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
@@ -95,7 +95,7 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage forBlocked(BlockedListMessage blocked) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.of(blocked),
                                         Optional.<RequestMessage>absent(),
@@ -104,7 +104,7 @@ public class SignalServiceSyncMessage {
 
   public static SignalServiceSyncMessage empty() {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
-                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
@@ -119,7 +119,7 @@ public class SignalServiceSyncMessage {
     return groups;
   }
 
-  public Optional<SignalServiceAttachment> getContacts() {
+  public Optional<ContactsMessage> getContacts() {
     return contacts;
   }
 
