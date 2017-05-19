@@ -12,6 +12,8 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.Pro
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.push.SignalServiceProfile;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
@@ -83,6 +85,11 @@ public class SignalServiceMessageReceiver {
     return retrieveAttachment(pointer, destination, maxSizeBytes, null);
   }
 
+  public SignalServiceProfile retrieveProfile(SignalServiceAddress address)
+    throws IOException
+  {
+    return socket.retrieveProfile(address);
+  }
 
   /**
    * Retrieves a SignalServiceAttachment.
