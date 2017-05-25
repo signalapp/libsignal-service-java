@@ -518,7 +518,11 @@ public class SignalServiceMessageSender {
       }
     }
 
-    return cipher.encrypt(signalProtocolAddress, plaintext, legacy, silent);
+    try {
+      return cipher.encrypt(signalProtocolAddress, plaintext, legacy, silent);
+    } catch (org.whispersystems.libsignal.UntrustedIdentityException e) {
+      throw new UntrustedIdentityException("Untrusted on send", recipient.getNumber(), e.getUntrustedIdentity());
+    }
   }
 
   private void handleMismatchedDevices(PushServiceSocket socket, SignalServiceAddress recipient,

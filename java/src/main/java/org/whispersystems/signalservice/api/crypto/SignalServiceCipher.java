@@ -72,7 +72,9 @@ public class SignalServiceCipher {
     this.localAddress = localAddress;
   }
 
-  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy, boolean silent) {
+  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy, boolean silent)
+      throws UntrustedIdentityException
+  {
     SessionCipher        sessionCipher        = new SessionCipher(signalProtocolStore, destination);
     PushTransportDetails transportDetails     = new PushTransportDetails(sessionCipher.getSessionVersion());
     CiphertextMessage    message              = sessionCipher.encrypt(transportDetails.getPaddedMessageBody(unpaddedMessage));
