@@ -522,7 +522,9 @@ public class SignalServiceMessageSender {
     }
 
     for (int deviceId : store.getSubDeviceSessions(recipient.getNumber())) {
-      messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy, silent));
+      if (store.containsSession(new SignalProtocolAddress(recipient.getNumber(), deviceId))) {
+        messages.add(getEncryptedMessage(socket, recipient, deviceId, plaintext, legacy, silent));
+      }
     }
 
     return new OutgoingPushMessageList(recipient.getNumber(), timestamp, recipient.getRelay().orNull(), messages);
@@ -532,7 +534,7 @@ public class SignalServiceMessageSender {
       throws IOException, UntrustedIdentityException
   {
     SignalProtocolAddress signalProtocolAddress = new SignalProtocolAddress(recipient.getNumber(), deviceId);
-    SignalServiceCipher cipher                = new SignalServiceCipher(localAddress, store);
+    SignalServiceCipher   cipher                = new SignalServiceCipher(localAddress, store);
 
     if (!store.containsSession(signalProtocolAddress)) {
       try {
