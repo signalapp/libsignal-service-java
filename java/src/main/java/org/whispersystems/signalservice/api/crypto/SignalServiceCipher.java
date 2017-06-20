@@ -75,7 +75,7 @@ public class SignalServiceCipher {
     this.localAddress = localAddress;
   }
 
-  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean legacy, boolean silent)
+  public OutgoingPushMessage encrypt(SignalProtocolAddress destination, byte[] unpaddedMessage, boolean silent)
       throws UntrustedIdentityException
   {
     SessionCipher        sessionCipher        = new SessionCipher(signalProtocolStore, destination);
@@ -92,8 +92,7 @@ public class SignalServiceCipher {
       default: throw new AssertionError("Bad type: " + message.getType());
     }
 
-    return new OutgoingPushMessage(type, destination.getDeviceId(), remoteRegistrationId,
-                                   legacy ? body : null, legacy ? null : body, silent);
+    return new OutgoingPushMessage(type, destination.getDeviceId(), remoteRegistrationId, body, silent);
   }
 
   /**
