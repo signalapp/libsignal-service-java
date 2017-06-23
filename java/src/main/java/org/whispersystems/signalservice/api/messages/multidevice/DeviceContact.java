@@ -15,15 +15,18 @@ public class DeviceContact {
   private final Optional<String>                        name;
   private final Optional<SignalServiceAttachmentStream> avatar;
   private final Optional<String>                        color;
+  private final Optional<VerifiedMessage>               verified;
 
   public DeviceContact(String number, Optional<String> name,
                        Optional<SignalServiceAttachmentStream> avatar,
-                       Optional<String> color)
+                       Optional<String> color,
+                       Optional<VerifiedMessage> verified)
   {
-    this.number = number;
-    this.name   = name;
-    this.avatar = avatar;
-    this.color  = color;
+    this.number   = number;
+    this.name     = name;
+    this.avatar   = avatar;
+    this.color    = color;
+    this.verified = verified;
   }
 
   public Optional<SignalServiceAttachmentStream> getAvatar() {
@@ -40,5 +43,9 @@ public class DeviceContact {
 
   public Optional<String> getColor() {
     return color;
+  }
+
+  public Optional<VerifiedMessage> getVerified() {
+    return verified;
   }
 }

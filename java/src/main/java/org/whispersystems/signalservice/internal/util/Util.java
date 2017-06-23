@@ -64,6 +64,13 @@ public class Util {
     }
   }
 
+  public static byte[] getRandomLengthBytes(int maxSize) {
+    SecureRandom secureRandom = new SecureRandom();
+    byte[]       result       = new byte[secureRandom.nextInt(maxSize) + 1];
+    secureRandom.nextBytes(result);
+    return result;
+  }
+
   public static String readFully(InputStream in) throws IOException {
     ByteArrayOutputStream bout = new ByteArrayOutputStream();
     byte[] buffer              = new byte[4096];

@@ -6,6 +6,8 @@
 
 package org.whispersystems.signalservice.api.messages.multidevice;
 
+import com.google.protobuf.ByteString;
+
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 
 import java.io.IOException;
@@ -49,6 +51,21 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
 
     if (contact.getColor().isPresent()) {
       contactDetails.setColor(contact.getColor().get());
+    }
+
+    if (contact.getVerified().isPresent()) {
+      SignalServiceProtos.Verified.State state;
+
+      switch (contact.getVerified().get().getVerified()) {
+        case VERIFIED:   state = SignalServiceProtos.Verified.State.VERIFIED;   break;
+        case UNVERIFIED: state = SignalServiceProtos.Verified.State.UNVERIFIED; break;
+        default:         state = SignalServiceProtos.Verified.State.DEFAULT;    break;
+      }
+
+      contactDetails.setVerified(SignalServiceProtos.Verified.newBuilder()
+                                                             .setDestination(contact.getVerified().get().getDestination())
+                                                             .setIdentityKey(ByteString.copyFrom(contact.getVerified().get().getIdentityKey().serialize()))
+                                                             .setState(state));
     }
 
     byte[] serializedContactDetails = contactDetails.build().toByteArray();
