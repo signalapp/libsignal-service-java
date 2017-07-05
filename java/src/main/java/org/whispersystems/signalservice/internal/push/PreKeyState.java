@@ -21,17 +21,11 @@ public class PreKeyState {
   private List<PreKeyEntity> preKeys;
 
   @JsonProperty
-  private PreKeyEntity       lastResortKey;
-
-  @JsonProperty
   private SignedPreKeyEntity signedPreKey;
 
 
-  public PreKeyState(List<PreKeyEntity> preKeys, PreKeyEntity lastResortKey,
-                     SignedPreKeyEntity signedPreKey, IdentityKey identityKey)
-  {
+  public PreKeyState(List<PreKeyEntity> preKeys, SignedPreKeyEntity signedPreKey, IdentityKey identityKey) {
     this.preKeys       = preKeys;
-    this.lastResortKey = lastResortKey;
     this.signedPreKey  = signedPreKey;
     this.identityKey   = identityKey;
   }

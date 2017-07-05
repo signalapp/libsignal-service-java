@@ -19,11 +19,11 @@ import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
-import org.whispersystems.signalservice.api.push.SignalServiceProfile;
 import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.push.SignalServiceProfile;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
 import org.whispersystems.signalservice.api.push.exceptions.ExpectationFailedException;
@@ -82,7 +82,6 @@ public class PushServiceSocket {
   private static final String CREATE_ACCOUNT_SMS_PATH   = "/v1/accounts/sms/code/%s";
   private static final String CREATE_ACCOUNT_VOICE_PATH = "/v1/accounts/voice/code/%s";
   private static final String VERIFY_ACCOUNT_CODE_PATH  = "/v1/accounts/code/%s";
-  private static final String VERIFY_ACCOUNT_TOKEN_PATH = "/v1/accounts/token/%s";
   private static final String REGISTER_GCM_PATH         = "/v1/accounts/gcm/";
   private static final String REQUEST_TOKEN_PATH        = "/v1/accounts/token";
   private static final String TURN_SERVER_INFO          = "/v1/accounts/turn";
@@ -134,24 +133,16 @@ public class PushServiceSocket {
     makeRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
   }
 
-  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean voice, boolean video, boolean fetchesMessages)
+  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages)
       throws IOException
   {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, voice, video, fetchesMessages);
+    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, fetchesMessages);
     makeRequest(String.format(VERIFY_ACCOUNT_CODE_PATH, verificationCode),
                 "PUT", JsonUtil.toJson(signalingKeyEntity));
   }
 
-  public void verifyAccountToken(String verificationToken, String signalingKey, int registrationId, boolean voice, boolean video, boolean fetchesMessages)
-      throws IOException
-  {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, voice, video, fetchesMessages);
-    makeRequest(String.format(VERIFY_ACCOUNT_TOKEN_PATH, verificationToken),
-                "PUT", JsonUtil.toJson(signalingKeyEntity));
-  }
-
-  public void setAccountAttributes(String signalingKey, int registrationId, boolean voice, boolean video, boolean fetchesMessages) throws IOException {
-    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, voice, video, fetchesMessages);
+  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages) throws IOException {
+    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages);
     makeRequest(SET_ACCOUNT_ATTRIBUTES, "PUT", JsonUtil.toJson(accountAttributes));
   }
 
@@ -221,7 +212,6 @@ public class PushServiceSocket {
   }
 
   public void registerPreKeys(IdentityKey identityKey,
-                              PreKeyRecord lastResortKey,
                               SignedPreKeyRecord signedPreKey,
                               List<PreKeyRecord> records)
       throws IOException
@@ -235,16 +225,12 @@ public class PushServiceSocket {
       entities.add(entity);
     }
 
-    PreKeyEntity lastResortEntity = new PreKeyEntity(lastResortKey.getId(),
-                                                     lastResortKey.getKeyPair().getPublicKey());
-
     SignedPreKeyEntity signedPreKeyEntity = new SignedPreKeyEntity(signedPreKey.getId(),
                                                                    signedPreKey.getKeyPair().getPublicKey(),
                                                                    signedPreKey.getSignature());
 
     makeRequest(String.format(PREKEY_PATH, ""), "PUT",
-                JsonUtil.toJson(new PreKeyState(entities, lastResortEntity,
-                                                signedPreKeyEntity, identityKey)));
+                JsonUtil.toJson(new PreKeyState(entities, signedPreKeyEntity, identityKey)));
   }
 
   public int getAvailablePreKeys() throws IOException {

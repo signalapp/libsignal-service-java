@@ -25,11 +25,11 @@ public class AccountAttributes {
   @JsonProperty
   private boolean fetchesMessages;
 
-  public AccountAttributes(String signalingKey, int registrationId, boolean voice, boolean video, boolean fetchesMessages) {
+  public AccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages) {
     this.signalingKey   = signalingKey;
     this.registrationId = registrationId;
-    this.voice          = voice;
-    this.video          = video;
+    this.voice          = true;
+    this.video          = true;
     this.fetchesMessages = fetchesMessages;
   }
 

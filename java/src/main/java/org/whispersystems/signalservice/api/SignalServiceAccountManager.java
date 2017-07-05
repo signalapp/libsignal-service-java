@@ -114,37 +114,15 @@ public class SignalServiceAccountManager {
    *                                     This value should remain consistent across registrations for the
    *                                     same install, but probabilistically differ across registrations
    *                                     for separate installs.
-   * @param voice A boolean that indicates whether the client supports secure voice (RedPhone) calls.
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages)
       throws IOException
   {
     this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
                                              signalProtocolRegistrationId,
-                                             voice, video, fetchesMessages);
-  }
-
-  /**
-   * Verify a Signal Service account with a signed token from a trusted source.
-   *
-   * @param verificationToken The signed token provided by a trusted server.
-
-   * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
-   *                     concatenated.
-   * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
-   *                                     This value should remain consistent across registrations for the
-   *                                     same install, but probabilistically differ across registrations
-   *                                     for separate installs.
-   * @param voice A boolean that indicates whether the client supports secure voice (RedPhone) calls.
-   *
-   * @throws IOException
-   */
-  public void verifyAccountWithToken(String verificationToken, String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
-      throws IOException
-  {
-    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, signalProtocolRegistrationId, voice, video, fetchesMessages);
+                                             fetchesMessages);
   }
 
   /**
@@ -155,32 +133,29 @@ public class SignalServiceAccountManager {
    *                                     This value should remain consistent across registrations for the same
    *                                     install, but probabilistically differ across registrations for
    *                                     separate installs.
-   * @param voice A boolean that indicates whether the client supports secure voice (RedPhone)
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice, boolean video, boolean fetchesMessages)
+  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice, video, fetchesMessages);
+    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, fetchesMessages);
   }
 
   /**
-   * Register an identity key, last resort key, signed prekey, and list of one time prekeys
+   * Register an identity key, signed prekey, and list of one time prekeys
    * with the server.
    *
    * @param identityKey The client's long-term identity keypair.
-   * @param lastResortKey The client's "last resort" prekey.
    * @param signedPreKey The client's signed prekey.
    * @param oneTimePreKeys The client's list of one-time prekeys.
    *
    * @throws IOException
    */
-  public void setPreKeys(IdentityKey identityKey, PreKeyRecord lastResortKey,
-                         SignedPreKeyRecord signedPreKey, List<PreKeyRecord> oneTimePreKeys)
+  public void setPreKeys(IdentityKey identityKey, SignedPreKeyRecord signedPreKey, List<PreKeyRecord> oneTimePreKeys)
       throws IOException
   {
-    this.pushServiceSocket.registerPreKeys(identityKey, lastResortKey, signedPreKey, oneTimePreKeys);
+    this.pushServiceSocket.registerPreKeys(identityKey, signedPreKey, oneTimePreKeys);
   }
 
   /**
