@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     compile 'com.google.protobuf:protobuf-java:2.5.0'
-    compile 'com.googlecode.libphonenumber:libphonenumber:8.3.0'
+    compile 'com.googlecode.libphonenumber:libphonenumber:8.7.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
 
     compile "org.whispersystems:signal-protocol-java:${signal_version}"
