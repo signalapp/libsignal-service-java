@@ -78,6 +78,7 @@ import okhttp3.Response;
 public class PushServiceSocket {
 
   private static final String TAG = PushServiceSocket.class.getSimpleName();
+  private static final OkHttpClient CLIENT = new OkHttpClient();
 
   private static final String CREATE_ACCOUNT_SMS_PATH   = "/v1/accounts/sms/code/%s";
   private static final String CREATE_ACCOUNT_VOICE_PATH = "/v1/accounts/voice/code/%s";
@@ -613,7 +614,7 @@ public class PushServiceSocket {
       SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, trustManagers, null);
 
-      OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
+      OkHttpClient.Builder okHttpClientBuilder = CLIENT.newBuilder()
           .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
           .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
           .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS);
