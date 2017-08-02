@@ -118,7 +118,21 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
+    return createMessagePipe(WebSocketConnection.DEFAULT_KEEPALIVE_TIMEOUT_SECONDS);
+  }
+
+  /**
+   * Creates a pipe for receiving SignalService messages.
+   *
+   * Callers must call {@link SignalServiceMessagePipe#shutdown()} when finished with the pipe.
+   *
+   * @param kaTimeoutSeconds The number of seconds between sending keepalive messages
+   *
+   * @return A SignalServiceMessagePipe for receiving Signal Service messages.
+   */
+  public SignalServiceMessagePipe createMessagePipe(int kaTimeoutSeconds) {
     WebSocketConnection webSocket = new WebSocketConnection(urls[0].getUrl(), urls[0].getTrustStore(), credentialsProvider, userAgent);
+    webSocket.setKeepAliveTimeoutSeconds(kaTimeoutSeconds);
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
 
