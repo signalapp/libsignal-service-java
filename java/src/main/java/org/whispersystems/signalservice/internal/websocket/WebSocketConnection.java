@@ -40,8 +40,9 @@ import static org.whispersystems.signalservice.internal.websocket.WebSocketProto
 
 public class WebSocketConnection extends WebSocketListener {
 
-  private static final String TAG                       = WebSocketConnection.class.getSimpleName();
-  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 55;
+  public  static final int    DEFAULT_KEEPALIVE_TIMEOUT_SECONDS = 55;
+
+  private static final String TAG                               = WebSocketConnection.class.getSimpleName();
 
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
@@ -55,6 +56,8 @@ public class WebSocketConnection extends WebSocketListener {
   private KeepAliveSender     keepAliveSender;
   private int                 attempts;
   private boolean             connected;
+  private int                 kaTimeoutSeconds;
+
 
   public WebSocketConnection(String httpUri, TrustStore trustStore, CredentialsProvider credentialsProvider, String userAgent) {
     this.trustStore          = trustStore;
@@ -62,8 +65,13 @@ public class WebSocketConnection extends WebSocketListener {
     this.userAgent           = userAgent;
     this.attempts            = 0;
     this.connected           = false;
+    this.kaTimeoutSeconds    = DEFAULT_KEEPALIVE_TIMEOUT_SECONDS;
     this.wsUri               = httpUri.replace("https://", "wss://")
                                       .replace("http://", "ws://") + "/v1/websocket/?login=%s&password=%s";
+  }
+
+  public synchronized void setKeepAliveTimeoutSeconds(int kaTimeoutSeconds) {
+    this.kaTimeoutSeconds = kaTimeoutSeconds;
   }
 
   public synchronized void connect() {
@@ -75,8 +83,8 @@ public class WebSocketConnection extends WebSocketListener {
 
       OkHttpClient okHttpClient = new OkHttpClient.Builder()
                                                   .sslSocketFactory(socketFactory.first(), socketFactory.second())
-                                                  .readTimeout(KEEPALIVE_TIMEOUT_SECONDS + 10, TimeUnit.SECONDS)
-                                                  .connectTimeout(KEEPALIVE_TIMEOUT_SECONDS + 10, TimeUnit.SECONDS)
+                                                  .readTimeout(kaTimeoutSeconds + 10, TimeUnit.SECONDS)
+                                                  .connectTimeout(kaTimeoutSeconds + 10, TimeUnit.SECONDS)
                                                   .build();
 
       Request.Builder requestBuilder = new Request.Builder().url(filledUri);
@@ -281,7 +289,7 @@ public class WebSocketConnection extends WebSocketListener {
     public void run() {
       while (!stop.get()) {
         try {
-          Thread.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
+          Thread.sleep(TimeUnit.SECONDS.toMillis(kaTimeoutSeconds));
 
           Log.w(TAG, "Sending keep alive...");
           sendKeepAlive();
