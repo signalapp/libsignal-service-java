@@ -18,8 +18,9 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
 
     compile "org.whispersystems:signal-protocol-java:${signal_version}"
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'org.apache.httpcomponents:httpclient:4.4'
+    compile 'com.madgag.spongycastle:prov:1.51.0.0'
 
     testCompile 'junit:junit:3.8.2'
     testCompile 'org.assertj:assertj-core:1.7.1'
@@ -31,23 +32,31 @@ tasks.whenTaskAdded { task ->
     }
 }
 
-signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
 }
 
+def getReleaseRepositoryUrl() {
+    return hasProperty('sonatypeRepo') ? sonatypeRepo
+            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
 
-def sonatypeRepo            = sonatypeRepo != null ? sonatypeRepo : ""
-def whisperSonatypeUsername = whisperSonatypeUsername != null ? whisperSonatypeUsername : ""
-def whisperSonatypePassword = whisperSonatypePassword != null ? whisperSonatypePassword : ""
+def getRepositoryUsername() {
+    return hasProperty('whisperSonatypeUsername') ? whisperSonatypeUsername : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('whisperSonatypePassword') ? whisperSonatypePassword : ""
+}
 
 uploadArchives {
     configuration = configurations.archives
     repositories.mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: sonatypeRepo) {
-            authentication(userName: whisperSonatypeUsername, password: whisperSonatypePassword)
+        repository(url: getReleaseRepositoryUrl()) {
+            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
         }
 
         pom.project {

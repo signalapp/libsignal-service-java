@@ -35,6 +35,7 @@ import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptio
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
+import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
@@ -50,10 +51,10 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupC
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.NullMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
-import org.whispersystems.signalservice.internal.push.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.push.StaleDevices;
 import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
 import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
+import org.whispersystems.signalservice.internal.push.http.AttachmentCipherOutputStreamFactory;
 import org.whispersystems.signalservice.internal.util.Base64;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -88,7 +89,7 @@ public class SignalServiceMessageSender {
    * @param eventListener An optional event listener, which fires whenever sessions are
    *                      setup or torn down for a recipient.
    */
-  public SignalServiceMessageSender(SignalServiceUrl[] urls,
+  public SignalServiceMessageSender(SignalServiceConfiguration urls,
                                     String user, String password,
                                     SignalProtocolStore store,
                                     String userAgent,
@@ -512,8 +513,8 @@ public class SignalServiceMessageSender {
     PushAttachmentData attachmentData = new PushAttachmentData(attachment.getContentType(),
                                                                attachment.getInputStream(),
                                                                attachment.getLength(),
-                                                               attachment.getListener(),
-                                                               attachmentKey);
+                                                               new AttachmentCipherOutputStreamFactory(attachmentKey),
+                                                               attachment.getListener());
 
     Pair<Long, byte[]> attachmentIdAndDigest = socket.sendAttachment(attachmentData);
 
