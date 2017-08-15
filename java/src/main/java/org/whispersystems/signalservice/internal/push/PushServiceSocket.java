@@ -75,6 +75,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.Okio;
 
 /**
  * @author Moxie Marlinspike
@@ -381,6 +384,12 @@ public class PushServiceSocket {
     }
   }
 
+  public void retrieveProfileAvatar(String path, File destination, int maxSizeBytes)
+    throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    downloadFromCdn(destination, path, maxSizeBytes);
+  }
+
   public void setProfileName(String name) throws NonSuccessfulResponseCodeException, PushNetworkException {
     makeServiceRequest(String.format(PROFILE_PATH, "name/" + (name == null ? "" : URLEncoder.encode(name))), "PUT", "");
   }
@@ -542,6 +551,79 @@ public class PushServiceSocket {
       return out.getTransmittedDigest();
     } finally {
       connection.disconnect();
+    }
+  }
+
+  private void downloadFromCdn(File destination, String path, int maxSizeBytes)
+      throws PushNetworkException, NonSuccessfulResponseCodeException
+  {
+    try {
+      SignalUrl        signalUrl     = getRandom(signalServiceConfiguration.getSignalCdnUrls(), random);
+      String           url           = signalUrl.getUrl();
+      Optional<String> hostHeader    = signalUrl.getHostHeader();
+      TrustManager[]   trustManagers = signalUrl.getTrustManagers();
+
+      SSLContext context = SSLContext.getInstance("TLS");
+      context.init(null, trustManagers, null);
+
+      OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
+          .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
+          .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+          .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS);
+
+      Request.Builder request = new Request.Builder().url(url + "/" + path).get();
+
+      if (signalUrl.getConnectionSpec().isPresent()) {
+        okHttpClientBuilder.connectionSpecs(Collections.singletonList(signalUrl.getConnectionSpec().get()));
+      } else {
+        okHttpClientBuilder.connectionSpecs(Util.immutableList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS));
+      }
+
+      if (hostHeader.isPresent()) {
+        request.addHeader("Host", hostHeader.get());
+      }
+
+      Call call = okHttpClientBuilder.build().newCall(request.build());
+
+      synchronized (connections) {
+        connections.add(call);
+      }
+
+      Response response;
+
+      try {
+        response = call.execute();
+
+        if (response.isSuccessful()) {
+          ResponseBody body = response.body();
+
+          if (body == null)                        throw new PushNetworkException("No response body!");
+          if (body.contentLength() > maxSizeBytes) throw new PushNetworkException("Response exceeds max size!");
+
+          InputStream  in     = body.byteStream();
+          OutputStream out    = new FileOutputStream(destination);
+          byte[]       buffer = new byte[4096];
+
+          int read, totalRead = 0;
+
+          while ((read = in.read(buffer, 0, buffer.length)) != -1) {
+            out.write(buffer, 0, read);
+            if ((totalRead += read) > maxSizeBytes) throw new PushNetworkException("Response exceeded max size!");
+          }
+
+          return;
+        }
+      } catch (IOException e) {
+        throw new PushNetworkException(e);
+      } finally {
+        synchronized (connections) {
+          connections.remove(call);
+        }
+      }
+
+      throw new NonSuccessfulResponseCodeException("Response: " + response);
+    } catch (NoSuchAlgorithmException | KeyManagementException e) {
+      throw new AssertionError(e);
     }
   }
 

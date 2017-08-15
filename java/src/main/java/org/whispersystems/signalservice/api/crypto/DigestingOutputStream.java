@@ -25,7 +25,8 @@ public abstract class DigestingOutputStream extends FilterOutputStream {
 
   @Override
   public void write(byte[] buffer) throws IOException {
-    write(buffer, 0, buffer.length);
+    runningDigest.update(buffer, 0, buffer.length);
+    out.write(buffer, 0, buffer.length);
   }
 
   public void write(byte[] buffer, int offset, int length) throws IOException {

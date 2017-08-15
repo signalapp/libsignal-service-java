@@ -183,7 +183,7 @@ public class SignalServiceCipher {
 
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
                                         content.getBody(), endSession, content.getExpireTimer(),
-                                        expirationUpdate);
+                                        expirationUpdate, content.hasProfileKey() ? content.getProfileKey().toByteArray() : null);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(SignalServiceEnvelope envelope, SyncMessage content) throws InvalidMessageException {

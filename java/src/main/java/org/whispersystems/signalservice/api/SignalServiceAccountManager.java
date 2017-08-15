@@ -272,7 +272,7 @@ public class SignalServiceAccountManager {
     String ciphertextName = null;
 
     if (name != null) {
-      ciphertextName = Base64.encodeBytesWithoutPadding(new ProfileCipher(key).encrypt(name.getBytes("UTF-8"), ProfileCipher.NAME_PADDED_LENGTH));
+      ciphertextName = Base64.encodeBytesWithoutPadding(new ProfileCipher(key).encryptName(name.getBytes("UTF-8"), ProfileCipher.NAME_PADDED_LENGTH));
     }
 
     this.pushServiceSocket.setProfileName(ciphertextName);

@@ -8,6 +8,7 @@ package org.whispersystems.signalservice.api;
 
 import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.signalservice.api.crypto.AttachmentCipherInputStream;
+import org.whispersystems.signalservice.api.crypto.ProfileCipherInputStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
@@ -23,6 +24,7 @@ import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -90,6 +92,13 @@ public class SignalServiceMessageReceiver {
     throws IOException
   {
     return socket.retrieveProfile(address);
+  }
+
+  public InputStream retrieveProfileAvatar(String path, File destination, byte[] profileKey, int maxSizeBytes)
+    throws IOException
+  {
+    socket.retrieveProfileAvatar(path, destination, maxSizeBytes);
+    return new ProfileCipherInputStream(new FileInputStream(destination), profileKey);
   }
 
   /**

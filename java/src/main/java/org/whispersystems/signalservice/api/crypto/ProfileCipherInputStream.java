@@ -36,26 +36,26 @@ public class ProfileCipherInputStream extends FilterInputStream {
   }
 
   @Override
-  public int read(byte[] input, int offset, int length) throws IOException {
+  public int read(byte[] output, int outputOffset, int outputLength) throws IOException {
     if (finished) return -1;
 
     try {
-      byte[] ciphertext = new byte[length / 2];
+      byte[] ciphertext = new byte[outputLength / 2];
       int    read       = in.read(ciphertext, 0, ciphertext.length);
 
       if (read == -1) {
-        if (cipher.getOutputSize(0) > length) {
-          throw new AssertionError("Need: " + cipher.getOutputSize(0) + " but only have: " + length);
+        if (cipher.getOutputSize(0) > outputLength) {
+          throw new AssertionError("Need: " + cipher.getOutputSize(0) + " but only have: " + outputLength);
         }
 
         finished = true;
-        return cipher.doFinal(input, offset);
+        return cipher.doFinal(output, outputOffset);
       } else {
-        if (cipher.getUpdateOutputSize(read) > length) {
-          throw new AssertionError("Need: " + cipher.getOutputSize(read) + " but only have: " + length);
+        if (cipher.getUpdateOutputSize(read) > outputLength) {
+          throw new AssertionError("Need: " + cipher.getOutputSize(read) + " but only have: " + outputLength);
         }
 
-        return cipher.processBytes(ciphertext, 0, read, input, offset);
+        return cipher.processBytes(ciphertext, 0, read, output, outputOffset);
       }
     } catch (InvalidCipherTextException e) {
       throw new IOException(e);

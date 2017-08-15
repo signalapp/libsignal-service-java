@@ -6517,6 +6517,16 @@ public final class SignalServiceProtos {
      * <code>optional uint32 expireTimer = 5;</code>
      */
     int getExpireTimer();
+
+    // optional bytes profileKey = 6;
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    boolean hasProfileKey();
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    com.google.protobuf.ByteString getProfileKey();
   }
   /**
    * Protobuf type {@code signalservice.DataMessage}
@@ -6603,6 +6613,11 @@ public final class SignalServiceProtos {
             case 40: {
               bitField0_ |= 0x00000008;
               expireTimer_ = input.readUInt32();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000010;
+              profileKey_ = input.readBytes();
               break;
             }
           }
@@ -6863,12 +6878,29 @@ public final class SignalServiceProtos {
       return expireTimer_;
     }
 
+    // optional bytes profileKey = 6;
+    public static final int PROFILEKEY_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString profileKey_;
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    public boolean hasProfileKey() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    public com.google.protobuf.ByteString getProfileKey() {
+      return profileKey_;
+    }
+
     private void initFields() {
       body_ = "";
       attachments_ = java.util.Collections.emptyList();
       group_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.getDefaultInstance();
       flags_ = 0;
       expireTimer_ = 0;
+      profileKey_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6896,6 +6928,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt32(5, expireTimer_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(6, profileKey_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6925,6 +6960,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, expireTimer_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, profileKey_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7062,6 +7101,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         expireTimer_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        profileKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -7119,6 +7160,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.expireTimer_ = expireTimer_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.profileKey_ = profileKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7174,6 +7219,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasExpireTimer()) {
           setExpireTimer(other.getExpireTimer());
+        }
+        if (other.hasProfileKey()) {
+          setProfileKey(other.getProfileKey());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7695,6 +7743,42 @@ public final class SignalServiceProtos {
       public Builder clearExpireTimer() {
         bitField0_ = (bitField0_ & ~0x00000010);
         expireTimer_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes profileKey = 6;
+      private com.google.protobuf.ByteString profileKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public boolean hasProfileKey() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public com.google.protobuf.ByteString getProfileKey() {
+        return profileKey_;
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public Builder setProfileKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        profileKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public Builder clearProfileKey() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        profileKey_ = getDefaultInstance().getProfileKey();
         onChanged();
         return this;
       }
@@ -20079,60 +20163,61 @@ public final class SignalServiceProtos {
       "escription\030\002 \001(\t\032K\n\tIceUpdate\022\n\n\002id\030\001 \001(" +
       "\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rsdpMLineIndex\030\003 \001(\r" +
       "\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022\n\n\002id\030\001 \001(\004\032\024\n\006Han" +
-      "gup\022\n\n\002id\030\001 \001(\004\"\331\001\n\013DataMessage\022\014\n\004body\030" +
+      "gup\022\n\n\002id\030\001 \001(\004\"\355\001\n\013DataMessage\022\014\n\004body\030" +
       "\001 \001(\t\0225\n\013attachments\030\002 \003(\0132 .signalservi" +
       "ce.AttachmentPointer\022*\n\005group\030\003 \001(\0132\033.si" +
       "gnalservice.GroupContext\022\r\n\005flags\030\004 \001(\r\022" +
-      "\023\n\013expireTimer\030\005 \001(\r\"5\n\005Flags\022\017\n\013END_SES" +
-      "SION\020\001\022\033\n\027EXPIRATION_TIMER_UPDATE\020\002\"\036\n\013N",
-      "ullMessage\022\017\n\007padding\030\001 \001(\014\"\253\001\n\010Verified" +
-      "\022\023\n\013destination\030\001 \001(\t\022\023\n\013identityKey\030\002 \001" +
-      "(\014\022,\n\005state\030\003 \001(\0162\035.signalservice.Verifi" +
-      "ed.State\022\023\n\013nullMessage\030\004 \001(\014\"2\n\005State\022\013" +
-      "\n\007DEFAULT\020\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020" +
-      "\002\"\316\006\n\013SyncMessage\022-\n\004sent\030\001 \001(\0132\037.signal" +
-      "service.SyncMessage.Sent\0225\n\010contacts\030\002 \001" +
-      "(\0132#.signalservice.SyncMessage.Contacts\022" +
-      "1\n\006groups\030\003 \001(\0132!.signalservice.SyncMess" +
-      "age.Groups\0223\n\007request\030\004 \001(\0132\".signalserv",
-      "ice.SyncMessage.Request\022-\n\004read\030\005 \003(\0132\037." +
-      "signalservice.SyncMessage.Read\0223\n\007blocke" +
-      "d\030\006 \001(\0132\".signalservice.SyncMessage.Bloc" +
-      "ked\022)\n\010verified\030\007 \001(\0132\027.signalservice.Ve" +
-      "rified\022\017\n\007padding\030\010 \001(\014\032}\n\004Sent\022\023\n\013desti" +
-      "nation\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n\007messa" +
-      "ge\030\003 \001(\0132\032.signalservice.DataMessage\022 \n\030" +
-      "expirationStartTimestamp\030\004 \001(\004\032S\n\010Contac" +
-      "ts\022.\n\004blob\030\001 \001(\0132 .signalservice.Attachm" +
-      "entPointer\022\027\n\010complete\030\002 \001(\010:\005false\0328\n\006G",
-      "roups\022.\n\004blob\030\001 \001(\0132 .signalservice.Atta" +
-      "chmentPointer\032\032\n\007Blocked\022\017\n\007numbers\030\001 \003(" +
-      "\t\032|\n\007Request\0225\n\004type\030\001 \001(\0162\'.signalservi" +
-      "ce.SyncMessage.Request.Type\":\n\004Type\022\013\n\007U" +
-      "NKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BL" +
-      "OCKED\020\003\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimes" +
-      "tamp\030\002 \001(\004\"\257\001\n\021AttachmentPointer\022\n\n\002id\030\001" +
-      " \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014" +
-      "\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006diges" +
-      "t\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r",
-      "\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupCo" +
-      "ntext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signal" +
-      "service.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022" +
-      "\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signa" +
-      "lservice.AttachmentPointer\"H\n\004Type\022\013\n\007UN" +
-      "KNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT" +
-      "\020\003\022\020\n\014REQUEST_INFO\020\004\"\315\001\n\016ContactDetails\022" +
-      "\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030" +
-      "\003 \001(\0132$.signalservice.ContactDetails.Ava" +
-      "tar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.s",
-      "ignalservice.Verified\032-\n\006Avatar\022\023\n\013conte" +
-      "ntType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014GroupDe" +
-      "tails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007membe" +
-      "rs\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice" +
-      ".GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004tr" +
-      "ue\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
-      "gth\030\002 \001(\rBE\n.org.whispersystems.signalse" +
-      "rvice.internal.pushB\023SignalServiceProtos"
+      "\023\n\013expireTimer\030\005 \001(\r\022\022\n\nprofileKey\030\006 \001(\014" +
+      "\"5\n\005Flags\022\017\n\013END_SESSION\020\001\022\033\n\027EXPIRATION",
+      "_TIMER_UPDATE\020\002\"\036\n\013NullMessage\022\017\n\007paddin" +
+      "g\030\001 \001(\014\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(" +
+      "\t\022\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035." +
+      "signalservice.Verified.State\022\023\n\013nullMess" +
+      "age\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIF" +
+      "IED\020\001\022\016\n\nUNVERIFIED\020\002\"\316\006\n\013SyncMessage\022-\n" +
+      "\004sent\030\001 \001(\0132\037.signalservice.SyncMessage." +
+      "Sent\0225\n\010contacts\030\002 \001(\0132#.signalservice.S" +
+      "yncMessage.Contacts\0221\n\006groups\030\003 \001(\0132!.si" +
+      "gnalservice.SyncMessage.Groups\0223\n\007reques",
+      "t\030\004 \001(\0132\".signalservice.SyncMessage.Requ" +
+      "est\022-\n\004read\030\005 \003(\0132\037.signalservice.SyncMe" +
+      "ssage.Read\0223\n\007blocked\030\006 \001(\0132\".signalserv" +
+      "ice.SyncMessage.Blocked\022)\n\010verified\030\007 \001(" +
+      "\0132\027.signalservice.Verified\022\017\n\007padding\030\010 " +
+      "\001(\014\032}\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttime" +
+      "stamp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signalser" +
+      "vice.DataMessage\022 \n\030expirationStartTimes" +
+      "tamp\030\004 \001(\004\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .s" +
+      "ignalservice.AttachmentPointer\022\027\n\010comple",
+      "te\030\002 \001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132" +
+      " .signalservice.AttachmentPointer\032\032\n\007Blo" +
+      "cked\022\017\n\007numbers\030\001 \003(\t\032|\n\007Request\0225\n\004type" +
+      "\030\001 \001(\0162\'.signalservice.SyncMessage.Reque" +
+      "st.Type\":\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS" +
+      "\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006s" +
+      "ender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"\257\001\n\021Attac" +
+      "hmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030" +
+      "\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthum" +
+      "bnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileName\030",
+      "\007 \001(\t\022\r\n\005flags\030\010 \001(\r\"\032\n\005Flags\022\021\n\rVOICE_M" +
+      "ESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n" +
+      "\004type\030\002 \001(\0162 .signalservice.GroupContext" +
+      ".Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006" +
+      "avatar\030\005 \001(\0132 .signalservice.AttachmentP" +
+      "ointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022" +
+      "\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004" +
+      "\"\315\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004n" +
+      "ame\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservic" +
+      "e.ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t\022)",
+      "\n\010verified\030\005 \001(\0132\027.signalservice.Verifie" +
+      "d\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006leng" +
+      "th\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n" +
+      "\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004" +
+      " \001(\0132\".signalservice.GroupDetails.Avatar" +
+      "\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013cont" +
+      "entType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whi" +
+      "spersystems.signalservice.internal.pushB" +
+      "\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20192,7 +20277,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_DataMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_descriptor,
-              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", });
+              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", "ProfileKey", });
           internal_static_signalservice_NullMessage_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_signalservice_NullMessage_fieldAccessorTable = new

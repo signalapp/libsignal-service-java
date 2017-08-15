@@ -21,7 +21,7 @@ public class ProfileCipherOutputStream extends DigestingOutputStream {
     byte[] nonce  = generateNonce();
     this.cipher.init(true, new AEADParameters(new KeyParameter(key), 128, nonce));
 
-    super.write(nonce);
+    super.write(nonce, 0, nonce.length);
   }
 
   @Override
