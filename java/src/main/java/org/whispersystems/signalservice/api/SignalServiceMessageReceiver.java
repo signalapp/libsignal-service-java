@@ -128,7 +128,7 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
-    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(), urls.getSignalServiceUrls()[0].getTrustManagers(), credentialsProvider, userAgent);
+    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(), urls.getSignalServiceUrls()[0].getTrustStore(), credentialsProvider, userAgent);
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
 
