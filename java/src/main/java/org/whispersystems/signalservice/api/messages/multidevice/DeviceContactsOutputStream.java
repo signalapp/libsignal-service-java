@@ -68,6 +68,10 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
                                                              .setState(state));
     }
 
+    if (contact.getProfileKey().isPresent()) {
+      contactDetails.setProfileKey(ByteString.copyFrom(contact.getProfileKey().get()));
+    }
+
     byte[] serializedContactDetails = contactDetails.build().toByteArray();
 
     writeVarint32(serializedContactDetails.length);

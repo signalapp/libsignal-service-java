@@ -16801,6 +16801,16 @@ public final class SignalServiceProtos {
      * <code>optional .signalservice.Verified verified = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.VerifiedOrBuilder getVerifiedOrBuilder();
+
+    // optional bytes profileKey = 6;
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    boolean hasProfileKey();
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    com.google.protobuf.ByteString getProfileKey();
   }
   /**
    * Protobuf type {@code signalservice.ContactDetails}
@@ -16892,6 +16902,11 @@ public final class SignalServiceProtos {
                 verified_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              profileKey_ = input.readBytes();
               break;
             }
           }
@@ -17659,12 +17674,29 @@ public final class SignalServiceProtos {
       return verified_;
     }
 
+    // optional bytes profileKey = 6;
+    public static final int PROFILEKEY_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString profileKey_;
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    public boolean hasProfileKey() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional bytes profileKey = 6;</code>
+     */
+    public com.google.protobuf.ByteString getProfileKey() {
+      return profileKey_;
+    }
+
     private void initFields() {
       number_ = "";
       name_ = "";
       avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ContactDetails.Avatar.getDefaultInstance();
       color_ = "";
       verified_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified.getDefaultInstance();
+      profileKey_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -17692,6 +17724,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, verified_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, profileKey_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -17721,6 +17756,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, verified_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, profileKey_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -17858,6 +17897,8 @@ public final class SignalServiceProtos {
           verifiedBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        profileKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -17914,6 +17955,10 @@ public final class SignalServiceProtos {
         } else {
           result.verified_ = verifiedBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.profileKey_ = profileKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -17950,6 +17995,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasVerified()) {
           mergeVerified(other.getVerified());
+        }
+        if (other.hasProfileKey()) {
+          setProfileKey(other.getProfileKey());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -18432,6 +18480,42 @@ public final class SignalServiceProtos {
           verified_ = null;
         }
         return verifiedBuilder_;
+      }
+
+      // optional bytes profileKey = 6;
+      private com.google.protobuf.ByteString profileKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public boolean hasProfileKey() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public com.google.protobuf.ByteString getProfileKey() {
+        return profileKey_;
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public Builder setProfileKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        profileKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes profileKey = 6;</code>
+       */
+      public Builder clearProfileKey() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        profileKey_ = getDefaultInstance().getProfileKey();
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:signalservice.ContactDetails)
@@ -20206,18 +20290,18 @@ public final class SignalServiceProtos {
       "avatar\030\005 \001(\0132 .signalservice.AttachmentP" +
       "ointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022" +
       "\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004" +
-      "\"\315\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004n" +
+      "\"\341\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004n" +
       "ame\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservic" +
       "e.ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t\022)",
       "\n\010verified\030\005 \001(\0132\027.signalservice.Verifie" +
-      "d\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006leng" +
-      "th\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n" +
-      "\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004" +
-      " \001(\0132\".signalservice.GroupDetails.Avatar" +
-      "\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013cont" +
-      "entType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whi" +
-      "spersystems.signalservice.internal.pushB" +
-      "\023SignalServiceProtos"
+      "d\022\022\n\nprofileKey\030\006 \001(\014\032-\n\006Avatar\022\023\n\013conte" +
+      "ntType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014GroupDe" +
+      "tails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007membe" +
+      "rs\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice" +
+      ".GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004tr" +
+      "ue\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
+      "gth\030\002 \001(\rBE\n.org.whispersystems.signalse" +
+      "rvice.internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20349,7 +20433,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_ContactDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ContactDetails_descriptor,
-              new java.lang.String[] { "Number", "Name", "Avatar", "Color", "Verified", });
+              new java.lang.String[] { "Number", "Name", "Avatar", "Color", "Verified", "ProfileKey", });
           internal_static_signalservice_ContactDetails_Avatar_descriptor =
             internal_static_signalservice_ContactDetails_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable = new

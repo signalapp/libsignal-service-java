@@ -13,7 +13,6 @@ import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
-import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.IOException;
@@ -32,12 +31,13 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
     byte[] detailsSerialized = new byte[(int)detailsLength];
     Util.readFully(in, detailsSerialized);
 
-    SignalServiceProtos.ContactDetails      details  = SignalServiceProtos.ContactDetails.parseFrom(detailsSerialized);
-    String                                  number   = details.getNumber();
-    Optional<String>                        name     = Optional.fromNullable(details.getName());
-    Optional<SignalServiceAttachmentStream> avatar   = Optional.absent();
-    Optional<String>                        color    = details.hasColor() ? Optional.of(details.getColor()) : Optional.<String>absent();
-    Optional<VerifiedMessage>               verified = Optional.absent();
+    SignalServiceProtos.ContactDetails      details    = SignalServiceProtos.ContactDetails.parseFrom(detailsSerialized);
+    String                                  number     = details.getNumber();
+    Optional<String>                        name       = Optional.fromNullable(details.getName());
+    Optional<SignalServiceAttachmentStream> avatar     = Optional.absent();
+    Optional<String>                        color      = details.hasColor() ? Optional.of(details.getColor()) : Optional.<String>absent();
+    Optional<VerifiedMessage>               verified   = Optional.absent();
+    Optional<byte[]>                        profileKey = Optional.absent();
 
     if (details.hasAvatar()) {
       long        avatarLength      = details.getAvatar().getLength();
@@ -68,7 +68,11 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
       }
     }
 
-    return new DeviceContact(number, name, avatar, color, verified);
+    if (details.hasProfileKey()) {
+      profileKey = Optional.fromNullable(details.getProfileKey().toByteArray());
+    }
+
+    return new DeviceContact(number, name, avatar, color, verified, profileKey);
   }
 
 }

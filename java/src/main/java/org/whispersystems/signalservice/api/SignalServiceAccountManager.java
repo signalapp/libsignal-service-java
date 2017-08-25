@@ -239,18 +239,22 @@ public class SignalServiceAccountManager {
   public void addDevice(String deviceIdentifier,
                         ECPublicKey deviceKey,
                         IdentityKeyPair identityKeyPair,
+                        Optional<byte[]> profileKey,
                         String code)
       throws InvalidKeyException, IOException
   {
-    ProvisioningCipher cipher  = new ProvisioningCipher(deviceKey);
-    ProvisionMessage   message = ProvisionMessage.newBuilder()
-                                                 .setIdentityKeyPublic(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
-                                                 .setIdentityKeyPrivate(ByteString.copyFrom(identityKeyPair.getPrivateKey().serialize()))
-                                                 .setNumber(user)
-                                                 .setProvisioningCode(code)
-                                                 .build();
+    ProvisioningCipher       cipher  = new ProvisioningCipher(deviceKey);
+    ProvisionMessage.Builder message = ProvisionMessage.newBuilder()
+                                                       .setIdentityKeyPublic(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
+                                                       .setIdentityKeyPrivate(ByteString.copyFrom(identityKeyPair.getPrivateKey().serialize()))
+                                                       .setNumber(user)
+                                                       .setProvisioningCode(code);
 
-    byte[] ciphertext = cipher.encrypt(message);
+    if (profileKey.isPresent()) {
+      message.setProfileKey(ByteString.copyFrom(profileKey.get()));
+    }
+
+    byte[] ciphertext = cipher.encrypt(message.build());
     this.pushServiceSocket.sendProvisioningMessage(deviceIdentifier, ciphertext);
   }
 

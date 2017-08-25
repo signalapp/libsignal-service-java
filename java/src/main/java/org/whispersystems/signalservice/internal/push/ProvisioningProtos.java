@@ -575,6 +575,16 @@ public final class ProvisioningProtos {
      */
     com.google.protobuf.ByteString
         getProvisioningCodeBytes();
+
+    // optional bytes profileKey = 5;
+    /**
+     * <code>optional bytes profileKey = 5;</code>
+     */
+    boolean hasProfileKey();
+    /**
+     * <code>optional bytes profileKey = 5;</code>
+     */
+    com.google.protobuf.ByteString getProfileKey();
   }
   /**
    * Protobuf type {@code signalservice.ProvisionMessage}
@@ -645,6 +655,11 @@ public final class ProvisioningProtos {
             case 34: {
               bitField0_ |= 0x00000008;
               provisioningCode_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              profileKey_ = input.readBytes();
               break;
             }
           }
@@ -805,11 +820,28 @@ public final class ProvisioningProtos {
       }
     }
 
+    // optional bytes profileKey = 5;
+    public static final int PROFILEKEY_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString profileKey_;
+    /**
+     * <code>optional bytes profileKey = 5;</code>
+     */
+    public boolean hasProfileKey() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bytes profileKey = 5;</code>
+     */
+    public com.google.protobuf.ByteString getProfileKey() {
+      return profileKey_;
+    }
+
     private void initFields() {
       identityKeyPublic_ = com.google.protobuf.ByteString.EMPTY;
       identityKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
       number_ = "";
       provisioningCode_ = "";
+      profileKey_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -835,6 +867,9 @@ public final class ProvisioningProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(4, getProvisioningCodeBytes());
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, profileKey_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -859,6 +894,10 @@ public final class ProvisioningProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, getProvisioningCodeBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, profileKey_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -984,6 +1023,8 @@ public final class ProvisioningProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         provisioningCode_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        profileKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1028,6 +1069,10 @@ public final class ProvisioningProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.provisioningCode_ = provisioningCode_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.profileKey_ = profileKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1059,6 +1104,9 @@ public final class ProvisioningProtos {
           bitField0_ |= 0x00000008;
           provisioningCode_ = other.provisioningCode_;
           onChanged();
+        }
+        if (other.hasProfileKey()) {
+          setProfileKey(other.getProfileKey());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1307,6 +1355,42 @@ public final class ProvisioningProtos {
         return this;
       }
 
+      // optional bytes profileKey = 5;
+      private com.google.protobuf.ByteString profileKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes profileKey = 5;</code>
+       */
+      public boolean hasProfileKey() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bytes profileKey = 5;</code>
+       */
+      public com.google.protobuf.ByteString getProfileKey() {
+        return profileKey_;
+      }
+      /**
+       * <code>optional bytes profileKey = 5;</code>
+       */
+      public Builder setProfileKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        profileKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes profileKey = 5;</code>
+       */
+      public Builder clearProfileKey() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        profileKey_ = getDefaultInstance().getProfileKey();
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.ProvisionMessage)
     }
 
@@ -1339,11 +1423,12 @@ public final class ProvisioningProtos {
     java.lang.String[] descriptorData = {
       "\n\022Provisioning.proto\022\rsignalservice\"4\n\021P" +
       "rovisionEnvelope\022\021\n\tpublicKey\030\001 \001(\014\022\014\n\004b" +
-      "ody\030\002 \001(\014\"s\n\020ProvisionMessage\022\031\n\021identit" +
-      "yKeyPublic\030\001 \001(\014\022\032\n\022identityKeyPrivate\030\002" +
-      " \001(\014\022\016\n\006number\030\003 \001(\t\022\030\n\020provisioningCode" +
-      "\030\004 \001(\tBD\n.org.whispersystems.signalservi" +
-      "ce.internal.pushB\022ProvisioningProtos"
+      "ody\030\002 \001(\014\"\207\001\n\020ProvisionMessage\022\031\n\021identi" +
+      "tyKeyPublic\030\001 \001(\014\022\032\n\022identityKeyPrivate\030" +
+      "\002 \001(\014\022\016\n\006number\030\003 \001(\t\022\030\n\020provisioningCod" +
+      "e\030\004 \001(\t\022\022\n\nprofileKey\030\005 \001(\014BD\n.org.whisp" +
+      "ersystems.signalservice.internal.pushB\022P" +
+      "rovisioningProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1361,7 +1446,7 @@ public final class ProvisioningProtos {
           internal_static_signalservice_ProvisionMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ProvisionMessage_descriptor,
-              new java.lang.String[] { "IdentityKeyPublic", "IdentityKeyPrivate", "Number", "ProvisioningCode", });
+              new java.lang.String[] { "IdentityKeyPublic", "IdentityKeyPrivate", "Number", "ProvisioningCode", "ProfileKey", });
           return null;
         }
       };
