@@ -19,5 +19,6 @@ message ProvisionMessage {
   optional bytes  identityKeyPrivate = 2;
   optional string number             = 3;
   optional string provisioningCode   = 4;
-  optional bytes  profileKey         = 5;
+  optional string userAgent          = 5;
+  optional bytes  profileKey         = 6;
 }
