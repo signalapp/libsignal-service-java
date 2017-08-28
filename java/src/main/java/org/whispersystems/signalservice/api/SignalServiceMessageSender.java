@@ -269,6 +269,10 @@ public class SignalServiceMessageSender {
       builder.setFlags(DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE);
     }
 
+    if (message.isProfileKeyUpdate()) {
+      builder.setFlags(DataMessage.Flags.PROFILE_KEY_UPDATE_VALUE);
+    }
+
     if (message.getExpiresInSeconds() > 0) {
       builder.setExpireTimer(message.getExpiresInSeconds());
     }

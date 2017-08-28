@@ -24,6 +24,7 @@ public class SignalServiceDataMessage {
   private final boolean                                 endSession;
   private final boolean                                 expirationUpdate;
   private final int                                     expiresInSeconds;
+  private final boolean                                 profileKeyUpdate;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -97,7 +98,7 @@ public class SignalServiceDataMessage {
    * @param expiresInSeconds The number of seconds in which a message should disappear after having been seen.
    */
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, int expiresInSeconds) {
-    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null);
+    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false);
   }
 
   /**
@@ -113,7 +114,7 @@ public class SignalServiceDataMessage {
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group,
                                   List<SignalServiceAttachment> attachments,
                                   String body, boolean endSession, int expiresInSeconds,
-                                  boolean expirationUpdate, byte[] profileKey)
+                                  boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate)
   {
     this.timestamp        = timestamp;
     this.body             = Optional.fromNullable(body);
@@ -122,6 +123,7 @@ public class SignalServiceDataMessage {
     this.expiresInSeconds = expiresInSeconds;
     this.expirationUpdate = expirationUpdate;
     this.profileKey       = Optional.fromNullable(profileKey);
+    this.profileKeyUpdate = profileKeyUpdate;
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);
@@ -170,6 +172,10 @@ public class SignalServiceDataMessage {
     return expirationUpdate;
   }
 
+  public boolean isProfileKeyUpdate() {
+    return profileKeyUpdate;
+  }
+
   public boolean isGroupUpdate() {
     return group.isPresent() && group.get().getType() != SignalServiceGroup.Type.DELIVER;
   }
@@ -192,6 +198,7 @@ public class SignalServiceDataMessage {
     private int                expiresInSeconds;
     private boolean            expirationUpdate;
     private byte[]             profileKey;
+    private boolean            profileKeyUpdate;
 
     private Builder() {}
 
@@ -248,10 +255,16 @@ public class SignalServiceDataMessage {
       return this;
     }
 
+    public Builder asProfileKeyUpdate(boolean profileKeyUpdate) {
+      this.profileKeyUpdate = profileKeyUpdate;
+      return this;
+    }
+
     public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
-                                          expiresInSeconds, expirationUpdate, profileKey);
+                                          expiresInSeconds, expirationUpdate, profileKey,
+                                          profileKeyUpdate);
     }
   }
 }
