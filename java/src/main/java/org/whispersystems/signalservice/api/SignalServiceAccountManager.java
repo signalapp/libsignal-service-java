@@ -22,6 +22,7 @@ import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.StreamDetails;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.crypto.ProvisioningCipher;
@@ -69,8 +70,15 @@ public class SignalServiceAccountManager {
                                      String user, String password,
                                      String userAgent)
   {
-    this.pushServiceSocket = new PushServiceSocket(configuration, new StaticCredentialsProvider(user, password, null), userAgent);
-    this.user              = user;
+    this(configuration, new StaticCredentialsProvider(user, password, null), userAgent);
+  }
+
+  public SignalServiceAccountManager(SignalServiceConfiguration configuration,
+                                     CredentialsProvider credentialsProvider,
+                                     String userAgent)
+  {
+    this.pushServiceSocket = new PushServiceSocket(configuration, credentialsProvider, userAgent);
+    this.user              = credentialsProvider.getUser();
     this.userAgent         = userAgent;
   }
 

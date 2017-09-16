@@ -22,6 +22,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
+import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
 import org.whispersystems.signalservice.api.messages.calls.AnswerMessage;
 import org.whispersystems.signalservice.api.messages.calls.IceUpdateMessage;
 import org.whispersystems.signalservice.api.messages.calls.OfferMessage;
@@ -35,6 +36,7 @@ import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptio
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
+import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
@@ -49,6 +51,7 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Conten
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.NullMessage;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
 import org.whispersystems.signalservice.internal.push.StaleDevices;
@@ -96,25 +99,37 @@ public class SignalServiceMessageSender {
                                     Optional<SignalServiceMessagePipe> pipe,
                                     Optional<EventListener> eventListener)
   {
-    this.socket        = new PushServiceSocket(urls, new StaticCredentialsProvider(user, password, null), userAgent);
+    this(urls, new StaticCredentialsProvider(user, password, null), store, userAgent, pipe, eventListener);
+  }
+
+  public SignalServiceMessageSender(SignalServiceConfiguration urls,
+                                    CredentialsProvider credentialsProvider,
+                                    SignalProtocolStore store,
+                                    String userAgent,
+                                    Optional<SignalServiceMessagePipe> pipe,
+                                    Optional<EventListener> eventListener)
+  {
+    this.socket        = new PushServiceSocket(urls, credentialsProvider, userAgent);
     this.store         = store;
-    this.localAddress  = new SignalServiceAddress(user);
+    this.localAddress  = new SignalServiceAddress(credentialsProvider.getUser());
     this.pipe          = pipe;
     this.eventListener = eventListener;
   }
 
   /**
-   * Send a delivery receipt for a received message.  It is not necessary to call this
-   * when receiving messages through {@link SignalServiceMessagePipe}.
+   * Send a read receipt for a received message.
    *
    * @param recipient The sender of the received message you're acknowledging.
-   * @param messageId The message id of the received message you're acknowledging.
+   * @param message The read receipt to deliver.
    * @throws IOException
+   * @throws UntrustedIdentityException
    */
-  public void sendDeliveryReceipt(SignalServiceAddress recipient, long messageId) throws IOException {
-    this.socket.sendReceipt(recipient.getNumber(), messageId, recipient.getRelay());
+  public void sendReceipt(SignalServiceAddress recipient, SignalServiceReceiptMessage message)
+      throws IOException, UntrustedIdentityException
+  {
+    byte[] content = createReceiptContent(message);
+    sendMessage(recipient, message.getWhen(), content, true);
   }
-
 
   /**
    * Send a call setup message to a single recipient.
@@ -242,6 +257,20 @@ public class SignalServiceMessageSender {
       byte[] syncMessage = createMultiDeviceVerifiedContent(message, nullMessage.toByteArray());
       sendMessage(localAddress, message.getTimestamp(), syncMessage, false);
     }
+  }
+
+  private byte[] createReceiptContent(SignalServiceReceiptMessage message) throws IOException {
+    Content.Builder        container = Content.newBuilder();
+    ReceiptMessage.Builder builder   = ReceiptMessage.newBuilder();
+
+    for (long timestamp : message.getTimestamps()) {
+      builder.addTimestamp(timestamp);
+    }
+
+    if      (message.isDeliveryReceipt()) builder.setType(ReceiptMessage.Type.DELIVERY);
+    else if (message.isReadReceipt())     builder.setType(ReceiptMessage.Type.READ);
+
+    return container.setReceiptMessage(builder).build().toByteArray();
   }
 
   private byte[] createMessageContent(SignalServiceDataMessage message) throws IOException {

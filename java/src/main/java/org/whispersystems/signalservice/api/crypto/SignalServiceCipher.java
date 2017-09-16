@@ -30,6 +30,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceContent;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
+import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
 import org.whispersystems.signalservice.api.messages.calls.AnswerMessage;
 import org.whispersystems.signalservice.api.messages.calls.BusyMessage;
 import org.whispersystems.signalservice.api.messages.calls.HangupMessage;
@@ -49,6 +50,7 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Attach
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
 import org.whispersystems.signalservice.internal.util.Base64;
@@ -131,6 +133,8 @@ public class SignalServiceCipher {
           content = new SignalServiceContent(createSynchronizeMessage(envelope, message.getSyncMessage()));
         } else if (message.hasCallMessage()) {
           content = new SignalServiceContent(createCallMessage(message.getCallMessage()));
+        } else if (message.hasReceiptMessage()) {
+          content = new SignalServiceContent(createReceiptMessage(envelope, message.getReceiptMessage()));
         }
       }
 
@@ -261,6 +265,16 @@ public class SignalServiceCipher {
     }
 
     return SignalServiceCallMessage.empty();
+  }
+
+  private SignalServiceReceiptMessage createReceiptMessage(SignalServiceEnvelope envelope, ReceiptMessage content) {
+    SignalServiceReceiptMessage.Type type;
+
+    if      (content.getType() == ReceiptMessage.Type.DELIVERY) type = SignalServiceReceiptMessage.Type.DELIVERY;
+    else if (content.getType() == ReceiptMessage.Type.READ)     type = SignalServiceReceiptMessage.Type.READ;
+    else                                                        type = SignalServiceReceiptMessage.Type.UNKNOWN;
+
+    return new SignalServiceReceiptMessage(type, content.getTimestampList(), envelope.getTimestamp());
   }
 
   private SignalServiceGroup createGroupInfo(SignalServiceEnvelope envelope, DataMessage content) {

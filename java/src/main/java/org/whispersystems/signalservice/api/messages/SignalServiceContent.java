@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -12,32 +12,44 @@ import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSy
 
 public class SignalServiceContent {
 
-  private final Optional<SignalServiceDataMessage> message;
-  private final Optional<SignalServiceSyncMessage> synchronizeMessage;
-  private final Optional<SignalServiceCallMessage> callMessage;
+  private final Optional<SignalServiceDataMessage>    message;
+  private final Optional<SignalServiceSyncMessage>    synchronizeMessage;
+  private final Optional<SignalServiceCallMessage>    callMessage;
+  private final Optional<SignalServiceReceiptMessage> readMessage;
 
   public SignalServiceContent() {
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceDataMessage message) {
     this.message            = Optional.fromNullable(message);
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage) {
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.fromNullable(synchronizeMessage);
     this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceCallMessage callMessage) {
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.of(callMessage);
+    this.readMessage        = Optional.absent();
+  }
+
+  public SignalServiceContent(SignalServiceReceiptMessage receiptMessage) {
+    this.message            = Optional.absent();
+    this.synchronizeMessage = Optional.absent();
+    this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.of(receiptMessage);
   }
 
   public Optional<SignalServiceDataMessage> getDataMessage() {
@@ -50,5 +62,9 @@ public class SignalServiceContent {
 
   public Optional<SignalServiceCallMessage> getCallMessage() {
     return callMessage;
+  }
+
+  public Optional<SignalServiceReceiptMessage> getReceiptMessage() {
+    return readMessage;
   }
 }

@@ -1286,6 +1286,20 @@ public final class SignalServiceProtos {
      * <code>optional .signalservice.NullMessage nullMessage = 4;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.NullMessageOrBuilder getNullMessageOrBuilder();
+
+    // optional .signalservice.ReceiptMessage receiptMessage = 5;
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    boolean hasReceiptMessage();
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage getReceiptMessage();
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder getReceiptMessageOrBuilder();
   }
   /**
    * Protobuf type {@code signalservice.Content}
@@ -1388,6 +1402,19 @@ public final class SignalServiceProtos {
                 nullMessage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = receiptMessage_.toBuilder();
+              }
+              receiptMessage_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(receiptMessage_);
+                receiptMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -1518,11 +1545,34 @@ public final class SignalServiceProtos {
       return nullMessage_;
     }
 
+    // optional .signalservice.ReceiptMessage receiptMessage = 5;
+    public static final int RECEIPTMESSAGE_FIELD_NUMBER = 5;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage receiptMessage_;
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    public boolean hasReceiptMessage() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage getReceiptMessage() {
+      return receiptMessage_;
+    }
+    /**
+     * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder getReceiptMessageOrBuilder() {
+      return receiptMessage_;
+    }
+
     private void initFields() {
       dataMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.getDefaultInstance();
       syncMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.getDefaultInstance();
       callMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage.getDefaultInstance();
       nullMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.NullMessage.getDefaultInstance();
+      receiptMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1548,6 +1598,9 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, nullMessage_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, receiptMessage_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1572,6 +1625,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, nullMessage_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, receiptMessage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1685,6 +1742,7 @@ public final class SignalServiceProtos {
           getSyncMessageFieldBuilder();
           getCallMessageFieldBuilder();
           getNullMessageFieldBuilder();
+          getReceiptMessageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1717,6 +1775,12 @@ public final class SignalServiceProtos {
           nullMessageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (receiptMessageBuilder_ == null) {
+          receiptMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
+        } else {
+          receiptMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1777,6 +1841,14 @@ public final class SignalServiceProtos {
         } else {
           result.nullMessage_ = nullMessageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (receiptMessageBuilder_ == null) {
+          result.receiptMessage_ = receiptMessage_;
+        } else {
+          result.receiptMessage_ = receiptMessageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1804,6 +1876,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasNullMessage()) {
           mergeNullMessage(other.getNullMessage());
+        }
+        if (other.hasReceiptMessage()) {
+          mergeReceiptMessage(other.getReceiptMessage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2298,6 +2373,123 @@ public final class SignalServiceProtos {
           nullMessage_ = null;
         }
         return nullMessageBuilder_;
+      }
+
+      // optional .signalservice.ReceiptMessage receiptMessage = 5;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage receiptMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder> receiptMessageBuilder_;
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public boolean hasReceiptMessage() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage getReceiptMessage() {
+        if (receiptMessageBuilder_ == null) {
+          return receiptMessage_;
+        } else {
+          return receiptMessageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public Builder setReceiptMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage value) {
+        if (receiptMessageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          receiptMessage_ = value;
+          onChanged();
+        } else {
+          receiptMessageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public Builder setReceiptMessage(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder builderForValue) {
+        if (receiptMessageBuilder_ == null) {
+          receiptMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          receiptMessageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public Builder mergeReceiptMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage value) {
+        if (receiptMessageBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              receiptMessage_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance()) {
+            receiptMessage_ =
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.newBuilder(receiptMessage_).mergeFrom(value).buildPartial();
+          } else {
+            receiptMessage_ = value;
+          }
+          onChanged();
+        } else {
+          receiptMessageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public Builder clearReceiptMessage() {
+        if (receiptMessageBuilder_ == null) {
+          receiptMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
+          onChanged();
+        } else {
+          receiptMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder getReceiptMessageBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getReceiptMessageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder getReceiptMessageOrBuilder() {
+        if (receiptMessageBuilder_ != null) {
+          return receiptMessageBuilder_.getMessageOrBuilder();
+        } else {
+          return receiptMessage_;
+        }
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder> 
+          getReceiptMessageFieldBuilder() {
+        if (receiptMessageBuilder_ == null) {
+          receiptMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder>(
+                  receiptMessage_,
+                  getParentForChildren(),
+                  isClean());
+          receiptMessage_ = null;
+        }
+        return receiptMessageBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:signalservice.Content)
@@ -8200,6 +8392,650 @@ public final class SignalServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:signalservice.NullMessage)
+  }
+
+  public interface ReceiptMessageOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .signalservice.ReceiptMessage.Type type = 1;
+    /**
+     * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type getType();
+
+    // repeated uint64 timestamp = 2;
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    java.util.List<java.lang.Long> getTimestampList();
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    int getTimestampCount();
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    long getTimestamp(int index);
+  }
+  /**
+   * Protobuf type {@code signalservice.ReceiptMessage}
+   */
+  public static final class ReceiptMessage extends
+      com.google.protobuf.GeneratedMessage
+      implements ReceiptMessageOrBuilder {
+    // Use ReceiptMessage.newBuilder() to construct.
+    private ReceiptMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ReceiptMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ReceiptMessage defaultInstance;
+    public static ReceiptMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ReceiptMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ReceiptMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type value = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = value;
+              }
+              break;
+            }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                timestamp_ = new java.util.ArrayList<java.lang.Long>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              timestamp_.add(input.readUInt64());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                timestamp_ = new java.util.ArrayList<java.lang.Long>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                timestamp_.add(input.readUInt64());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          timestamp_ = java.util.Collections.unmodifiableList(timestamp_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ReceiptMessage_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ReceiptMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ReceiptMessage> PARSER =
+        new com.google.protobuf.AbstractParser<ReceiptMessage>() {
+      public ReceiptMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReceiptMessage(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReceiptMessage> getParserForType() {
+      return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code signalservice.ReceiptMessage.Type}
+     */
+    public enum Type
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>DELIVERY = 0;</code>
+       */
+      DELIVERY(0, 0),
+      /**
+       * <code>READ = 1;</code>
+       */
+      READ(1, 1),
+      ;
+
+      /**
+       * <code>DELIVERY = 0;</code>
+       */
+      public static final int DELIVERY_VALUE = 0;
+      /**
+       * <code>READ = 1;</code>
+       */
+      public static final int READ_VALUE = 1;
+
+
+      public final int getNumber() { return value; }
+
+      public static Type valueOf(int value) {
+        switch (value) {
+          case 0: return DELIVERY;
+          case 1: return READ;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Type>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<Type>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Type>() {
+              public Type findValueByNumber(int number) {
+                return Type.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Type[] VALUES = values();
+
+      public static Type valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private Type(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:signalservice.ReceiptMessage.Type)
+    }
+
+    private int bitField0_;
+    // optional .signalservice.ReceiptMessage.Type type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type type_;
+    /**
+     * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type getType() {
+      return type_;
+    }
+
+    // repeated uint64 timestamp = 2;
+    public static final int TIMESTAMP_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Long> timestamp_;
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    public java.util.List<java.lang.Long>
+        getTimestampList() {
+      return timestamp_;
+    }
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    public int getTimestampCount() {
+      return timestamp_.size();
+    }
+    /**
+     * <code>repeated uint64 timestamp = 2;</code>
+     */
+    public long getTimestamp(int index) {
+      return timestamp_.get(index);
+    }
+
+    private void initFields() {
+      type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type.DELIVERY;
+      timestamp_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_.getNumber());
+      }
+      for (int i = 0; i < timestamp_.size(); i++) {
+        output.writeUInt64(2, timestamp_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_.getNumber());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < timestamp_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeUInt64SizeNoTag(timestamp_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getTimestampList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code signalservice.ReceiptMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ReceiptMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ReceiptMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Builder.class);
+      }
+
+      // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type.DELIVERY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        timestamp_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_ReceiptMessage_descriptor;
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage getDefaultInstanceForType() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage build() {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage buildPartial() {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage result = new org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          timestamp_ = java.util.Collections.unmodifiableList(timestamp_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.timestamp_ = timestamp_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage) {
+          return mergeFrom((org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage other) {
+        if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (!other.timestamp_.isEmpty()) {
+          if (timestamp_.isEmpty()) {
+            timestamp_ = other.timestamp_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureTimestampIsMutable();
+            timestamp_.addAll(other.timestamp_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .signalservice.ReceiptMessage.Type type = 1;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type.DELIVERY;
+      /**
+       * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type getType() {
+        return type_;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+       */
+      public Builder setType(org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.ReceiptMessage.Type type = 1;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.Type.DELIVERY;
+        onChanged();
+        return this;
+      }
+
+      // repeated uint64 timestamp = 2;
+      private java.util.List<java.lang.Long> timestamp_ = java.util.Collections.emptyList();
+      private void ensureTimestampIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          timestamp_ = new java.util.ArrayList<java.lang.Long>(timestamp_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public java.util.List<java.lang.Long>
+          getTimestampList() {
+        return java.util.Collections.unmodifiableList(timestamp_);
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public int getTimestampCount() {
+        return timestamp_.size();
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public long getTimestamp(int index) {
+        return timestamp_.get(index);
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public Builder setTimestamp(
+          int index, long value) {
+        ensureTimestampIsMutable();
+        timestamp_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public Builder addTimestamp(long value) {
+        ensureTimestampIsMutable();
+        timestamp_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public Builder addAllTimestamp(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureTimestampIsMutable();
+        super.addAll(values, timestamp_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 timestamp = 2;</code>
+       */
+      public Builder clearTimestamp() {
+        timestamp_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:signalservice.ReceiptMessage)
+    }
+
+    static {
+      defaultInstance = new ReceiptMessage(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:signalservice.ReceiptMessage)
   }
 
   public interface VerifiedOrBuilder
@@ -20154,6 +20990,11 @@ public final class SignalServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_signalservice_NullMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_signalservice_ReceiptMessage_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_signalservice_ReceiptMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_signalservice_Verified_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -20239,79 +21080,83 @@ public final class SignalServiceProtos {
       "\005 \001(\004\022\025\n\rlegacyMessage\030\006 \001(\014\022\017\n\007content\030" +
       "\010 \001(\014\"U\n\004Type\022\013\n\007UNKNOWN\020\000\022\016\n\nCIPHERTEXT" +
       "\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\rPREKEY_BUNDLE\020\003\022" +
-      "\013\n\007RECEIPT\020\005\"\315\001\n\007Content\022/\n\013dataMessage\030" +
+      "\013\n\007RECEIPT\020\005\"\204\002\n\007Content\022/\n\013dataMessage\030" +
       "\001 \001(\0132\032.signalservice.DataMessage\022/\n\013syn" +
       "cMessage\030\002 \001(\0132\032.signalservice.SyncMessa",
       "ge\022/\n\013callMessage\030\003 \001(\0132\032.signalservice." +
       "CallMessage\022/\n\013nullMessage\030\004 \001(\0132\032.signa" +
-      "lservice.NullMessage\"\330\003\n\013CallMessage\022/\n\005" +
-      "offer\030\001 \001(\0132 .signalservice.CallMessage." +
-      "Offer\0221\n\006answer\030\002 \001(\0132!.signalservice.Ca" +
-      "llMessage.Answer\0227\n\ticeUpdate\030\003 \003(\0132$.si" +
-      "gnalservice.CallMessage.IceUpdate\0221\n\006han" +
-      "gup\030\004 \001(\0132!.signalservice.CallMessage.Ha" +
-      "ngup\022-\n\004busy\030\005 \001(\0132\037.signalservice.CallM" +
-      "essage.Busy\032(\n\005Offer\022\n\n\002id\030\001 \001(\004\022\023\n\013desc",
-      "ription\030\002 \001(\t\032)\n\006Answer\022\n\n\002id\030\001 \001(\004\022\023\n\013d" +
-      "escription\030\002 \001(\t\032K\n\tIceUpdate\022\n\n\002id\030\001 \001(" +
-      "\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rsdpMLineIndex\030\003 \001(\r" +
-      "\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022\n\n\002id\030\001 \001(\004\032\024\n\006Han" +
-      "gup\022\n\n\002id\030\001 \001(\004\"\205\002\n\013DataMessage\022\014\n\004body\030" +
-      "\001 \001(\t\0225\n\013attachments\030\002 \003(\0132 .signalservi" +
-      "ce.AttachmentPointer\022*\n\005group\030\003 \001(\0132\033.si" +
-      "gnalservice.GroupContext\022\r\n\005flags\030\004 \001(\r\022" +
-      "\023\n\013expireTimer\030\005 \001(\r\022\022\n\nprofileKey\030\006 \001(\014" +
-      "\"M\n\005Flags\022\017\n\013END_SESSION\020\001\022\033\n\027EXPIRATION",
-      "_TIMER_UPDATE\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"" +
-      "\036\n\013NullMessage\022\017\n\007padding\030\001 \001(\014\"\253\001\n\010Veri" +
-      "fied\022\023\n\013destination\030\001 \001(\t\022\023\n\013identityKey" +
-      "\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.signalservice.Ve" +
-      "rified.State\022\023\n\013nullMessage\030\004 \001(\014\"2\n\005Sta" +
-      "te\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIF" +
-      "IED\020\002\"\316\006\n\013SyncMessage\022-\n\004sent\030\001 \001(\0132\037.si" +
-      "gnalservice.SyncMessage.Sent\0225\n\010contacts" +
-      "\030\002 \001(\0132#.signalservice.SyncMessage.Conta" +
-      "cts\0221\n\006groups\030\003 \001(\0132!.signalservice.Sync",
-      "Message.Groups\0223\n\007request\030\004 \001(\0132\".signal" +
-      "service.SyncMessage.Request\022-\n\004read\030\005 \003(" +
-      "\0132\037.signalservice.SyncMessage.Read\0223\n\007bl" +
-      "ocked\030\006 \001(\0132\".signalservice.SyncMessage." +
-      "Blocked\022)\n\010verified\030\007 \001(\0132\027.signalservic" +
-      "e.Verified\022\017\n\007padding\030\010 \001(\014\032}\n\004Sent\022\023\n\013d" +
-      "estination\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n\007m" +
-      "essage\030\003 \001(\0132\032.signalservice.DataMessage" +
-      "\022 \n\030expirationStartTimestamp\030\004 \001(\004\032S\n\010Co" +
-      "ntacts\022.\n\004blob\030\001 \001(\0132 .signalservice.Att",
-      "achmentPointer\022\027\n\010complete\030\002 \001(\010:\005false\032" +
-      "8\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservice." +
-      "AttachmentPointer\032\032\n\007Blocked\022\017\n\007numbers\030" +
-      "\001 \003(\t\032|\n\007Request\0225\n\004type\030\001 \001(\0162\'.signals" +
-      "ervice.SyncMessage.Request.Type\":\n\004Type\022" +
-      "\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013" +
-      "\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\tt" +
-      "imestamp\030\002 \001(\004\"\257\001\n\021AttachmentPointer\022\n\n\002" +
-      "id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001" +
-      "(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006d",
-      "igest\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010" +
-      " \001(\r\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Gro" +
-      "upContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .si" +
-      "gnalservice.GroupContext.Type\022\014\n\004name\030\003 " +
-      "\001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .s" +
-      "ignalservice.AttachmentPointer\"H\n\004Type\022\013" +
-      "\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004" +
-      "QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\341\001\n\016ContactDeta" +
-      "ils\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006ava" +
-      "tar\030\003 \001(\0132$.signalservice.ContactDetails",
-      ".Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\013" +
-      "2\027.signalservice.Verified\022\022\n\nprofileKey\030" +
-      "\006 \001(\014\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006" +
-      "length\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(" +
-      "\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avat" +
-      "ar\030\004 \001(\0132\".signalservice.GroupDetails.Av" +
-      "atar\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013" +
-      "contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org" +
-      ".whispersystems.signalservice.internal.p" +
-      "ushB\023SignalServiceProtos"
+      "lservice.NullMessage\0225\n\016receiptMessage\030\005" +
+      " \001(\0132\035.signalservice.ReceiptMessage\"\330\003\n\013" +
+      "CallMessage\022/\n\005offer\030\001 \001(\0132 .signalservi" +
+      "ce.CallMessage.Offer\0221\n\006answer\030\002 \001(\0132!.s" +
+      "ignalservice.CallMessage.Answer\0227\n\ticeUp" +
+      "date\030\003 \003(\0132$.signalservice.CallMessage.I" +
+      "ceUpdate\0221\n\006hangup\030\004 \001(\0132!.signalservice" +
+      ".CallMessage.Hangup\022-\n\004busy\030\005 \001(\0132\037.sign",
+      "alservice.CallMessage.Busy\032(\n\005Offer\022\n\n\002i" +
+      "d\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032)\n\006Answer\022\n" +
+      "\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032K\n\tIceUp" +
+      "date\022\n\n\002id\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rsdpM" +
+      "LineIndex\030\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022\n\n\002" +
+      "id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\205\002\n\013DataM" +
+      "essage\022\014\n\004body\030\001 \001(\t\0225\n\013attachments\030\002 \003(" +
+      "\0132 .signalservice.AttachmentPointer\022*\n\005g" +
+      "roup\030\003 \001(\0132\033.signalservice.GroupContext\022" +
+      "\r\n\005flags\030\004 \001(\r\022\023\n\013expireTimer\030\005 \001(\r\022\022\n\np",
+      "rofileKey\030\006 \001(\014\"M\n\005Flags\022\017\n\013END_SESSION\020" +
+      "\001\022\033\n\027EXPIRATION_TIMER_UPDATE\020\002\022\026\n\022PROFIL" +
+      "E_KEY_UPDATE\020\004\"\036\n\013NullMessage\022\017\n\007padding" +
+      "\030\001 \001(\014\"u\n\016ReceiptMessage\0220\n\004type\030\001 \001(\0162\"" +
+      ".signalservice.ReceiptMessage.Type\022\021\n\tti" +
+      "mestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DELIVERY\020\000\022\010\n\004R" +
+      "EAD\020\001\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(\t\022" +
+      "\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.si" +
+      "gnalservice.Verified.State\022\023\n\013nullMessag" +
+      "e\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIE",
+      "D\020\001\022\016\n\nUNVERIFIED\020\002\"\316\006\n\013SyncMessage\022-\n\004s" +
+      "ent\030\001 \001(\0132\037.signalservice.SyncMessage.Se" +
+      "nt\0225\n\010contacts\030\002 \001(\0132#.signalservice.Syn" +
+      "cMessage.Contacts\0221\n\006groups\030\003 \001(\0132!.sign" +
+      "alservice.SyncMessage.Groups\0223\n\007request\030" +
+      "\004 \001(\0132\".signalservice.SyncMessage.Reques" +
+      "t\022-\n\004read\030\005 \003(\0132\037.signalservice.SyncMess" +
+      "age.Read\0223\n\007blocked\030\006 \001(\0132\".signalservic" +
+      "e.SyncMessage.Blocked\022)\n\010verified\030\007 \001(\0132" +
+      "\027.signalservice.Verified\022\017\n\007padding\030\010 \001(",
+      "\014\032}\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttimest" +
+      "amp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signalservi" +
+      "ce.DataMessage\022 \n\030expirationStartTimesta" +
+      "mp\030\004 \001(\004\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .sig" +
+      "nalservice.AttachmentPointer\022\027\n\010complete" +
+      "\030\002 \001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 ." +
+      "signalservice.AttachmentPointer\032\032\n\007Block" +
+      "ed\022\017\n\007numbers\030\001 \003(\t\032|\n\007Request\0225\n\004type\030\001" +
+      " \001(\0162\'.signalservice.SyncMessage.Request" +
+      ".Type\":\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001",
+      "\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\032)\n\004Read\022\016\n\006sen" +
+      "der\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"\257\001\n\021Attachm" +
+      "entPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002 " +
+      "\001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbn" +
+      "ail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileName\030\007 " +
+      "\001(\t\022\r\n\005flags\030\010 \001(\r\"\032\n\005Flags\022\021\n\rVOICE_MES" +
+      "SAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n\004t" +
+      "ype\030\002 \001(\0162 .signalservice.GroupContext.T" +
+      "ype\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006av" +
+      "atar\030\005 \001(\0132 .signalservice.AttachmentPoi",
+      "nter\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n" +
+      "\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\341" +
+      "\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004nam" +
+      "e\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservice." +
+      "ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010" +
+      "verified\030\005 \001(\0132\027.signalservice.Verified\022" +
+      "\022\n\nprofileKey\030\006 \001(\014\032-\n\006Avatar\022\023\n\013content" +
+      "Type\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014GroupDeta" +
+      "ils\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members" +
+      "\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice.G",
+      "roupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004true" +
+      "\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006lengt" +
+      "h\030\002 \001(\rBE\n.org.whispersystems.signalserv" +
+      "ice.internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20329,7 +21174,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_Content_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_Content_descriptor,
-              new java.lang.String[] { "DataMessage", "SyncMessage", "CallMessage", "NullMessage", });
+              new java.lang.String[] { "DataMessage", "SyncMessage", "CallMessage", "NullMessage", "ReceiptMessage", });
           internal_static_signalservice_CallMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_signalservice_CallMessage_fieldAccessorTable = new
@@ -20378,14 +21223,20 @@ public final class SignalServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_NullMessage_descriptor,
               new java.lang.String[] { "Padding", });
-          internal_static_signalservice_Verified_descriptor =
+          internal_static_signalservice_ReceiptMessage_descriptor =
             getDescriptor().getMessageTypes().get(5);
+          internal_static_signalservice_ReceiptMessage_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_signalservice_ReceiptMessage_descriptor,
+              new java.lang.String[] { "Type", "Timestamp", });
+          internal_static_signalservice_Verified_descriptor =
+            getDescriptor().getMessageTypes().get(6);
           internal_static_signalservice_Verified_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_Verified_descriptor,
               new java.lang.String[] { "Destination", "IdentityKey", "State", "NullMessage", });
           internal_static_signalservice_SyncMessage_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_signalservice_SyncMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_descriptor,
@@ -20427,19 +21278,19 @@ public final class SignalServiceProtos {
               internal_static_signalservice_SyncMessage_Read_descriptor,
               new java.lang.String[] { "Sender", "Timestamp", });
           internal_static_signalservice_AttachmentPointer_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
               new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", });
           internal_static_signalservice_GroupContext_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupContext_descriptor,
               new java.lang.String[] { "Id", "Type", "Name", "Members", "Avatar", });
           internal_static_signalservice_ContactDetails_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_signalservice_ContactDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ContactDetails_descriptor,
@@ -20451,7 +21302,7 @@ public final class SignalServiceProtos {
               internal_static_signalservice_ContactDetails_Avatar_descriptor,
               new java.lang.String[] { "ContentType", "Length", });
           internal_static_signalservice_GroupDetails_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupDetails_descriptor,

@@ -105,7 +105,6 @@ public class PushServiceSocket {
   private static final String DIRECTORY_VERIFY_PATH     = "/v1/directory/%s";
   private static final String MESSAGE_PATH              = "/v1/messages/%s";
   private static final String ACKNOWLEDGE_MESSAGE_PATH  = "/v1/messages/%s/%d";
-  private static final String RECEIPT_PATH              = "/v1/receipt/%s/%d";
   private static final String ATTACHMENT_PATH           = "/v1/attachments/%s";
 
   private static final String PROFILE_PATH              = "/v1/profile/%s";
@@ -167,16 +166,6 @@ public class PushServiceSocket {
   public void sendProvisioningMessage(String destination, byte[] body) throws IOException {
     makeServiceRequest(String.format(PROVISIONING_MESSAGE_PATH, destination), "PUT",
                        JsonUtil.toJson(new ProvisioningMessage(Base64.encodeBytes(body))));
-  }
-
-  public void sendReceipt(String destination, long messageId, Optional<String> relay) throws IOException {
-    String path = String.format(RECEIPT_PATH, destination, messageId);
-
-    if (relay.isPresent()) {
-      path += "?relay=" + relay.get();
-    }
-
-    makeServiceRequest(path, "PUT", null);
   }
 
   public void registerGcmId(String gcmRegistrationId) throws IOException {
