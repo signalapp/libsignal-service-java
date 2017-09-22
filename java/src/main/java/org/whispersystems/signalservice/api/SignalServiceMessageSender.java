@@ -28,6 +28,7 @@ import org.whispersystems.signalservice.api.messages.calls.IceUpdateMessage;
 import org.whispersystems.signalservice.api.messages.calls.OfferMessage;
 import org.whispersystems.signalservice.api.messages.calls.SignalServiceCallMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.ConfigurationMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage;
@@ -218,6 +219,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceReadContent(message.getRead().get());
     } else if (message.getBlockedList().isPresent()) {
       content = createMultiDeviceBlockedContent(message.getBlockedList().get());
+    } else if (message.getConfiguration().isPresent()) {
+      content = createMultiDeviceConfigurationContent(message.getConfiguration().get());
     } else if (message.getVerified().isPresent()) {
       sendMessage(message.getVerified().get());
       return;
@@ -413,6 +416,18 @@ public class SignalServiceMessageSender {
     blockedMessage.addAllNumbers(blocked.getNumbers());
 
     return container.setSyncMessage(syncMessage.setBlocked(blockedMessage)).build().toByteArray();
+  }
+
+  private byte[] createMultiDeviceConfigurationContent(ConfigurationMessage configuration) {
+    Content.Builder                   container            = Content.newBuilder();
+    SyncMessage.Builder               syncMessage          = createSyncMessageBuilder();
+    SyncMessage.Configuration.Builder configurationMessage = SyncMessage.Configuration.newBuilder();
+
+    if (configuration.getReadReceipts().isPresent()) {
+      configurationMessage.setReadReceipts(configuration.getReadReceipts().get());
+    }
+
+    return container.setSyncMessage(syncMessage.setConfiguration(configurationMessage)).build().toByteArray();
   }
 
   private byte[] createMultiDeviceVerifiedContent(VerifiedMessage verifiedMessage, byte[] nullMessage) {

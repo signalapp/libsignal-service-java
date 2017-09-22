@@ -600,6 +600,16 @@ public final class ProvisioningProtos {
      * <code>optional bytes profileKey = 6;</code>
      */
     com.google.protobuf.ByteString getProfileKey();
+
+    // optional bool readReceipts = 7;
+    /**
+     * <code>optional bool readReceipts = 7;</code>
+     */
+    boolean hasReadReceipts();
+    /**
+     * <code>optional bool readReceipts = 7;</code>
+     */
+    boolean getReadReceipts();
   }
   /**
    * Protobuf type {@code signalservice.ProvisionMessage}
@@ -680,6 +690,11 @@ public final class ProvisioningProtos {
             case 50: {
               bitField0_ |= 0x00000020;
               profileKey_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              readReceipts_ = input.readBool();
               break;
             }
           }
@@ -899,6 +914,22 @@ public final class ProvisioningProtos {
       return profileKey_;
     }
 
+    // optional bool readReceipts = 7;
+    public static final int READRECEIPTS_FIELD_NUMBER = 7;
+    private boolean readReceipts_;
+    /**
+     * <code>optional bool readReceipts = 7;</code>
+     */
+    public boolean hasReadReceipts() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool readReceipts = 7;</code>
+     */
+    public boolean getReadReceipts() {
+      return readReceipts_;
+    }
+
     private void initFields() {
       identityKeyPublic_ = com.google.protobuf.ByteString.EMPTY;
       identityKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
@@ -906,6 +937,7 @@ public final class ProvisioningProtos {
       provisioningCode_ = "";
       userAgent_ = "";
       profileKey_ = com.google.protobuf.ByteString.EMPTY;
+      readReceipts_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -936,6 +968,9 @@ public final class ProvisioningProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(6, profileKey_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(7, readReceipts_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -969,6 +1004,10 @@ public final class ProvisioningProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(6, profileKey_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, readReceipts_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1098,6 +1137,8 @@ public final class ProvisioningProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         profileKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
+        readReceipts_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1150,6 +1191,10 @@ public final class ProvisioningProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.profileKey_ = profileKey_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.readReceipts_ = readReceipts_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1189,6 +1234,9 @@ public final class ProvisioningProtos {
         }
         if (other.hasProfileKey()) {
           setProfileKey(other.getProfileKey());
+        }
+        if (other.hasReadReceipts()) {
+          setReadReceipts(other.getReadReceipts());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1547,6 +1595,39 @@ public final class ProvisioningProtos {
         return this;
       }
 
+      // optional bool readReceipts = 7;
+      private boolean readReceipts_ ;
+      /**
+       * <code>optional bool readReceipts = 7;</code>
+       */
+      public boolean hasReadReceipts() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool readReceipts = 7;</code>
+       */
+      public boolean getReadReceipts() {
+        return readReceipts_;
+      }
+      /**
+       * <code>optional bool readReceipts = 7;</code>
+       */
+      public Builder setReadReceipts(boolean value) {
+        bitField0_ |= 0x00000040;
+        readReceipts_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool readReceipts = 7;</code>
+       */
+      public Builder clearReadReceipts() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        readReceipts_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.ProvisionMessage)
     }
 
@@ -1579,12 +1660,13 @@ public final class ProvisioningProtos {
     java.lang.String[] descriptorData = {
       "\n\022Provisioning.proto\022\rsignalservice\"4\n\021P" +
       "rovisionEnvelope\022\021\n\tpublicKey\030\001 \001(\014\022\014\n\004b" +
-      "ody\030\002 \001(\014\"\232\001\n\020ProvisionMessage\022\031\n\021identi" +
+      "ody\030\002 \001(\014\"\260\001\n\020ProvisionMessage\022\031\n\021identi" +
       "tyKeyPublic\030\001 \001(\014\022\032\n\022identityKeyPrivate\030" +
       "\002 \001(\014\022\016\n\006number\030\003 \001(\t\022\030\n\020provisioningCod" +
       "e\030\004 \001(\t\022\021\n\tuserAgent\030\005 \001(\t\022\022\n\nprofileKey" +
-      "\030\006 \001(\014BD\n.org.whispersystems.signalservi" +
-      "ce.internal.pushB\022ProvisioningProtos"
+      "\030\006 \001(\014\022\024\n\014readReceipts\030\007 \001(\010BD\n.org.whis" +
+      "persystems.signalservice.internal.pushB\022" +
+      "ProvisioningProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1602,7 +1684,7 @@ public final class ProvisioningProtos {
           internal_static_signalservice_ProvisionMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ProvisionMessage_descriptor,
-              new java.lang.String[] { "IdentityKeyPublic", "IdentityKeyPrivate", "Number", "ProvisioningCode", "UserAgent", "ProfileKey", });
+              new java.lang.String[] { "IdentityKeyPublic", "IdentityKeyPrivate", "Number", "ProvisioningCode", "UserAgent", "ProfileKey", "ReadReceipts", });
           return null;
         }
       };
