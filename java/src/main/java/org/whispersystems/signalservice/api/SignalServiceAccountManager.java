@@ -281,14 +281,11 @@ public class SignalServiceAccountManager {
   public void setProfileName(byte[] key, String name)
       throws IOException
   {
-    String ciphertextName = null;
+    if (name == null) name = "";
 
-    if (name != null) {
-      ciphertextName = Base64.encodeBytesWithoutPadding(new ProfileCipher(key).encryptName(name.getBytes("UTF-8"), ProfileCipher.NAME_PADDED_LENGTH));
-    }
+    String ciphertextName = Base64.encodeBytesWithoutPadding(new ProfileCipher(key).encryptName(name.getBytes("UTF-8"), ProfileCipher.NAME_PADDED_LENGTH));
 
     this.pushServiceSocket.setProfileName(ciphertextName);
-
   }
 
   public void setProfileAvatar(byte[] key, StreamDetails avatar)
