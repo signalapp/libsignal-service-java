@@ -12743,6 +12743,10 @@ public final class SignalServiceProtos {
          * <code>BLOCKED = 3;</code>
          */
         BLOCKED(3, 3),
+        /**
+         * <code>CONFIGURATION = 4;</code>
+         */
+        CONFIGURATION(4, 4),
         ;
 
         /**
@@ -12761,6 +12765,10 @@ public final class SignalServiceProtos {
          * <code>BLOCKED = 3;</code>
          */
         public static final int BLOCKED_VALUE = 3;
+        /**
+         * <code>CONFIGURATION = 4;</code>
+         */
+        public static final int CONFIGURATION_VALUE = 4;
 
 
         public final int getNumber() { return value; }
@@ -12771,6 +12779,7 @@ public final class SignalServiceProtos {
             case 1: return CONTACTS;
             case 2: return GROUPS;
             case 3: return BLOCKED;
+            case 4: return CONFIGURATION;
             default: return null;
           }
         }
@@ -21706,7 +21715,7 @@ public final class SignalServiceProtos {
       "\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.si" +
       "gnalservice.Verified.State\022\023\n\013nullMessag" +
       "e\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIE",
-      "D\020\001\022\016\n\nUNVERIFIED\020\002\"\266\007\n\013SyncMessage\022-\n\004s" +
+      "D\020\001\022\016\n\nUNVERIFIED\020\002\"\312\007\n\013SyncMessage\022-\n\004s" +
       "ent\030\001 \001(\0132\037.signalservice.SyncMessage.Se" +
       "nt\0225\n\010contacts\030\002 \001(\0132#.signalservice.Syn" +
       "cMessage.Contacts\0221\n\006groups\030\003 \001(\0132!.sign" +
@@ -21725,34 +21734,35 @@ public final class SignalServiceProtos {
       "chmentPointer\022\027\n\010complete\030\002 \001(\010:\005false\0328" +
       "\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservice.A" +
       "ttachmentPointer\032\032\n\007Blocked\022\017\n\007numbers\030\001" +
-      " \003(\t\032|\n\007Request\0225\n\004type\030\001 \001(\0162\'.signalse",
-      "rvice.SyncMessage.Request.Type\":\n\004Type\022\013" +
-      "\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n" +
-      "\007BLOCKED\020\003\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\tti" +
-      "mestamp\030\002 \001(\004\032%\n\rConfiguration\022\024\n\014readRe" +
-      "ceipts\030\001 \001(\010\"\257\001\n\021AttachmentPointer\022\n\n\002id" +
-      "\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014" +
-      "\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006dig" +
-      "est\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001" +
-      "(\r\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Group" +
-      "Context\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .sign",
-      "alservice.GroupContext.Type\022\014\n\004name\030\003 \001(" +
-      "\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .sig" +
-      "nalservice.AttachmentPointer\"H\n\004Type\022\013\n\007" +
-      "UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QU" +
-      "IT\020\003\022\020\n\014REQUEST_INFO\020\004\"\341\001\n\016ContactDetail" +
-      "s\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avata" +
-      "r\030\003 \001(\0132$.signalservice.ContactDetails.A" +
-      "vatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027" +
-      ".signalservice.Verified\022\022\n\nprofileKey\030\006 " +
-      "\001(\014\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006le",
-      "ngth\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022" +
-      "\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar" +
-      "\030\004 \001(\0132\".signalservice.GroupDetails.Avat" +
-      "ar\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013co" +
-      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.w" +
-      "hispersystems.signalservice.internal.pus" +
-      "hB\023SignalServiceProtos"
+      " \003(\t\032\217\001\n\007Request\0225\n\004type\030\001 \001(\0162\'.signals",
+      "ervice.SyncMessage.Request.Type\"M\n\004Type\022" +
+      "\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013" +
+      "\n\007BLOCKED\020\003\022\021\n\rCONFIGURATION\020\004\032)\n\004Read\022\016" +
+      "\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\032%\n\rCon" +
+      "figuration\022\024\n\014readReceipts\030\001 \001(\010\"\257\001\n\021Att" +
+      "achmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentTyp" +
+      "e\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tth" +
+      "umbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileNam" +
+      "e\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\"\032\n\005Flags\022\021\n\rVOICE" +
+      "_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022",
+      ".\n\004type\030\002 \001(\0162 .signalservice.GroupConte" +
+      "xt.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220" +
+      "\n\006avatar\030\005 \001(\0132 .signalservice.Attachmen" +
+      "tPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020" +
+      "\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO" +
+      "\020\004\"\341\001\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n" +
+      "\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalserv" +
+      "ice.ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t" +
+      "\022)\n\010verified\030\005 \001(\0132\027.signalservice.Verif" +
+      "ied\022\022\n\nprofileKey\030\006 \001(\014\032-\n\006Avatar\022\023\n\013con",
+      "tentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\262\001\n\014Group" +
+      "Details\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007mem" +
+      "bers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservi" +
+      "ce.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004" +
+      "true\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006l" +
+      "ength\030\002 \001(\rBE\n.org.whispersystems.signal" +
+      "service.internal.pushB\023SignalServiceProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
