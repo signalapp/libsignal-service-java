@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The main interface for sending Signal Service messages.
@@ -77,11 +78,11 @@ public class SignalServiceMessageSender {
 
   private static final String TAG = SignalServiceMessageSender.class.getSimpleName();
 
-  private final PushServiceSocket                  socket;
-  private final SignalProtocolStore                store;
-  private final SignalServiceAddress               localAddress;
-  private final Optional<SignalServiceMessagePipe> pipe;
-  private final Optional<EventListener>            eventListener;
+  private final PushServiceSocket                                   socket;
+  private final SignalProtocolStore                                 store;
+  private final SignalServiceAddress                                localAddress;
+  private final AtomicReference<Optional<SignalServiceMessagePipe>> pipe;
+  private final Optional<EventListener>                             eventListener;
 
   /**
    * Construct a SignalServiceMessageSender.
@@ -113,7 +114,7 @@ public class SignalServiceMessageSender {
     this.socket        = new PushServiceSocket(urls, credentialsProvider, userAgent);
     this.store         = store;
     this.localAddress  = new SignalServiceAddress(credentialsProvider.getUser());
-    this.pipe          = pipe;
+    this.pipe          = new AtomicReference<>(pipe);
     this.eventListener = eventListener;
   }
 
@@ -237,6 +238,10 @@ public class SignalServiceMessageSender {
 
   public void cancelInFlightRequests() {
     socket.cancelInFlightRequests();
+  }
+
+  public void setMessagePipe(SignalServiceMessagePipe pipe) {
+    this.pipe.set(Optional.fromNullable(pipe));
   }
 
   private void sendMessage(VerifiedMessage message) throws IOException, UntrustedIdentityException {
@@ -514,7 +519,8 @@ public class SignalServiceMessageSender {
   {
     for (int i=0;i<3;i++) {
       try {
-        OutgoingPushMessageList messages = getEncryptedMessages(socket, recipient, timestamp, content, silent);
+        OutgoingPushMessageList            messages = getEncryptedMessages(socket, recipient, timestamp, content, silent);
+        Optional<SignalServiceMessagePipe> pipe     = this.pipe.get();
 
         if (pipe.isPresent()) {
           try {
