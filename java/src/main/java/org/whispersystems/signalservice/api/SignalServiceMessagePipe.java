@@ -160,6 +160,10 @@ public class SignalServiceMessagePipe {
     websocket.disconnect();
   }
 
+  public static void prod() {
+    WebSocketConnection.Prod.use();
+  }
+
   private boolean isSignalServiceEnvelope(WebSocketRequestMessage message) {
     return "PUT".equals(message.getVerb()) && "/api/v1/message".equals(message.getPath());
   }
