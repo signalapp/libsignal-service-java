@@ -20,8 +20,4 @@ public class ProfileCipherOutputStreamFactory implements OutputStreamFactory {
     return new ProfileCipherOutputStream(wrap, key);
   }
 
-  @Override
-  public long getCiphertextLength(long plaintextLength) {
-    return ProfileCipherOutputStream.getCiphertextLength(plaintextLength);
-  }
 }

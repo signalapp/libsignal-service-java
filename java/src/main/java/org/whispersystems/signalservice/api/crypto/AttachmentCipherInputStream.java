@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2014-2016 Open Whisper Systems
+/*
+ * Copyright (C) 2014-2017 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
  */
@@ -8,13 +8,15 @@ package org.whispersystems.signalservice.api.crypto;
 
 import org.whispersystems.libsignal.InvalidMacException;
 import org.whispersystems.libsignal.InvalidMessageException;
-import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.internal.util.ContentLengthInputStream;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilterInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -36,7 +38,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Moxie Marlinspike
  */
 
-public class AttachmentCipherInputStream extends FileInputStream {
+public class AttachmentCipherInputStream extends FilterInputStream {
 
   private static final int BLOCK_SIZE      = 16;
   private static final int CIPHER_KEY_SIZE = 32;
@@ -48,15 +50,12 @@ public class AttachmentCipherInputStream extends FileInputStream {
   private long    totalRead;
   private byte[]  overflowBuffer;
 
-  public AttachmentCipherInputStream(File file, byte[] combinedKeyMaterial, Optional<byte[]> digest)
-      throws IOException, InvalidMessageException
+  public static InputStream createFor(File file, long plaintextLength, byte[] combinedKeyMaterial, byte[] digest)
+      throws InvalidMessageException, IOException
   {
-    super(file);
-
     try {
       byte[][] parts = Util.split(combinedKeyMaterial, CIPHER_KEY_SIZE, MAC_KEY_SIZE);
       Mac      mac   = Mac.getInstance("HmacSHA256");
-
       mac.init(new SecretKeySpec(parts[1], "HmacSHA256"));
 
       if (file.length() <= BLOCK_SIZE + mac.getMacLength()) {
@@ -65,19 +64,37 @@ public class AttachmentCipherInputStream extends FileInputStream {
 
       verifyMac(file, mac, digest);
 
+      InputStream inputStream = new AttachmentCipherInputStream(new FileInputStream(file), parts[0], file.length() - BLOCK_SIZE - mac.getMacLength());
+
+      if (plaintextLength != 0) {
+        inputStream = new ContentLengthInputStream(inputStream, plaintextLength);
+      }
+
+      return inputStream;
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+      throw new AssertionError(e);
+    } catch (InvalidMacException e) {
+      throw new InvalidMessageException(e);
+    }
+  }
+
+  private AttachmentCipherInputStream(InputStream inputStream, byte[] cipherKey, long totalDataSize)
+      throws IOException
+  {
+    super(inputStream);
+
+    try {
       byte[] iv = new byte[BLOCK_SIZE];
       readFully(iv);
 
       this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-      this.cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(parts[0], "AES"), new IvParameterSpec(iv));
+      this.cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(cipherKey, "AES"), new IvParameterSpec(iv));
 
       this.done          = false;
       this.totalRead     = 0;
-      this.totalDataSize = file.length() - cipher.getBlockSize() - mac.getMacLength();
+      this.totalDataSize = totalDataSize;
     } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
       throw new AssertionError(e);
-    } catch (InvalidMacException e) {
-      throw new InvalidMessageException(e);
     }
   }
 
@@ -173,7 +190,7 @@ public class AttachmentCipherInputStream extends FileInputStream {
     }
   }
 
-  private void verifyMac(File file, Mac mac, Optional<byte[]> theirDigest)
+  private static void verifyMac(File file, Mac mac, byte[] theirDigest)
       throws FileNotFoundException, InvalidMacException
   {
     try {
@@ -199,7 +216,7 @@ public class AttachmentCipherInputStream extends FileInputStream {
 
       byte[] ourDigest = digest.digest(theirMac);
 
-      if (theirDigest.isPresent() && !MessageDigest.isEqual(ourDigest, theirDigest.get())) {
+      if (!MessageDigest.isEqual(ourDigest, theirDigest)) {
         throw new InvalidMacException("Digest doesn't match!");
       }
 

@@ -20,8 +20,4 @@ public class AttachmentCipherOutputStreamFactory implements OutputStreamFactory 
     return new AttachmentCipherOutputStream(key, wrap);
   }
 
-  @Override
-  public long getCiphertextLength(long plaintextLength) {
-    return AttachmentCipherOutputStream.getCiphertextLength(plaintextLength);
-  }
 }

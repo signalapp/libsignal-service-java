@@ -16,6 +16,7 @@ import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
 import org.whispersystems.signalservice.api.crypto.SignalServiceCipher;
 import org.whispersystems.signalservice.api.crypto.UntrustedIdentityException;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
@@ -39,6 +40,7 @@ import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
+import org.whispersystems.signalservice.internal.crypto.PaddingInputStream;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
@@ -567,12 +569,14 @@ public class SignalServiceMessageSender {
   private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
       throws IOException
   {
-    byte[]             attachmentKey  = Util.getSecretBytes(64);
-    PushAttachmentData attachmentData = new PushAttachmentData(attachment.getContentType(),
-                                                               attachment.getInputStream(),
-                                                               attachment.getLength(),
-                                                               new AttachmentCipherOutputStreamFactory(attachmentKey),
-                                                               attachment.getListener());
+    byte[]             attachmentKey    = Util.getSecretBytes(64);
+    long               paddedLength     = PaddingInputStream.getPaddedSize(attachment.getLength());
+    long               ciphertextLength = AttachmentCipherOutputStream.getCiphertextLength(paddedLength);
+    PushAttachmentData attachmentData   = new PushAttachmentData(attachment.getContentType(),
+                                                                 new PaddingInputStream(attachment.getInputStream(), attachment.getLength()),
+                                                                 ciphertextLength,
+                                                                 new AttachmentCipherOutputStreamFactory(attachmentKey),
+                                                                 attachment.getListener());
 
     Pair<Long, byte[]> attachmentIdAndDigest = socket.sendAttachment(attachmentData);
 

@@ -310,7 +310,9 @@ public class SignalServiceCipher {
                                                     pointer.getContentType(),
                                                     pointer.getKey().toByteArray(),
                                                     envelope.getRelay(),
-                                                    pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
+                                                    Optional.of(pointer.getSize()),
+                                                    Optional.<byte[]>absent(),
+                                                    Optional.fromNullable(pointer.hasDigest() ? pointer.getDigest().toByteArray() : null),
                                                     Optional.<String>absent(),
                                                     false);
       }

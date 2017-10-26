@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2014-2016 Open Whisper Systems
+/*
+ * Copyright (C) 2014-2017 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
  */
@@ -505,7 +505,7 @@ public class PushServiceSocket {
     connection.setDoOutput(true);
 
     if (dataSize > 0) {
-      connection.setFixedLengthStreamingMode((int) outputStreamFactory.getCiphertextLength(dataSize));
+      connection.setFixedLengthStreamingMode(Util.toIntExact(dataSize));
     } else {
       connection.setChunkedStreamingMode(0);
     }
