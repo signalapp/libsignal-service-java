@@ -19,6 +19,7 @@ import org.whispersystems.libsignal.NoSessionException;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.UntrustedIdentityException;
+import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
@@ -166,7 +167,7 @@ public class SignalServiceCipher {
     return transportDetails.getStrippedPaddingMessageBody(paddedMessage);
   }
 
-  private SignalServiceDataMessage createSignalServiceMessage(SignalServiceEnvelope envelope, DataMessage content) {
+  private SignalServiceDataMessage createSignalServiceMessage(SignalServiceEnvelope envelope, DataMessage content) throws InvalidMessageException {
     SignalServiceGroup            groupInfo        = createGroupInfo(envelope, content);
     List<SignalServiceAttachment> attachments      = new LinkedList<>();
     boolean                       endSession       = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE) != 0);
@@ -183,6 +184,10 @@ public class SignalServiceCipher {
                                                          pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
                                                          pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
                                                          (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0));
+    }
+
+    if (content.hasTimestamp() && content.getTimestamp() != envelope.getTimestamp()) {
+      throw new InvalidMessageException("Timestamps don't match: " + content.getTimestamp() + " vs " + envelope.getTimestamp());
     }
 
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,

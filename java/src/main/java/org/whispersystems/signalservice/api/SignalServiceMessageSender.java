@@ -320,6 +320,8 @@ public class SignalServiceMessageSender {
       builder.setProfileKey(ByteString.copyFrom(message.getProfileKey().get()));
     }
 
+    builder.setTimestamp(message.getTimestamp());
+
     return container.setDataMessage(builder).build().toByteArray();
   }
 
