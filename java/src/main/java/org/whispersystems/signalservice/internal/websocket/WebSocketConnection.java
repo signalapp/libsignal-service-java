@@ -6,6 +6,7 @@ import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
 import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.signalservice.internal.util.concurrent.SettableFuture;
@@ -46,20 +47,22 @@ public class WebSocketConnection extends WebSocketListener {
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
 
-  private final String              wsUri;
-  private final TrustStore          trustStore;
-  private final CredentialsProvider credentialsProvider;
-  private final String              userAgent;
+  private final String               wsUri;
+  private final TrustStore           trustStore;
+  private final CredentialsProvider  credentialsProvider;
+  private final String               userAgent;
+  private final ConnectivityListener listener;
 
   private WebSocket           client;
   private KeepAliveSender     keepAliveSender;
   private int                 attempts;
   private boolean             connected;
 
-  public WebSocketConnection(String httpUri, TrustStore trustStore, CredentialsProvider credentialsProvider, String userAgent) {
+  public WebSocketConnection(String httpUri, TrustStore trustStore, CredentialsProvider credentialsProvider, String userAgent, ConnectivityListener listener) {
     this.trustStore          = trustStore;
     this.credentialsProvider = credentialsProvider;
     this.userAgent           = userAgent;
+    this.listener            = listener;
     this.attempts            = 0;
     this.connected           = false;
     this.wsUri               = httpUri.replace("https://", "wss://")
@@ -83,6 +86,10 @@ public class WebSocketConnection extends WebSocketListener {
 
       if (userAgent != null) {
         requestBuilder.addHeader("X-Signal-Agent", userAgent);
+      }
+
+      if (listener != null) {
+        listener.onConnecting();
       }
 
       this.connected = false;
@@ -182,6 +189,7 @@ public class WebSocketConnection extends WebSocketListener {
       keepAliveSender = new KeepAliveSender();
       keepAliveSender.start();
 
+      if (listener != null) listener.onConnected();
     }
   }
 
@@ -225,6 +233,10 @@ public class WebSocketConnection extends WebSocketListener {
       keepAliveSender = null;
     }
 
+    if (listener != null) {
+      listener.onDisconnected();
+    }
+
     Util.wait(this, Math.min(++attempts * 200, TimeUnit.SECONDS.toMillis(15)));
 
     if (client != null) {
@@ -241,6 +253,10 @@ public class WebSocketConnection extends WebSocketListener {
   public synchronized void onFailure(WebSocket webSocket, Throwable t, Response response) {
     Log.w(TAG, "onFailure()");
     Log.w(TAG, t);
+
+    if (response != null && (response.code() == 401 || response.code() == 403)) {
+      if (listener != null) listener.onAuthenticationFailure();
+    }
 
     if (client != null) {
       onClosed(webSocket, 1000, "OK");

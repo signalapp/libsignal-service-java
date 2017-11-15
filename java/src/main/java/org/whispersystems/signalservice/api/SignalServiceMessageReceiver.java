@@ -16,12 +16,14 @@ import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
+import org.whispersystems.signalservice.internal.websocket.WebSocketEventListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,6 +43,7 @@ public class SignalServiceMessageReceiver {
   private final SignalServiceConfiguration urls;
   private final CredentialsProvider        credentialsProvider;
   private final String                     userAgent;
+  private final ConnectivityListener       connectivityListener;
 
   /**
    * Construct a SignalServiceMessageReceiver.
@@ -52,9 +55,10 @@ public class SignalServiceMessageReceiver {
    */
   public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
                                       String user, String password,
-                                      String signalingKey, String userAgent)
+                                      String signalingKey, String userAgent,
+                                      ConnectivityListener listener)
   {
-    this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent);
+    this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent, listener);
   }
 
   /**
@@ -63,12 +67,13 @@ public class SignalServiceMessageReceiver {
    * @param urls The URL of the Signal Service.
    * @param credentials The Signal Service user's credentials.
    */
-  public SignalServiceMessageReceiver(SignalServiceConfiguration urls, CredentialsProvider credentials, String userAgent)
+  public SignalServiceMessageReceiver(SignalServiceConfiguration urls, CredentialsProvider credentials, String userAgent, ConnectivityListener listener)
   {
     this.urls                 = urls;
-    this.credentialsProvider = credentials;
-    this.socket              = new PushServiceSocket(urls, credentials, userAgent);
-    this.userAgent           = userAgent;
+    this.credentialsProvider  = credentials;
+    this.socket               = new PushServiceSocket(urls, credentials, userAgent);
+    this.userAgent            = userAgent;
+    this.connectivityListener = listener;
   }
 
   /**
@@ -130,7 +135,10 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
-    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(), urls.getSignalServiceUrls()[0].getTrustStore(), credentialsProvider, userAgent);
+    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
+                                                            urls.getSignalServiceUrls()[0].getTrustStore(),
+                                                            credentialsProvider, userAgent, connectivityListener);
+
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
 
