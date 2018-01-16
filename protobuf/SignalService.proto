@@ -178,6 +178,8 @@ message AttachmentPointer {
   optional bytes   digest      = 6;
   optional string  fileName    = 7;
   optional uint32  flags       = 8;
+  optional uint32  width       = 9;
+  optional uint32  height      = 10;
 }
 
 message GroupContext {

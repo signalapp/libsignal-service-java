@@ -26,9 +26,12 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   private final Optional<byte[]>  digest;
   private final Optional<String>  fileName;
   private final boolean           voiceNote;
+  private final int               width;
+  private final int               height;
 
   public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay,
                                         Optional<Integer> size, Optional<byte[]> preview,
+                                        int width, int height,
                                         Optional<byte[]> digest, Optional<String> fileName,
                                         boolean voiceNote)
   {
@@ -38,6 +41,8 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
     this.relay     = Optional.fromNullable(relay);
     this.size      = size;
     this.preview   = preview;
+    this.width     = width;
+    this.height    = height;
     this.digest    = digest;
     this.fileName  = fileName;
     this.voiceNote = voiceNote;
@@ -83,5 +88,13 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   public boolean getVoiceNote() {
     return voiceNote;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
   }
 }

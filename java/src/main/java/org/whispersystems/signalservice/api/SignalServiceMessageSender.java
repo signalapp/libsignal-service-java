@@ -597,6 +597,14 @@ public class SignalServiceMessageSender {
       builder.setThumbnail(ByteString.copyFrom(attachment.getPreview().get()));
     }
 
+    if (attachment.getWidth() > 0) {
+      builder.setWidth(attachment.getWidth());
+    }
+
+    if (attachment.getHeight() > 0) {
+      builder.setHeight(attachment.getHeight());
+    }
+
     if (attachment.getVoiceNote()) {
       builder.setFlags(AttachmentPointer.Flags.VOICE_MESSAGE_VALUE);
     }

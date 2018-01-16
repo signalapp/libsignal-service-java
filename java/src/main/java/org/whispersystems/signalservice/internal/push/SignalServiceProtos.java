@@ -16015,6 +16015,26 @@ public final class SignalServiceProtos {
      * <code>optional uint32 flags = 8;</code>
      */
     int getFlags();
+
+    // optional uint32 width = 9;
+    /**
+     * <code>optional uint32 width = 9;</code>
+     */
+    boolean hasWidth();
+    /**
+     * <code>optional uint32 width = 9;</code>
+     */
+    int getWidth();
+
+    // optional uint32 height = 10;
+    /**
+     * <code>optional uint32 height = 10;</code>
+     */
+    boolean hasHeight();
+    /**
+     * <code>optional uint32 height = 10;</code>
+     */
+    int getHeight();
   }
   /**
    * Protobuf type {@code signalservice.AttachmentPointer}
@@ -16105,6 +16125,16 @@ public final class SignalServiceProtos {
             case 64: {
               bitField0_ |= 0x00000080;
               flags_ = input.readUInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              width_ = input.readUInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              height_ = input.readUInt32();
               break;
             }
           }
@@ -16402,6 +16432,38 @@ public final class SignalServiceProtos {
       return flags_;
     }
 
+    // optional uint32 width = 9;
+    public static final int WIDTH_FIELD_NUMBER = 9;
+    private int width_;
+    /**
+     * <code>optional uint32 width = 9;</code>
+     */
+    public boolean hasWidth() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional uint32 width = 9;</code>
+     */
+    public int getWidth() {
+      return width_;
+    }
+
+    // optional uint32 height = 10;
+    public static final int HEIGHT_FIELD_NUMBER = 10;
+    private int height_;
+    /**
+     * <code>optional uint32 height = 10;</code>
+     */
+    public boolean hasHeight() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional uint32 height = 10;</code>
+     */
+    public int getHeight() {
+      return height_;
+    }
+
     private void initFields() {
       id_ = 0L;
       contentType_ = "";
@@ -16411,6 +16473,8 @@ public final class SignalServiceProtos {
       digest_ = com.google.protobuf.ByteString.EMPTY;
       fileName_ = "";
       flags_ = 0;
+      width_ = 0;
+      height_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -16447,6 +16511,12 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeUInt32(8, flags_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeUInt32(9, width_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeUInt32(10, height_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -16488,6 +16558,14 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(8, flags_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(9, width_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(10, height_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -16621,6 +16699,10 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         flags_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        width_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        height_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -16681,6 +16763,14 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000080;
         }
         result.flags_ = flags_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.width_ = width_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.height_ = height_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16724,6 +16814,12 @@ public final class SignalServiceProtos {
         }
         if (other.hasFlags()) {
           setFlags(other.getFlags());
+        }
+        if (other.hasWidth()) {
+          setWidth(other.getWidth());
+        }
+        if (other.hasHeight()) {
+          setHeight(other.getHeight());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -17103,6 +17199,72 @@ public final class SignalServiceProtos {
       public Builder clearFlags() {
         bitField0_ = (bitField0_ & ~0x00000080);
         flags_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 width = 9;
+      private int width_ ;
+      /**
+       * <code>optional uint32 width = 9;</code>
+       */
+      public boolean hasWidth() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional uint32 width = 9;</code>
+       */
+      public int getWidth() {
+        return width_;
+      }
+      /**
+       * <code>optional uint32 width = 9;</code>
+       */
+      public Builder setWidth(int value) {
+        bitField0_ |= 0x00000100;
+        width_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 width = 9;</code>
+       */
+      public Builder clearWidth() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        width_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 height = 10;
+      private int height_ ;
+      /**
+       * <code>optional uint32 height = 10;</code>
+       */
+      public boolean hasHeight() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional uint32 height = 10;</code>
+       */
+      public int getHeight() {
+        return height_;
+      }
+      /**
+       * <code>optional uint32 height = 10;</code>
+       */
+      public Builder setHeight(int value) {
+        bitField0_ |= 0x00000200;
+        height_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 height = 10;</code>
+       */
+      public Builder clearHeight() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        height_ = 0;
         onChanged();
         return this;
       }
@@ -21821,29 +21983,30 @@ public final class SignalServiceProtos {
       "CTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIG" +
       "URATION\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttim" +
       "estamp\030\002 \001(\004\032%\n\rConfiguration\022\024\n\014readRec" +
-      "eipts\030\001 \001(\010\"\257\001\n\021AttachmentPointer\022\n\n\002id\030" +
+      "eipts\030\001 \001(\010\"\316\001\n\021AttachmentPointer\022\n\n\002id\030" +
       "\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022" +
       "\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006dige" +
       "st\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(" +
-      "\r\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupC",
-      "ontext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signa" +
-      "lservice.GroupContext.Type\022\014\n\004name\030\003 \001(\t" +
-      "\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .sign" +
-      "alservice.AttachmentPointer\"H\n\004Type\022\013\n\007U" +
-      "NKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUI" +
-      "T\020\003\022\020\n\014REQUEST_INFO\020\004\"\341\001\n\016ContactDetails" +
-      "\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar" +
-      "\030\003 \001(\0132$.signalservice.ContactDetails.Av" +
-      "atar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027." +
-      "signalservice.Verified\022\022\n\nprofileKey\030\006 \001",
-      "(\014\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
-      "gth\030\002 \001(\r\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014" +
-      "\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030" +
-      "\004 \001(\0132\".signalservice.GroupDetails.Avata" +
-      "r\022\024\n\006active\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013con" +
-      "tentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.wh" +
-      "ispersystems.signalservice.internal.push" +
-      "B\023SignalServiceProtos"
+      "\r\022\r\n\005width\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005Flag",
+      "s\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n" +
+      "\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signalservice." +
+      "GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007membe" +
+      "rs\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signalservice" +
+      ".AttachmentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022" +
+      "\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014RE" +
+      "QUEST_INFO\020\004\"\341\001\n\016ContactDetails\022\016\n\006numbe" +
+      "r\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$." +
+      "signalservice.ContactDetails.Avatar\022\r\n\005c" +
+      "olor\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.signalser",
+      "vice.Verified\022\022\n\nprofileKey\030\006 \001(\014\032-\n\006Ava" +
+      "tar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r" +
+      "\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 " +
+      "\001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".s" +
+      "ignalservice.GroupDetails.Avatar\022\024\n\006acti" +
+      "ve\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013contentType\030" +
+      "\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whispersyst" +
+      "ems.signalservice.internal.pushB\023SignalS" +
+      "erviceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -21975,7 +22138,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
-              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", });
+              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", "Width", "Height", });
           internal_static_signalservice_GroupContext_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new
