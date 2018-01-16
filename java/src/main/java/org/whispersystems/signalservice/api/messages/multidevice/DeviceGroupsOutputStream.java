@@ -49,6 +49,10 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
       groupDetails.setAvatar(avatarBuilder);
     }
 
+    if (group.getExpirationTimer().isPresent()) {
+      groupDetails.setExpireTimer(group.getExpirationTimer().get());
+    }
+
     groupDetails.addAllMembers(group.getMembers());
     groupDetails.setActive(group.isActive());
 

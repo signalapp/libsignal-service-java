@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2014-2016 Open Whisper Systems
+/*
+ * Copyright (C) 2014-2018 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
  */
@@ -71,6 +71,12 @@ public class DeviceContactsOutputStream extends ChunkedOutputStream {
     if (contact.getProfileKey().isPresent()) {
       contactDetails.setProfileKey(ByteString.copyFrom(contact.getProfileKey().get()));
     }
+
+    if (contact.getExpirationTimer().isPresent()) {
+      contactDetails.setExpireTimer(contact.getExpirationTimer().get());
+    }
+
+    contactDetails.setBlocked(contact.isBlocked());
 
     byte[] serializedContactDetails = contactDetails.build().toByteArray();
 

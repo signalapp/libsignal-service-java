@@ -18496,6 +18496,26 @@ public final class SignalServiceProtos {
      * <code>optional bytes profileKey = 6;</code>
      */
     com.google.protobuf.ByteString getProfileKey();
+
+    // optional bool blocked = 7;
+    /**
+     * <code>optional bool blocked = 7;</code>
+     */
+    boolean hasBlocked();
+    /**
+     * <code>optional bool blocked = 7;</code>
+     */
+    boolean getBlocked();
+
+    // optional uint32 expireTimer = 8;
+    /**
+     * <code>optional uint32 expireTimer = 8;</code>
+     */
+    boolean hasExpireTimer();
+    /**
+     * <code>optional uint32 expireTimer = 8;</code>
+     */
+    int getExpireTimer();
   }
   /**
    * Protobuf type {@code signalservice.ContactDetails}
@@ -18592,6 +18612,16 @@ public final class SignalServiceProtos {
             case 50: {
               bitField0_ |= 0x00000020;
               profileKey_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              blocked_ = input.readBool();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              expireTimer_ = input.readUInt32();
               break;
             }
           }
@@ -19375,6 +19405,38 @@ public final class SignalServiceProtos {
       return profileKey_;
     }
 
+    // optional bool blocked = 7;
+    public static final int BLOCKED_FIELD_NUMBER = 7;
+    private boolean blocked_;
+    /**
+     * <code>optional bool blocked = 7;</code>
+     */
+    public boolean hasBlocked() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool blocked = 7;</code>
+     */
+    public boolean getBlocked() {
+      return blocked_;
+    }
+
+    // optional uint32 expireTimer = 8;
+    public static final int EXPIRETIMER_FIELD_NUMBER = 8;
+    private int expireTimer_;
+    /**
+     * <code>optional uint32 expireTimer = 8;</code>
+     */
+    public boolean hasExpireTimer() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional uint32 expireTimer = 8;</code>
+     */
+    public int getExpireTimer() {
+      return expireTimer_;
+    }
+
     private void initFields() {
       number_ = "";
       name_ = "";
@@ -19382,6 +19444,8 @@ public final class SignalServiceProtos {
       color_ = "";
       verified_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified.getDefaultInstance();
       profileKey_ = com.google.protobuf.ByteString.EMPTY;
+      blocked_ = false;
+      expireTimer_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -19412,6 +19476,12 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(6, profileKey_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(7, blocked_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeUInt32(8, expireTimer_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -19445,6 +19515,14 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(6, profileKey_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, blocked_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(8, expireTimer_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -19584,6 +19662,10 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         profileKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
+        blocked_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        expireTimer_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -19644,6 +19726,14 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.profileKey_ = profileKey_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.blocked_ = blocked_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.expireTimer_ = expireTimer_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -19683,6 +19773,12 @@ public final class SignalServiceProtos {
         }
         if (other.hasProfileKey()) {
           setProfileKey(other.getProfileKey());
+        }
+        if (other.hasBlocked()) {
+          setBlocked(other.getBlocked());
+        }
+        if (other.hasExpireTimer()) {
+          setExpireTimer(other.getExpireTimer());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -20203,6 +20299,72 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      // optional bool blocked = 7;
+      private boolean blocked_ ;
+      /**
+       * <code>optional bool blocked = 7;</code>
+       */
+      public boolean hasBlocked() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool blocked = 7;</code>
+       */
+      public boolean getBlocked() {
+        return blocked_;
+      }
+      /**
+       * <code>optional bool blocked = 7;</code>
+       */
+      public Builder setBlocked(boolean value) {
+        bitField0_ |= 0x00000040;
+        blocked_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool blocked = 7;</code>
+       */
+      public Builder clearBlocked() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        blocked_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 expireTimer = 8;
+      private int expireTimer_ ;
+      /**
+       * <code>optional uint32 expireTimer = 8;</code>
+       */
+      public boolean hasExpireTimer() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional uint32 expireTimer = 8;</code>
+       */
+      public int getExpireTimer() {
+        return expireTimer_;
+      }
+      /**
+       * <code>optional uint32 expireTimer = 8;</code>
+       */
+      public Builder setExpireTimer(int value) {
+        bitField0_ |= 0x00000080;
+        expireTimer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 expireTimer = 8;</code>
+       */
+      public Builder clearExpireTimer() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        expireTimer_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.ContactDetails)
     }
 
@@ -20285,6 +20447,16 @@ public final class SignalServiceProtos {
      * <code>optional bool active = 5 [default = true];</code>
      */
     boolean getActive();
+
+    // optional uint32 expireTimer = 6;
+    /**
+     * <code>optional uint32 expireTimer = 6;</code>
+     */
+    boolean hasExpireTimer();
+    /**
+     * <code>optional uint32 expireTimer = 6;</code>
+     */
+    int getExpireTimer();
   }
   /**
    * Protobuf type {@code signalservice.GroupDetails}
@@ -20371,6 +20543,11 @@ public final class SignalServiceProtos {
             case 40: {
               bitField0_ |= 0x00000008;
               active_ = input.readBool();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              expireTimer_ = input.readUInt32();
               break;
             }
           }
@@ -21095,12 +21272,29 @@ public final class SignalServiceProtos {
       return active_;
     }
 
+    // optional uint32 expireTimer = 6;
+    public static final int EXPIRETIMER_FIELD_NUMBER = 6;
+    private int expireTimer_;
+    /**
+     * <code>optional uint32 expireTimer = 6;</code>
+     */
+    public boolean hasExpireTimer() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 expireTimer = 6;</code>
+     */
+    public int getExpireTimer() {
+      return expireTimer_;
+    }
+
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       name_ = "";
       members_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.getDefaultInstance();
       active_ = true;
+      expireTimer_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21128,6 +21322,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(5, active_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeUInt32(6, expireTimer_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -21162,6 +21359,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, active_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, expireTimer_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -21294,6 +21495,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         active_ = true;
         bitField0_ = (bitField0_ & ~0x00000010);
+        expireTimer_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -21348,6 +21551,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.active_ = active_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.expireTimer_ = expireTimer_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -21387,6 +21594,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasActive()) {
           setActive(other.getActive());
+        }
+        if (other.hasExpireTimer()) {
+          setExpireTimer(other.getExpireTimer());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -21768,6 +21978,39 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      // optional uint32 expireTimer = 6;
+      private int expireTimer_ ;
+      /**
+       * <code>optional uint32 expireTimer = 6;</code>
+       */
+      public boolean hasExpireTimer() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional uint32 expireTimer = 6;</code>
+       */
+      public int getExpireTimer() {
+        return expireTimer_;
+      }
+      /**
+       * <code>optional uint32 expireTimer = 6;</code>
+       */
+      public Builder setExpireTimer(int value) {
+        bitField0_ |= 0x00000020;
+        expireTimer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 expireTimer = 6;</code>
+       */
+      public Builder clearExpireTimer() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        expireTimer_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.GroupDetails)
     }
 
@@ -21994,19 +22237,20 @@ public final class SignalServiceProtos {
       "rs\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signalservice" +
       ".AttachmentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022" +
       "\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014RE" +
-      "QUEST_INFO\020\004\"\341\001\n\016ContactDetails\022\016\n\006numbe" +
+      "QUEST_INFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006numbe" +
       "r\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$." +
       "signalservice.ContactDetails.Avatar\022\r\n\005c" +
       "olor\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.signalser",
-      "vice.Verified\022\022\n\nprofileKey\030\006 \001(\014\032-\n\006Ava" +
+      "vice.Verified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blo" +
+      "cked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avata" +
+      "r\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\307" +
+      "\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(" +
+      "\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".sig" +
+      "nalservice.GroupDetails.Avatar\022\024\n\006active" +
+      "\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006 \001(\r\032-\n\006Ava" +
       "tar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r" +
-      "\"\262\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 " +
-      "\001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".s" +
-      "ignalservice.GroupDetails.Avatar\022\024\n\006acti" +
-      "ve\030\005 \001(\010:\004true\032-\n\006Avatar\022\023\n\013contentType\030" +
-      "\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whispersyst" +
-      "ems.signalservice.internal.pushB\023SignalS" +
-      "erviceProtos"
+      "BE\n.org.whispersystems.signalservice.int" +
+      "ernal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -22150,7 +22394,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_ContactDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ContactDetails_descriptor,
-              new java.lang.String[] { "Number", "Name", "Avatar", "Color", "Verified", "ProfileKey", });
+              new java.lang.String[] { "Number", "Name", "Avatar", "Color", "Verified", "ProfileKey", "Blocked", "ExpireTimer", });
           internal_static_signalservice_ContactDetails_Avatar_descriptor =
             internal_static_signalservice_ContactDetails_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_ContactDetails_Avatar_fieldAccessorTable = new
@@ -22162,7 +22406,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupDetails_descriptor,
-              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", });
+              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", "ExpireTimer", });
           internal_static_signalservice_GroupDetails_Avatar_descriptor =
             internal_static_signalservice_GroupDetails_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable = new

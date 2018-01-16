@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2014-2016 Open Whisper Systems
+/*
+ * Copyright (C) 2014-2018 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
  */
@@ -32,11 +32,12 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
       throw new IOException("ID missing on group record!");
     }
 
-    byte[]                                  id      = details.getId().toByteArray();
-    Optional<String>                        name    = Optional.fromNullable(details.getName());
-    List<String>                            members = details.getMembersList();
-    Optional<SignalServiceAttachmentStream> avatar  = Optional.absent();
-    boolean                                 active  = details.getActive();
+    byte[]                                  id              = details.getId().toByteArray();
+    Optional<String>                        name            = Optional.fromNullable(details.getName());
+    List<String>                            members         = details.getMembersList();
+    Optional<SignalServiceAttachmentStream> avatar          = Optional.absent();
+    boolean                                 active          = details.getActive();
+    Optional<Integer>                       expirationTimer = Optional.absent();
 
     if (details.hasAvatar()) {
       long        avatarLength      = details.getAvatar().getLength();
@@ -46,7 +47,11 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
       avatar = Optional.of(new SignalServiceAttachmentStream(avatarStream, avatarContentType, avatarLength, Optional.<String>absent(), false, null));
     }
 
-    return new DeviceGroup(id, name, members, avatar, active);
+    if (details.hasExpireTimer() && details.getExpireTimer() > 0) {
+      expirationTimer = Optional.of(details.getExpireTimer());
+    }
+
+    return new DeviceGroup(id, name, members, avatar, active, expirationTimer);
   }
 
 }
