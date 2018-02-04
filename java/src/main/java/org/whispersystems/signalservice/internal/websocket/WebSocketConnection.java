@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -163,21 +164,15 @@ public class WebSocketConnection extends WebSocketListener {
     }
   }
 
-  private synchronized void sendKeepAlive() throws IOException {
-    if (keepAliveSender != null && client != null) {
-      byte[] message = WebSocketMessage.newBuilder()
-                                       .setType(WebSocketMessage.Type.REQUEST)
-                                       .setRequest(WebSocketRequestMessage.newBuilder()
-                                                                          .setId(System.currentTimeMillis())
-                                                                          .setPath("/v1/keepalive")
-                                                                          .setVerb("GET")
-                                                                          .build()).build()
-                                       .toByteArray();
+  private synchronized Future<Pair<Integer, String>> sendKeepAlive() throws IOException {
+    if (keepAliveSender == null || client == null) throw new IOException("Can't send KeepAlive Message!");
 
-      if (!client.send(ByteString.of(message))) {
-        throw new IOException("Write failed!");
-      }
-    }
+    WebSocketRequestMessage request = WebSocketRequestMessage.newBuilder()
+                                                             .setId(System.currentTimeMillis())
+                                                             .setPath("/v1/keepalive")
+                                                             .setVerb("GET")
+                                                             .build();
+    return sendRequest(request);  
   }
 
   @Override
@@ -300,7 +295,16 @@ public class WebSocketConnection extends WebSocketListener {
           Thread.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
 
           Log.w(TAG, "Sending keep alive...");
-          sendKeepAlive();
+          sendKeepAlive().get(30, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+          Log.w(TAG, e);
+          disconnect();
+          if (listener != null) {
+            listener.onDisconnected();
+          }
+          synchronized(WebSocketConnection.this) {
+            WebSocketConnection.this.notifyAll();
+          }
         } catch (Throwable e) {
           Log.w(TAG, e);
         }
