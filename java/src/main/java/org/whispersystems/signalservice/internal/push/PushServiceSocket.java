@@ -88,9 +88,9 @@ public class PushServiceSocket {
   private static final String CREATE_ACCOUNT_VOICE_PATH = "/v1/accounts/voice/code/%s";
   private static final String VERIFY_ACCOUNT_CODE_PATH  = "/v1/accounts/code/%s";
   private static final String REGISTER_GCM_PATH         = "/v1/accounts/gcm/";
-  private static final String REQUEST_TOKEN_PATH        = "/v1/accounts/token";
   private static final String TURN_SERVER_INFO          = "/v1/accounts/turn";
   private static final String SET_ACCOUNT_ATTRIBUTES    = "/v1/accounts/attributes/";
+  private static final String PIN_PATH                  = "/v1/accounts/pin/";
 
   private static final String PREKEY_METADATA_PATH      = "/v2/keys/";
   private static final String PREKEY_PATH               = "/v2/keys/%s";
@@ -131,22 +131,17 @@ public class PushServiceSocket {
     makeServiceRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
   }
 
-  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages)
+  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin)
       throws IOException
   {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, fetchesMessages);
+    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin);
     makeServiceRequest(String.format(VERIFY_ACCOUNT_CODE_PATH, verificationCode),
                        "PUT", JsonUtil.toJson(signalingKeyEntity));
   }
 
-  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages) throws IOException {
-    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages);
+  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin) throws IOException {
+    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin);
     makeServiceRequest(SET_ACCOUNT_ATTRIBUTES, "PUT", JsonUtil.toJson(accountAttributes));
-  }
-
-  public String getAccountVerificationToken() throws IOException {
-    String responseText = makeServiceRequest(REQUEST_TOKEN_PATH, "GET", null);
-    return JsonUtil.fromJson(responseText, AuthorizationToken.class).getToken();
   }
 
   public String getNewDeviceVerificationCode() throws IOException {
@@ -175,6 +170,15 @@ public class PushServiceSocket {
 
   public void unregisterGcmId() throws IOException {
     makeServiceRequest(REGISTER_GCM_PATH, "DELETE", null);
+  }
+
+  public void setPin(String pin) throws IOException {
+    RegistrationLock accountLock = new RegistrationLock(pin);
+    makeServiceRequest(PIN_PATH, "PUT", JsonUtil.toJson(accountLock));
+  }
+
+  public void removePin() throws IOException {
+    makeServiceRequest(PIN_PATH, "DELETE", null);
   }
 
   public SendMessageResponse sendMessage(OutgoingPushMessageList bundle)
@@ -722,6 +726,19 @@ public class PushServiceSocket {
         throw new DeviceLimitExceededException(deviceLimit);
       case 417:
         throw new ExpectationFailedException();
+      case 423:
+        RegistrationLockFailure accountLockFailure;
+
+        try {
+          accountLockFailure = JsonUtil.fromJson(responseBody, RegistrationLockFailure.class);
+        } catch (JsonProcessingException e) {
+          Log.w(TAG, e);
+          throw new NonSuccessfulResponseCodeException("Bad response: " + responseCode + " " + responseMessage);
+        } catch (IOException e) {
+          throw new PushNetworkException(e);
+        }
+
+        throw new LockedException(accountLockFailure.length, accountLockFailure.timeRemaining);
     }
 
     if (responseCode != 200 && responseCode != 204) {
@@ -834,6 +851,25 @@ public class PushServiceSocket {
       this.gcmRegistrationId = gcmRegistrationId;
       this.webSocketChannel  = webSocketChannel;
     }
+  }
+
+  private static class RegistrationLock {
+    @JsonProperty
+    private String pin;
+
+    public RegistrationLock() {}
+
+    public RegistrationLock(String pin) {
+      this.pin = pin;
+    }
+  }
+
+  private static class RegistrationLockFailure {
+    @JsonProperty
+    private int length;
+
+    @JsonProperty
+    private long timeRemaining;
   }
 
   private static class AttachmentDescriptor {

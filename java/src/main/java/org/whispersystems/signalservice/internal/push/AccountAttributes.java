@@ -25,12 +25,16 @@ public class AccountAttributes {
   @JsonProperty
   private boolean fetchesMessages;
 
-  public AccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages) {
-    this.signalingKey   = signalingKey;
-    this.registrationId = registrationId;
-    this.voice          = true;
-    this.video          = true;
+  @JsonProperty
+  private String pin;
+
+  public AccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin) {
+    this.signalingKey    = signalingKey;
+    this.registrationId  = registrationId;
+    this.voice           = true;
+    this.video           = true;
     this.fetchesMessages = fetchesMessages;
+    this.pin             = pin;
   }
 
   public AccountAttributes() {}
@@ -53,5 +57,9 @@ public class AccountAttributes {
 
   public boolean isFetchesMessages() {
     return fetchesMessages;
+  }
+
+  public String getPin() {
+    return pin;
   }
 }
