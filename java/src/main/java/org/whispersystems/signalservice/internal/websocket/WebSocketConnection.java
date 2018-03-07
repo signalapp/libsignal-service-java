@@ -6,6 +6,7 @@ import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.util.SignalThread;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -42,7 +43,7 @@ import static org.whispersystems.signalservice.internal.websocket.WebSocketProto
 public class WebSocketConnection extends WebSocketListener {
 
   private static final String TAG                       = WebSocketConnection.class.getSimpleName();
-  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 55;
+  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 60;
 
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
@@ -297,7 +298,7 @@ public class WebSocketConnection extends WebSocketListener {
     public void run() {
       while (!stop.get()) {
         try {
-          Thread.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
+          SignalThread.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
 
           Log.w(TAG, "Sending keep alive...");
           sendKeepAlive();
