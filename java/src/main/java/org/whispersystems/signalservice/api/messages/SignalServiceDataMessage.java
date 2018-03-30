@@ -7,6 +7,7 @@
 package org.whispersystems.signalservice.api.messages;
 
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class SignalServiceDataMessage {
   private final boolean                                 expirationUpdate;
   private final int                                     expiresInSeconds;
   private final boolean                                 profileKeyUpdate;
+  private final Optional<Quote>                         quote;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -98,7 +100,7 @@ public class SignalServiceDataMessage {
    * @param expiresInSeconds The number of seconds in which a message should disappear after having been seen.
    */
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, int expiresInSeconds) {
-    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false);
+    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null);
   }
 
   /**
@@ -114,7 +116,8 @@ public class SignalServiceDataMessage {
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group,
                                   List<SignalServiceAttachment> attachments,
                                   String body, boolean endSession, int expiresInSeconds,
-                                  boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate)
+                                  boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
+                                  Quote quote)
   {
     this.timestamp        = timestamp;
     this.body             = Optional.fromNullable(body);
@@ -124,6 +127,7 @@ public class SignalServiceDataMessage {
     this.expirationUpdate = expirationUpdate;
     this.profileKey       = Optional.fromNullable(profileKey);
     this.profileKeyUpdate = profileKeyUpdate;
+    this.quote            = Optional.fromNullable(quote);
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);
@@ -188,6 +192,10 @@ public class SignalServiceDataMessage {
     return profileKey;
   }
 
+  public Optional<Quote> getQuote() {
+    return quote;
+  }
+
   public static class Builder {
 
     private List<SignalServiceAttachment> attachments = new LinkedList<>();
@@ -199,6 +207,7 @@ public class SignalServiceDataMessage {
     private boolean            expirationUpdate;
     private byte[]             profileKey;
     private boolean            profileKeyUpdate;
+    private Quote              quote;
 
     private Builder() {}
 
@@ -260,11 +269,48 @@ public class SignalServiceDataMessage {
       return this;
     }
 
+    public Builder withQuote(Quote quote) {
+      this.quote = quote;
+      return this;
+    }
+
     public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
                                           expiresInSeconds, expirationUpdate, profileKey,
-                                          profileKeyUpdate);
+                                          profileKeyUpdate, quote);
     }
+  }
+
+  public static class Quote {
+    private final long                          id;
+    private final SignalServiceAddress          author;
+    private final String                        text;
+    private final List<SignalServiceAttachment> attachments;
+
+    public Quote(long id, SignalServiceAddress author, String text, List<SignalServiceAttachment> attachments) {
+      this.id          = id;
+      this.author      = author;
+      this.text        = text;
+      this.attachments = attachments;
+    }
+
+    public long getId() {
+      return id;
+    }
+
+    public SignalServiceAddress getAuthor() {
+      return author;
+    }
+
+    public String getText() {
+      return text;
+    }
+
+    public List<SignalServiceAttachment> getAttachments() {
+      return attachments;
+    }
+
+
   }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -19,7 +19,6 @@ import org.whispersystems.libsignal.NoSessionException;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.UntrustedIdentityException;
-import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
@@ -69,6 +68,7 @@ import static org.whispersystems.signalservice.internal.push.SignalServiceProtos
  */
 public class SignalServiceCipher {
 
+  @SuppressWarnings("unused")
   private static final String TAG = SignalServiceCipher.class.getSimpleName();
 
   private final SignalProtocolStore  signalProtocolStore;
@@ -168,23 +168,15 @@ public class SignalServiceCipher {
   }
 
   private SignalServiceDataMessage createSignalServiceMessage(SignalServiceEnvelope envelope, DataMessage content) throws InvalidMessageException {
-    SignalServiceGroup            groupInfo        = createGroupInfo(envelope, content);
-    List<SignalServiceAttachment> attachments      = new LinkedList<>();
-    boolean                       endSession       = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE) != 0);
-    boolean                       expirationUpdate = ((content.getFlags() & DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE) != 0);
-    boolean                       profileKeyUpdate = ((content.getFlags() & DataMessage.Flags.PROFILE_KEY_UPDATE_VALUE) != 0);
+    SignalServiceGroup             groupInfo        = createGroupInfo(envelope, content);
+    List<SignalServiceAttachment>  attachments      = new LinkedList<>();
+    boolean                        endSession       = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE            ) != 0);
+    boolean                        expirationUpdate = ((content.getFlags() & DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE) != 0);
+    boolean                        profileKeyUpdate = ((content.getFlags() & DataMessage.Flags.PROFILE_KEY_UPDATE_VALUE     ) != 0);
+    SignalServiceDataMessage.Quote quote            = createQuote(envelope, content);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
-      attachments.add(new SignalServiceAttachmentPointer(pointer.getId(),
-                                                         pointer.getContentType(),
-                                                         pointer.getKey().toByteArray(),
-                                                         envelope.getRelay(),
-                                                         pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
-                                                         pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent(),
-                                                         pointer.getWidth(), pointer.getHeight(),
-                                                         pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
-                                                         pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
-                                                         (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0));
+      attachments.add(createAttachmentPointer(envelope, pointer));
     }
 
     if (content.hasTimestamp() && content.getTimestamp() != envelope.getTimestamp()) {
@@ -194,7 +186,7 @@ public class SignalServiceCipher {
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
                                         content.getBody(), endSession, content.getExpireTimer(),
                                         expirationUpdate, content.hasProfileKey() ? content.getProfileKey().toByteArray() : null,
-                                        profileKeyUpdate);
+                                        profileKeyUpdate, quote);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(SignalServiceEnvelope envelope, SyncMessage content) throws InvalidMessageException {
@@ -281,6 +273,35 @@ public class SignalServiceCipher {
     else                                                        type = SignalServiceReceiptMessage.Type.UNKNOWN;
 
     return new SignalServiceReceiptMessage(type, content.getTimestampList(), envelope.getTimestamp());
+  }
+
+  private SignalServiceDataMessage.Quote createQuote(SignalServiceEnvelope envelope, DataMessage content) {
+    if (!content.hasQuote()) return null;
+
+    List<SignalServiceAttachment> attachments = new LinkedList<>();
+
+    for (AttachmentPointer pointer : content.getQuote().getAttachmentsList()) {
+      attachments.add(createAttachmentPointer(envelope, pointer));
+    }
+
+    return new SignalServiceDataMessage.Quote(content.getQuote().getId(),
+                                              new SignalServiceAddress(content.getQuote().getAuthor()),
+                                              content.getQuote().getText(),
+                                              attachments);
+  }
+
+  private SignalServiceAttachmentPointer createAttachmentPointer(SignalServiceEnvelope envelope, AttachmentPointer pointer) {
+    return new SignalServiceAttachmentPointer(pointer.getId(),
+                                              pointer.getContentType(),
+                                              pointer.getKey().toByteArray(),
+                                              envelope.getRelay(),
+                                              pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
+                                              pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()): Optional.<byte[]>absent(),
+                                              pointer.getWidth(), pointer.getHeight(),
+                                              pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
+                                              pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
+                                              (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0);
+
   }
 
   private SignalServiceGroup createGroupInfo(SignalServiceEnvelope envelope, DataMessage content) {
