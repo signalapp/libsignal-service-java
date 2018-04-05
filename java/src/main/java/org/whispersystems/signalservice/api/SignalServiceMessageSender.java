@@ -328,9 +328,14 @@ public class SignalServiceMessageSender {
 
       for (SignalServiceAttachment attachment : message.getQuote().get().getAttachments()) {
         if (attachment.isPointer()) {
-          quoteBuilder.addAttachments(AttachmentPointer.newBuilder()
-                                                       .setContentType(attachment.asPointer().getContentType())
-                                                       .setFileName(attachment.asPointer().getFileName().orNull()));
+          AttachmentPointer.Builder attachmentPointer = AttachmentPointer.newBuilder();
+          attachmentPointer.setContentType(attachment.asPointer().getContentType());
+
+          if (attachment.asPointer().getFileName().isPresent()) {
+            attachmentPointer.setFileName(attachment.asPointer().getFileName().get());
+          }
+
+          quoteBuilder.addAttachments(attachmentPointer);
         } else {
           quoteBuilder.addAttachments(createAttachmentPointer(attachment.asStream()));
         }
