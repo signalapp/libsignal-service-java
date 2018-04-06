@@ -283,12 +283,12 @@ public class SignalServiceDataMessage {
   }
 
   public static class Quote {
-    private final long                          id;
-    private final SignalServiceAddress          author;
-    private final String                        text;
-    private final List<SignalServiceAttachment> attachments;
+    private final long                   id;
+    private final SignalServiceAddress   author;
+    private final String                 text;
+    private final List<QuotedAttachment> attachments;
 
-    public Quote(long id, SignalServiceAddress author, String text, List<SignalServiceAttachment> attachments) {
+    public Quote(long id, SignalServiceAddress author, String text, List<QuotedAttachment> attachments) {
       this.id          = id;
       this.author      = author;
       this.text        = text;
@@ -307,10 +307,32 @@ public class SignalServiceDataMessage {
       return text;
     }
 
-    public List<SignalServiceAttachment> getAttachments() {
+    public List<QuotedAttachment> getAttachments() {
       return attachments;
     }
 
+    public static class QuotedAttachment {
+      private final String                  contentType;
+      private final String                  fileName;
+      private final SignalServiceAttachment thumbnail;
 
+      public QuotedAttachment(String contentType, String fileName, SignalServiceAttachment thumbnail) {
+        this.contentType = contentType;
+        this.fileName    = fileName;
+        this.thumbnail   = thumbnail;
+      }
+
+      public String getContentType() {
+        return contentType;
+      }
+
+      public String getFileName() {
+        return fileName;
+      }
+
+      public SignalServiceAttachment getThumbnail() {
+        return thumbnail;
+      }
+    }
   }
 }

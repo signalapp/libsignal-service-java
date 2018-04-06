@@ -278,10 +278,12 @@ public class SignalServiceCipher {
   private SignalServiceDataMessage.Quote createQuote(SignalServiceEnvelope envelope, DataMessage content) {
     if (!content.hasQuote()) return null;
 
-    List<SignalServiceAttachment> attachments = new LinkedList<>();
+    List<SignalServiceDataMessage.Quote.QuotedAttachment> attachments = new LinkedList<>();
 
-    for (AttachmentPointer pointer : content.getQuote().getAttachmentsList()) {
-      attachments.add(createAttachmentPointer(envelope, pointer));
+    for (DataMessage.Quote.QuotedAttachment attachment : content.getQuote().getAttachmentsList()) {
+      attachments.add(new SignalServiceDataMessage.Quote.QuotedAttachment(attachment.getContentType(),
+                                                                          attachment.getFileName(),
+                                                                          attachment.hasThumbnail() ? createAttachmentPointer(envelope, attachment.getThumbnail()) : null));
     }
 
     return new SignalServiceDataMessage.Quote(content.getQuote().getId(),

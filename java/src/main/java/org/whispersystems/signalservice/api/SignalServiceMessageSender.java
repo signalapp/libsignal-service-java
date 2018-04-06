@@ -326,19 +326,20 @@ public class SignalServiceMessageSender {
                                                                 .setAuthor(message.getQuote().get().getAuthor().getNumber())
                                                                 .setText(message.getQuote().get().getText());
 
-      for (SignalServiceAttachment attachment : message.getQuote().get().getAttachments()) {
-        if (attachment.isPointer()) {
-          AttachmentPointer.Builder attachmentPointer = AttachmentPointer.newBuilder();
-          attachmentPointer.setContentType(attachment.asPointer().getContentType());
+      for (SignalServiceDataMessage.Quote.QuotedAttachment attachment : message.getQuote().get().getAttachments()) {
+        DataMessage.Quote.QuotedAttachment.Builder quotedAttachment = DataMessage.Quote.QuotedAttachment.newBuilder();
 
-          if (attachment.asPointer().getFileName().isPresent()) {
-            attachmentPointer.setFileName(attachment.asPointer().getFileName().get());
-          }
+        quotedAttachment.setContentType(attachment.getContentType());
 
-          quoteBuilder.addAttachments(attachmentPointer);
-        } else {
-          quoteBuilder.addAttachments(createAttachmentPointer(attachment.asStream()));
+        if (attachment.getFileName() != null) {
+          quotedAttachment.setFileName(attachment.getFileName());
         }
+
+        if (attachment.getThumbnail() != null) {
+          quotedAttachment.setThumbnail(createAttachmentPointer(attachment.getThumbnail().asStream()));
+        }
+
+        quoteBuilder.addAttachments(quotedAttachment);
       }
 
       builder.setQuote(quoteBuilder);
