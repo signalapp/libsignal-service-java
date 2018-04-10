@@ -16,6 +16,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.util.SleepTimer;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
@@ -44,6 +45,7 @@ public class SignalServiceMessageReceiver {
   private final CredentialsProvider        credentialsProvider;
   private final String                     userAgent;
   private final ConnectivityListener       connectivityListener;
+  private final SleepTimer                 sleepTimer;
 
   /**
    * Construct a SignalServiceMessageReceiver.
@@ -56,9 +58,10 @@ public class SignalServiceMessageReceiver {
   public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
                                       String user, String password,
                                       String signalingKey, String userAgent,
-                                      ConnectivityListener listener)
+                                      ConnectivityListener listener,
+                                      SleepTimer timer)
   {
-    this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent, listener);
+    this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent, listener, timer);
   }
 
   /**
@@ -67,13 +70,18 @@ public class SignalServiceMessageReceiver {
    * @param urls The URL of the Signal Service.
    * @param credentials The Signal Service user's credentials.
    */
-  public SignalServiceMessageReceiver(SignalServiceConfiguration urls, CredentialsProvider credentials, String userAgent, ConnectivityListener listener)
+  public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
+                                      CredentialsProvider credentials,
+                                      String userAgent,
+                                      ConnectivityListener listener,
+                                      SleepTimer timer)
   {
     this.urls                 = urls;
     this.credentialsProvider  = credentials;
     this.socket               = new PushServiceSocket(urls, credentials, userAgent);
     this.userAgent            = userAgent;
     this.connectivityListener = listener;
+    this.sleepTimer           = timer;
   }
 
   /**
@@ -137,7 +145,8 @@ public class SignalServiceMessageReceiver {
   public SignalServiceMessagePipe createMessagePipe() {
     WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
                                                             urls.getSignalServiceUrls()[0].getTrustStore(),
-                                                            credentialsProvider, userAgent, connectivityListener);
+                                                            credentialsProvider, userAgent, connectivityListener,
+                                                            sleepTimer);
 
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
