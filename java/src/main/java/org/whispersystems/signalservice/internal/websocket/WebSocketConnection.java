@@ -42,7 +42,7 @@ import static org.whispersystems.signalservice.internal.websocket.WebSocketProto
 public class WebSocketConnection extends WebSocketListener {
 
   private static final String TAG                       = WebSocketConnection.class.getSimpleName();
-  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 55;
+  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 60;
 
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
@@ -237,12 +237,25 @@ public class WebSocketConnection extends WebSocketListener {
       listener.onDisconnected();
     }
 
-    Util.wait(this, Math.min(++attempts * 200, TimeUnit.SECONDS.toMillis(15)));
-
     if (client != null) {
       client.close(1000, "OK");
       client    = null;
       connected = false;
+
+      final long timeoutMillis = 200 * (1 << Math.min(attempts++, 10)), thresholdMillis = TimeUnit.SECONDS.toMillis(15);
+
+      if (timeoutMillis < thresholdMillis) {
+        final long startTime = System.currentTimeMillis();
+
+        Log.w(TAG, "Busy-waiting for " + timeoutMillis + " millis prior to reconnecting.");
+
+        while (elapsedTime(startTime) < timeoutMillis);
+      } else {
+        Log.w(TAG, "Block-waiting for " + thresholdMillis + " millis prior to reconnecting.");
+
+        Util.wait(this, thresholdMillis);
+      }
+
       connect();
     }
 
@@ -290,17 +303,41 @@ public class WebSocketConnection extends WebSocketListener {
     }
   }
 
+  public static class Alarm {
+    private static boolean active = false;
+
+    public static synchronized void trigger() {
+      active = true;
+
+      Alarm.class.notifyAll();
+    }
+
+    private static synchronized boolean waitForAlarmOrTimeout(long millis) {
+      Util.wait(Alarm.class, active ? 0 : millis);
+
+      return active;
+    }
+  }
+
   private class KeepAliveSender extends Thread {
 
     private AtomicBoolean stop = new AtomicBoolean(false);
 
     public void run() {
-      while (!stop.get()) {
+      while (true) {
         try {
-          Thread.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
+          Alarm.waitForAlarmOrTimeout(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
 
-          Log.w(TAG, "Sending keep alive...");
-          sendKeepAlive();
+          if (stop.get()) {
+            break;
+          } else {
+            Log.w(TAG, "Sending keep alive...");
+            sendKeepAlive();
+
+            synchronized(WebSocketConnection.this) {
+              WebSocketConnection.this.notifyAll();
+            }
+          }
         } catch (Throwable e) {
           Log.w(TAG, e);
         }
