@@ -16,11 +16,13 @@ import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.util.SignalThread;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceUrl;
+import org.whispersystems.signalservice.internal.util.JavaThread;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 import org.whispersystems.signalservice.internal.websocket.WebSocketEventListener;
@@ -44,6 +46,7 @@ public class SignalServiceMessageReceiver {
   private final CredentialsProvider        credentialsProvider;
   private final String                     userAgent;
   private final ConnectivityListener       connectivityListener;
+  private SignalThread                     signalThread;
 
   /**
    * Construct a SignalServiceMessageReceiver.
@@ -59,6 +62,17 @@ public class SignalServiceMessageReceiver {
                                       ConnectivityListener listener)
   {
     this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent, listener);
+  }
+
+  public void setSignalThread(org.whispersystems.signalservice.api.util.SignalThread signalThread) {
+    this.signalThread = signalThread;
+  }
+
+  public SignalThread getSignalThread() {
+    if (signalThread==null){
+      signalThread=new JavaThread();
+    }
+    return signalThread;
   }
 
   /**
@@ -137,7 +151,8 @@ public class SignalServiceMessageReceiver {
   public SignalServiceMessagePipe createMessagePipe() {
     WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
                                                             urls.getSignalServiceUrls()[0].getTrustStore(),
-                                                            credentialsProvider, userAgent, connectivityListener);
+                                                            credentialsProvider, userAgent, connectivityListener,
+                                                            getSignalThread());
 
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
