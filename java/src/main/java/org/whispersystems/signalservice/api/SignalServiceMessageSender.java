@@ -33,6 +33,7 @@ import org.whispersystems.signalservice.api.messages.multidevice.ConfigurationMe
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage;
+import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.exceptions.EncapsulatedExceptions;
 import org.whispersystems.signalservice.api.push.exceptions.NetworkFailureException;
@@ -345,6 +346,10 @@ public class SignalServiceMessageSender {
       builder.setQuote(quoteBuilder);
     }
 
+    if (message.getSharedContacts().isPresent()) {
+      builder.addAllContact(createSharedContactContent(message.getSharedContacts().get()));
+    }
+
     builder.setTimestamp(message.getTimestamp());
 
     return container.setDataMessage(builder).build().toByteArray();
@@ -517,6 +522,91 @@ public class SignalServiceMessageSender {
     }
 
     return builder.build();
+  }
+
+  private List<DataMessage.Contact> createSharedContactContent(List<SharedContact> contacts) throws IOException {
+    List<DataMessage.Contact> results = new LinkedList<>();
+
+    for (SharedContact contact : contacts) {
+      DataMessage.Contact.Name.Builder nameBuilder    = DataMessage.Contact.Name.newBuilder();
+
+      if (contact.getName().getFamily().isPresent()) nameBuilder.setFamilyName(contact.getName().getFamily().get());
+      if (contact.getName().getGiven().isPresent())  nameBuilder.setGivenName(contact.getName().getGiven().get());
+      if (contact.getName().getMiddle().isPresent()) nameBuilder.setMiddleName(contact.getName().getMiddle().get());
+      if (contact.getName().getPrefix().isPresent()) nameBuilder.setPrefix(contact.getName().getPrefix().get());
+      if (contact.getName().getSuffix().isPresent()) nameBuilder.setSuffix(contact.getName().getSuffix().get());
+
+      DataMessage.Contact.Builder contactBuilder = DataMessage.Contact.newBuilder()
+                                                                      .setName(nameBuilder);
+
+      if (contact.getAddress().isPresent()) {
+        for (SharedContact.PostalAddress address : contact.getAddress().get()) {
+          DataMessage.Contact.PostalAddress.Builder addressBuilder = DataMessage.Contact.PostalAddress.newBuilder();
+
+          switch (address.getType()) {
+            case HOME:   addressBuilder.setType(DataMessage.Contact.PostalAddress.Type.HOME); break;
+            case WORK:   addressBuilder.setType(DataMessage.Contact.PostalAddress.Type.WORK); break;
+            case CUSTOM: addressBuilder.setType(DataMessage.Contact.PostalAddress.Type.CUSTOM); break;
+            default:     throw new AssertionError("Unknown type: " + address.getType());
+          }
+
+          if (address.getCity().isPresent())         addressBuilder.setCity(address.getCity().get());
+          if (address.getCountry().isPresent())      addressBuilder.setCountry(address.getCountry().get());
+          if (address.getLabel().isPresent())        addressBuilder.setLabel(address.getLabel().get());
+          if (address.getNeighborhood().isPresent()) addressBuilder.setNeighborhood(address.getNeighborhood().get());
+          if (address.getPobox().isPresent())        addressBuilder.setPobox(address.getPobox().get());
+          if (address.getPostcode().isPresent())     addressBuilder.setPostcode(address.getPostcode().get());
+          if (address.getRegion().isPresent())       addressBuilder.setRegion(address.getRegion().get());
+          if (address.getStreet().isPresent())       addressBuilder.setStreet(address.getStreet().get());
+
+          contactBuilder.addAddress(addressBuilder);
+        }
+      }
+
+      if (contact.getEmail().isPresent()) {
+        for (SharedContact.Email email : contact.getEmail().get()) {
+          DataMessage.Contact.Email.Builder emailBuilder = DataMessage.Contact.Email.newBuilder()
+                                                                                    .setValue(email.getValue());
+
+          switch (email.getType()) {
+            case HOME:   emailBuilder.setType(DataMessage.Contact.Email.Type.HOME);   break;
+            case WORK:   emailBuilder.setType(DataMessage.Contact.Email.Type.WORK);   break;
+            case MOBILE: emailBuilder.setType(DataMessage.Contact.Email.Type.MOBILE); break;
+            case CUSTOM: emailBuilder.setType(DataMessage.Contact.Email.Type.CUSTOM); break;
+            default:     throw new AssertionError("Unknown type: " + email.getType());
+          }
+
+          if (email.getLabel().isPresent()) emailBuilder.setLabel(email.getLabel().get());
+
+          contactBuilder.addEmail(emailBuilder);
+        }
+      }
+
+      if (contact.getPhone().isPresent()) {
+        for (SharedContact.Phone phone : contact.getPhone().get()) {
+          DataMessage.Contact.Phone.Builder phoneBuilder = DataMessage.Contact.Phone.newBuilder()
+                                                                                    .setValue(phone.getValue());
+
+          switch (phone.getType()) {
+            case HOME:   phoneBuilder.setType(DataMessage.Contact.Phone.Type.HOME);   break;
+            case WORK:   phoneBuilder.setType(DataMessage.Contact.Phone.Type.WORK);   break;
+            case MOBILE: phoneBuilder.setType(DataMessage.Contact.Phone.Type.MOBILE); break;
+            case CUSTOM: phoneBuilder.setType(DataMessage.Contact.Phone.Type.CUSTOM); break;
+            default:     throw new AssertionError("Unknown type: " + phone.getType());
+          }
+
+          if (phone.getLabel().isPresent()) phoneBuilder.setLabel(phone.getLabel().get());
+        }
+      }
+
+      if (contact.getAvatar().isPresent()) {
+        contactBuilder.setAvatar(createAttachmentPointer(contact.getAvatar().get().asStream()));
+      }
+
+      results.add(contactBuilder.build());
+    }
+
+    return results;
   }
 
   private SendMessageResponseList sendMessage(List<SignalServiceAddress> recipients, long timestamp, byte[] content)
