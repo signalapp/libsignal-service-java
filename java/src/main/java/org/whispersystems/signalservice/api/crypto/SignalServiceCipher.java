@@ -370,7 +370,10 @@ public class SignalServiceCipher {
           }
 
           if (contact.hasAvatar()) {
-            builder.setAvatar(createAttachmentPointer(envelope, contact.getAvatar()));
+            builder.setAvatar(SharedContact.Avatar.newBuilder()
+                                                  .withAttachment(createAttachmentPointer(envelope, contact.getAvatar().getAvatar()))
+                                                  .withProfileFlag(contact.getAvatar().getIsProfile())
+                                                  .build());
           }
         }
 

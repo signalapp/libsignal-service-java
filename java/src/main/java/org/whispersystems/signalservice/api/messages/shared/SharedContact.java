@@ -9,14 +9,14 @@ import java.util.List;
 
 public class SharedContact {
 
-  private final Name                              name;
-  private final Optional<SignalServiceAttachment> avatar;
-  private final Optional<List<Phone>>             phone;
-  private final Optional<List<Email>>             email;
-  private final Optional<List<PostalAddress>>     address;
+  private final Name                          name;
+  private final Optional<Avatar>              avatar;
+  private final Optional<List<Phone>>         phone;
+  private final Optional<List<Email>>         email;
+  private final Optional<List<PostalAddress>> address;
 
   public SharedContact(Name name,
-                       Optional<SignalServiceAttachment> avatar,
+                       Optional<Avatar> avatar,
                        Optional<List<Phone>> phone,
                        Optional<List<Email>> email,
                        Optional<List<PostalAddress>> address)
@@ -36,7 +36,7 @@ public class SharedContact {
     return name;
   }
 
-  public Optional<SignalServiceAttachment> getAvatar() {
+  public Optional<Avatar> getAvatar() {
     return avatar;
   }
 
@@ -50,6 +50,47 @@ public class SharedContact {
 
   public Optional<List<PostalAddress>> getAddress() {
     return address;
+  }
+
+  public static class Avatar {
+    private final SignalServiceAttachment attachment;
+    private final boolean                 isProfile;
+
+    public Avatar(SignalServiceAttachment attachment, boolean isProfile) {
+      this.attachment = attachment;
+      this.isProfile  = isProfile;
+    }
+
+    public SignalServiceAttachment getAttachment() {
+      return attachment;
+    }
+
+    public boolean isProfile() {
+      return isProfile;
+    }
+
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      private SignalServiceAttachment attachment;
+      private boolean                 isProfile;
+
+      public Builder withAttachment(SignalServiceAttachment attachment) {
+        this.attachment = attachment;
+        return this;
+      }
+
+      public Builder withProfileFlag(boolean isProfile) {
+        this.isProfile = isProfile;
+        return this;
+      }
+
+      public Avatar build() {
+        return new Avatar(attachment, isProfile);
+      }
+    }
   }
 
   public static class Name {
@@ -386,8 +427,8 @@ public class SharedContact {
   }
 
   public static class Builder {
-    private Name                    name;
-    private SignalServiceAttachment avatar;
+    private Name   name;
+    private Avatar avatar;
 
     private List<Phone>         phone   = new LinkedList<>();
     private List<Email>         email   = new LinkedList<>();
@@ -398,7 +439,7 @@ public class SharedContact {
       return this;
     }
 
-    public Builder setAvatar(SignalServiceAttachment avatar) {
+    public Builder setAvatar(Avatar avatar) {
       this.avatar = avatar;
       return this;
     }
