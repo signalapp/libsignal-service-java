@@ -43,7 +43,7 @@ import static org.whispersystems.signalservice.internal.websocket.WebSocketProto
 public class WebSocketConnection extends WebSocketListener {
 
   private static final String TAG                       = WebSocketConnection.class.getSimpleName();
-  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 60;
+  private static final int    KEEPALIVE_TIMEOUT_SECONDS = 55;
 
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
@@ -65,7 +65,8 @@ public class WebSocketConnection extends WebSocketListener {
                              CredentialsProvider credentialsProvider,
                              String userAgent,
                              ConnectivityListener listener,
-                             SleepTimer timer) {
+                             SleepTimer timer)
+  {
     this.trustStore          = trustStore;
     this.credentialsProvider = credentialsProvider;
     this.userAgent           = userAgent;
@@ -303,11 +304,21 @@ public class WebSocketConnection extends WebSocketListener {
     private AtomicBoolean stop = new AtomicBoolean(false);
 
     public void run() {
-      while (!stop.get()) {
-        try {
-          sleepTimer.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
+      final long timeoutMillis = TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS);
 
-          Log.w(TAG, "Sending keep alive...");
+      while (!stop.get()) {
+        final long startTime = System.currentTimeMillis();
+
+        while (elapsedTime(startTime) < timeoutMillis) {
+          try {
+            sleepTimer.sleep(timeoutMillis - elapsedTime(startTime));
+          } catch (Throwable e) {
+            Log.w(TAG, e);
+          }
+        }
+
+        Log.w(TAG, "Sending keep alive...");
+        try {
           sendKeepAlive();
         } catch (Throwable e) {
           Log.w(TAG, e);

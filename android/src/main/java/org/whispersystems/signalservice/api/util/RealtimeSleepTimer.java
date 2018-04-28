@@ -37,15 +37,14 @@ public class RealtimeSleepTimer implements SleepTimer {
 
     alarmReceiver.setAlarm(millis);
 
-    synchronized(this) {
-      wait();
+    synchronized (this) {
+      wait(millis);
     }
 
     context.unregisterReceiver(alarmReceiver);
   }
 
   private class AlarmReceiver extends BroadcastReceiver {
-    private static final int    WAKE_UP_TIMEOUT_SECONDS = 60;
     private static final String WAKE_UP_THREAD_ACTION = "org.whispersystems.signalservice.api.util.RealtimeSleepTimer.AlarmReceiver.WAKE_UP_THREAD";
 
     private void setAlarm(long millis) {
@@ -53,7 +52,7 @@ public class RealtimeSleepTimer implements SleepTimer {
       final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
       final AlarmManager  alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-      Log.w(TAG, "Setting alarm to wake up.");
+      Log.w(TAG, "Setting alarm to wake up in " + millis + "ms.");
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -74,7 +73,7 @@ public class RealtimeSleepTimer implements SleepTimer {
     public void onReceive(Context context, Intent intent) {
       Log.w(TAG, "Waking up.");
 
-      synchronized(RealtimeSleepTimer.this) {
+      synchronized (RealtimeSleepTimer.this) {
         RealtimeSleepTimer.this.notifyAll();
       }
     }
