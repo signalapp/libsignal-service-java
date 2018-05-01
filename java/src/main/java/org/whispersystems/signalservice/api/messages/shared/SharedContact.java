@@ -14,18 +14,21 @@ public class SharedContact {
   private final Optional<List<Phone>>         phone;
   private final Optional<List<Email>>         email;
   private final Optional<List<PostalAddress>> address;
+  private final Optional<String>              organization;
 
   public SharedContact(Name name,
                        Optional<Avatar> avatar,
                        Optional<List<Phone>> phone,
                        Optional<List<Email>> email,
-                       Optional<List<PostalAddress>> address)
+                       Optional<List<PostalAddress>> address,
+                       Optional<String> organization)
   {
-    this.name    = name;
-    this.avatar  = avatar;
-    this.phone   = phone;
-    this.email   = email;
-    this.address = address;
+    this.name         = name;
+    this.avatar       = avatar;
+    this.phone        = phone;
+    this.email        = email;
+    this.address      = address;
+    this.organization = organization;
   }
 
   public static Builder newBuilder() {
@@ -50,6 +53,10 @@ public class SharedContact {
 
   public Optional<List<PostalAddress>> getAddress() {
     return address;
+  }
+
+  public Optional<String> getOrganization() {
+    return organization;
   }
 
   public static class Avatar {
@@ -95,22 +102,28 @@ public class SharedContact {
 
   public static class Name {
 
+    private final Optional<String> display;
     private final Optional<String> given;
     private final Optional<String> family;
     private final Optional<String> prefix;
     private final Optional<String> suffix;
     private final Optional<String> middle;
 
-    public Name(Optional<String> given, Optional<String> family, Optional<String> prefix, Optional<String> suffix, Optional<String> middle) {
-      this.given = given;
-      this.family = family;
-      this.prefix = prefix;
-      this.suffix = suffix;
-      this.middle = middle;
+    public Name(Optional<String> display, Optional<String> given, Optional<String> family, Optional<String> prefix, Optional<String> suffix, Optional<String> middle) {
+      this.display = display;
+      this.given   = given;
+      this.family  = family;
+      this.prefix  = prefix;
+      this.suffix  = suffix;
+      this.middle  = middle;
     }
 
     public static Builder newBuilder() {
       return new Builder();
+    }
+
+    public Optional<String> getDisplay() {
+      return display;
     }
 
     public Optional<String> getGiven() {
@@ -134,11 +147,17 @@ public class SharedContact {
     }
 
     public static class Builder {
+      private String display;
       private String given;
       private String family;
       private String prefix;
       private String suffix;
       private String middle;
+
+      public Builder setDisplay(String display) {
+        this.display = display;
+        return this;
+      }
 
       public Builder setGiven(String given) {
         this.given = given;
@@ -166,8 +185,11 @@ public class SharedContact {
       }
 
       public Name build() {
-        return new Name(Optional.fromNullable(given), Optional.fromNullable(family),
-                        Optional.fromNullable(prefix), Optional.fromNullable(suffix),
+        return new Name(Optional.fromNullable(display),
+                        Optional.fromNullable(given),
+                        Optional.fromNullable(family),
+                        Optional.fromNullable(prefix),
+                        Optional.fromNullable(suffix),
                         Optional.fromNullable(middle));
       }
     }
@@ -429,6 +451,7 @@ public class SharedContact {
   public static class Builder {
     private Name   name;
     private Avatar avatar;
+    private String organization;
 
     private List<Phone>         phone   = new LinkedList<>();
     private List<Email>         email   = new LinkedList<>();
@@ -436,6 +459,11 @@ public class SharedContact {
 
     public Builder setName(Name name) {
       this.name = name;
+      return this;
+    }
+
+    public Builder withOrganization(String organization) {
+      this.organization = organization;
       return this;
     }
 
@@ -478,7 +506,8 @@ public class SharedContact {
       return new SharedContact(name, Optional.fromNullable(avatar),
                                phone.isEmpty()   ? Optional.<List<Phone>>absent() : Optional.of(phone),
                                email.isEmpty()   ? Optional.<List<Email>>absent() : Optional.of(email),
-                               address.isEmpty() ? Optional.<List<PostalAddress>>absent() : Optional.of(address));
+                               address.isEmpty() ? Optional.<List<PostalAddress>>absent() : Optional.of(address),
+                               Optional.fromNullable(organization));
     }
   }
 }

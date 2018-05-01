@@ -302,6 +302,7 @@ public class SignalServiceCipher {
     for (DataMessage.Contact contact : content.getContactList()) {
       SharedContact.Builder builder = SharedContact.newBuilder()
                                                    .setName(SharedContact.Name.newBuilder()
+                                                                              .setDisplay(contact.getName().getDisplayName())
                                                                               .setFamily(contact.getName().getFamilyName())
                                                                               .setGiven(contact.getName().getGivenName())
                                                                               .setMiddle(contact.getName().getMiddleName())
@@ -374,6 +375,10 @@ public class SignalServiceCipher {
                                                   .withAttachment(createAttachmentPointer(envelope, contact.getAvatar().getAvatar()))
                                                   .withProfileFlag(contact.getAvatar().getIsProfile())
                                                   .build());
+          }
+
+          if (contact.hasOrganization()) {
+            builder.withOrganization(contact.getOrganization());
           }
         }
 

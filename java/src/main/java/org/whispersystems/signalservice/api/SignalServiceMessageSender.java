@@ -530,11 +530,12 @@ public class SignalServiceMessageSender {
     for (SharedContact contact : contacts) {
       DataMessage.Contact.Name.Builder nameBuilder    = DataMessage.Contact.Name.newBuilder();
 
-      if (contact.getName().getFamily().isPresent()) nameBuilder.setFamilyName(contact.getName().getFamily().get());
-      if (contact.getName().getGiven().isPresent())  nameBuilder.setGivenName(contact.getName().getGiven().get());
-      if (contact.getName().getMiddle().isPresent()) nameBuilder.setMiddleName(contact.getName().getMiddle().get());
-      if (contact.getName().getPrefix().isPresent()) nameBuilder.setPrefix(contact.getName().getPrefix().get());
-      if (contact.getName().getSuffix().isPresent()) nameBuilder.setSuffix(contact.getName().getSuffix().get());
+      if (contact.getName().getFamily().isPresent())  nameBuilder.setFamilyName(contact.getName().getFamily().get());
+      if (contact.getName().getGiven().isPresent())   nameBuilder.setGivenName(contact.getName().getGiven().get());
+      if (contact.getName().getMiddle().isPresent())  nameBuilder.setMiddleName(contact.getName().getMiddle().get());
+      if (contact.getName().getPrefix().isPresent())  nameBuilder.setPrefix(contact.getName().getPrefix().get());
+      if (contact.getName().getSuffix().isPresent())  nameBuilder.setSuffix(contact.getName().getSuffix().get());
+      if (contact.getName().getDisplay().isPresent()) nameBuilder.setDisplayName(contact.getName().getDisplay().get());
 
       DataMessage.Contact.Builder contactBuilder = DataMessage.Contact.newBuilder()
                                                                       .setName(nameBuilder);
@@ -603,6 +604,10 @@ public class SignalServiceMessageSender {
         contactBuilder.setAvatar(DataMessage.Contact.Avatar.newBuilder()
                                                            .setAvatar(createAttachmentPointer(contact.getAvatar().get().getAttachment().asStream()))
                                                            .setIsProfile(contact.getAvatar().get().isProfile()));
+      }
+
+      if (contact.getOrganization().isPresent()) {
+        contactBuilder.setOrganization(contact.getOrganization().get());
       }
 
       results.add(contactBuilder.build());

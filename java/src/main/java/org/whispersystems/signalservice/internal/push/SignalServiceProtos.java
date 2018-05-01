@@ -9017,6 +9017,21 @@ public final class SignalServiceProtos {
        * <code>optional .signalservice.DataMessage.Contact.Avatar avatar = 6;</code>
        */
       org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Contact.AvatarOrBuilder getAvatarOrBuilder();
+
+      // optional string organization = 7;
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      boolean hasOrganization();
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      java.lang.String getOrganization();
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      com.google.protobuf.ByteString
+          getOrganizationBytes();
     }
     /**
      * Protobuf type {@code signalservice.DataMessage.Contact}
@@ -9117,6 +9132,11 @@ public final class SignalServiceProtos {
                   avatar_ = subBuilder.buildPartial();
                 }
                 bitField0_ |= 0x00000002;
+                break;
+              }
+              case 58: {
+                bitField0_ |= 0x00000004;
+                organization_ = input.readBytes();
                 break;
               }
             }
@@ -9244,6 +9264,21 @@ public final class SignalServiceProtos {
          */
         com.google.protobuf.ByteString
             getMiddleNameBytes();
+
+        // optional string displayName = 6;
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        boolean hasDisplayName();
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        java.lang.String getDisplayName();
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        com.google.protobuf.ByteString
+            getDisplayNameBytes();
       }
       /**
        * Protobuf type {@code signalservice.DataMessage.Contact.Name}
@@ -9319,6 +9354,11 @@ public final class SignalServiceProtos {
                 case 42: {
                   bitField0_ |= 0x00000010;
                   middleName_ = input.readBytes();
+                  break;
+                }
+                case 50: {
+                  bitField0_ |= 0x00000020;
+                  displayName_ = input.readBytes();
                   break;
                 }
               }
@@ -9576,12 +9616,56 @@ public final class SignalServiceProtos {
           }
         }
 
+        // optional string displayName = 6;
+        public static final int DISPLAYNAME_FIELD_NUMBER = 6;
+        private java.lang.Object displayName_;
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        public boolean hasDisplayName() {
+          return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        public java.lang.String getDisplayName() {
+          java.lang.Object ref = displayName_;
+          if (ref instanceof java.lang.String) {
+            return (java.lang.String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              displayName_ = s;
+            }
+            return s;
+          }
+        }
+        /**
+         * <code>optional string displayName = 6;</code>
+         */
+        public com.google.protobuf.ByteString
+            getDisplayNameBytes() {
+          java.lang.Object ref = displayName_;
+          if (ref instanceof java.lang.String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            displayName_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
         private void initFields() {
           givenName_ = "";
           familyName_ = "";
           prefix_ = "";
           suffix_ = "";
           middleName_ = "";
+          displayName_ = "";
         }
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
@@ -9609,6 +9693,9 @@ public final class SignalServiceProtos {
           }
           if (((bitField0_ & 0x00000010) == 0x00000010)) {
             output.writeBytes(5, getMiddleNameBytes());
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            output.writeBytes(6, getDisplayNameBytes());
           }
           getUnknownFields().writeTo(output);
         }
@@ -9638,6 +9725,10 @@ public final class SignalServiceProtos {
           if (((bitField0_ & 0x00000010) == 0x00000010)) {
             size += com.google.protobuf.CodedOutputStream
               .computeBytesSize(5, getMiddleNameBytes());
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeBytesSize(6, getDisplayNameBytes());
           }
           size += getUnknownFields().getSerializedSize();
           memoizedSerializedSize = size;
@@ -9765,6 +9856,8 @@ public final class SignalServiceProtos {
             bitField0_ = (bitField0_ & ~0x00000008);
             middleName_ = "";
             bitField0_ = (bitField0_ & ~0x00000010);
+            displayName_ = "";
+            bitField0_ = (bitField0_ & ~0x00000020);
             return this;
           }
 
@@ -9813,6 +9906,10 @@ public final class SignalServiceProtos {
               to_bitField0_ |= 0x00000010;
             }
             result.middleName_ = middleName_;
+            if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+              to_bitField0_ |= 0x00000020;
+            }
+            result.displayName_ = displayName_;
             result.bitField0_ = to_bitField0_;
             onBuilt();
             return result;
@@ -9852,6 +9949,11 @@ public final class SignalServiceProtos {
             if (other.hasMiddleName()) {
               bitField0_ |= 0x00000010;
               middleName_ = other.middleName_;
+              onChanged();
+            }
+            if (other.hasDisplayName()) {
+              bitField0_ |= 0x00000020;
+              displayName_ = other.displayName_;
               onChanged();
             }
             this.mergeUnknownFields(other.getUnknownFields());
@@ -10247,6 +10349,80 @@ public final class SignalServiceProtos {
   }
   bitField0_ |= 0x00000010;
             middleName_ = value;
+            onChanged();
+            return this;
+          }
+
+          // optional string displayName = 6;
+          private java.lang.Object displayName_ = "";
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public boolean hasDisplayName() {
+            return ((bitField0_ & 0x00000020) == 0x00000020);
+          }
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public java.lang.String getDisplayName() {
+            java.lang.Object ref = displayName_;
+            if (!(ref instanceof java.lang.String)) {
+              java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                  .toStringUtf8();
+              displayName_ = s;
+              return s;
+            } else {
+              return (java.lang.String) ref;
+            }
+          }
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public com.google.protobuf.ByteString
+              getDisplayNameBytes() {
+            java.lang.Object ref = displayName_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (java.lang.String) ref);
+              displayName_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public Builder setDisplayName(
+              java.lang.String value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+            displayName_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public Builder clearDisplayName() {
+            bitField0_ = (bitField0_ & ~0x00000020);
+            displayName_ = getDefaultInstance().getDisplayName();
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>optional string displayName = 6;</code>
+           */
+          public Builder setDisplayNameBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+            displayName_ = value;
             onChanged();
             return this;
           }
@@ -14381,12 +14557,56 @@ public final class SignalServiceProtos {
         return avatar_;
       }
 
+      // optional string organization = 7;
+      public static final int ORGANIZATION_FIELD_NUMBER = 7;
+      private java.lang.Object organization_;
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      public boolean hasOrganization() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      public java.lang.String getOrganization() {
+        java.lang.Object ref = organization_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            organization_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string organization = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getOrganizationBytes() {
+        java.lang.Object ref = organization_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          organization_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       private void initFields() {
         name_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Contact.Name.getDefaultInstance();
         number_ = java.util.Collections.emptyList();
         email_ = java.util.Collections.emptyList();
         address_ = java.util.Collections.emptyList();
         avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Contact.Avatar.getDefaultInstance();
+        organization_ = "";
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -14414,6 +14634,9 @@ public final class SignalServiceProtos {
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeMessage(6, avatar_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeBytes(7, getOrganizationBytes());
         }
         getUnknownFields().writeTo(output);
       }
@@ -14443,6 +14666,10 @@ public final class SignalServiceProtos {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(6, avatar_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(7, getOrganizationBytes());
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -14595,6 +14822,8 @@ public final class SignalServiceProtos {
             avatarBuilder_.clear();
           }
           bitField0_ = (bitField0_ & ~0x00000010);
+          organization_ = "";
+          bitField0_ = (bitField0_ & ~0x00000020);
           return this;
         }
 
@@ -14666,6 +14895,10 @@ public final class SignalServiceProtos {
           } else {
             result.avatar_ = avatarBuilder_.build();
           }
+          if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.organization_ = organization_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -14765,6 +14998,11 @@ public final class SignalServiceProtos {
           }
           if (other.hasAvatar()) {
             mergeAvatar(other.getAvatar());
+          }
+          if (other.hasOrganization()) {
+            bitField0_ |= 0x00000020;
+            organization_ = other.organization_;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           return this;
@@ -15745,6 +15983,80 @@ public final class SignalServiceProtos {
             avatar_ = null;
           }
           return avatarBuilder_;
+        }
+
+        // optional string organization = 7;
+        private java.lang.Object organization_ = "";
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public boolean hasOrganization() {
+          return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public java.lang.String getOrganization() {
+          java.lang.Object ref = organization_;
+          if (!(ref instanceof java.lang.String)) {
+            java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                .toStringUtf8();
+            organization_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public com.google.protobuf.ByteString
+            getOrganizationBytes() {
+          java.lang.Object ref = organization_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            organization_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public Builder setOrganization(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+          organization_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public Builder clearOrganization() {
+          bitField0_ = (bitField0_ & ~0x00000020);
+          organization_ = getDefaultInstance().getOrganization();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string organization = 7;</code>
+         */
+        public Builder setOrganizationBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+          organization_ = value;
+          onChanged();
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:signalservice.DataMessage.Contact)
@@ -31515,7 +31827,7 @@ public final class SignalServiceProtos {
       "\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032K\n\tIceUp" +
       "date\022\n\n\002id\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rsdpM" +
       "LineIndex\030\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022\n\n\002" +
-      "id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\206\r\n\013DataM" +
+      "id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\261\r\n\013DataM" +
       "essage\022\014\n\004body\030\001 \001(\t\0225\n\013attachments\030\002 \003(" +
       "\0132 .signalservice.AttachmentPointer\022*\n\005g" +
       "roup\030\003 \001(\0132\033.signalservice.GroupContext\022" +
@@ -31529,7 +31841,7 @@ public final class SignalServiceProtos {
       "ote.QuotedAttachment\032n\n\020QuotedAttachment" +
       "\022\023\n\013contentType\030\001 \001(\t\022\020\n\010fileName\030\002 \001(\t\022" +
       "3\n\tthumbnail\030\003 \001(\0132 .signalservice.Attac" +
-      "hmentPointer\032\231\010\n\007Contact\0225\n\004name\030\001 \001(\0132\'",
+      "hmentPointer\032\304\010\n\007Contact\0225\n\004name\030\001 \001(\0132\'",
       ".signalservice.DataMessage.Contact.Name\022" +
       "8\n\006number\030\003 \003(\0132(.signalservice.DataMess" +
       "age.Contact.Phone\0227\n\005email\030\004 \003(\0132(.signa" +
@@ -31537,84 +31849,85 @@ public final class SignalServiceProtos {
       "dress\030\005 \003(\01320.signalservice.DataMessage." +
       "Contact.PostalAddress\0229\n\006avatar\030\006 \001(\0132)." +
       "signalservice.DataMessage.Contact.Avatar" +
-      "\032a\n\004Name\022\021\n\tgivenName\030\001 \001(\t\022\022\n\nfamilyNam" +
-      "e\030\002 \001(\t\022\016\n\006prefix\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022" +
-      "\022\n\nmiddleName\030\005 \001(\t\032\226\001\n\005Phone\022\r\n\005value\030\001",
-      " \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice.DataM" +
-      "essage.Contact.Phone.Type\022\r\n\005label\030\003 \001(\t" +
-      "\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003" +
-      "\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 \001(\t\022;\n" +
-      "\004type\030\002 \001(\0162-.signalservice.DataMessage." +
-      "Contact.Email.Type\022\r\n\005label\030\003 \001(\t\"2\n\004Typ" +
-      "e\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n\n\006CUS" +
-      "TOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001 \001(\01625." +
-      "signalservice.DataMessage.Contact.Postal" +
-      "Address.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006street\030\003 ",
-      "\001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhood\030\005 \001(\t" +
-      "\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010postco" +
-      "de\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022\010\n\004HOM" +
-      "E\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avatar\0220\n\006a" +
-      "vatar\030\001 \001(\0132 .signalservice.AttachmentPo" +
-      "inter\022\021\n\tisProfile\030\002 \001(\010\"M\n\005Flags\022\017\n\013END" +
-      "_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPDATE\020\002\022" +
-      "\026\n\022PROFILE_KEY_UPDATE\020\004\"\036\n\013NullMessage\022\017" +
-      "\n\007padding\030\001 \001(\014\"u\n\016ReceiptMessage\0220\n\004typ" +
-      "e\030\001 \001(\0162\".signalservice.ReceiptMessage.T",
-      "ype\022\021\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DELIVE" +
-      "RY\020\000\022\010\n\004READ\020\001\"\253\001\n\010Verified\022\023\n\013destinati" +
-      "on\030\001 \001(\t\022\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003" +
-      " \001(\0162\035.signalservice.Verified.State\022\023\n\013n" +
-      "ullMessage\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014" +
-      "\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020\002\"\312\007\n\013SyncMes" +
-      "sage\022-\n\004sent\030\001 \001(\0132\037.signalservice.SyncM" +
-      "essage.Sent\0225\n\010contacts\030\002 \001(\0132#.signalse" +
-      "rvice.SyncMessage.Contacts\0221\n\006groups\030\003 \001" +
-      "(\0132!.signalservice.SyncMessage.Groups\0223\n",
-      "\007request\030\004 \001(\0132\".signalservice.SyncMessa" +
-      "ge.Request\022-\n\004read\030\005 \003(\0132\037.signalservice" +
-      ".SyncMessage.Read\0223\n\007blocked\030\006 \001(\0132\".sig" +
-      "nalservice.SyncMessage.Blocked\022)\n\010verifi" +
-      "ed\030\007 \001(\0132\027.signalservice.Verified\022?\n\rcon" +
-      "figuration\030\t \001(\0132(.signalservice.SyncMes" +
-      "sage.Configuration\022\017\n\007padding\030\010 \001(\014\032}\n\004S" +
-      "ent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttimestamp\030\002 " +
-      "\001(\004\022+\n\007message\030\003 \001(\0132\032.signalservice.Dat" +
-      "aMessage\022 \n\030expirationStartTimestamp\030\004 \001",
-      "(\004\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .signalser" +
-      "vice.AttachmentPointer\022\027\n\010complete\030\002 \001(\010" +
-      ":\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signal" +
-      "service.AttachmentPointer\032\032\n\007Blocked\022\017\n\007" +
-      "numbers\030\001 \003(\t\032\217\001\n\007Request\0225\n\004type\030\001 \001(\0162" +
-      "\'.signalservice.SyncMessage.Request.Type" +
-      "\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006G" +
-      "ROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIGURATION\020\004\032" +
-      ")\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001" +
-      "(\004\032%\n\rConfiguration\022\024\n\014readReceipts\030\001 \001(",
-      "\010\"\316\001\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013c" +
-      "ontentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 " +
-      "\001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020" +
-      "\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005width" +
-      "\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005Flags\022\021\n\rVOICE" +
-      "_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022" +
-      ".\n\004type\030\002 \001(\0162 .signalservice.GroupConte" +
-      "xt.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220" +
-      "\n\006avatar\030\005 \001(\0132 .signalservice.Attachmen" +
-      "tPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020",
-      "\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO" +
-      "\020\004\"\207\002\n\016ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n" +
-      "\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalserv" +
-      "ice.ContactDetails.Avatar\022\r\n\005color\030\004 \001(\t" +
-      "\022)\n\010verified\030\005 \001(\0132\027.signalservice.Verif" +
-      "ied\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blocked\030\007 \001(\010" +
-      "\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013conte" +
-      "ntType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\307\001\n\014GroupDe" +
-      "tails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007membe" +
-      "rs\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalservice",
-      ".GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:\004tr" +
-      "ue\022\023\n\013expireTimer\030\006 \001(\r\032-\n\006Avatar\022\023\n\013con" +
-      "tentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.wh" +
-      "ispersystems.signalservice.internal.push" +
-      "B\023SignalServiceProtos"
+      "\022\024\n\014organization\030\007 \001(\t\032v\n\004Name\022\021\n\tgivenN" +
+      "ame\030\001 \001(\t\022\022\n\nfamilyName\030\002 \001(\t\022\016\n\006prefix\030" +
+      "\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n\nmiddleName\030\005 \001(",
+      "\t\022\023\n\013displayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005valu" +
+      "e\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice.Da" +
+      "taMessage.Contact.Phone.Type\022\r\n\005label\030\003 " +
+      "\001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WOR" +
+      "K\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 \001(\t" +
+      "\022;\n\004type\030\002 \001(\0162-.signalservice.DataMessa" +
+      "ge.Contact.Email.Type\022\r\n\005label\030\003 \001(\t\"2\n\004" +
+      "Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n\n\006" +
+      "CUSTOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001 \001(\016" +
+      "25.signalservice.DataMessage.Contact.Pos",
+      "talAddress.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006street" +
+      "\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhood\030\005 " +
+      "\001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010pos" +
+      "tcode\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022\010\n\004" +
+      "HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avatar\0220" +
+      "\n\006avatar\030\001 \001(\0132 .signalservice.Attachmen" +
+      "tPointer\022\021\n\tisProfile\030\002 \001(\010\"M\n\005Flags\022\017\n\013" +
+      "END_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPDATE" +
+      "\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"\036\n\013NullMessag" +
+      "e\022\017\n\007padding\030\001 \001(\014\"u\n\016ReceiptMessage\0220\n\004",
+      "type\030\001 \001(\0162\".signalservice.ReceiptMessag" +
+      "e.Type\022\021\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DEL" +
+      "IVERY\020\000\022\010\n\004READ\020\001\"\253\001\n\010Verified\022\023\n\013destin" +
+      "ation\030\001 \001(\t\022\023\n\013identityKey\030\002 \001(\014\022,\n\005stat" +
+      "e\030\003 \001(\0162\035.signalservice.Verified.State\022\023" +
+      "\n\013nullMessage\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020" +
+      "\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020\002\"\312\007\n\013Sync" +
+      "Message\022-\n\004sent\030\001 \001(\0132\037.signalservice.Sy" +
+      "ncMessage.Sent\0225\n\010contacts\030\002 \001(\0132#.signa" +
+      "lservice.SyncMessage.Contacts\0221\n\006groups\030",
+      "\003 \001(\0132!.signalservice.SyncMessage.Groups" +
+      "\0223\n\007request\030\004 \001(\0132\".signalservice.SyncMe" +
+      "ssage.Request\022-\n\004read\030\005 \003(\0132\037.signalserv" +
+      "ice.SyncMessage.Read\0223\n\007blocked\030\006 \001(\0132\"." +
+      "signalservice.SyncMessage.Blocked\022)\n\010ver" +
+      "ified\030\007 \001(\0132\027.signalservice.Verified\022?\n\r" +
+      "configuration\030\t \001(\0132(.signalservice.Sync" +
+      "Message.Configuration\022\017\n\007padding\030\010 \001(\014\032}" +
+      "\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttimestamp" +
+      "\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signalservice.",
+      "DataMessage\022 \n\030expirationStartTimestamp\030" +
+      "\004 \001(\004\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .signal" +
+      "service.AttachmentPointer\022\027\n\010complete\030\002 " +
+      "\001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .sig" +
+      "nalservice.AttachmentPointer\032\032\n\007Blocked\022" +
+      "\017\n\007numbers\030\001 \003(\t\032\217\001\n\007Request\0225\n\004type\030\001 \001" +
+      "(\0162\'.signalservice.SyncMessage.Request.T" +
+      "ype\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n" +
+      "\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIGURATION" +
+      "\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030",
+      "\002 \001(\004\032%\n\rConfiguration\022\024\n\014readReceipts\030\001" +
+      " \001(\010\"\316\001\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022\023" +
+      "\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size" +
+      "\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(" +
+      "\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005wi" +
+      "dth\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005Flags\022\021\n\rVO" +
+      "ICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001" +
+      "(\014\022.\n\004type\030\002 \001(\0162 .signalservice.GroupCo" +
+      "ntext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(" +
+      "\t\0220\n\006avatar\030\005 \001(\0132 .signalservice.Attach",
+      "mentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDA" +
+      "TE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_I" +
+      "NFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006number\030\001 \001(\t" +
+      "\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signals" +
+      "ervice.ContactDetails.Avatar\022\r\n\005color\030\004 " +
+      "\001(\t\022)\n\010verified\030\005 \001(\0132\027.signalservice.Ve" +
+      "rified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blocked\030\007 " +
+      "\001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013co" +
+      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\307\001\n\014Grou" +
+      "pDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007me",
+      "mbers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalserv" +
+      "ice.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:" +
+      "\004true\022\023\n\013expireTimer\030\006 \001(\r\032-\n\006Avatar\022\023\n\013" +
+      "contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org" +
+      ".whispersystems.signalservice.internal.p" +
+      "ushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -31692,13 +32005,13 @@ public final class SignalServiceProtos {
           internal_static_signalservice_DataMessage_Contact_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_Contact_descriptor,
-              new java.lang.String[] { "Name", "Number", "Email", "Address", "Avatar", });
+              new java.lang.String[] { "Name", "Number", "Email", "Address", "Avatar", "Organization", });
           internal_static_signalservice_DataMessage_Contact_Name_descriptor =
             internal_static_signalservice_DataMessage_Contact_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_DataMessage_Contact_Name_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_Contact_Name_descriptor,
-              new java.lang.String[] { "GivenName", "FamilyName", "Prefix", "Suffix", "MiddleName", });
+              new java.lang.String[] { "GivenName", "FamilyName", "Prefix", "Suffix", "MiddleName", "DisplayName", });
           internal_static_signalservice_DataMessage_Contact_Phone_descriptor =
             internal_static_signalservice_DataMessage_Contact_descriptor.getNestedTypes().get(1);
           internal_static_signalservice_DataMessage_Contact_Phone_fieldAccessorTable = new
