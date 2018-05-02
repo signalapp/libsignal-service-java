@@ -16,11 +16,13 @@ import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.util.SignalThread;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceUrl;
+import org.whispersystems.signalservice.internal.util.JavaThread;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 import org.whispersystems.signalservice.internal.websocket.WebSocketEventListener;
@@ -135,9 +137,21 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
+    return createMessagePipe(new JavaThread());
+  }
+
+  /**
+   * Creates a pipe for receiving SignalService messages.
+   *
+   * Callers must call {@link SignalServiceMessagePipe#shutdown()} when finished with the pipe.
+   *
+   * @return A SignalServiceMessagePipe for receiving Signal Service messages.
+   */
+  public SignalServiceMessagePipe createMessagePipe(SignalThread signalThread) {
     WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
-                                                            urls.getSignalServiceUrls()[0].getTrustStore(),
-                                                            credentialsProvider, userAgent, connectivityListener);
+            urls.getSignalServiceUrls()[0].getTrustStore(),
+            credentialsProvider, userAgent, connectivityListener,
+            signalThread);
 
     return new SignalServiceMessagePipe(webSocket, credentialsProvider);
   }
