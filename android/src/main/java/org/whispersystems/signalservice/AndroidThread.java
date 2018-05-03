@@ -19,17 +19,15 @@ import org.whispersystems.signalservice.api.util.SignalThread;
 
 public class AndroidThread extends BroadcastReceiver implements SignalThread {
 
-  public static final String SLEEP_ACTION = "org.whispersystems.signalservice.AndroidThread.SLEEP";
+  private static final String SLEEP_ACTION = "org.whispersystems.signalservice.AndroidThread.SLEEP";
 
-  private AlarmManager alarmManager;
-  private PendingIntent pendingIntent;
+  private final AlarmManager alarmManager;
+  private final PendingIntent pendingIntent;
 
   public AndroidThread(Context context) {
     this.pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SLEEP_ACTION), 0);
-    alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    context.registerReceiver(this,
-            new IntentFilter(SLEEP_ACTION));
-
+    this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    context.registerReceiver(this, new IntentFilter(SLEEP_ACTION));
   }
 
   @Override
