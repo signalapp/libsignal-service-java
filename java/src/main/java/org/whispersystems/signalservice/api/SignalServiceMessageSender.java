@@ -597,6 +597,8 @@ public class SignalServiceMessageSender {
           }
 
           if (phone.getLabel().isPresent()) phoneBuilder.setLabel(phone.getLabel().get());
+
+          contactBuilder.addNumber(phoneBuilder);
         }
       }
 
