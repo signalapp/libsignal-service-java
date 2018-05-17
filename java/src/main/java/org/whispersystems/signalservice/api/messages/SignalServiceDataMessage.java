@@ -7,6 +7,7 @@
 package org.whispersystems.signalservice.api.messages;
 
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ public class SignalServiceDataMessage {
   private final int                                     expiresInSeconds;
   private final boolean                                 profileKeyUpdate;
   private final Optional<Quote>                         quote;
+  private final Optional<List<SharedContact>>           contacts;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -100,7 +102,7 @@ public class SignalServiceDataMessage {
    * @param expiresInSeconds The number of seconds in which a message should disappear after having been seen.
    */
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, int expiresInSeconds) {
-    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null);
+    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null, null);
   }
 
   /**
@@ -117,7 +119,7 @@ public class SignalServiceDataMessage {
                                   List<SignalServiceAttachment> attachments,
                                   String body, boolean endSession, int expiresInSeconds,
                                   boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
-                                  Quote quote)
+                                  Quote quote, List<SharedContact> sharedContacts)
   {
     this.timestamp        = timestamp;
     this.body             = Optional.fromNullable(body);
@@ -133,6 +135,12 @@ public class SignalServiceDataMessage {
       this.attachments = Optional.of(attachments);
     } else {
       this.attachments = Optional.absent();
+    }
+
+    if (sharedContacts != null && !sharedContacts.isEmpty()) {
+      this.contacts = Optional.of(sharedContacts);
+    } else {
+      this.contacts = Optional.absent();
     }
   }
 
@@ -196,9 +204,15 @@ public class SignalServiceDataMessage {
     return quote;
   }
 
+  public Optional<List<SharedContact>> getSharedContacts() {
+    return contacts;
+  }
+
   public static class Builder {
 
-    private List<SignalServiceAttachment> attachments = new LinkedList<>();
+    private List<SignalServiceAttachment> attachments    = new LinkedList<>();
+    private List<SharedContact>           sharedContacts = new LinkedList<>();
+
     private long               timestamp;
     private SignalServiceGroup group;
     private String             body;
@@ -274,11 +288,21 @@ public class SignalServiceDataMessage {
       return this;
     }
 
+    public Builder withSharedContact(SharedContact contact) {
+      this.sharedContacts.add(contact);
+      return this;
+    }
+
+    public Builder withSharedContacts(List<SharedContact> contacts) {
+      this.sharedContacts.addAll(contacts);
+      return this;
+    }
+
     public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
                                           expiresInSeconds, expirationUpdate, profileKey,
-                                          profileKeyUpdate, quote);
+                                          profileKeyUpdate, quote, sharedContacts);
     }
   }
 
@@ -335,4 +359,5 @@ public class SignalServiceDataMessage {
       }
     }
   }
+
 }

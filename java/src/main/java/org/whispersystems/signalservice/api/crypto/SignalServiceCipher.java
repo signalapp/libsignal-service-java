@@ -43,6 +43,7 @@ import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptM
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage.VerifiedState;
+import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.PushTransportDetails;
@@ -174,6 +175,7 @@ public class SignalServiceCipher {
     boolean                        expirationUpdate = ((content.getFlags() & DataMessage.Flags.EXPIRATION_TIMER_UPDATE_VALUE) != 0);
     boolean                        profileKeyUpdate = ((content.getFlags() & DataMessage.Flags.PROFILE_KEY_UPDATE_VALUE     ) != 0);
     SignalServiceDataMessage.Quote quote            = createQuote(envelope, content);
+    List<SharedContact>            sharedContacts   = createSharedContacts(envelope, content);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
       attachments.add(createAttachmentPointer(envelope, pointer));
@@ -186,7 +188,7 @@ public class SignalServiceCipher {
     return new SignalServiceDataMessage(envelope.getTimestamp(), groupInfo, attachments,
                                         content.getBody(), endSession, content.getExpireTimer(),
                                         expirationUpdate, content.hasProfileKey() ? content.getProfileKey().toByteArray() : null,
-                                        profileKeyUpdate, quote);
+                                        profileKeyUpdate, quote, sharedContacts);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(SignalServiceEnvelope envelope, SyncMessage content) throws InvalidMessageException {
@@ -290,6 +292,101 @@ public class SignalServiceCipher {
                                               new SignalServiceAddress(content.getQuote().getAuthor()),
                                               content.getQuote().getText(),
                                               attachments);
+  }
+
+  private List<SharedContact> createSharedContacts(SignalServiceEnvelope envelope, DataMessage content) {
+    if (content.getContactCount() <= 0) return null;
+
+    List<SharedContact> results = new LinkedList<>();
+
+    for (DataMessage.Contact contact : content.getContactList()) {
+      SharedContact.Builder builder = SharedContact.newBuilder()
+                                                   .setName(SharedContact.Name.newBuilder()
+                                                                              .setDisplay(contact.getName().getDisplayName())
+                                                                              .setFamily(contact.getName().getFamilyName())
+                                                                              .setGiven(contact.getName().getGivenName())
+                                                                              .setMiddle(contact.getName().getMiddleName())
+                                                                              .setPrefix(contact.getName().getPrefix())
+                                                                              .setSuffix(contact.getName().getSuffix())
+                                                                              .build());
+
+      if (contact.getAddressCount() > 0) {
+        for (DataMessage.Contact.PostalAddress address : contact.getAddressList()) {
+          SharedContact.PostalAddress.Type type = SharedContact.PostalAddress.Type.HOME;
+
+          switch (address.getType()) {
+            case WORK:   type = SharedContact.PostalAddress.Type.WORK;   break;
+            case HOME:   type = SharedContact.PostalAddress.Type.HOME;   break;
+            case CUSTOM: type = SharedContact.PostalAddress.Type.CUSTOM; break;
+          }
+
+          builder.withAddress(SharedContact.PostalAddress.newBuilder()
+                                                         .setCity(address.getCity())
+                                                         .setCountry(address.getCountry())
+                                                         .setLabel(address.getLabel())
+                                                         .setNeighborhood(address.getNeighborhood())
+                                                         .setPobox(address.getPobox())
+                                                         .setPostcode(address.getPostcode())
+                                                         .setRegion(address.getRegion())
+                                                         .setStreet(address.getStreet())
+                                                         .setType(type)
+                                                         .build());
+        }
+      }
+
+      if (contact.getNumberCount() > 0) {
+        for (DataMessage.Contact.Phone phone : contact.getNumberList()) {
+          SharedContact.Phone.Type type = SharedContact.Phone.Type.HOME;
+
+          switch (phone.getType()) {
+            case HOME:   type = SharedContact.Phone.Type.HOME;   break;
+            case WORK:   type = SharedContact.Phone.Type.WORK;   break;
+            case MOBILE: type = SharedContact.Phone.Type.MOBILE; break;
+            case CUSTOM: type = SharedContact.Phone.Type.CUSTOM; break;
+          }
+
+          builder.withPhone(SharedContact.Phone.newBuilder()
+                                               .setLabel(phone.getLabel())
+                                               .setType(type)
+                                               .setValue(phone.getValue())
+                                               .build());
+        }
+      }
+
+      if (contact.getEmailCount() > 0) {
+        for (DataMessage.Contact.Email email : contact.getEmailList()) {
+          SharedContact.Email.Type type = SharedContact.Email.Type.HOME;
+
+          switch (email.getType()) {
+            case HOME:   type = SharedContact.Email.Type.HOME;   break;
+            case WORK:   type = SharedContact.Email.Type.WORK;   break;
+            case MOBILE: type = SharedContact.Email.Type.MOBILE; break;
+            case CUSTOM: type = SharedContact.Email.Type.CUSTOM; break;
+          }
+
+          builder.withEmail(SharedContact.Email.newBuilder()
+                                               .setLabel(email.getLabel())
+                                               .setType(type)
+                                               .setValue(email.getValue())
+                                               .build());
+        }
+      }
+
+      if (contact.hasAvatar()) {
+        builder.setAvatar(SharedContact.Avatar.newBuilder()
+                                              .withAttachment(createAttachmentPointer(envelope, contact.getAvatar().getAvatar()))
+                                              .withProfileFlag(contact.getAvatar().getIsProfile())
+                                              .build());
+      }
+
+      if (contact.hasOrganization()) {
+        builder.withOrganization(contact.getOrganization());
+      }
+
+      results.add(builder.build());
+    }
+
+    return results;
   }
 
   private SignalServiceAttachmentPointer createAttachmentPointer(SignalServiceEnvelope envelope, AttachmentPointer pointer) {
