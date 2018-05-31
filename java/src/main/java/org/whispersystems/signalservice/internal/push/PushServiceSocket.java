@@ -469,7 +469,7 @@ public class PushServiceSocket {
 
       OutputStream output        = new FileOutputStream(localDestination);
       InputStream  input         = connection.getInputStream();
-      byte[]       buffer        = new byte[4096];
+      byte[]       buffer        = new byte[32768];
       int          contentLength = connection.getContentLength();
       int         read,totalRead = 0;
 
@@ -521,7 +521,7 @@ public class PushServiceSocket {
 
     try {
       DigestingOutputStream out    = outputStreamFactory.createFor(connection.getOutputStream());
-      byte[]                buffer = new byte[4096];
+      byte[]                buffer = new byte[32768];
       int            read, written = 0;
 
       while ((read = data.read(buffer)) != -1) {
@@ -582,7 +582,7 @@ public class PushServiceSocket {
 
         InputStream  in     = body.byteStream();
         OutputStream out    = new FileOutputStream(destination);
-        byte[]       buffer = new byte[4096];
+        byte[]       buffer = new byte[32768];
 
         int read, totalRead = 0;
 
