@@ -19,10 +19,12 @@ public class DeviceGroup {
   private final Optional<SignalServiceAttachmentStream> avatar;
   private final boolean                                 active;
   private final Optional<Integer>                       expirationTimer;
+  private final Optional<String>                        color;
 
   public DeviceGroup(byte[] id, Optional<String> name, List<String> members,
                      Optional<SignalServiceAttachmentStream> avatar,
-                     boolean active, Optional<Integer> expirationTimer)
+                     boolean active, Optional<Integer> expirationTimer,
+                     Optional<String> color)
   {
     this.id              = id;
     this.name            = name;
@@ -30,6 +32,7 @@ public class DeviceGroup {
     this.avatar          = avatar;
     this.active          = active;
     this.expirationTimer = expirationTimer;
+    this.color           = color;
   }
 
   public Optional<SignalServiceAttachmentStream> getAvatar() {
@@ -54,5 +57,9 @@ public class DeviceGroup {
 
   public Optional<Integer> getExpirationTimer() {
     return expirationTimer;
+  }
+
+  public Optional<String> getColor() {
+    return color;
   }
 }

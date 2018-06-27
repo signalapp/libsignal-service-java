@@ -53,6 +53,10 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
       groupDetails.setExpireTimer(group.getExpirationTimer().get());
     }
 
+    if (group.getColor().isPresent()) {
+      groupDetails.setColor(group.getColor().get());
+    }
+
     groupDetails.addAllMembers(group.getMembers());
     groupDetails.setActive(group.isActive());
 

@@ -30058,6 +30058,21 @@ public final class SignalServiceProtos {
      * <code>optional uint32 expireTimer = 6;</code>
      */
     int getExpireTimer();
+
+    // optional string color = 7;
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    boolean hasColor();
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    java.lang.String getColor();
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getColorBytes();
   }
   /**
    * Protobuf type {@code signalservice.GroupDetails}
@@ -30149,6 +30164,11 @@ public final class SignalServiceProtos {
             case 48: {
               bitField0_ |= 0x00000010;
               expireTimer_ = input.readUInt32();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000020;
+              color_ = input.readBytes();
               break;
             }
           }
@@ -30889,6 +30909,49 @@ public final class SignalServiceProtos {
       return expireTimer_;
     }
 
+    // optional string color = 7;
+    public static final int COLOR_FIELD_NUMBER = 7;
+    private java.lang.Object color_;
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    public java.lang.String getColor() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          color_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string color = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getColorBytes() {
+      java.lang.Object ref = color_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        color_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       name_ = "";
@@ -30896,6 +30959,7 @@ public final class SignalServiceProtos {
       avatar_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails.Avatar.getDefaultInstance();
       active_ = true;
       expireTimer_ = 0;
+      color_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -30926,6 +30990,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeUInt32(6, expireTimer_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(7, getColorBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -30964,6 +31031,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(6, expireTimer_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getColorBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -31098,6 +31169,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         expireTimer_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        color_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -31156,6 +31229,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.expireTimer_ = expireTimer_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.color_ = color_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -31198,6 +31275,11 @@ public final class SignalServiceProtos {
         }
         if (other.hasExpireTimer()) {
           setExpireTimer(other.getExpireTimer());
+        }
+        if (other.hasColor()) {
+          bitField0_ |= 0x00000040;
+          color_ = other.color_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -31612,6 +31694,80 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      // optional string color = 7;
+      private java.lang.Object color_ = "";
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public java.lang.String getColor() {
+        java.lang.Object ref = color_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          color_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getColorBytes() {
+        java.lang.Object ref = color_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          color_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public Builder setColor(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        color_ = getDefaultInstance().getColor();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string color = 7;</code>
+       */
+      public Builder setColorBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.GroupDetails)
     }
 
@@ -31920,14 +32076,14 @@ public final class SignalServiceProtos {
       "\001(\t\022)\n\010verified\030\005 \001(\0132\027.signalservice.Ve" +
       "rified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blocked\030\007 " +
       "\001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013co" +
-      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\307\001\n\014Grou" +
+      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\326\001\n\014Grou" +
       "pDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007me",
       "mbers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalserv" +
       "ice.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:" +
-      "\004true\022\023\n\013expireTimer\030\006 \001(\r\032-\n\006Avatar\022\023\n\013" +
-      "contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org" +
-      ".whispersystems.signalservice.internal.p" +
-      "ushB\023SignalServiceProtos"
+      "\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005color\030\007 \001(" +
+      "\t\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006leng" +
+      "th\030\002 \001(\rBE\n.org.whispersystems.signalser" +
+      "vice.internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -32131,7 +32287,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupDetails_descriptor,
-              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", "ExpireTimer", });
+              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", "ExpireTimer", "Color", });
           internal_static_signalservice_GroupDetails_Avatar_descriptor =
             internal_static_signalservice_GroupDetails_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable = new
