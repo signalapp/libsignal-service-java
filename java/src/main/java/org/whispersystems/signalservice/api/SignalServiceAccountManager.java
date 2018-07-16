@@ -9,12 +9,16 @@ package org.whispersystems.signalservice.api;
 
 import com.google.protobuf.ByteString;
 
+import org.spongycastle.crypto.InvalidCipherTextException;
+import org.whispersystems.curve25519.Curve25519;
+import org.whispersystems.curve25519.Curve25519KeyPair;
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
 import org.whispersystems.libsignal.InvalidKeyException;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.ProfileCipher;
 import org.whispersystems.signalservice.api.crypto.ProfileCipherOutputStream;
@@ -25,6 +29,16 @@ import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.StreamDetails;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
+import org.whispersystems.signalservice.internal.contacts.crypto.ContactDiscoveryCipher;
+import org.whispersystems.signalservice.internal.contacts.crypto.Quote;
+import org.whispersystems.signalservice.internal.contacts.crypto.RemoteAttestation;
+import org.whispersystems.signalservice.internal.contacts.crypto.RemoteAttestationKeys;
+import org.whispersystems.signalservice.internal.contacts.crypto.UnauthenticatedQuoteException;
+import org.whispersystems.signalservice.internal.contacts.crypto.UnauthenticatedResponseException;
+import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryRequest;
+import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryResponse;
+import org.whispersystems.signalservice.internal.contacts.entities.RemoteAttestationRequest;
+import org.whispersystems.signalservice.internal.contacts.entities.RemoteAttestationResponse;
 import org.whispersystems.signalservice.internal.crypto.ProvisioningCipher;
 import org.whispersystems.signalservice.internal.push.ProfileAvatarData;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
@@ -34,10 +48,15 @@ import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -240,6 +259,51 @@ public class SignalServiceAccountManager {
     }
 
     return activeTokens;
+  }
+
+  public List<String> getRegisteredUsers(KeyStore iasKeyStore, Set<String> e164numbers, String mrenclave)
+      throws IOException, Quote.InvalidQuoteFormatException, UnauthenticatedQuoteException, SignatureException, UnauthenticatedResponseException
+  {
+    try {
+      String            authorizationToken = this.pushServiceSocket.getContactDiscoveryAuthorization();
+      Curve25519        curve              = Curve25519.getInstance(Curve25519.BEST);
+      Curve25519KeyPair keyPair            = curve.generateKeyPair();
+
+      ContactDiscoveryCipher                        cipher              = new ContactDiscoveryCipher();
+      RemoteAttestationRequest                      attestationRequest  = new RemoteAttestationRequest(keyPair.getPublicKey());
+      Pair<RemoteAttestationResponse, List<String>> attestationResponse = this.pushServiceSocket.getContactDiscoveryRemoteAttestation(authorizationToken, attestationRequest, mrenclave);
+
+      RemoteAttestationKeys keys      = new RemoteAttestationKeys(keyPair, attestationResponse.first().getServerEphemeralPublic(), attestationResponse.first().getServerStaticPublic());
+      Quote                 quote     = new Quote(attestationResponse.first().getQuote());
+      byte[]                requestId = cipher.getRequestId(keys, attestationResponse.first());
+
+      cipher.verifyServerQuote(quote, attestationResponse.first().getServerStaticPublic(), mrenclave);
+      cipher.verifyIasSignature(iasKeyStore, attestationResponse.first().getCertificates(), attestationResponse.first().getSignatureBody(), attestationResponse.first().getSignature(), quote);
+
+      RemoteAttestation remoteAttestation = new RemoteAttestation(requestId, keys);
+      List<String>      addressBook       = new LinkedList<>();
+
+      for (String e164number : e164numbers) {
+        addressBook.add(e164number.substring(1));
+      }
+
+      DiscoveryRequest  request  = cipher.createDiscoveryRequest(addressBook, remoteAttestation);
+      DiscoveryResponse response = this.pushServiceSocket.getContactDiscoveryRegisteredUsers(authorizationToken, request, attestationResponse.second(), mrenclave);
+      byte[]            data     = cipher.getDiscoveryResponseData(response, remoteAttestation);
+
+      Iterator<String> addressBookIterator = addressBook.iterator();
+      List<String>     results             = new LinkedList<>();
+
+      for (byte aData : data) {
+        String candidate = addressBookIterator.next();
+
+        if (aData != 0) results.add('+' + candidate);
+      }
+
+      return results;
+    } catch (InvalidCipherTextException e) {
+      throw new UnauthenticatedResponseException(e);
+    }
   }
 
   public String getNewDeviceVerificationCode() throws IOException {

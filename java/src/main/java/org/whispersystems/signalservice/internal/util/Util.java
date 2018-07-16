@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,21 @@ public class Util {
       throw new AssertionError(e);
     }
   }
+
+  public static String join(Collection<String> list, String delimiter) {
+    StringBuilder result = new StringBuilder();
+    int i = 0;
+
+    for (String item : list) {
+      result.append(item);
+
+      if (++i < list.size())
+        result.append(delimiter);
+    }
+
+    return result.toString();
+  }
+
 
   public static byte[][] split(byte[] input, int firstLength, int secondLength) {
     byte[][] parts = new byte[2][];
