@@ -1,6 +1,7 @@
 package org.whispersystems.signalservice.internal.contacts.crypto;
 
 
+import org.apache.http.util.TextUtils;
 import org.spongycastle.crypto.InvalidCipherTextException;
 import org.spongycastle.crypto.engines.AESFastEngine;
 import org.spongycastle.crypto.modes.GCMBlockCipher;
@@ -31,6 +32,9 @@ import java.util.List;
 
 public class ContactDiscoveryCipher {
 
+  private static final int TAG_LENGTH_BYTES = 16;
+  private static final int TAG_LENGTH_BITS  = TAG_LENGTH_BYTES * 8;
+
   public DiscoveryRequest createDiscoveryRequest(List<String> addressBook, RemoteAttestation remoteAttestation) {
     try {
       ByteArrayOutputStream requestDataStream = new ByteArrayOutputStream();
@@ -43,16 +47,19 @@ public class ContactDiscoveryCipher {
       byte[]         nonce       = Util.getSecretBytes(12);
       GCMBlockCipher cipher      = new GCMBlockCipher(new AESFastEngine());
 
-      cipher.init(true, new AEADParameters(new KeyParameter(remoteAttestation.getKeys().getClientKey()), 128, nonce));
+      cipher.init(true, new AEADParameters(new KeyParameter(remoteAttestation.getKeys().getClientKey()), TAG_LENGTH_BITS, nonce));
       cipher.processAADBytes(remoteAttestation.getRequestId(), 0, remoteAttestation.getRequestId().length);
 
-      byte[] ciphertext = new byte[cipher.getUpdateOutputSize(requestData.length)];
-      cipher.processBytes(requestData, 0, requestData.length, ciphertext, 0);
+      byte[] cipherText1 = new byte[cipher.getUpdateOutputSize(requestData.length)];
+      cipher.processBytes(requestData, 0, requestData.length, cipherText1, 0);
 
-      byte[] tag = new byte[cipher.getOutputSize(0)];
-      cipher.doFinal(tag, 0);
+      byte[] cipherText2 = new byte[cipher.getOutputSize(0)];
+      cipher.doFinal(cipherText2, 0);
 
-      return new DiscoveryRequest(addressBook.size(), remoteAttestation.getRequestId(), nonce, ciphertext, tag);
+      byte[]   cipherText = ByteUtil.combine(cipherText1, cipherText2);
+      byte[][] parts      = ByteUtil.split(cipherText, cipherText.length - TAG_LENGTH_BYTES, TAG_LENGTH_BYTES);
+
+      return new DiscoveryRequest(addressBook.size(), remoteAttestation.getRequestId(), nonce, parts[0], parts[1]);
     } catch (IOException | InvalidCipherTextException e) {
       throw new AssertionError(e);
     }
@@ -94,6 +101,10 @@ public class ContactDiscoveryCipher {
   public void verifyIasSignature(KeyStore trustStore, String certificates, String signatureBody, String signature, Quote quote)
       throws SignatureException
   {
+    if (TextUtils.isEmpty(certificates)) {
+      throw new SignatureException("No certificates.");
+    }
+
     try {
       SigningCertificate signingCertificate = new SigningCertificate(certificates, trustStore);
       signingCertificate.verifySignature(signatureBody, signature);
@@ -104,7 +115,9 @@ public class ContactDiscoveryCipher {
         throw new SignatureException("Signed quote is not the same as RA quote: " + Hex.toStringCondensed(signatureBodyEntity.getIsvEnclaveQuoteBody()) + " vs " + Hex.toStringCondensed(quote.getQuoteBytes()));
       }
 
-      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
+      // TODO: "GROUP_OUT_OF_DATE" should only be allowed during testing
+      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus()) && !"GROUP_OUT_OF_DATE".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
+//      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
         throw new SignatureException("Quote status is: " + signatureBodyEntity.getIsvEnclaveQuoteStatus());
       }
 

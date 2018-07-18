@@ -18,7 +18,8 @@ package org.whispersystems.signalservice.internal.contacts.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.apache.commons.codec.binary.Hex;
+import org.whispersystems.signalservice.internal.util.Hex;
+
 
 public class DiscoveryRequest {
 
@@ -70,7 +71,7 @@ public class DiscoveryRequest {
   }
 
   public String toString() {
-    return "{ addressCount: " + addressCount + ", ticket: " + Hex.encodeHexString(requestId) + ", iv: " + Hex.encodeHexString(iv) + ", data: " + Hex.encodeHexString(data) + ", mac: " + Hex.encodeHexString(mac) + "}";
+    return "{ addressCount: " + addressCount + ", ticket: " + Hex.toString(requestId) + ", iv: " + Hex.toString(iv) + ", data: " + Hex.toString(data) + ", mac: " + Hex.toString(mac) + "}";
   }
 
 }

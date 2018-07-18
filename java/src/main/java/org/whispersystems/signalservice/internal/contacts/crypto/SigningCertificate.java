@@ -1,9 +1,9 @@
 package org.whispersystems.signalservice.internal.contacts.crypto;
 
-import org.apache.commons.codec.binary.Base64;
 import org.spongycastle.cert.X509CertificateHolder;
 import org.spongycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.spongycastle.openssl.PEMParser;
+import org.whispersystems.signalservice.internal.util.Base64;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -64,7 +64,9 @@ public class SigningCertificate {
       Signature signature = Signature.getInstance("SHA256withRSA");
       signature.initVerify(path.getCertificates().get(0));
       signature.update(body.getBytes());
-      signature.verify(Base64.decodeBase64(encodedSignature));
+      if (!signature.verify(Base64.decode(encodedSignature.getBytes()))) {
+        throw new SignatureException("Signature verification failed.");
+      }
     } catch (NoSuchAlgorithmException | InvalidKeyException e) {
       throw new AssertionError(e);
     }
