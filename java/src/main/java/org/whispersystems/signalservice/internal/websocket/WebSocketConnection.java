@@ -304,21 +304,11 @@ public class WebSocketConnection extends WebSocketListener {
     private AtomicBoolean stop = new AtomicBoolean(false);
 
     public void run() {
-      final long timeoutMillis = TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS);
-
       while (!stop.get()) {
-        final long startTime = System.currentTimeMillis();
-
-        while (elapsedTime(startTime) < timeoutMillis) {
-          try {
-            sleepTimer.sleep(timeoutMillis - elapsedTime(startTime));
-          } catch (Throwable e) {
-            Log.w(TAG, e);
-          }
-        }
-
-        Log.w(TAG, "Sending keep alive...");
         try {
+          sleepTimer.sleep(TimeUnit.SECONDS.toMillis(KEEPALIVE_TIMEOUT_SECONDS));
+
+          Log.w(TAG, "Sending keep alive...");
           sendKeepAlive();
         } catch (Throwable e) {
           Log.w(TAG, e);

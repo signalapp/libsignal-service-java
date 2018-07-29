@@ -31,14 +31,21 @@ public class RealtimeSleepTimer implements SleepTimer {
   }
 
   @Override
-  public void sleep(long millis) throws InterruptedException {
+  public void sleep(long millis) {
     context.registerReceiver(alarmReceiver,
                              new IntentFilter(AlarmReceiver.WAKE_UP_THREAD_ACTION));
 
+    final long startTime = System.currentTimeMillis();
     alarmReceiver.setAlarm(millis);
 
-    synchronized (this) {
-      wait(millis);
+    while (System.currentTimeMillis() - startTime < millis) {
+        try {
+          synchronized (this) {
+            wait(millis - System.currentTimeMillis() + startTime);
+          }
+        } catch (InterruptedException e) {
+          Log.w(TAG, e);
+        }
     }
 
     context.unregisterReceiver(alarmReceiver);
