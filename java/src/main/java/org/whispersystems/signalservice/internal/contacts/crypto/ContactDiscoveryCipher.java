@@ -32,8 +32,9 @@ import java.util.List;
 
 public class ContactDiscoveryCipher {
 
-  private static final int TAG_LENGTH_BYTES = 16;
-  private static final int TAG_LENGTH_BITS  = TAG_LENGTH_BYTES * 8;
+  private static final int  TAG_LENGTH_BYTES       = 16;
+  private static final int  TAG_LENGTH_BITS        = TAG_LENGTH_BYTES * 8;
+  private static final long SIGNATURE_BODY_VERSION = 3L;
 
   public DiscoveryRequest createDiscoveryRequest(List<String> addressBook, RemoteAttestation remoteAttestation) {
     try {
@@ -90,8 +91,8 @@ public class ContactDiscoveryCipher {
         throw new UnauthenticatedQuoteException("The response quote has the wrong mrenclave value in it: " + Hex.toStringCondensed(quote.getMrenclave()));
       }
 
-      if (!quote.isDebugQuote()) { // XXX Invert in production
-        throw new UnauthenticatedQuoteException("Expecting debug quote!");
+      if (quote.isDebugQuote()) {
+        throw new UnauthenticatedQuoteException("Received quote for debuggable enclave");
       }
     } catch (IOException e) {
       throw new UnauthenticatedQuoteException(e);
@@ -111,13 +112,15 @@ public class ContactDiscoveryCipher {
 
       SignatureBodyEntity signatureBodyEntity = JsonUtil.fromJson(signatureBody, SignatureBodyEntity.class);
 
+      if (signatureBodyEntity.getVersion() != SIGNATURE_BODY_VERSION) {
+        throw new SignatureException("Unexpected signed quote version " + signatureBodyEntity.getVersion());
+      }
+
       if (!MessageDigest.isEqual(ByteUtil.trim(signatureBodyEntity.getIsvEnclaveQuoteBody(), 432), ByteUtil.trim(quote.getQuoteBytes(), 432))) {
         throw new SignatureException("Signed quote is not the same as RA quote: " + Hex.toStringCondensed(signatureBodyEntity.getIsvEnclaveQuoteBody()) + " vs " + Hex.toStringCondensed(quote.getQuoteBytes()));
       }
 
-      // TODO: "GROUP_OUT_OF_DATE" should only be allowed during testing
-      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus()) && !"GROUP_OUT_OF_DATE".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
-//      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
+      if (!"OK".equals(signatureBodyEntity.getIsvEnclaveQuoteStatus())) {
         throw new SignatureException("Quote status is: " + signatureBodyEntity.getIsvEnclaveQuoteStatus());
       }
 
