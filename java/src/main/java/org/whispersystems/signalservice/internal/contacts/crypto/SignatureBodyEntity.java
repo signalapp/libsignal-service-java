@@ -11,6 +11,9 @@ public class SignatureBodyEntity {
   private String isvEnclaveQuoteStatus;
 
   @JsonProperty
+  private Long version;
+
+  @JsonProperty
   private String timestamp;
 
   public byte[] getIsvEnclaveQuoteBody() {
@@ -19,6 +22,10 @@ public class SignatureBodyEntity {
 
   public String getIsvEnclaveQuoteStatus() {
     return isvEnclaveQuoteStatus;
+  }
+
+  public Long getVersion() {
+    return version;
   }
 
   public String getTimestamp() {
