@@ -39,6 +39,7 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
     boolean                                 active          = details.getActive();
     Optional<Integer>                       expirationTimer = Optional.absent();
     Optional<String>                        color           = Optional.fromNullable(details.getColor());
+    boolean                                 blocked         = details.getBlocked();
 
     if (details.hasAvatar()) {
       long        avatarLength      = details.getAvatar().getLength();
@@ -52,7 +53,7 @@ public class DeviceGroupsInputStream extends ChunkedInputStream{
       expirationTimer = Optional.of(details.getExpireTimer());
     }
 
-    return new DeviceGroup(id, name, members, avatar, active, expirationTimer, color);
+    return new DeviceGroup(id, name, members, avatar, active, expirationTimer, color, blocked);
   }
 
 }

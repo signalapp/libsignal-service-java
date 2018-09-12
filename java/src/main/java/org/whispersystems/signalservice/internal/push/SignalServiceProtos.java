@@ -21815,6 +21815,20 @@ public final class SignalServiceProtos {
        */
       com.google.protobuf.ByteString
           getNumbersBytes(int index);
+
+      // repeated bytes groupIds = 2;
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      java.util.List<com.google.protobuf.ByteString> getGroupIdsList();
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      int getGroupIdsCount();
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      com.google.protobuf.ByteString getGroupIds(int index);
     }
     /**
      * Protobuf type {@code signalservice.SyncMessage.Blocked}
@@ -21875,6 +21889,14 @@ public final class SignalServiceProtos {
                 numbers_.add(input.readBytes());
                 break;
               }
+              case 18: {
+                if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                  groupIds_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                  mutable_bitField0_ |= 0x00000002;
+                }
+                groupIds_.add(input.readBytes());
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -21885,6 +21907,9 @@ public final class SignalServiceProtos {
         } finally {
           if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
             numbers_ = new com.google.protobuf.UnmodifiableLazyStringList(numbers_);
+          }
+          if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            groupIds_ = java.util.Collections.unmodifiableList(groupIds_);
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -21947,8 +21972,32 @@ public final class SignalServiceProtos {
         return numbers_.getByteString(index);
       }
 
+      // repeated bytes groupIds = 2;
+      public static final int GROUPIDS_FIELD_NUMBER = 2;
+      private java.util.List<com.google.protobuf.ByteString> groupIds_;
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getGroupIdsList() {
+        return groupIds_;
+      }
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      public int getGroupIdsCount() {
+        return groupIds_.size();
+      }
+      /**
+       * <code>repeated bytes groupIds = 2;</code>
+       */
+      public com.google.protobuf.ByteString getGroupIds(int index) {
+        return groupIds_.get(index);
+      }
+
       private void initFields() {
         numbers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        groupIds_ = java.util.Collections.emptyList();
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -21964,6 +22013,9 @@ public final class SignalServiceProtos {
         getSerializedSize();
         for (int i = 0; i < numbers_.size(); i++) {
           output.writeBytes(1, numbers_.getByteString(i));
+        }
+        for (int i = 0; i < groupIds_.size(); i++) {
+          output.writeBytes(2, groupIds_.get(i));
         }
         getUnknownFields().writeTo(output);
       }
@@ -21982,6 +22034,15 @@ public final class SignalServiceProtos {
           }
           size += dataSize;
           size += 1 * getNumbersList().size();
+        }
+        {
+          int dataSize = 0;
+          for (int i = 0; i < groupIds_.size(); i++) {
+            dataSize += com.google.protobuf.CodedOutputStream
+              .computeBytesSizeNoTag(groupIds_.get(i));
+          }
+          size += dataSize;
+          size += 1 * getGroupIdsList().size();
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -22101,6 +22162,8 @@ public final class SignalServiceProtos {
           super.clear();
           numbers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
           bitField0_ = (bitField0_ & ~0x00000001);
+          groupIds_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
 
@@ -22134,6 +22197,11 @@ public final class SignalServiceProtos {
             bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.numbers_ = numbers_;
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            groupIds_ = java.util.Collections.unmodifiableList(groupIds_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.groupIds_ = groupIds_;
           onBuilt();
           return result;
         }
@@ -22156,6 +22224,16 @@ public final class SignalServiceProtos {
             } else {
               ensureNumbersIsMutable();
               numbers_.addAll(other.numbers_);
+            }
+            onChanged();
+          }
+          if (!other.groupIds_.isEmpty()) {
+            if (groupIds_.isEmpty()) {
+              groupIds_ = other.groupIds_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureGroupIdsIsMutable();
+              groupIds_.addAll(other.groupIds_);
             }
             onChanged();
           }
@@ -22275,6 +22353,78 @@ public final class SignalServiceProtos {
   }
   ensureNumbersIsMutable();
           numbers_.add(value);
+          onChanged();
+          return this;
+        }
+
+        // repeated bytes groupIds = 2;
+        private java.util.List<com.google.protobuf.ByteString> groupIds_ = java.util.Collections.emptyList();
+        private void ensureGroupIdsIsMutable() {
+          if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+            groupIds_ = new java.util.ArrayList<com.google.protobuf.ByteString>(groupIds_);
+            bitField0_ |= 0x00000002;
+           }
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public java.util.List<com.google.protobuf.ByteString>
+            getGroupIdsList() {
+          return java.util.Collections.unmodifiableList(groupIds_);
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public int getGroupIdsCount() {
+          return groupIds_.size();
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public com.google.protobuf.ByteString getGroupIds(int index) {
+          return groupIds_.get(index);
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public Builder setGroupIds(
+            int index, com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGroupIdsIsMutable();
+          groupIds_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public Builder addGroupIds(com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGroupIdsIsMutable();
+          groupIds_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public Builder addAllGroupIds(
+            java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+          ensureGroupIdsIsMutable();
+          super.addAll(values, groupIds_);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated bytes groupIds = 2;</code>
+         */
+        public Builder clearGroupIds() {
+          groupIds_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
           return this;
         }
@@ -30073,6 +30223,16 @@ public final class SignalServiceProtos {
      */
     com.google.protobuf.ByteString
         getColorBytes();
+
+    // optional bool blocked = 8;
+    /**
+     * <code>optional bool blocked = 8;</code>
+     */
+    boolean hasBlocked();
+    /**
+     * <code>optional bool blocked = 8;</code>
+     */
+    boolean getBlocked();
   }
   /**
    * Protobuf type {@code signalservice.GroupDetails}
@@ -30169,6 +30329,11 @@ public final class SignalServiceProtos {
             case 58: {
               bitField0_ |= 0x00000020;
               color_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              blocked_ = input.readBool();
               break;
             }
           }
@@ -30952,6 +31117,22 @@ public final class SignalServiceProtos {
       }
     }
 
+    // optional bool blocked = 8;
+    public static final int BLOCKED_FIELD_NUMBER = 8;
+    private boolean blocked_;
+    /**
+     * <code>optional bool blocked = 8;</code>
+     */
+    public boolean hasBlocked() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool blocked = 8;</code>
+     */
+    public boolean getBlocked() {
+      return blocked_;
+    }
+
     private void initFields() {
       id_ = com.google.protobuf.ByteString.EMPTY;
       name_ = "";
@@ -30960,6 +31141,7 @@ public final class SignalServiceProtos {
       active_ = true;
       expireTimer_ = 0;
       color_ = "";
+      blocked_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -30993,6 +31175,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(7, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(8, blocked_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -31035,6 +31220,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getColorBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, blocked_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -31171,6 +31360,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         color_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        blocked_ = false;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -31233,6 +31424,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.color_ = color_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.blocked_ = blocked_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -31280,6 +31475,9 @@ public final class SignalServiceProtos {
           bitField0_ |= 0x00000040;
           color_ = other.color_;
           onChanged();
+        }
+        if (other.hasBlocked()) {
+          setBlocked(other.getBlocked());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -31768,6 +31966,39 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      // optional bool blocked = 8;
+      private boolean blocked_ ;
+      /**
+       * <code>optional bool blocked = 8;</code>
+       */
+      public boolean hasBlocked() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bool blocked = 8;</code>
+       */
+      public boolean getBlocked() {
+        return blocked_;
+      }
+      /**
+       * <code>optional bool blocked = 8;</code>
+       */
+      public Builder setBlocked(boolean value) {
+        bitField0_ |= 0x00000080;
+        blocked_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool blocked = 8;</code>
+       */
+      public Builder clearBlocked() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        blocked_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.GroupDetails)
     }
 
@@ -32034,7 +32265,7 @@ public final class SignalServiceProtos {
       "ation\030\001 \001(\t\022\023\n\013identityKey\030\002 \001(\014\022,\n\005stat" +
       "e\030\003 \001(\0162\035.signalservice.Verified.State\022\023" +
       "\n\013nullMessage\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020" +
-      "\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020\002\"\312\007\n\013Sync" +
+      "\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020\002\"\334\007\n\013Sync" +
       "Message\022-\n\004sent\030\001 \001(\0132\037.signalservice.Sy" +
       "ncMessage.Sent\0225\n\010contacts\030\002 \001(\0132#.signa" +
       "lservice.SyncMessage.Contacts\0221\n\006groups\030",
@@ -32052,38 +32283,39 @@ public final class SignalServiceProtos {
       "\004 \001(\004\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .signal" +
       "service.AttachmentPointer\022\027\n\010complete\030\002 " +
       "\001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .sig" +
-      "nalservice.AttachmentPointer\032\032\n\007Blocked\022" +
-      "\017\n\007numbers\030\001 \003(\t\032\217\001\n\007Request\0225\n\004type\030\001 \001" +
-      "(\0162\'.signalservice.SyncMessage.Request.T" +
-      "ype\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n" +
-      "\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIGURATION" +
-      "\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030",
-      "\002 \001(\004\032%\n\rConfiguration\022\024\n\014readReceipts\030\001" +
-      " \001(\010\"\316\001\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022\023" +
-      "\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size" +
-      "\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(" +
-      "\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005wi" +
-      "dth\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005Flags\022\021\n\rVO" +
-      "ICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001" +
-      "(\014\022.\n\004type\030\002 \001(\0162 .signalservice.GroupCo" +
-      "ntext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(" +
-      "\t\0220\n\006avatar\030\005 \001(\0132 .signalservice.Attach",
-      "mentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDA" +
-      "TE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_I" +
-      "NFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006number\030\001 \001(\t" +
-      "\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signals" +
-      "ervice.ContactDetails.Avatar\022\r\n\005color\030\004 " +
-      "\001(\t\022)\n\010verified\030\005 \001(\0132\027.signalservice.Ve" +
-      "rified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blocked\030\007 " +
-      "\001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013co" +
-      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\326\001\n\014Grou" +
-      "pDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007me",
-      "mbers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalserv" +
-      "ice.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:" +
-      "\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005color\030\007 \001(" +
-      "\t\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006leng" +
-      "th\030\002 \001(\rBE\n.org.whispersystems.signalser" +
-      "vice.internal.pushB\023SignalServiceProtos"
+      "nalservice.AttachmentPointer\032,\n\007Blocked\022" +
+      "\017\n\007numbers\030\001 \003(\t\022\020\n\010groupIds\030\002 \003(\014\032\217\001\n\007R" +
+      "equest\0225\n\004type\030\001 \001(\0162\'.signalservice.Syn" +
+      "cMessage.Request.Type\"M\n\004Type\022\013\n\007UNKNOWN" +
+      "\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020" +
+      "\003\022\021\n\rCONFIGURATION\020\004\032)\n\004Read\022\016\n\006sender\030\001",
+      " \001(\t\022\021\n\ttimestamp\030\002 \001(\004\032%\n\rConfiguration" +
+      "\022\024\n\014readReceipts\030\001 \001(\010\"\316\001\n\021AttachmentPoi" +
+      "nter\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n" +
+      "\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 " +
+      "\001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n" +
+      "\005flags\030\010 \001(\r\022\r\n\005width\030\t \001(\r\022\016\n\006height\030\n " +
+      "\001(\r\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Grou" +
+      "pContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .sig" +
+      "nalservice.GroupContext.Type\022\014\n\004name\030\003 \001" +
+      "(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .si",
+      "gnalservice.AttachmentPointer\"H\n\004Type\022\013\n" +
+      "\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004Q" +
+      "UIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\207\002\n\016ContactDetai" +
+      "ls\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avat" +
+      "ar\030\003 \001(\0132$.signalservice.ContactDetails." +
+      "Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132" +
+      "\027.signalservice.Verified\022\022\n\nprofileKey\030\006" +
+      " \001(\014\022\017\n\007blocked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001" +
+      "(\r\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
+      "gth\030\002 \001(\r\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014",
+      "\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030" +
+      "\004 \001(\0132\".signalservice.GroupDetails.Avata" +
+      "r\022\024\n\006active\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006" +
+      " \001(\r\022\r\n\005color\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006" +
+      "Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 " +
+      "\001(\rBE\n.org.whispersystems.signalservice." +
+      "internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -32239,7 +32471,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_SyncMessage_Blocked_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_Blocked_descriptor,
-              new java.lang.String[] { "Numbers", });
+              new java.lang.String[] { "Numbers", "GroupIds", });
           internal_static_signalservice_SyncMessage_Request_descriptor =
             internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(4);
           internal_static_signalservice_SyncMessage_Request_fieldAccessorTable = new
@@ -32287,7 +32519,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupDetails_descriptor,
-              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", "ExpireTimer", "Color", });
+              new java.lang.String[] { "Id", "Name", "Members", "Avatar", "Active", "ExpireTimer", "Color", "Blocked", });
           internal_static_signalservice_GroupDetails_Avatar_descriptor =
             internal_static_signalservice_GroupDetails_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_GroupDetails_Avatar_fieldAccessorTable = new

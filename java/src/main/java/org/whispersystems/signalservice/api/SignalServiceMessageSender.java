@@ -454,6 +454,10 @@ public class SignalServiceMessageSender {
 
     blockedMessage.addAllNumbers(blocked.getNumbers());
 
+    for (byte[] groupId : blocked.getGroupIds()) {
+      blockedMessage.addGroupIds(ByteString.copyFrom(groupId));
+    }
+
     return container.setSyncMessage(syncMessage.setBlocked(blockedMessage)).build().toByteArray();
   }
 

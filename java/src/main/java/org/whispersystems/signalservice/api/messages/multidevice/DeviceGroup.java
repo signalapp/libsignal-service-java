@@ -20,11 +20,12 @@ public class DeviceGroup {
   private final boolean                                 active;
   private final Optional<Integer>                       expirationTimer;
   private final Optional<String>                        color;
+  private final boolean                                 blocked;
 
   public DeviceGroup(byte[] id, Optional<String> name, List<String> members,
                      Optional<SignalServiceAttachmentStream> avatar,
                      boolean active, Optional<Integer> expirationTimer,
-                     Optional<String> color)
+                     Optional<String> color, boolean blocked)
   {
     this.id              = id;
     this.name            = name;
@@ -33,6 +34,7 @@ public class DeviceGroup {
     this.active          = active;
     this.expirationTimer = expirationTimer;
     this.color           = color;
+    this.blocked         = blocked;
   }
 
   public Optional<SignalServiceAttachmentStream> getAvatar() {
@@ -61,5 +63,9 @@ public class DeviceGroup {
 
   public Optional<String> getColor() {
     return color;
+  }
+
+  public boolean isBlocked() {
+    return blocked;
   }
 }
