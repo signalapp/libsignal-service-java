@@ -68,7 +68,7 @@ public class SignalServiceMessagePipe {
    * @throws TimeoutException
    */
   public SignalServiceEnvelope read(long timeout, TimeUnit unit)
-      throws InvalidVersionException, IOException, TimeoutException
+      throws InvalidVersionException, IOException, TimeoutException, InterruptedException
   {
     return read(timeout, unit, new NullMessagePipeCallback());
   }
@@ -91,7 +91,7 @@ public class SignalServiceMessagePipe {
    * @throws InvalidVersionException
    */
   public SignalServiceEnvelope read(long timeout, TimeUnit unit, MessagePipeCallback callback)
-      throws TimeoutException, IOException, InvalidVersionException
+      throws TimeoutException, IOException, InvalidVersionException, InterruptedException
   {
     if (!credentialsProvider.isPresent()) {
       throw new IllegalArgumentException("You can't read messages if you haven't specified credentials");
