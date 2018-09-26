@@ -35,6 +35,10 @@ import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserExce
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.configuration.SignalUrl;
+import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryRequest;
+import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryResponse;
+import org.whispersystems.signalservice.internal.contacts.entities.RemoteAttestationRequest;
+import org.whispersystems.signalservice.internal.contacts.entities.RemoteAttestationResponse;
 import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
 import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
 import org.whispersystems.signalservice.internal.push.http.DigestingRequestBody;
@@ -69,6 +73,7 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
+import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -103,6 +108,7 @@ public class PushServiceSocket {
 
   private static final String DIRECTORY_TOKENS_PATH     = "/v1/directory/tokens";
   private static final String DIRECTORY_VERIFY_PATH     = "/v1/directory/%s";
+  private static final String DIRECTORY_AUTH_PATH       = "/v1/directory/auth";
   private static final String MESSAGE_PATH              = "/v1/messages/%s";
   private static final String ACKNOWLEDGE_MESSAGE_PATH  = "/v1/messages/%s/%d";
   private static final String ATTACHMENT_PATH           = "/v1/attachments/%s";
@@ -114,16 +120,19 @@ public class PushServiceSocket {
 
   private final ConnectionHolder[]  serviceClients;
   private final ConnectionHolder[]  cdnClients;
+  private final ConnectionHolder[]  contactDiscoveryClients;
+
   private final CredentialsProvider credentialsProvider;
   private final String              userAgent;
   private final SecureRandom        random;
 
   public PushServiceSocket(SignalServiceConfiguration signalServiceConfiguration, CredentialsProvider credentialsProvider, String userAgent) {
-    this.credentialsProvider = credentialsProvider;
-    this.userAgent           = userAgent;
-    this.serviceClients      = createConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
-    this.cdnClients          = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
-    this.random              = new SecureRandom();
+    this.credentialsProvider     = credentialsProvider;
+    this.userAgent               = userAgent;
+    this.serviceClients          = createConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
+    this.cdnClients              = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
+    this.contactDiscoveryClients = createConnectionHolders(signalServiceConfiguration.getSignalContactDiscoveryUrls());
+    this.random                  = new SecureRandom();
   }
 
   public void createAccount(boolean voice) throws IOException {
@@ -432,6 +441,67 @@ public class PushServiceSocket {
     } catch (NotFoundException nfe) {
       return null;
     }
+  }
+
+  public String getContactDiscoveryAuthorization() throws IOException {
+    String response = makeServiceRequest(DIRECTORY_AUTH_PATH, "GET", null);
+    ContactDiscoveryCredentials token = JsonUtil.fromJson(response, ContactDiscoveryCredentials.class);
+    return Credentials.basic(token.getUsername(), token.getPassword());
+  }
+
+  public Pair<RemoteAttestationResponse, List<String>> getContactDiscoveryRemoteAttestation(String authorization, RemoteAttestationRequest request, String mrenclave)
+      throws IOException
+  {
+    Response     response   = makeContactDiscoveryRequest(authorization, new LinkedList<String>(), "/v1/attestation/" + mrenclave, "PUT", JsonUtil.toJson(request));
+    ResponseBody body       = response.body();
+    List<String> rawCookies = response.headers("Set-Cookie");
+    List<String> cookies    = new LinkedList<>();
+
+    for (String cookie : rawCookies) {
+      cookies.add(cookie.split(";")[0]);
+    }
+
+    if (body != null) {
+      return new Pair<>(JsonUtil.fromJson(body.string(), RemoteAttestationResponse.class), cookies);
+    } else {
+      throw new NonSuccessfulResponseCodeException("Empty response!");
+    }
+  }
+
+  public DiscoveryResponse getContactDiscoveryRegisteredUsers(String authorizationToken, DiscoveryRequest request, List<String> cookies, String mrenclave)
+      throws IOException
+  {
+    ResponseBody body = makeContactDiscoveryRequest(authorizationToken, cookies, "/v1/discovery/" + mrenclave, "PUT", JsonUtil.toJson(request)).body();
+
+    if (body != null) {
+      return JsonUtil.fromJson(body.string(), DiscoveryResponse.class);
+    } else {
+      throw new NonSuccessfulResponseCodeException("Empty response!");
+    }
+  }
+
+  public void reportContactDiscoveryServiceMatch() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/ok", "PUT", "");
+  }
+
+  public void reportContactDiscoveryServiceMismatch() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/mismatch", "PUT", "");
+  }
+
+  public void reportContactDiscoveryServiceServerError() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/server-error", "PUT", "");
+  }
+
+  public void reportContactDiscoveryServiceClientError() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/client-error", "PUT", "");
+  }
+
+  public void reportContactDiscoveryServiceAttestationError() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/attestation-error", "PUT", "");
+  }
+
+  public void reportContactDiscoveryServiceUnexpectedError() throws IOException {
+    makeServiceRequest("/v1/directory/feedback/unexpected-error", "PUT", "");
   }
 
   public TurnServerInfo getTurnServerInfo() throws IOException {
@@ -799,6 +869,61 @@ public class PushServiceSocket {
     } catch (IOException e) {
       throw new PushNetworkException(e);
     }
+  }
+
+  private Response makeContactDiscoveryRequest(String authorization, List<String> cookies, String path, String method, String body)
+      throws PushNetworkException, NonSuccessfulResponseCodeException
+  {
+    ConnectionHolder connectionHolder = getRandom(contactDiscoveryClients, random);
+    OkHttpClient     okHttpClient     = connectionHolder.getClient()
+                                                        .newBuilder()
+                                                        .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                        .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                        .build();
+
+    Request.Builder request = new Request.Builder().url(connectionHolder.getUrl() + path);
+
+    if (body != null) {
+      request.method(method, RequestBody.create(MediaType.parse("application/json"), body));
+    } else {
+      request.method(method, null);
+    }
+
+    if (connectionHolder.getHostHeader().isPresent()) {
+      request.addHeader("Host", connectionHolder.getHostHeader().get());
+    }
+
+    if (authorization != null) {
+      request.addHeader("Authorization", authorization);
+    }
+
+    if (cookies != null && !cookies.isEmpty()) {
+      request.addHeader("Cookie", Util.join(cookies, "; "));
+    }
+
+    Call call = okHttpClient.newCall(request.build());
+
+    synchronized (connections) {
+      connections.add(call);
+    }
+
+    Response response;
+
+    try {
+      response = call.execute();
+
+      if (response.isSuccessful()) {
+        return response;
+      }
+    } catch (IOException e) {
+      throw new PushNetworkException(e);
+    } finally {
+      synchronized (connections) {
+        connections.remove(call);
+      }
+    }
+
+    throw new NonSuccessfulResponseCodeException("Response: " + response);
   }
 
   private ConnectionHolder[] createConnectionHolders(SignalUrl[] urls) {
