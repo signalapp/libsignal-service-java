@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -10,12 +10,15 @@ import com.google.protobuf.ByteString;
 
 import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.util.Pair;
+import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
-import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
+import org.whispersystems.signalservice.internal.util.Base64;
 import org.whispersystems.signalservice.internal.util.JsonUtil;
 import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
@@ -23,6 +26,8 @@ import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -39,10 +44,10 @@ public class SignalServiceMessagePipe {
 
   private static final String TAG = SignalServiceMessagePipe.class.getName();
 
-  private final WebSocketConnection websocket;
-  private final CredentialsProvider credentialsProvider;
+  private final WebSocketConnection           websocket;
+  private final Optional<CredentialsProvider> credentialsProvider;
 
-  SignalServiceMessagePipe(WebSocketConnection websocket, CredentialsProvider credentialsProvider) {
+  SignalServiceMessagePipe(WebSocketConnection websocket, Optional<CredentialsProvider> credentialsProvider) {
     this.websocket           = websocket;
     this.credentialsProvider = credentialsProvider;
 
@@ -88,6 +93,10 @@ public class SignalServiceMessagePipe {
   public SignalServiceEnvelope read(long timeout, TimeUnit unit, MessagePipeCallback callback)
       throws TimeoutException, IOException, InvalidVersionException
   {
+    if (!credentialsProvider.isPresent()) {
+      throw new IllegalArgumentException("You can't read messages if you haven't specified credentials");
+    }
+
     while (true) {
       WebSocketRequestMessage  request  = websocket.readRequest(unit.toMillis(timeout));
       WebSocketResponseMessage response = createWebSocketResponse(request);
@@ -95,7 +104,7 @@ public class SignalServiceMessagePipe {
       try {
         if (isSignalServiceEnvelope(request)) {
           SignalServiceEnvelope envelope = new SignalServiceEnvelope(request.getBody().toByteArray(),
-                                                                     credentialsProvider.getSignalingKey());
+                                                                     credentialsProvider.get().getSignalingKey());
 
           callback.onMessage(envelope);
           return envelope;
@@ -106,13 +115,21 @@ public class SignalServiceMessagePipe {
     }
   }
 
-  public SendMessageResponse send(OutgoingPushMessageList list) throws IOException {
+  public SendMessageResponse send(OutgoingPushMessageList list, Optional<UnidentifiedAccess> unidentifiedAccess) throws IOException {
     try {
+      List<String> headers = new LinkedList<String>() {{
+        add("content-type:application/json");
+      }};
+
+      if (unidentifiedAccess.isPresent()) {
+        headers.add("Unidentified-Access-Key:" + Base64.encodeBytes(unidentifiedAccess.get().getUnidentifiedAccessKey()));
+      }
+
       WebSocketRequestMessage requestMessage = WebSocketRequestMessage.newBuilder()
                                                                       .setId(SecureRandom.getInstance("SHA1PRNG").nextLong())
                                                                       .setVerb("PUT")
                                                                       .setPath(String.format("/v1/messages/%s", list.getDestination()))
-                                                                      .addHeaders("content-type:application/json")
+                                                                      .addAllHeaders(headers)
                                                                       .setBody(ByteString.copyFrom(JsonUtil.toJson(list).getBytes()))
                                                                       .build();
 
@@ -131,12 +148,19 @@ public class SignalServiceMessagePipe {
     }
   }
 
-  public SignalServiceProfile getProfile(SignalServiceAddress address) throws IOException {
+  public SignalServiceProfile getProfile(SignalServiceAddress address, Optional<UnidentifiedAccess> unidentifiedAccess) throws IOException {
     try {
+      List<String> headers = new LinkedList<>();
+
+      if (unidentifiedAccess.isPresent()) {
+        headers.add("Unidentified-Access-Key:" + Base64.encodeBytes(unidentifiedAccess.get().getUnidentifiedAccessKey()));
+      }
+
       WebSocketRequestMessage requestMessage = WebSocketRequestMessage.newBuilder()
                                                                       .setId(SecureRandom.getInstance("SHA1PRNG").nextLong())
                                                                       .setVerb("GET")
                                                                       .setPath(String.format("/v1/profile/%s", address.getNumber()))
+                                                                      .addAllHeaders(headers)
                                                                       .build();
 
       Pair<Integer, String> response = websocket.sendRequest(requestMessage).get(10, TimeUnit.SECONDS);

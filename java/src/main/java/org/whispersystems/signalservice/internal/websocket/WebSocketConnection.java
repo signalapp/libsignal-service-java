@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.Pair;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.SleepTimer;
@@ -48,12 +49,12 @@ public class WebSocketConnection extends WebSocketListener {
   private final LinkedList<WebSocketRequestMessage>              incomingRequests = new LinkedList<>();
   private final Map<Long, SettableFuture<Pair<Integer, String>>> outgoingRequests = new HashMap<>();
 
-  private final String               wsUri;
-  private final TrustStore           trustStore;
-  private final CredentialsProvider  credentialsProvider;
-  private final String               userAgent;
-  private final ConnectivityListener listener;
-  private final SleepTimer           sleepTimer;
+  private final String                        wsUri;
+  private final TrustStore                    trustStore;
+  private final Optional<CredentialsProvider> credentialsProvider;
+  private final String                        userAgent;
+  private final ConnectivityListener          listener;
+  private final SleepTimer                    sleepTimer;
 
   private WebSocket           client;
   private KeepAliveSender     keepAliveSender;
@@ -62,7 +63,7 @@ public class WebSocketConnection extends WebSocketListener {
 
   public WebSocketConnection(String httpUri,
                              TrustStore trustStore,
-                             CredentialsProvider credentialsProvider,
+                             Optional<CredentialsProvider> credentialsProvider,
                              String userAgent,
                              ConnectivityListener listener,
                              SleepTimer timer)
@@ -74,15 +75,25 @@ public class WebSocketConnection extends WebSocketListener {
     this.sleepTimer          = timer;
     this.attempts            = 0;
     this.connected           = false;
-    this.wsUri               = httpUri.replace("https://", "wss://")
-                                      .replace("http://", "ws://") + "/v1/websocket/?login=%s&password=%s";
+
+    String uri = httpUri.replace("https://", "wss://").replace("http://", "ws://");
+
+    if (credentialsProvider.isPresent()) this.wsUri = uri + "/v1/websocket/?login=%s&password=%s";
+    else                                 this.wsUri = uri + "/v1/websocket/";
   }
 
   public synchronized void connect() {
     Log.w(TAG, "WSC connect()...");
 
     if (client == null) {
-      String                                   filledUri     = String.format(wsUri, credentialsProvider.getUser(), credentialsProvider.getPassword());
+      String filledUri;
+
+      if (credentialsProvider.isPresent()) {
+        filledUri = String.format(wsUri, credentialsProvider.get().getUser(), credentialsProvider.get().getPassword());
+      } else {
+        filledUri = wsUri;
+      }
+
       Pair<SSLSocketFactory, X509TrustManager> socketFactory = createTlsSocketFactory(trustStore);
 
       OkHttpClient okHttpClient = new OkHttpClient.Builder()

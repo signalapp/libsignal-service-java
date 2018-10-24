@@ -14,6 +14,12 @@ public class SignalServiceProfile {
   @JsonProperty
   private String avatar;
 
+  @JsonProperty
+  private String unidentifiedAccess;
+
+  @JsonProperty
+  private boolean unrestrictedUnidentifiedAccess;
+
   public SignalServiceProfile() {}
 
   public String getIdentityKey() {
@@ -26,5 +32,13 @@ public class SignalServiceProfile {
 
   public String getAvatar() {
     return avatar;
+  }
+
+  public String getUnidentifiedAccess() {
+    return unidentifiedAccess;
+  }
+
+  public boolean isUnrestrictedUnidentifiedAccess() {
+    return unrestrictedUnidentifiedAccess;
   }
 }

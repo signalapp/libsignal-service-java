@@ -19,19 +19,15 @@ public class OutgoingPushMessage {
   private int    destinationRegistrationId;
   @JsonProperty
   private String content;
-  @JsonProperty
-  private boolean silent;
 
   public OutgoingPushMessage(int type,
                              int destinationDeviceId,
                              int destinationRegistrationId,
-                             String content,
-                             boolean silent)
+                             String content)
   {
     this.type                      = type;
     this.destinationDeviceId       = destinationDeviceId;
     this.destinationRegistrationId = destinationRegistrationId;
     this.content                   = content;
-    this.silent                    = silent;
   }
 }

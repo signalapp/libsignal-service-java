@@ -12,40 +12,58 @@ import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSy
 
 public class SignalServiceContent {
 
+  private final String  sender;
+  private final int     senderDevice;
+  private final long    timestamp;
+  private final boolean needsReceipt;
+
   private final Optional<SignalServiceDataMessage>    message;
   private final Optional<SignalServiceSyncMessage>    synchronizeMessage;
   private final Optional<SignalServiceCallMessage>    callMessage;
   private final Optional<SignalServiceReceiptMessage> readMessage;
 
-  public SignalServiceContent() {
-    this.message            = Optional.absent();
-    this.synchronizeMessage = Optional.absent();
-    this.callMessage        = Optional.absent();
-    this.readMessage        = Optional.absent();
-  }
+  public SignalServiceContent(SignalServiceDataMessage message, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+    this.sender       = sender;
+    this.senderDevice = senderDevice;
+    this.timestamp    = timestamp;
+    this.needsReceipt = needsReceipt;
 
-  public SignalServiceContent(SignalServiceDataMessage message) {
     this.message            = Optional.fromNullable(message);
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage) {
+  public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+    this.sender       = sender;
+    this.senderDevice = senderDevice;
+    this.timestamp    = timestamp;
+    this.needsReceipt = needsReceipt;
+
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.fromNullable(synchronizeMessage);
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceCallMessage callMessage) {
+  public SignalServiceContent(SignalServiceCallMessage callMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+    this.sender       = sender;
+    this.senderDevice = senderDevice;
+    this.timestamp    = timestamp;
+    this.needsReceipt = needsReceipt;
+
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.of(callMessage);
     this.readMessage        = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceReceiptMessage receiptMessage) {
+  public SignalServiceContent(SignalServiceReceiptMessage receiptMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+    this.sender       = sender;
+    this.senderDevice = senderDevice;
+    this.timestamp    = timestamp;
+    this.needsReceipt = needsReceipt;
+
     this.message            = Optional.absent();
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
@@ -66,5 +84,21 @@ public class SignalServiceContent {
 
   public Optional<SignalServiceReceiptMessage> getReceiptMessage() {
     return readMessage;
+  }
+
+  public String getSender() {
+    return sender;
+  }
+
+  public int getSenderDevice() {
+    return senderDevice;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
+  }
+
+  public boolean isNeedsReceipt() {
+    return needsReceipt;
   }
 }

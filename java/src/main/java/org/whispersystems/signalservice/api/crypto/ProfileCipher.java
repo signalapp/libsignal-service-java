@@ -9,9 +9,12 @@ import org.spongycastle.crypto.params.KeyParameter;
 import org.whispersystems.libsignal.util.ByteUtil;
 import org.whispersystems.signalservice.internal.util.Util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class ProfileCipher {
 
@@ -84,6 +87,23 @@ public class ProfileCipher {
       return plaintext;
     } catch (InvalidCipherTextException e) {
       throw new InvalidCiphertextException(e);
+    }
+  }
+
+  public boolean verifyUnidentifiedAccess(byte[] theirUnidentifiedAccessVerifier) {
+    try {
+      if (theirUnidentifiedAccessVerifier == null || theirUnidentifiedAccessVerifier.length == 0) return false;
+
+      byte[] unidentifiedAccessKey = UnidentifiedAccess.deriveAccessKeyFrom(key);
+
+      Mac mac = Mac.getInstance("HmacSHA256");
+      mac.init(new SecretKeySpec(unidentifiedAccessKey, "HmacSHA256"));
+
+      byte[] ourUnidentifiedAccessVerifier = mac.doFinal(new byte[32]);
+
+      return MessageDigest.isEqual(theirUnidentifiedAccessVerifier, ourUnidentifiedAccessVerifier);
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+      throw new AssertionError(e);
     }
   }
 

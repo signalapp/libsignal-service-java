@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -121,15 +121,15 @@ public class SignalServiceDataMessage {
                                   boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
                                   Quote quote, List<SharedContact> sharedContacts)
   {
-    this.timestamp        = timestamp;
-    this.body             = Optional.fromNullable(body);
-    this.group            = Optional.fromNullable(group);
-    this.endSession       = endSession;
-    this.expiresInSeconds = expiresInSeconds;
-    this.expirationUpdate = expirationUpdate;
-    this.profileKey       = Optional.fromNullable(profileKey);
-    this.profileKeyUpdate = profileKeyUpdate;
-    this.quote            = Optional.fromNullable(quote);
+    this.timestamp             = timestamp;
+    this.body                  = Optional.fromNullable(body);
+    this.group                 = Optional.fromNullable(group);
+    this.endSession            = endSession;
+    this.expiresInSeconds      = expiresInSeconds;
+    this.expirationUpdate      = expirationUpdate;
+    this.profileKey            = Optional.fromNullable(profileKey);
+    this.profileKeyUpdate      = profileKeyUpdate;
+    this.quote                 = Optional.fromNullable(quote);
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);

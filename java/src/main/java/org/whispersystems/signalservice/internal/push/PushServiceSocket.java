@@ -18,6 +18,7 @@ import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.DigestingOutputStream;
+import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
@@ -60,6 +61,7 @@ import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -110,10 +112,13 @@ public class PushServiceSocket {
   private static final String DIRECTORY_VERIFY_PATH     = "/v1/directory/%s";
   private static final String DIRECTORY_AUTH_PATH       = "/v1/directory/auth";
   private static final String MESSAGE_PATH              = "/v1/messages/%s";
-  private static final String ACKNOWLEDGE_MESSAGE_PATH  = "/v1/messages/%s/%d";
+  private static final String SENDER_ACK_MESSAGE_PATH   = "/v1/messages/%s/%d";
+  private static final String UUID_ACK_MESSAGE_PATH     = "/v1/messages/uuid/%s";
   private static final String ATTACHMENT_PATH           = "/v1/attachments/%s";
 
   private static final String PROFILE_PATH              = "/v1/profile/%s";
+
+  private static final String SENDER_CERTIFICATE_PATH   = "/v1/certificate/delivery";
 
   private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(30);
   private final Set<Call> connections     = new HashSet<>();
@@ -140,16 +145,22 @@ public class PushServiceSocket {
     makeServiceRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
   }
 
-  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin)
+  public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin,
+                                byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess)
       throws IOException
   {
-    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin);
+    AccountAttributes signalingKeyEntity = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin,
+                                                                 unidentifiedAccessKey, unrestrictedUnidentifiedAccess);
     makeServiceRequest(String.format(VERIFY_ACCOUNT_CODE_PATH, verificationCode),
                        "PUT", JsonUtil.toJson(signalingKeyEntity));
   }
 
-  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin) throws IOException {
-    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin);
+  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin,
+                                   byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess)
+      throws IOException
+  {
+    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin,
+                                                                unidentifiedAccessKey, unrestrictedUnidentifiedAccess);
     makeServiceRequest(SET_ACCOUNT_ATTRIBUTES, "PUT", JsonUtil.toJson(accountAttributes));
   }
 
@@ -190,11 +201,16 @@ public class PushServiceSocket {
     makeServiceRequest(PIN_PATH, "DELETE", null);
   }
 
-  public SendMessageResponse sendMessage(OutgoingPushMessageList bundle)
+  public byte[] getSenderCertificate() throws IOException {
+    String responseText = makeServiceRequest(SENDER_CERTIFICATE_PATH, "GET", null);
+    return JsonUtil.fromJson(responseText, SenderCertificate.class).getCertificate();
+  }
+
+  public SendMessageResponse sendMessage(OutgoingPushMessageList bundle, Optional<UnidentifiedAccess> unidentifiedAccess)
       throws IOException
   {
     try {
-      String responseText = makeServiceRequest(String.format(MESSAGE_PATH, bundle.getDestination()), "PUT", JsonUtil.toJson(bundle));
+      String responseText = makeServiceRequest(String.format(MESSAGE_PATH, bundle.getDestination()), "PUT", JsonUtil.toJson(bundle), unidentifiedAccess);
 
       if (responseText == null) return new SendMessageResponse(false);
       else                      return JsonUtil.fromJson(responseText, SendMessageResponse.class);
@@ -209,7 +225,11 @@ public class PushServiceSocket {
   }
 
   public void acknowledgeMessage(String sender, long timestamp) throws IOException {
-    makeServiceRequest(String.format(ACKNOWLEDGE_MESSAGE_PATH, sender, timestamp), "DELETE", null);
+    makeServiceRequest(String.format(SENDER_ACK_MESSAGE_PATH, sender, timestamp), "DELETE", null);
+  }
+
+  public void acknowledgeMessage(String uuid) throws IOException {
+    makeServiceRequest(String.format(UUID_ACK_MESSAGE_PATH, uuid), "DELETE", null);
   }
 
   public void registerPreKeys(IdentityKey identityKey,
@@ -241,7 +261,11 @@ public class PushServiceSocket {
     return preKeyStatus.getCount();
   }
 
-  public List<PreKeyBundle> getPreKeys(SignalServiceAddress destination, int deviceIdInteger) throws IOException {
+  public List<PreKeyBundle> getPreKeys(SignalServiceAddress destination,
+                                       Optional<UnidentifiedAccess> unidentifiedAccess,
+                                       int deviceIdInteger)
+      throws IOException
+  {
     try {
       String deviceId = String.valueOf(deviceIdInteger);
 
@@ -254,7 +278,7 @@ public class PushServiceSocket {
         path = path + "?relay=" + destination.getRelay().get();
       }
 
-      String             responseText = makeServiceRequest(path, "GET", null);
+      String             responseText = makeServiceRequest(path, "GET", null, unidentifiedAccess);
       PreKeyResponse     response     = JsonUtil.fromJson(responseText, PreKeyResponse.class);
       List<PreKeyBundle> bundles      = new LinkedList<>();
 
@@ -360,13 +384,8 @@ public class PushServiceSocket {
     return new Pair<>(attachmentKey.getId(), digest);
   }
 
-  public void retrieveAttachment(String relay, long attachmentId, File destination, int maxSizeBytes, ProgressListener listener) throws IOException {
-    String path = String.format(ATTACHMENT_PATH, String.valueOf(attachmentId));
-
-    if (!Util.isEmpty(relay)) {
-      path = path + "?relay=" + relay;
-    }
-
+  public void retrieveAttachment(long attachmentId, File destination, int maxSizeBytes, ProgressListener listener) throws IOException {
+    String               path       = String.format(ATTACHMENT_PATH, String.valueOf(attachmentId));
     String               response   = makeServiceRequest(path, "GET", null);
     AttachmentDescriptor descriptor = JsonUtil.fromJson(response, AttachmentDescriptor.class);
 
@@ -374,11 +393,11 @@ public class PushServiceSocket {
     downloadAttachment(descriptor.getLocation(), destination, maxSizeBytes, listener);
   }
 
-  public SignalServiceProfile retrieveProfile(SignalServiceAddress target) throws
-      NonSuccessfulResponseCodeException, PushNetworkException
+  public SignalServiceProfile retrieveProfile(SignalServiceAddress target, Optional<UnidentifiedAccess> unidentifiedAccess)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
   {
     try {
-      String response = makeServiceRequest(String.format(PROFILE_PATH, target.getNumber()), "GET", null);
+      String response = makeServiceRequest(String.format(PROFILE_PATH, target.getNumber()), "GET", null, unidentifiedAccess);
       return JsonUtil.fromJson(response, SignalServiceProfile.class);
     } catch (IOException e) {
       Log.w(TAG, e);
@@ -735,7 +754,13 @@ public class PushServiceSocket {
   private String makeServiceRequest(String urlFragment, String method, String body)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    Response response = getServiceConnection(urlFragment, method, body);
+    return makeServiceRequest(urlFragment, method, body, Optional.<UnidentifiedAccess>absent());
+  }
+
+  private String makeServiceRequest(String urlFragment, String method, String body, Optional<UnidentifiedAccess> unidentifiedAccessKey)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    Response response = getServiceConnection(urlFragment, method, body, unidentifiedAccessKey);
 
     int    responseCode;
     String responseMessage;
@@ -819,7 +844,7 @@ public class PushServiceSocket {
     return responseBody;
   }
 
-  private Response getServiceConnection(String urlFragment, String method, String body)
+  private Response getServiceConnection(String urlFragment, String method, String body, Optional<UnidentifiedAccess> unidentifiedAccess)
       throws PushNetworkException
   {
     try {
@@ -827,6 +852,7 @@ public class PushServiceSocket {
       OkHttpClient     okHttpClient     = connectionHolder.getClient().newBuilder()
                                                           .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
                                                           .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                          .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT)) // XXXX
                                                           .build();
 
       Log.w(TAG, "Push service URL: " + connectionHolder.getUrl());
@@ -841,7 +867,9 @@ public class PushServiceSocket {
         request.method(method, null);
       }
 
-      if (credentialsProvider.getPassword() != null) {
+      if (unidentifiedAccess.isPresent()) {
+        request.addHeader("Unidentified-Access-Key", Base64.encodeBytes(unidentifiedAccess.get().getUnidentifiedAccessKey()));
+      } else if (credentialsProvider.getPassword() != null) {
         request.addHeader("Authorization", getAuthorizationHeader(credentialsProvider));
       }
 

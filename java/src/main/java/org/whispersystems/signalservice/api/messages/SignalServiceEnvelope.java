@@ -92,16 +92,17 @@ public class SignalServiceEnvelope {
     this.envelope = Envelope.parseFrom(getPlaintext(ciphertext, cipherKey));
   }
 
-  public SignalServiceEnvelope(int type, String source, int sourceDevice,
-                               String relay, long timestamp,
-                               byte[] legacyMessage, byte[] content)
-  {
+  public SignalServiceEnvelope(int type, String sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
     Envelope.Builder builder = Envelope.newBuilder()
                                        .setType(Envelope.Type.valueOf(type))
-                                       .setSource(source)
-                                       .setSourceDevice(sourceDevice)
-                                       .setRelay(relay)
-                                       .setTimestamp(timestamp);
+                                       .setSource(sender)
+                                       .setSourceDevice(senderDevice)
+                                       .setTimestamp(timestamp)
+                                       .setServerTimestamp(serverTimestamp);
+
+    if (uuid != null) {
+      builder.setServerGuid(uuid);
+    }
 
     if (legacyMessage != null) builder.setLegacyMessage(ByteString.copyFrom(legacyMessage));
     if (content != null)       builder.setContent(ByteString.copyFrom(content));
@@ -109,11 +110,43 @@ public class SignalServiceEnvelope {
     this.envelope = builder.build();
   }
 
+  public SignalServiceEnvelope(int type, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
+    Envelope.Builder builder = Envelope.newBuilder()
+                                       .setType(Envelope.Type.valueOf(type))
+                                       .setTimestamp(timestamp)
+                                       .setServerTimestamp(serverTimestamp);
+
+    if (uuid != null) {
+      builder.setServerGuid(uuid);
+    }
+
+    if (legacyMessage != null) builder.setLegacyMessage(ByteString.copyFrom(legacyMessage));
+    if (content != null)       builder.setContent(ByteString.copyFrom(content));
+
+    this.envelope = builder.build();
+  }
+
+  public String getUuid() {
+    return envelope.getServerGuid();
+  }
+
+  public boolean hasUuid() {
+    return envelope.hasServerGuid();
+  }
+
+  public boolean hasSource() {
+    return envelope.hasSource();
+  }
+
   /**
    * @return The envelope's sender.
    */
   public String getSource() {
     return envelope.getSource();
+  }
+
+  public boolean hasSourceDevice() {
+    return envelope.hasSourceDevice();
   }
 
   /**
@@ -127,9 +160,7 @@ public class SignalServiceEnvelope {
    * @return The envelope's sender as a SignalServiceAddress.
    */
   public SignalServiceAddress getSourceAddress() {
-    return new SignalServiceAddress(envelope.getSource(),
-                                    envelope.hasRelay() ? Optional.fromNullable(envelope.getRelay()) :
-                                                     Optional.<String>absent());
+    return new SignalServiceAddress(envelope.getSource());
   }
 
   /**
@@ -140,17 +171,14 @@ public class SignalServiceEnvelope {
   }
 
   /**
-   * @return The federated server this envelope came from.
-   */
-  public String getRelay() {
-    return envelope.getRelay();
-  }
-
-  /**
    * @return The timestamp this envelope was sent.
    */
   public long getTimestamp() {
     return envelope.getTimestamp();
+  }
+
+  public long getServerTimestamp() {
+    return envelope.getServerTimestamp();
   }
 
   /**
@@ -200,6 +228,10 @@ public class SignalServiceEnvelope {
    */
   public boolean isReceipt() {
     return envelope.getType().getNumber() == Envelope.Type.RECEIPT_VALUE;
+  }
+
+  public boolean isUnidentifiedSender() {
+    return envelope.getType().getNumber() == Envelope.Type.UNIDENTIFIED_SENDER_VALUE;
   }
 
   private byte[] getPlaintext(byte[] ciphertext, SecretKeySpec cipherKey) throws IOException {

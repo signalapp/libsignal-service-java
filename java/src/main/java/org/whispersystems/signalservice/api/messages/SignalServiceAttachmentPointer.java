@@ -20,7 +20,6 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   private final long              id;
   private final byte[]            key;
-  private final Optional<String>  relay;
   private final Optional<Integer> size;
   private final Optional<byte[]>  preview;
   private final Optional<byte[]>  digest;
@@ -29,7 +28,7 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   private final int               width;
   private final int               height;
 
-  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key, String relay,
+  public SignalServiceAttachmentPointer(long id, String contentType, byte[] key,
                                         Optional<Integer> size, Optional<byte[]> preview,
                                         int width, int height,
                                         Optional<byte[]> digest, Optional<String> fileName,
@@ -38,7 +37,6 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
     super(contentType);
     this.id        = id;
     this.key       = key;
-    this.relay     = Optional.fromNullable(relay);
     this.size      = size;
     this.preview   = preview;
     this.width     = width;
@@ -64,10 +62,6 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   @Override
   public boolean isPointer() {
     return true;
-  }
-
-  public Optional<String> getRelay() {
-    return relay;
   }
 
   public Optional<Integer> getSize() {

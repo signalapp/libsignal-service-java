@@ -28,13 +28,21 @@ public class AccountAttributes {
   @JsonProperty
   private String pin;
 
-  public AccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin) {
-    this.signalingKey    = signalingKey;
-    this.registrationId  = registrationId;
-    this.voice           = true;
-    this.video           = true;
-    this.fetchesMessages = fetchesMessages;
-    this.pin             = pin;
+  @JsonProperty
+  private byte[] unidentifiedAccessKey;
+
+  @JsonProperty
+  private boolean unrestrictedUnidentifiedAccess;
+
+  public AccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages, String pin, byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess) {
+    this.signalingKey                   = signalingKey;
+    this.registrationId                 = registrationId;
+    this.voice                          = true;
+    this.video                          = true;
+    this.fetchesMessages                = fetchesMessages;
+    this.pin                            = pin;
+    this.unidentifiedAccessKey          = unidentifiedAccessKey;
+    this.unrestrictedUnidentifiedAccess = unrestrictedUnidentifiedAccess;
   }
 
   public AccountAttributes() {}
@@ -61,5 +69,13 @@ public class AccountAttributes {
 
   public String getPin() {
     return pin;
+  }
+
+  public byte[] getUnidentifiedAccessKey() {
+    return unidentifiedAccessKey;
+  }
+
+  public boolean isUnrestrictedUnidentifiedAccess() {
+    return unrestrictedUnidentifiedAccess;
   }
 }

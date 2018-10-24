@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -7,24 +7,24 @@
 package org.whispersystems.signalservice.api;
 
 import org.whispersystems.libsignal.InvalidMessageException;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.AttachmentCipherInputStream;
 import org.whispersystems.signalservice.api.crypto.ProfileCipherInputStream;
+import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
-import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.SleepTimer;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
-import org.whispersystems.signalservice.internal.configuration.SignalServiceUrl;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
-import org.whispersystems.signalservice.internal.websocket.WebSocketEventListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +38,7 @@ import java.util.List;
  *
  * @author Moxie Marlinspike
  */
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class SignalServiceMessageReceiver {
 
   private final PushServiceSocket          socket;
@@ -101,10 +102,10 @@ public class SignalServiceMessageReceiver {
     return retrieveAttachment(pointer, destination, maxSizeBytes, null);
   }
 
-  public SignalServiceProfile retrieveProfile(SignalServiceAddress address)
+  public SignalServiceProfile retrieveProfile(SignalServiceAddress address, Optional<UnidentifiedAccess> unidentifiedAccess)
     throws IOException
   {
-    return socket.retrieveProfile(address);
+    return socket.retrieveProfile(address, unidentifiedAccess);
   }
 
   public InputStream retrieveProfileAvatar(String path, File destination, byte[] profileKey, int maxSizeBytes)
@@ -131,7 +132,7 @@ public class SignalServiceMessageReceiver {
   {
     if (!pointer.getDigest().isPresent()) throw new InvalidMessageException("No attachment digest!");
 
-    socket.retrieveAttachment(pointer.getRelay().orNull(), pointer.getId(), destination, maxSizeBytes, listener);
+    socket.retrieveAttachment(pointer.getId(), destination, maxSizeBytes, listener);
     return AttachmentCipherInputStream.createFor(destination, pointer.getSize().or(0), pointer.getKey(), pointer.getDigest().get());
   }
 
@@ -145,10 +146,19 @@ public class SignalServiceMessageReceiver {
   public SignalServiceMessagePipe createMessagePipe() {
     WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
                                                             urls.getSignalServiceUrls()[0].getTrustStore(),
-                                                            credentialsProvider, userAgent, connectivityListener,
+                                                            Optional.of(credentialsProvider), userAgent, connectivityListener,
                                                             sleepTimer);
 
-    return new SignalServiceMessagePipe(webSocket, credentialsProvider);
+    return new SignalServiceMessagePipe(webSocket, Optional.of(credentialsProvider));
+  }
+
+  public SignalServiceMessagePipe createUnidentifiedMessagePipe() {
+    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
+                                                            urls.getSignalServiceUrls()[0].getTrustStore(),
+                                                            Optional.<CredentialsProvider>absent(), userAgent, connectivityListener,
+                                                            sleepTimer);
+
+    return new SignalServiceMessagePipe(webSocket, Optional.of(credentialsProvider));
   }
 
   public List<SignalServiceEnvelope> retrieveMessages() throws IOException {
@@ -162,15 +172,24 @@ public class SignalServiceMessageReceiver {
     List<SignalServiceEnvelopeEntity> entities = socket.getMessages();
 
     for (SignalServiceEnvelopeEntity entity : entities) {
-      SignalServiceEnvelope envelope =  new SignalServiceEnvelope(entity.getType(), entity.getSource(),
-                                                                  entity.getSourceDevice(), entity.getRelay(),
-                                                                  entity.getTimestamp(), entity.getMessage(),
-                                                                  entity.getContent());
+      SignalServiceEnvelope envelope;
+
+      if (entity.getSource() != null && entity.getSourceDevice() > 0) {
+        envelope = new SignalServiceEnvelope(entity.getType(), entity.getSource(),
+                                             entity.getSourceDevice(), entity.getTimestamp(),
+                                             entity.getMessage(), entity.getContent(),
+                                             entity.getServerTimestamp(), entity.getServerUuid());
+      } else {
+        envelope = new SignalServiceEnvelope(entity.getType(), entity.getTimestamp(),
+                                             entity.getMessage(), entity.getContent(),
+                                             entity.getServerTimestamp(), entity.getServerUuid());
+      }
 
       callback.onMessage(envelope);
       results.add(envelope);
 
-      socket.acknowledgeMessage(entity.getSource(), entity.getTimestamp());
+      if (envelope.hasUuid()) socket.acknowledgeMessage(envelope.getUuid());
+      else                    socket.acknowledgeMessage(entity.getSource(), entity.getTimestamp());
     }
 
     return results;
