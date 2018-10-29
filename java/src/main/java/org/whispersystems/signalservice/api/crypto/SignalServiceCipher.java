@@ -45,6 +45,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
 import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
+import org.whispersystems.signalservice.api.messages.SignalServiceTypingMessage;
 import org.whispersystems.signalservice.api.messages.calls.AnswerMessage;
 import org.whispersystems.signalservice.api.messages.calls.BusyMessage;
 import org.whispersystems.signalservice.api.messages.calls.HangupMessage;
@@ -61,12 +62,14 @@ import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.PushTransportDetails;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope.Type;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
 import org.whispersystems.signalservice.internal.util.Base64;
 
@@ -74,6 +77,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import sun.misc.Signal;
 
 import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage;
 import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type.DELIVER;
@@ -186,6 +191,12 @@ public class SignalServiceCipher {
                                           plaintext.getMetadata().getSenderDevice(),
                                           plaintext.getMetadata().getTimestamp(),
                                           plaintext.getMetadata().isNeedsReceipt());
+        } else if (message.hasTypingMessage()) {
+          return new SignalServiceContent(createTypingMessage(plaintext.getMetadata(), message.getTypingMessage()),
+                                          plaintext.getMetadata().getSender(),
+                                          plaintext.getMetadata().getSenderDevice(),
+                                          plaintext.getMetadata().getTimestamp(),
+                                          false);
         }
       }
 
@@ -378,6 +389,24 @@ public class SignalServiceCipher {
     else                                                        type = SignalServiceReceiptMessage.Type.UNKNOWN;
 
     return new SignalServiceReceiptMessage(type, content.getTimestampList(), metadata.getTimestamp());
+  }
+
+  private SignalServiceTypingMessage createTypingMessage(Metadata metadata, TypingMessage content) throws ProtocolInvalidMessageException {
+    SignalServiceTypingMessage.Action action;
+
+    if      (content.getAction() == TypingMessage.Action.STARTED) action = SignalServiceTypingMessage.Action.STARTED;
+    else if (content.getAction() == TypingMessage.Action.STOPPED) action = SignalServiceTypingMessage.Action.STOPPED;
+    else                                                          action = SignalServiceTypingMessage.Action.UNKNOWN;
+
+    if (content.hasTimestamp() && content.getTimestamp() != metadata.getTimestamp()) {
+      throw new ProtocolInvalidMessageException(new InvalidMessageException("Timestamps don't match: " + content.getTimestamp() + " vs " + metadata.getTimestamp()),
+                                                metadata.getSender(),
+                                                metadata.getSenderDevice());
+    }
+
+    return new SignalServiceTypingMessage(action, content.getTimestamp(),
+                                          content.hasGroupId() ? Optional.of(content.getGroupId().toByteArray()) :
+                                                                 Optional.<byte[]>absent());
   }
 
   private SignalServiceDataMessage.Quote createQuote(DataMessage content) {

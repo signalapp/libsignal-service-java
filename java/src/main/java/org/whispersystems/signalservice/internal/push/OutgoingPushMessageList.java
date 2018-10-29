@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -16,21 +16,23 @@ public class OutgoingPushMessageList {
   private String destination;
 
   @JsonProperty
-  private String relay;
-
-  @JsonProperty
   private long timestamp;
 
   @JsonProperty
   private List<OutgoingPushMessage> messages;
 
-  public OutgoingPushMessageList(String destination, long timestamp, String relay,
-                                 List<OutgoingPushMessage> messages)
+  @JsonProperty
+  private boolean online;
+
+  public OutgoingPushMessageList(String destination,
+                                 long timestamp,
+                                 List<OutgoingPushMessage> messages,
+                                 boolean online)
   {
     this.timestamp   = timestamp;
     this.destination = destination;
-    this.relay       = relay;
     this.messages    = messages;
+    this.online      = online;
   }
 
   public String getDestination() {
@@ -41,11 +43,11 @@ public class OutgoingPushMessageList {
     return messages;
   }
 
-  public String getRelay() {
-    return relay;
-  }
-
   public long getTimestamp() {
     return timestamp;
+  }
+
+  public boolean isOnline() {
+    return online;
   }
 }

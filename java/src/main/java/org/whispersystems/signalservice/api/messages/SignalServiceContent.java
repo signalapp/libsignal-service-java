@@ -21,6 +21,7 @@ public class SignalServiceContent {
   private final Optional<SignalServiceSyncMessage>    synchronizeMessage;
   private final Optional<SignalServiceCallMessage>    callMessage;
   private final Optional<SignalServiceReceiptMessage> readMessage;
+  private final Optional<SignalServiceTypingMessage>  typingMessage;
 
   public SignalServiceContent(SignalServiceDataMessage message, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
@@ -32,6 +33,7 @@ public class SignalServiceContent {
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
@@ -44,6 +46,7 @@ public class SignalServiceContent {
     this.synchronizeMessage = Optional.fromNullable(synchronizeMessage);
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceCallMessage callMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
@@ -56,6 +59,7 @@ public class SignalServiceContent {
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.of(callMessage);
     this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.absent();
   }
 
   public SignalServiceContent(SignalServiceReceiptMessage receiptMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
@@ -68,6 +72,20 @@ public class SignalServiceContent {
     this.synchronizeMessage = Optional.absent();
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.of(receiptMessage);
+    this.typingMessage      = Optional.absent();
+  }
+
+  public SignalServiceContent(SignalServiceTypingMessage typingMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+    this.sender       = sender;
+    this.senderDevice = senderDevice;
+    this.timestamp    = timestamp;
+    this.needsReceipt = needsReceipt;
+
+    this.message            = Optional.absent();
+    this.synchronizeMessage = Optional.absent();
+    this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.of(typingMessage);
   }
 
   public Optional<SignalServiceDataMessage> getDataMessage() {
@@ -84,6 +102,10 @@ public class SignalServiceContent {
 
   public Optional<SignalServiceReceiptMessage> getReceiptMessage() {
     return readMessage;
+  }
+
+  public Optional<SignalServiceTypingMessage> getTypingMessage() {
+    return typingMessage;
   }
 
   public String getSender() {

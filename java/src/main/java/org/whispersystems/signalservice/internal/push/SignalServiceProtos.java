@@ -1546,6 +1546,20 @@ public final class SignalServiceProtos {
      * <code>optional .signalservice.ReceiptMessage receiptMessage = 5;</code>
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessageOrBuilder getReceiptMessageOrBuilder();
+
+    // optional .signalservice.TypingMessage typingMessage = 6;
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    boolean hasTypingMessage();
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage getTypingMessage();
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder getTypingMessageOrBuilder();
   }
   /**
    * Protobuf type {@code signalservice.Content}
@@ -1661,6 +1675,19 @@ public final class SignalServiceProtos {
                 receiptMessage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = typingMessage_.toBuilder();
+              }
+              typingMessage_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(typingMessage_);
+                typingMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -1813,12 +1840,35 @@ public final class SignalServiceProtos {
       return receiptMessage_;
     }
 
+    // optional .signalservice.TypingMessage typingMessage = 6;
+    public static final int TYPINGMESSAGE_FIELD_NUMBER = 6;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage typingMessage_;
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    public boolean hasTypingMessage() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage getTypingMessage() {
+      return typingMessage_;
+    }
+    /**
+     * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder getTypingMessageOrBuilder() {
+      return typingMessage_;
+    }
+
     private void initFields() {
       dataMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.getDefaultInstance();
       syncMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.getDefaultInstance();
       callMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage.getDefaultInstance();
       nullMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.NullMessage.getDefaultInstance();
       receiptMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.ReceiptMessage.getDefaultInstance();
+      typingMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1846,6 +1896,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, receiptMessage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, typingMessage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1875,6 +1928,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, receiptMessage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, typingMessage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1989,6 +2046,7 @@ public final class SignalServiceProtos {
           getCallMessageFieldBuilder();
           getNullMessageFieldBuilder();
           getReceiptMessageFieldBuilder();
+          getTypingMessageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2027,6 +2085,12 @@ public final class SignalServiceProtos {
           receiptMessageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (typingMessageBuilder_ == null) {
+          typingMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance();
+        } else {
+          typingMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -2095,6 +2159,14 @@ public final class SignalServiceProtos {
         } else {
           result.receiptMessage_ = receiptMessageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (typingMessageBuilder_ == null) {
+          result.typingMessage_ = typingMessage_;
+        } else {
+          result.typingMessage_ = typingMessageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2125,6 +2197,9 @@ public final class SignalServiceProtos {
         }
         if (other.hasReceiptMessage()) {
           mergeReceiptMessage(other.getReceiptMessage());
+        }
+        if (other.hasTypingMessage()) {
+          mergeTypingMessage(other.getTypingMessage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2736,6 +2811,123 @@ public final class SignalServiceProtos {
           receiptMessage_ = null;
         }
         return receiptMessageBuilder_;
+      }
+
+      // optional .signalservice.TypingMessage typingMessage = 6;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage typingMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder> typingMessageBuilder_;
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public boolean hasTypingMessage() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage getTypingMessage() {
+        if (typingMessageBuilder_ == null) {
+          return typingMessage_;
+        } else {
+          return typingMessageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public Builder setTypingMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage value) {
+        if (typingMessageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          typingMessage_ = value;
+          onChanged();
+        } else {
+          typingMessageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public Builder setTypingMessage(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder builderForValue) {
+        if (typingMessageBuilder_ == null) {
+          typingMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          typingMessageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public Builder mergeTypingMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage value) {
+        if (typingMessageBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              typingMessage_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance()) {
+            typingMessage_ =
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.newBuilder(typingMessage_).mergeFrom(value).buildPartial();
+          } else {
+            typingMessage_ = value;
+          }
+          onChanged();
+        } else {
+          typingMessageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public Builder clearTypingMessage() {
+        if (typingMessageBuilder_ == null) {
+          typingMessage_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance();
+          onChanged();
+        } else {
+          typingMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder getTypingMessageBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getTypingMessageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder getTypingMessageOrBuilder() {
+        if (typingMessageBuilder_ != null) {
+          return typingMessageBuilder_.getMessageOrBuilder();
+        } else {
+          return typingMessage_;
+        }
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage typingMessage = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder> 
+          getTypingMessageFieldBuilder() {
+        if (typingMessageBuilder_ == null) {
+          typingMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder>(
+                  typingMessage_,
+                  getParentForChildren(),
+                  isClean());
+          typingMessage_ = null;
+        }
+        return typingMessageBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:signalservice.Content)
@@ -18966,6 +19158,658 @@ public final class SignalServiceProtos {
     // @@protoc_insertion_point(class_scope:signalservice.ReceiptMessage)
   }
 
+  public interface TypingMessageOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional uint64 timestamp = 1;
+    /**
+     * <code>optional uint64 timestamp = 1;</code>
+     */
+    boolean hasTimestamp();
+    /**
+     * <code>optional uint64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    // optional .signalservice.TypingMessage.Action action = 2;
+    /**
+     * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+     */
+    boolean hasAction();
+    /**
+     * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action getAction();
+
+    // optional bytes groupId = 3;
+    /**
+     * <code>optional bytes groupId = 3;</code>
+     */
+    boolean hasGroupId();
+    /**
+     * <code>optional bytes groupId = 3;</code>
+     */
+    com.google.protobuf.ByteString getGroupId();
+  }
+  /**
+   * Protobuf type {@code signalservice.TypingMessage}
+   */
+  public static final class TypingMessage extends
+      com.google.protobuf.GeneratedMessage
+      implements TypingMessageOrBuilder {
+    // Use TypingMessage.newBuilder() to construct.
+    private TypingMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TypingMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TypingMessage defaultInstance;
+    public static TypingMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TypingMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TypingMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              timestamp_ = input.readUInt64();
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action value = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                action_ = value;
+              }
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              groupId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_TypingMessage_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_TypingMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TypingMessage> PARSER =
+        new com.google.protobuf.AbstractParser<TypingMessage>() {
+      public TypingMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TypingMessage(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TypingMessage> getParserForType() {
+      return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code signalservice.TypingMessage.Action}
+     */
+    public enum Action
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>STARTED = 0;</code>
+       */
+      STARTED(0, 0),
+      /**
+       * <code>STOPPED = 1;</code>
+       */
+      STOPPED(1, 1),
+      ;
+
+      /**
+       * <code>STARTED = 0;</code>
+       */
+      public static final int STARTED_VALUE = 0;
+      /**
+       * <code>STOPPED = 1;</code>
+       */
+      public static final int STOPPED_VALUE = 1;
+
+
+      public final int getNumber() { return value; }
+
+      public static Action valueOf(int value) {
+        switch (value) {
+          case 0: return STARTED;
+          case 1: return STOPPED;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Action>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<Action>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Action>() {
+              public Action findValueByNumber(int number) {
+                return Action.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Action[] VALUES = values();
+
+      public static Action valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private Action(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:signalservice.TypingMessage.Action)
+    }
+
+    private int bitField0_;
+    // optional uint64 timestamp = 1;
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>optional uint64 timestamp = 1;</code>
+     */
+    public boolean hasTimestamp() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    // optional .signalservice.TypingMessage.Action action = 2;
+    public static final int ACTION_FIELD_NUMBER = 2;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action action_;
+    /**
+     * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+     */
+    public boolean hasAction() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action getAction() {
+      return action_;
+    }
+
+    // optional bytes groupId = 3;
+    public static final int GROUPID_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString groupId_;
+    /**
+     * <code>optional bytes groupId = 3;</code>
+     */
+    public boolean hasGroupId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes groupId = 3;</code>
+     */
+    public com.google.protobuf.ByteString getGroupId() {
+      return groupId_;
+    }
+
+    private void initFields() {
+      timestamp_ = 0L;
+      action_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action.STARTED;
+      groupId_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt64(1, timestamp_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, action_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, groupId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, timestamp_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, action_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, groupId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code signalservice.TypingMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_TypingMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_TypingMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Builder.class);
+      }
+
+      // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        timestamp_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        action_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action.STARTED;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        groupId_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_TypingMessage_descriptor;
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage getDefaultInstanceForType() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance();
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage build() {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage buildPartial() {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage result = new org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.timestamp_ = timestamp_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.action_ = action_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.groupId_ = groupId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage) {
+          return mergeFrom((org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage other) {
+        if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.getDefaultInstance()) return this;
+        if (other.hasTimestamp()) {
+          setTimestamp(other.getTimestamp());
+        }
+        if (other.hasAction()) {
+          setAction(other.getAction());
+        }
+        if (other.hasGroupId()) {
+          setGroupId(other.getGroupId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional uint64 timestamp = 1;
+      private long timestamp_ ;
+      /**
+       * <code>optional uint64 timestamp = 1;</code>
+       */
+      public boolean hasTimestamp() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional uint64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>optional uint64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        bitField0_ |= 0x00000001;
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional .signalservice.TypingMessage.Action action = 2;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action action_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action.STARTED;
+      /**
+       * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+       */
+      public boolean hasAction() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action getAction() {
+        return action_;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+       */
+      public Builder setAction(org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        action_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.TypingMessage.Action action = 2;</code>
+       */
+      public Builder clearAction() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        action_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage.Action.STARTED;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes groupId = 3;
+      private com.google.protobuf.ByteString groupId_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes groupId = 3;</code>
+       */
+      public boolean hasGroupId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes groupId = 3;</code>
+       */
+      public com.google.protobuf.ByteString getGroupId() {
+        return groupId_;
+      }
+      /**
+       * <code>optional bytes groupId = 3;</code>
+       */
+      public Builder setGroupId(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        groupId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes groupId = 3;</code>
+       */
+      public Builder clearGroupId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        groupId_ = getDefaultInstance().getGroupId();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:signalservice.TypingMessage)
+    }
+
+    static {
+      defaultInstance = new TypingMessage(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:signalservice.TypingMessage)
+  }
+
   public interface VerifiedOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -33347,6 +34191,11 @@ public final class SignalServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_signalservice_ReceiptMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_signalservice_TypingMessage_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_signalservice_TypingMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_signalservice_Verified_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -33444,131 +34293,136 @@ public final class SignalServiceProtos {
       "tamp\030\n \001(\004\"n\n\004Type\022\013\n\007UNKNOWN\020\000\022\016\n\nCIPHE" +
       "RTEXT\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\rPREKEY_BUND" +
       "LE\020\003\022\013\n\007RECEIPT\020\005\022\027\n\023UNIDENTIFIED_SENDER" +
-      "\020\006\"\204\002\n\007Content\022/\n\013dataMessage\030\001 \001(\0132\032.si",
+      "\020\006\"\271\002\n\007Content\022/\n\013dataMessage\030\001 \001(\0132\032.si",
       "gnalservice.DataMessage\022/\n\013syncMessage\030\002" +
       " \001(\0132\032.signalservice.SyncMessage\022/\n\013call" +
       "Message\030\003 \001(\0132\032.signalservice.CallMessag" +
       "e\022/\n\013nullMessage\030\004 \001(\0132\032.signalservice.N" +
       "ullMessage\0225\n\016receiptMessage\030\005 \001(\0132\035.sig" +
-      "nalservice.ReceiptMessage\"\330\003\n\013CallMessag" +
-      "e\022/\n\005offer\030\001 \001(\0132 .signalservice.CallMes" +
-      "sage.Offer\0221\n\006answer\030\002 \001(\0132!.signalservi" +
-      "ce.CallMessage.Answer\0227\n\ticeUpdate\030\003 \003(\013" +
-      "2$.signalservice.CallMessage.IceUpdate\0221",
-      "\n\006hangup\030\004 \001(\0132!.signalservice.CallMessa" +
-      "ge.Hangup\022-\n\004busy\030\005 \001(\0132\037.signalservice." +
-      "CallMessage.Busy\032(\n\005Offer\022\n\n\002id\030\001 \001(\004\022\023\n" +
-      "\013description\030\002 \001(\t\032)\n\006Answer\022\n\n\002id\030\001 \001(\004" +
-      "\022\023\n\013description\030\002 \001(\t\032K\n\tIceUpdate\022\n\n\002id" +
-      "\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rsdpMLineIndex\030" +
-      "\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022\n\n\002id\030\001 \001(\004\032\024" +
-      "\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\261\r\n\013DataMessage\022\014\n\004" +
-      "body\030\001 \001(\t\0225\n\013attachments\030\002 \003(\0132 .signal" +
-      "service.AttachmentPointer\022*\n\005group\030\003 \001(\013",
-      "2\033.signalservice.GroupContext\022\r\n\005flags\030\004" +
-      " \001(\r\022\023\n\013expireTimer\030\005 \001(\r\022\022\n\nprofileKey\030" +
-      "\006 \001(\014\022\021\n\ttimestamp\030\007 \001(\004\022/\n\005quote\030\010 \001(\0132" +
-      " .signalservice.DataMessage.Quote\0223\n\007con" +
-      "tact\030\t \003(\0132\".signalservice.DataMessage.C" +
-      "ontact\032\351\001\n\005Quote\022\n\n\002id\030\001 \001(\004\022\016\n\006author\030\002" +
-      " \001(\t\022\014\n\004text\030\003 \001(\t\022F\n\013attachments\030\004 \003(\0132" +
-      "1.signalservice.DataMessage.Quote.Quoted" +
-      "Attachment\032n\n\020QuotedAttachment\022\023\n\013conten" +
-      "tType\030\001 \001(\t\022\020\n\010fileName\030\002 \001(\t\0223\n\tthumbna",
-      "il\030\003 \001(\0132 .signalservice.AttachmentPoint" +
-      "er\032\304\010\n\007Contact\0225\n\004name\030\001 \001(\0132\'.signalser" +
-      "vice.DataMessage.Contact.Name\0228\n\006number\030" +
-      "\003 \003(\0132(.signalservice.DataMessage.Contac" +
-      "t.Phone\0227\n\005email\030\004 \003(\0132(.signalservice.D" +
-      "ataMessage.Contact.Email\022A\n\007address\030\005 \003(" +
-      "\01320.signalservice.DataMessage.Contact.Po" +
-      "stalAddress\0229\n\006avatar\030\006 \001(\0132).signalserv" +
-      "ice.DataMessage.Contact.Avatar\022\024\n\014organi" +
-      "zation\030\007 \001(\t\032v\n\004Name\022\021\n\tgivenName\030\001 \001(\t\022",
-      "\022\n\nfamilyName\030\002 \001(\t\022\016\n\006prefix\030\003 \001(\t\022\016\n\006s" +
-      "uffix\030\004 \001(\t\022\022\n\nmiddleName\030\005 \001(\t\022\023\n\013displ" +
-      "ayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005value\030\001 \001(\t\022;\n" +
-      "\004type\030\002 \001(\0162-.signalservice.DataMessage." +
-      "Contact.Phone.Type\022\r\n\005label\030\003 \001(\t\"2\n\004Typ" +
-      "e\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n\n\006CUS" +
-      "TOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 \001(\t\022;\n\004type\030\002" +
-      " \001(\0162-.signalservice.DataMessage.Contact" +
-      ".Email.Type\022\r\n\005label\030\003 \001(\t\"2\n\004Type\022\010\n\004HO" +
-      "ME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n\n\006CUSTOM\020\004\032\201",
-      "\002\n\rPostalAddress\022C\n\004type\030\001 \001(\01625.signals" +
-      "ervice.DataMessage.Contact.PostalAddress" +
-      ".Type\022\r\n\005label\030\002 \001(\t\022\016\n\006street\030\003 \001(\t\022\r\n\005" +
-      "pobox\030\004 \001(\t\022\024\n\014neighborhood\030\005 \001(\t\022\014\n\004cit" +
-      "y\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010postcode\030\010 \001(" +
-      "\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022\010\n\004HOME\020\001\022\010\n\004" +
-      "WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avatar\0220\n\006avatar\030\001" +
-      " \001(\0132 .signalservice.AttachmentPointer\022\021" +
-      "\n\tisProfile\030\002 \001(\010\"M\n\005Flags\022\017\n\013END_SESSIO" +
-      "N\020\001\022\033\n\027EXPIRATION_TIMER_UPDATE\020\002\022\026\n\022PROF",
-      "ILE_KEY_UPDATE\020\004\"\036\n\013NullMessage\022\017\n\007paddi" +
-      "ng\030\001 \001(\014\"u\n\016ReceiptMessage\0220\n\004type\030\001 \001(\016" +
-      "2\".signalservice.ReceiptMessage.Type\022\021\n\t" +
-      "timestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DELIVERY\020\000\022\010\n" +
-      "\004READ\020\001\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(" +
-      "\t\022\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035." +
-      "signalservice.Verified.State\022\023\n\013nullMess" +
-      "age\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIF" +
-      "IED\020\001\022\016\n\nUNVERIFIED\020\002\"\246\t\n\013SyncMessage\022-\n" +
-      "\004sent\030\001 \001(\0132\037.signalservice.SyncMessage.",
-      "Sent\0225\n\010contacts\030\002 \001(\0132#.signalservice.S" +
-      "yncMessage.Contacts\0221\n\006groups\030\003 \001(\0132!.si" +
-      "gnalservice.SyncMessage.Groups\0223\n\007reques" +
-      "t\030\004 \001(\0132\".signalservice.SyncMessage.Requ" +
-      "est\022-\n\004read\030\005 \003(\0132\037.signalservice.SyncMe" +
-      "ssage.Read\0223\n\007blocked\030\006 \001(\0132\".signalserv" +
-      "ice.SyncMessage.Blocked\022)\n\010verified\030\007 \001(" +
-      "\0132\027.signalservice.Verified\022?\n\rconfigurat" +
-      "ion\030\t \001(\0132(.signalservice.SyncMessage.Co" +
-      "nfiguration\022\017\n\007padding\030\010 \001(\014\032\236\002\n\004Sent\022\023\n",
-      "\013destination\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n" +
-      "\007message\030\003 \001(\0132\032.signalservice.DataMessa" +
-      "ge\022 \n\030expirationStartTimestamp\030\004 \001(\004\022V\n\022" +
-      "unidentifiedStatus\030\005 \003(\0132:.signalservice" +
-      ".SyncMessage.Sent.UnidentifiedDeliverySt" +
-      "atus\032G\n\032UnidentifiedDeliveryStatus\022\023\n\013de" +
-      "stination\030\001 \001(\t\022\024\n\014unidentified\030\002 \001(\010\032S\n" +
-      "\010Contacts\022.\n\004blob\030\001 \001(\0132 .signalservice." +
-      "AttachmentPointer\022\027\n\010complete\030\002 \001(\010:\005fal" +
-      "se\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservi",
-      "ce.AttachmentPointer\032,\n\007Blocked\022\017\n\007numbe" +
-      "rs\030\001 \003(\t\022\020\n\010groupIds\030\002 \003(\014\032\217\001\n\007Request\0225" +
-      "\n\004type\030\001 \001(\0162\'.signalservice.SyncMessage" +
-      ".Request.Type\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CO" +
-      "NTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCON" +
-      "FIGURATION\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\t" +
-      "timestamp\030\002 \001(\004\032M\n\rConfiguration\022\024\n\014read" +
-      "Receipts\030\001 \001(\010\022&\n\036unidentifiedDeliveryIn" +
-      "dicators\030\002 \001(\010\"\316\001\n\021AttachmentPointer\022\n\n\002" +
-      "id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001",
-      "(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006d" +
-      "igest\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010" +
-      " \001(\r\022\r\n\005width\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005F" +
-      "lags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupContext" +
-      "\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signalservi" +
-      "ce.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007me" +
-      "mbers\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signalserv" +
-      "ice.AttachmentPointer\"H\n\004Type\022\013\n\007UNKNOWN" +
-      "\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n" +
-      "\014REQUEST_INFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006nu",
-      "mber\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\013" +
-      "2$.signalservice.ContactDetails.Avatar\022\r" +
-      "\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.signal" +
-      "service.Verified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007" +
-      "blocked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Av" +
-      "atar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(" +
-      "\r\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002" +
-      " \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\"." +
-      "signalservice.GroupDetails.Avatar\022\024\n\006act" +
-      "ive\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005",
-      "color\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006Avatar\022\023" +
-      "\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.o" +
-      "rg.whispersystems.signalservice.internal" +
-      ".pushB\023SignalServiceProtos"
+      "nalservice.ReceiptMessage\0223\n\rtypingMessa" +
+      "ge\030\006 \001(\0132\034.signalservice.TypingMessage\"\330" +
+      "\003\n\013CallMessage\022/\n\005offer\030\001 \001(\0132 .signalse" +
+      "rvice.CallMessage.Offer\0221\n\006answer\030\002 \001(\0132" +
+      "!.signalservice.CallMessage.Answer\0227\n\tic",
+      "eUpdate\030\003 \003(\0132$.signalservice.CallMessag" +
+      "e.IceUpdate\0221\n\006hangup\030\004 \001(\0132!.signalserv" +
+      "ice.CallMessage.Hangup\022-\n\004busy\030\005 \001(\0132\037.s" +
+      "ignalservice.CallMessage.Busy\032(\n\005Offer\022\n" +
+      "\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032)\n\006Answe" +
+      "r\022\n\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032K\n\tIc" +
+      "eUpdate\022\n\n\002id\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rs" +
+      "dpMLineIndex\030\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022" +
+      "\n\n\002id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\261\r\n\013Da" +
+      "taMessage\022\014\n\004body\030\001 \001(\t\0225\n\013attachments\030\002",
+      " \003(\0132 .signalservice.AttachmentPointer\022*" +
+      "\n\005group\030\003 \001(\0132\033.signalservice.GroupConte" +
+      "xt\022\r\n\005flags\030\004 \001(\r\022\023\n\013expireTimer\030\005 \001(\r\022\022" +
+      "\n\nprofileKey\030\006 \001(\014\022\021\n\ttimestamp\030\007 \001(\004\022/\n" +
+      "\005quote\030\010 \001(\0132 .signalservice.DataMessage" +
+      ".Quote\0223\n\007contact\030\t \003(\0132\".signalservice." +
+      "DataMessage.Contact\032\351\001\n\005Quote\022\n\n\002id\030\001 \001(" +
+      "\004\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\022F\n\013attac" +
+      "hments\030\004 \003(\01321.signalservice.DataMessage" +
+      ".Quote.QuotedAttachment\032n\n\020QuotedAttachm",
+      "ent\022\023\n\013contentType\030\001 \001(\t\022\020\n\010fileName\030\002 \001" +
+      "(\t\0223\n\tthumbnail\030\003 \001(\0132 .signalservice.At" +
+      "tachmentPointer\032\304\010\n\007Contact\0225\n\004name\030\001 \001(" +
+      "\0132\'.signalservice.DataMessage.Contact.Na" +
+      "me\0228\n\006number\030\003 \003(\0132(.signalservice.DataM" +
+      "essage.Contact.Phone\0227\n\005email\030\004 \003(\0132(.si" +
+      "gnalservice.DataMessage.Contact.Email\022A\n" +
+      "\007address\030\005 \003(\01320.signalservice.DataMessa" +
+      "ge.Contact.PostalAddress\0229\n\006avatar\030\006 \001(\013" +
+      "2).signalservice.DataMessage.Contact.Ava",
+      "tar\022\024\n\014organization\030\007 \001(\t\032v\n\004Name\022\021\n\tgiv" +
+      "enName\030\001 \001(\t\022\022\n\nfamilyName\030\002 \001(\t\022\016\n\006pref" +
+      "ix\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n\nmiddleName\030\005" +
+      " \001(\t\022\023\n\013displayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005v" +
+      "alue\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice" +
+      ".DataMessage.Contact.Phone.Type\022\r\n\005label" +
+      "\030\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004" +
+      "WORK\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 " +
+      "\001(\t\022;\n\004type\030\002 \001(\0162-.signalservice.DataMe" +
+      "ssage.Contact.Email.Type\022\r\n\005label\030\003 \001(\t\"",
+      "2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022" +
+      "\n\n\006CUSTOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001 " +
+      "\001(\01625.signalservice.DataMessage.Contact." +
+      "PostalAddress.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006str" +
+      "eet\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhood" +
+      "\030\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010" +
+      "postcode\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022" +
+      "\010\n\004HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avata" +
+      "r\0220\n\006avatar\030\001 \001(\0132 .signalservice.Attach" +
+      "mentPointer\022\021\n\tisProfile\030\002 \001(\010\"M\n\005Flags\022",
+      "\017\n\013END_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPD" +
+      "ATE\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"\036\n\013NullMes" +
+      "sage\022\017\n\007padding\030\001 \001(\014\"u\n\016ReceiptMessage\022" +
+      "0\n\004type\030\001 \001(\0162\".signalservice.ReceiptMes" +
+      "sage.Type\022\021\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010" +
+      "DELIVERY\020\000\022\010\n\004READ\020\001\"\214\001\n\rTypingMessage\022\021" +
+      "\n\ttimestamp\030\001 \001(\004\0223\n\006action\030\002 \001(\0162#.sign" +
+      "alservice.TypingMessage.Action\022\017\n\007groupI" +
+      "d\030\003 \001(\014\"\"\n\006Action\022\013\n\007STARTED\020\000\022\013\n\007STOPPE" +
+      "D\020\001\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(\t\022\023\n",
+      "\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.sign" +
+      "alservice.Verified.State\022\023\n\013nullMessage\030" +
+      "\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIED\020" +
+      "\001\022\016\n\nUNVERIFIED\020\002\"\246\t\n\013SyncMessage\022-\n\004sen" +
+      "t\030\001 \001(\0132\037.signalservice.SyncMessage.Sent" +
+      "\0225\n\010contacts\030\002 \001(\0132#.signalservice.SyncM" +
+      "essage.Contacts\0221\n\006groups\030\003 \001(\0132!.signal" +
+      "service.SyncMessage.Groups\0223\n\007request\030\004 " +
+      "\001(\0132\".signalservice.SyncMessage.Request\022" +
+      "-\n\004read\030\005 \003(\0132\037.signalservice.SyncMessag",
+      "e.Read\0223\n\007blocked\030\006 \001(\0132\".signalservice." +
+      "SyncMessage.Blocked\022)\n\010verified\030\007 \001(\0132\027." +
+      "signalservice.Verified\022?\n\rconfiguration\030" +
+      "\t \001(\0132(.signalservice.SyncMessage.Config" +
+      "uration\022\017\n\007padding\030\010 \001(\014\032\236\002\n\004Sent\022\023\n\013des" +
+      "tination\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n\007mes" +
+      "sage\030\003 \001(\0132\032.signalservice.DataMessage\022 " +
+      "\n\030expirationStartTimestamp\030\004 \001(\004\022V\n\022unid" +
+      "entifiedStatus\030\005 \003(\0132:.signalservice.Syn" +
+      "cMessage.Sent.UnidentifiedDeliveryStatus",
+      "\032G\n\032UnidentifiedDeliveryStatus\022\023\n\013destin" +
+      "ation\030\001 \001(\t\022\024\n\014unidentified\030\002 \001(\010\032S\n\010Con" +
+      "tacts\022.\n\004blob\030\001 \001(\0132 .signalservice.Atta" +
+      "chmentPointer\022\027\n\010complete\030\002 \001(\010:\005false\0328" +
+      "\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservice.A" +
+      "ttachmentPointer\032,\n\007Blocked\022\017\n\007numbers\030\001" +
+      " \003(\t\022\020\n\010groupIds\030\002 \003(\014\032\217\001\n\007Request\0225\n\004ty" +
+      "pe\030\001 \001(\0162\'.signalservice.SyncMessage.Req" +
+      "uest.Type\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTAC" +
+      "TS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIGU",
+      "RATION\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttime" +
+      "stamp\030\002 \001(\004\032M\n\rConfiguration\022\024\n\014readRece" +
+      "ipts\030\001 \001(\010\022&\n\036unidentifiedDeliveryIndica" +
+      "tors\030\002 \001(\010\"\316\001\n\021AttachmentPointer\022\n\n\002id\030\001" +
+      " \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014" +
+      "\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006diges" +
+      "t\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r" +
+      "\022\r\n\005width\030\t \001(\r\022\016\n\006height\030\n \001(\r\"\032\n\005Flags" +
+      "\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002" +
+      "id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signalservice.G",
+      "roupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007member" +
+      "s\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signalservice." +
+      "AttachmentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n" +
+      "\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQ" +
+      "UEST_INFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006number" +
+      "\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.s" +
+      "ignalservice.ContactDetails.Avatar\022\r\n\005co" +
+      "lor\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.signalserv" +
+      "ice.Verified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007bloc" +
+      "ked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar",
+      "\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\347\001" +
+      "\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t" +
+      "\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".sign" +
+      "alservice.GroupDetails.Avatar\022\024\n\006active\030" +
+      "\005 \001(\010:\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005colo" +
+      "r\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006Avatar\022\023\n\013co" +
+      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.w" +
+      "hispersystems.signalservice.internal.pus" +
+      "hB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -33586,7 +34440,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_Content_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_Content_descriptor,
-              new java.lang.String[] { "DataMessage", "SyncMessage", "CallMessage", "NullMessage", "ReceiptMessage", });
+              new java.lang.String[] { "DataMessage", "SyncMessage", "CallMessage", "NullMessage", "ReceiptMessage", "TypingMessage", });
           internal_static_signalservice_CallMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_signalservice_CallMessage_fieldAccessorTable = new
@@ -33689,14 +34543,20 @@ public final class SignalServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ReceiptMessage_descriptor,
               new java.lang.String[] { "Type", "Timestamp", });
-          internal_static_signalservice_Verified_descriptor =
+          internal_static_signalservice_TypingMessage_descriptor =
             getDescriptor().getMessageTypes().get(6);
+          internal_static_signalservice_TypingMessage_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_signalservice_TypingMessage_descriptor,
+              new java.lang.String[] { "Timestamp", "Action", "GroupId", });
+          internal_static_signalservice_Verified_descriptor =
+            getDescriptor().getMessageTypes().get(7);
           internal_static_signalservice_Verified_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_Verified_descriptor,
               new java.lang.String[] { "Destination", "IdentityKey", "State", "NullMessage", });
           internal_static_signalservice_SyncMessage_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_signalservice_SyncMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_descriptor,
@@ -33750,19 +34610,19 @@ public final class SignalServiceProtos {
               internal_static_signalservice_SyncMessage_Configuration_descriptor,
               new java.lang.String[] { "ReadReceipts", "UnidentifiedDeliveryIndicators", });
           internal_static_signalservice_AttachmentPointer_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
               new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", "Width", "Height", });
           internal_static_signalservice_GroupContext_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupContext_descriptor,
               new java.lang.String[] { "Id", "Type", "Name", "Members", "Avatar", });
           internal_static_signalservice_ContactDetails_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_signalservice_ContactDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_ContactDetails_descriptor,
@@ -33774,7 +34634,7 @@ public final class SignalServiceProtos {
               internal_static_signalservice_ContactDetails_Avatar_descriptor,
               new java.lang.String[] { "ContentType", "Length", });
           internal_static_signalservice_GroupDetails_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_signalservice_GroupDetails_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_GroupDetails_descriptor,
