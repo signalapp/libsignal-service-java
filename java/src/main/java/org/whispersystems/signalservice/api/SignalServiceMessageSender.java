@@ -559,6 +559,10 @@ public class SignalServiceMessageSender {
       configurationMessage.setUnidentifiedDeliveryIndicators(configuration.getUnidentifiedDeliveryIndicators().get());
     }
 
+    if (configuration.getTypingIndicators().isPresent()) {
+      configurationMessage.setTypingIndicators(configuration.getTypingIndicators().get());
+    }
+
     return container.setSyncMessage(syncMessage.setConfiguration(configurationMessage)).build().toByteArray();
   }
 
