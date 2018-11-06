@@ -27,12 +27,13 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
   private final boolean           voiceNote;
   private final int               width;
   private final int               height;
+  private final Optional<String>  caption;
 
   public SignalServiceAttachmentPointer(long id, String contentType, byte[] key,
                                         Optional<Integer> size, Optional<byte[]> preview,
                                         int width, int height,
                                         Optional<byte[]> digest, Optional<String> fileName,
-                                        boolean voiceNote)
+                                        boolean voiceNote, Optional<String> caption)
   {
     super(contentType);
     this.id        = id;
@@ -44,6 +45,7 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
     this.digest    = digest;
     this.fileName  = fileName;
     this.voiceNote = voiceNote;
+    this.caption   = caption;
   }
 
   public long getId() {
@@ -90,5 +92,9 @@ public class SignalServiceAttachmentPointer extends SignalServiceAttachment {
 
   public int getHeight() {
     return height;
+  }
+
+  public Optional<String> getCaption() {
+    return caption;
   }
 }

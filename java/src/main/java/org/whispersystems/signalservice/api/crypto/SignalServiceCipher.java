@@ -62,7 +62,6 @@ import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.PushTransportDetails;
-import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage;
@@ -77,8 +76,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import sun.misc.Signal;
 
 import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage;
 import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupContext.Type.DELIVER;
@@ -530,7 +527,8 @@ public class SignalServiceCipher {
                                               pointer.getWidth(), pointer.getHeight(),
                                               pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
                                               pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
-                                              (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0);
+                                              (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0,
+                                              pointer.hasCaption() ? Optional.of(pointer.getCaption()) : Optional.<String>absent());
 
   }
 
@@ -570,7 +568,8 @@ public class SignalServiceCipher {
                                                     Optional.<byte[]>absent(), 0, 0,
                                                     Optional.fromNullable(pointer.hasDigest() ? pointer.getDigest().toByteArray() : null),
                                                     Optional.<String>absent(),
-                                                    false);
+                                                    false,
+                                                    Optional.<String>absent());
       }
 
       return new SignalServiceGroup(type, content.getGroup().getId().toByteArray(), name, members, avatar);

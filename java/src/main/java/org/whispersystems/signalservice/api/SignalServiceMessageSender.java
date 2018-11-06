@@ -865,6 +865,10 @@ public class SignalServiceMessageSender {
       builder.setFlags(AttachmentPointer.Flags.VOICE_MESSAGE_VALUE);
     }
 
+    if (attachment.getCaption().isPresent()) {
+      builder.setCaption(attachment.getCaption().get());
+    }
+
     return builder.build();
   }
 
