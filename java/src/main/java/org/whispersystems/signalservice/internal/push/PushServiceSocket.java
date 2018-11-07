@@ -74,6 +74,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
+import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
@@ -127,17 +128,22 @@ public class PushServiceSocket {
   private final ConnectionHolder[]  cdnClients;
   private final ConnectionHolder[]  contactDiscoveryClients;
 
+  private final ConnectionPool identifiedServiceConnectionPool;
+  private final ConnectionPool unidentifiedServiceConnectionPool;
+
   private final CredentialsProvider credentialsProvider;
   private final String              userAgent;
   private final SecureRandom        random;
 
   public PushServiceSocket(SignalServiceConfiguration signalServiceConfiguration, CredentialsProvider credentialsProvider, String userAgent) {
-    this.credentialsProvider     = credentialsProvider;
-    this.userAgent               = userAgent;
-    this.serviceClients          = createConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
-    this.cdnClients              = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
-    this.contactDiscoveryClients = createConnectionHolders(signalServiceConfiguration.getSignalContactDiscoveryUrls());
-    this.random                  = new SecureRandom();
+    this.credentialsProvider               = credentialsProvider;
+    this.userAgent                         = userAgent;
+    this.serviceClients                    = createConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
+    this.cdnClients                        = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
+    this.contactDiscoveryClients           = createConnectionHolders(signalServiceConfiguration.getSignalContactDiscoveryUrls());
+    this.identifiedServiceConnectionPool   = new ConnectionPool();
+    this.unidentifiedServiceConnectionPool = new ConnectionPool();
+    this.random                            = new SecureRandom();
   }
 
   public void createAccount(boolean voice) throws IOException {
@@ -852,7 +858,7 @@ public class PushServiceSocket {
       OkHttpClient     okHttpClient     = connectionHolder.getClient().newBuilder()
                                                           .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
                                                           .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                                          .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT)) // XXXX
+                                                          .connectionPool(unidentifiedAccess.isPresent() ? unidentifiedServiceConnectionPool : identifiedServiceConnectionPool)
                                                           .build();
 
       Log.w(TAG, "Push service URL: " + connectionHolder.getUrl());

@@ -51,7 +51,6 @@ import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
 import org.whispersystems.signalservice.internal.push.PushAttachmentData;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
-import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content;
@@ -218,7 +217,7 @@ public class SignalServiceMessageSender {
 
     if ((result.getSuccess() != null && result.getSuccess().isNeedsSync()) || (unidentifiedAccess.isPresent() && isMultiDevice.get())) {
       byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.of(recipient), timestamp, Collections.singletonList(result));
-      sendMessage(localAddress, getSelfUnidentifiedAccess(unidentifiedAccess), timestamp, syncMessage, false);
+      sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
 
     if (message.isEndSession()) {
@@ -258,7 +257,7 @@ public class SignalServiceMessageSender {
 
     if (needsSyncInResults || (isMultiDevice.get())) {
       byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp, results);
-      sendMessage(localAddress, getSelfUnidentifiedAccess(unidentifiedAccess), timestamp, syncMessage, false);
+      sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
 
     return results;
@@ -287,7 +286,7 @@ public class SignalServiceMessageSender {
       throw new IOException("Unsupported sync message!");
     }
 
-    sendMessage(localAddress, getSelfUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false);
+    sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), System.currentTimeMillis(), content, false);
   }
 
   public void setSoTimeoutMillis(long soTimeoutMillis) {
@@ -328,7 +327,7 @@ public class SignalServiceMessageSender {
 
     if (result.getSuccess().isNeedsSync()) {
       byte[] syncMessage = createMultiDeviceVerifiedContent(message, nullMessage.toByteArray());
-      sendMessage(localAddress, getSelfUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), syncMessage, false);
+      sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), message.getTimestamp(), syncMessage, false);
     }
   }
 
@@ -982,24 +981,6 @@ public class SignalServiceMessageSender {
     }
 
     return results;
-  }
-
-  private Optional<UnidentifiedAccess> getSelfUnidentifiedAccess(Optional<UnidentifiedAccessPair> unidentifiedAccess) {
-    if (unidentifiedAccess.isPresent()) {
-      return unidentifiedAccess.get().getSelfUnidentifiedAccess();
-    }
-
-    return Optional.absent();
-  }
-
-  private Optional<UnidentifiedAccess> getSelfUnidentifiedAccess(List<Optional<UnidentifiedAccessPair>> unidentifiedAccess) {
-    for (Optional<UnidentifiedAccessPair> item : unidentifiedAccess) {
-      if (item.isPresent() && item.get().getSelfUnidentifiedAccess().isPresent()) {
-        return item.get().getSelfUnidentifiedAccess();
-      }
-    }
-
-    return Optional.absent();
   }
 
   public static interface EventListener {
