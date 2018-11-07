@@ -335,6 +335,8 @@ public class SignalServiceMessageSender {
     Content.Builder       container = Content.newBuilder();
     TypingMessage.Builder builder   = TypingMessage.newBuilder();
 
+    builder.setTimestamp(message.getTimestamp());
+
     if      (message.isTypingStarted()) builder.setAction(TypingMessage.Action.STARTED);
     else if (message.isTypingStopped()) builder.setAction(TypingMessage.Action.STOPPED);
     else                                throw new IllegalArgumentException("Unknown typing indicator");
