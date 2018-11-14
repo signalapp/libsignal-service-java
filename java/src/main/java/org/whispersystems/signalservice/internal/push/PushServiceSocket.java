@@ -61,7 +61,6 @@ import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -74,7 +73,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
-import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
@@ -124,12 +122,9 @@ public class PushServiceSocket {
   private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(30);
   private final Set<Call> connections     = new HashSet<>();
 
-  private final ConnectionHolder[]  serviceClients;
-  private final ConnectionHolder[]  cdnClients;
-  private final ConnectionHolder[]  contactDiscoveryClients;
-
-  private final ConnectionPool identifiedServiceConnectionPool;
-  private final ConnectionPool unidentifiedServiceConnectionPool;
+  private final ServiceConnectionHolder[]  serviceClients;
+  private final ConnectionHolder[]         cdnClients;
+  private final ConnectionHolder[]         contactDiscoveryClients;
 
   private final CredentialsProvider credentialsProvider;
   private final String              userAgent;
@@ -138,11 +133,9 @@ public class PushServiceSocket {
   public PushServiceSocket(SignalServiceConfiguration signalServiceConfiguration, CredentialsProvider credentialsProvider, String userAgent) {
     this.credentialsProvider               = credentialsProvider;
     this.userAgent                         = userAgent;
-    this.serviceClients                    = createConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
+    this.serviceClients                    = createServiceConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
     this.cdnClients                        = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
     this.contactDiscoveryClients           = createConnectionHolders(signalServiceConfiguration.getSignalContactDiscoveryUrls());
-    this.identifiedServiceConnectionPool   = new ConnectionPool();
-    this.unidentifiedServiceConnectionPool = new ConnectionPool();
     this.random                            = new SecureRandom();
   }
 
@@ -854,12 +847,12 @@ public class PushServiceSocket {
       throws PushNetworkException
   {
     try {
-      ConnectionHolder connectionHolder = getRandom(serviceClients, random);
-      OkHttpClient     okHttpClient     = connectionHolder.getClient().newBuilder()
-                                                          .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                                          .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                                          .connectionPool(unidentifiedAccess.isPresent() ? unidentifiedServiceConnectionPool : identifiedServiceConnectionPool)
-                                                          .build();
+      ServiceConnectionHolder connectionHolder = (ServiceConnectionHolder) getRandom(serviceClients, random);
+      OkHttpClient            baseClient       = unidentifiedAccess.isPresent() ? connectionHolder.getUnidentifiedClient() : connectionHolder.getClient();
+      OkHttpClient            okHttpClient     = baseClient.newBuilder()
+                                                           .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                           .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                           .build();
 
       Log.w(TAG, "Push service URL: " + connectionHolder.getUrl());
       Log.w(TAG, "Opening URL: " + String.format("%s%s", connectionHolder.getUrl(), urlFragment));
@@ -960,25 +953,39 @@ public class PushServiceSocket {
     throw new NonSuccessfulResponseCodeException("Response: " + response);
   }
 
+  private ServiceConnectionHolder[] createServiceConnectionHolders(SignalUrl[] urls) {
+    List<ServiceConnectionHolder> serviceConnectionHolders = new LinkedList<>();
+
+    for (SignalUrl url : urls) {
+      serviceConnectionHolders.add(new ServiceConnectionHolder(createConnectionClient(url),
+                                                               createConnectionClient(url),
+                                                               url.getUrl(), url.getHostHeader()));
+    }
+
+    return serviceConnectionHolders.toArray(new ServiceConnectionHolder[0]);
+  }
+
   private ConnectionHolder[] createConnectionHolders(SignalUrl[] urls) {
+    List<ConnectionHolder> connectionHolders = new LinkedList<>();
+
+    for (SignalUrl url : urls) {
+      connectionHolders.add(new ConnectionHolder(createConnectionClient(url), url.getUrl(), url.getHostHeader()));
+    }
+
+    return connectionHolders.toArray(new ConnectionHolder[0]);
+  }
+
+  private OkHttpClient createConnectionClient(SignalUrl url) {
     try {
-      List<ConnectionHolder> connectionHolders = new LinkedList<>();
+      TrustManager[] trustManagers = BlacklistingTrustManager.createFor(url.getTrustStore());
 
-      for (SignalUrl url : urls) {
-        TrustManager[] trustManagers = BlacklistingTrustManager.createFor(url.getTrustStore());
+      SSLContext context = SSLContext.getInstance("TLS");
+      context.init(null, trustManagers, null);
 
-        SSLContext context = SSLContext.getInstance("TLS");
-        context.init(null, trustManagers, null);
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                                              .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
-                                              .connectionSpecs(url.getConnectionSpecs().or(Util.immutableList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS)))
-                                              .build();
-
-        connectionHolders.add(new ConnectionHolder(client, url.getUrl(), url.getHostHeader()));
-      }
-
-      return connectionHolders.toArray(new ConnectionHolder[0]);
+      return new OkHttpClient.Builder()
+                             .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManagers[0])
+                             .connectionSpecs(url.getConnectionSpecs().or(Util.immutableList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS)))
+                             .build();
     } catch (NoSuchAlgorithmException | KeyManagementException e) {
       throw new AssertionError(e);
     }
@@ -1047,7 +1054,9 @@ public class PushServiceSocket {
     }
   }
 
+
   private static class ConnectionHolder {
+
     private final OkHttpClient     client;
     private final String           url;
     private final Optional<String> hostHeader;
@@ -1058,7 +1067,7 @@ public class PushServiceSocket {
       this.hostHeader = hostHeader;
     }
 
-    public OkHttpClient getClient() {
+    OkHttpClient getClient() {
       return client;
     }
 
@@ -1066,8 +1075,23 @@ public class PushServiceSocket {
       return url;
     }
 
-    public Optional<String> getHostHeader() {
+    Optional<String> getHostHeader() {
       return hostHeader;
     }
   }
+
+  private static class ServiceConnectionHolder extends ConnectionHolder {
+
+    private final OkHttpClient unidentifiedClient;
+
+    private ServiceConnectionHolder(OkHttpClient identifiedClient, OkHttpClient unidentifiedClient, String url, Optional<String> hostHeader) {
+      super(identifiedClient, url, hostHeader);
+      this.unidentifiedClient = unidentifiedClient;
+    }
+
+    OkHttpClient getUnidentifiedClient() {
+      return unidentifiedClient;
+    }
+  }
+
 }
