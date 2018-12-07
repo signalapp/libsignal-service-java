@@ -10,7 +10,6 @@ import com.google.protobuf.ByteString;
 
 import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope;
 import org.whispersystems.signalservice.internal.util.Base64;
@@ -64,32 +63,37 @@ public class SignalServiceEnvelope {
    * @throws IOException
    * @throws InvalidVersionException
    */
-  public SignalServiceEnvelope(String message, String signalingKey)
+  public SignalServiceEnvelope(String message, String signalingKey, boolean isSignalingKeyEncrypted)
       throws IOException, InvalidVersionException
   {
-    this(Base64.decode(message), signalingKey);
+    this(Base64.decode(message), signalingKey, isSignalingKeyEncrypted);
   }
 
   /**
    * Construct an envelope from a serialized SignalServiceEnvelope, encrypted with a signaling key.
    *
-   * @param ciphertext The serialized and encrypted SignalServiceEnvelope.
+   * @param input The serialized and (optionally) encrypted SignalServiceEnvelope.
    * @param signalingKey The signaling key.
    * @throws InvalidVersionException
    * @throws IOException
    */
-  public SignalServiceEnvelope(byte[] ciphertext, String signalingKey)
+  public SignalServiceEnvelope(byte[] input, String signalingKey, boolean isSignalingKeyEncrypted)
       throws InvalidVersionException, IOException
   {
-    if (ciphertext.length < VERSION_LENGTH || ciphertext[VERSION_OFFSET] != SUPPORTED_VERSION)
-      throw new InvalidVersionException("Unsupported version!");
+    if (!isSignalingKeyEncrypted) {
+      this.envelope = Envelope.parseFrom(input);
+    } else {
+      if (input.length < VERSION_LENGTH || input[VERSION_OFFSET] != SUPPORTED_VERSION) {
+        throw new InvalidVersionException("Unsupported version!");
+      }
 
-    SecretKeySpec cipherKey  = getCipherKey(signalingKey);
-    SecretKeySpec macKey     = getMacKey(signalingKey);
+      SecretKeySpec cipherKey = getCipherKey(signalingKey);
+      SecretKeySpec macKey    = getMacKey(signalingKey);
 
-    verifyMac(ciphertext, macKey);
+      verifyMac(input, macKey);
 
-    this.envelope = Envelope.parseFrom(getPlaintext(ciphertext, cipherKey));
+      this.envelope = Envelope.parseFrom(getPlaintext(input, cipherKey));
+    }
   }
 
   public SignalServiceEnvelope(int type, String sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
