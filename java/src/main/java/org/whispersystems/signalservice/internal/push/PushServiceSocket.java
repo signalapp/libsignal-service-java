@@ -61,9 +61,13 @@ import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -119,6 +123,8 @@ public class PushServiceSocket {
 
   private static final String SENDER_CERTIFICATE_PATH   = "/v1/certificate/delivery";
 
+  private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
+
   private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(30);
   private final Set<Call> connections     = new HashSet<>();
 
@@ -139,9 +145,11 @@ public class PushServiceSocket {
     this.random                            = new SecureRandom();
   }
 
-  public void createAccount(boolean voice) throws IOException {
-    String path = voice ? CREATE_ACCOUNT_VOICE_PATH : CREATE_ACCOUNT_SMS_PATH;
-    makeServiceRequest(String.format(path, credentialsProvider.getUser()), "GET", null);
+  public void createAccount(boolean voice, Locale locale) throws IOException {
+    String              path    = voice                   ? CREATE_ACCOUNT_VOICE_PATH : CREATE_ACCOUNT_SMS_PATH;
+    Map<String, String> headers = voice && locale != null ? Collections.singletonMap("Accept-Language", locale.getLanguage() + "-" + locale.getCountry()) : NO_HEADERS;
+
+    makeServiceRequest(String.format(path, credentialsProvider.getUser()), "GET", null, headers);
   }
 
   public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin,
@@ -209,7 +217,7 @@ public class PushServiceSocket {
       throws IOException
   {
     try {
-      String responseText = makeServiceRequest(String.format(MESSAGE_PATH, bundle.getDestination()), "PUT", JsonUtil.toJson(bundle), unidentifiedAccess);
+      String responseText = makeServiceRequest(String.format(MESSAGE_PATH, bundle.getDestination()), "PUT", JsonUtil.toJson(bundle), NO_HEADERS, unidentifiedAccess);
 
       if (responseText == null) return new SendMessageResponse(false);
       else                      return JsonUtil.fromJson(responseText, SendMessageResponse.class);
@@ -277,7 +285,7 @@ public class PushServiceSocket {
         path = path + "?relay=" + destination.getRelay().get();
       }
 
-      String             responseText = makeServiceRequest(path, "GET", null, unidentifiedAccess);
+      String             responseText = makeServiceRequest(path, "GET", null, NO_HEADERS, unidentifiedAccess);
       PreKeyResponse     response     = JsonUtil.fromJson(responseText, PreKeyResponse.class);
       List<PreKeyBundle> bundles      = new LinkedList<>();
 
@@ -396,7 +404,7 @@ public class PushServiceSocket {
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
     try {
-      String response = makeServiceRequest(String.format(PROFILE_PATH, target.getNumber()), "GET", null, unidentifiedAccess);
+      String response = makeServiceRequest(String.format(PROFILE_PATH, target.getNumber()), "GET", null, NO_HEADERS, unidentifiedAccess);
       return JsonUtil.fromJson(response, SignalServiceProfile.class);
     } catch (IOException e) {
       Log.w(TAG, e);
@@ -753,13 +761,19 @@ public class PushServiceSocket {
   private String makeServiceRequest(String urlFragment, String method, String body)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    return makeServiceRequest(urlFragment, method, body, Optional.<UnidentifiedAccess>absent());
+    return makeServiceRequest(urlFragment, method, body, NO_HEADERS, Optional.<UnidentifiedAccess>absent());
   }
 
-  private String makeServiceRequest(String urlFragment, String method, String body, Optional<UnidentifiedAccess> unidentifiedAccessKey)
+  private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    Response response = getServiceConnection(urlFragment, method, body, unidentifiedAccessKey);
+    return makeServiceRequest(urlFragment, method, body, headers, Optional.<UnidentifiedAccess>absent());
+  }
+
+  private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers, Optional<UnidentifiedAccess> unidentifiedAccessKey)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    Response response = getServiceConnection(urlFragment, method, body, headers, unidentifiedAccessKey);
 
     int    responseCode;
     String responseMessage;
@@ -843,7 +857,7 @@ public class PushServiceSocket {
     return responseBody;
   }
 
-  private Response getServiceConnection(String urlFragment, String method, String body, Optional<UnidentifiedAccess> unidentifiedAccess)
+  private Response getServiceConnection(String urlFragment, String method, String body, Map<String, String> headers, Optional<UnidentifiedAccess> unidentifiedAccess)
       throws PushNetworkException
   {
     try {
@@ -864,6 +878,10 @@ public class PushServiceSocket {
         request.method(method, RequestBody.create(MediaType.parse("application/json"), body));
       } else {
         request.method(method, null);
+      }
+
+      for (Map.Entry<String, String> header : headers.entrySet()) {
+        request.addHeader(header.getKey(), header.getValue());
       }
 
       if (unidentifiedAccess.isPresent()) {
