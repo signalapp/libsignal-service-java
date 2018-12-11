@@ -23,6 +23,7 @@ import org.whispersystems.signalservice.api.crypto.UnidentifiedAccessPair;
 import org.whispersystems.signalservice.api.crypto.UntrustedIdentityException;
 import org.whispersystems.signalservice.api.messages.SendMessageResult;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
+import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
@@ -305,6 +306,31 @@ public class SignalServiceMessageSender {
   public void setIsMultiDevice(boolean isMultiDevice) {
     this.isMultiDevice.set(isMultiDevice);
   }
+
+  public SignalServiceAttachmentPointer uploadAttachment(SignalServiceAttachmentStream attachment) throws IOException {
+    byte[]             attachmentKey    = Util.getSecretBytes(64);
+    long               paddedLength     = PaddingInputStream.getPaddedSize(attachment.getLength());
+    long               ciphertextLength = AttachmentCipherOutputStream.getCiphertextLength(paddedLength);
+    PushAttachmentData attachmentData   = new PushAttachmentData(attachment.getContentType(),
+                                                                 new PaddingInputStream(attachment.getInputStream(), attachment.getLength()),
+                                                                 ciphertextLength,
+                                                                 new AttachmentCipherOutputStreamFactory(attachmentKey),
+                                                                 attachment.getListener());
+
+    Pair<Long, byte[]> attachmentIdAndDigest = socket.sendAttachment(attachmentData);
+
+    return new SignalServiceAttachmentPointer(attachmentIdAndDigest.first(),
+                                              attachment.getContentType(),
+                                              attachmentKey,
+                                              Optional.of(Util.toIntExact(attachment.getLength())),
+                                              attachment.getPreview(),
+                                              attachment.getWidth(), attachment.getHeight(),
+                                              Optional.of(attachmentIdAndDigest.second()),
+                                              attachment.getFileName(),
+                                              attachment.getVoiceNote(),
+                                              attachment.getCaption());
+  }
+
 
   private void sendMessage(VerifiedMessage message, Optional<UnidentifiedAccessPair> unidentifiedAccess)
       throws IOException, UntrustedIdentityException
@@ -819,32 +845,22 @@ public class SignalServiceMessageSender {
       if (attachment.isStream()) {
         Log.w(TAG, "Found attachment, creating pointer...");
         pointers.add(createAttachmentPointer(attachment.asStream()));
+      } else if (attachment.isPointer()) {
+        Log.w(TAG, "Including existing attachment pointer...");
+        pointers.add(createAttachmentPointer(attachment.asPointer()));
       }
     }
 
     return pointers;
   }
 
-  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
-      throws IOException
-  {
-    byte[]             attachmentKey    = Util.getSecretBytes(64);
-    long               paddedLength     = PaddingInputStream.getPaddedSize(attachment.getLength());
-    long               ciphertextLength = AttachmentCipherOutputStream.getCiphertextLength(paddedLength);
-    PushAttachmentData attachmentData   = new PushAttachmentData(attachment.getContentType(),
-                                                                 new PaddingInputStream(attachment.getInputStream(), attachment.getLength()),
-                                                                 ciphertextLength,
-                                                                 new AttachmentCipherOutputStreamFactory(attachmentKey),
-                                                                 attachment.getListener());
-
-    Pair<Long, byte[]> attachmentIdAndDigest = socket.sendAttachment(attachmentData);
-
+  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentPointer attachment) {
     AttachmentPointer.Builder builder = AttachmentPointer.newBuilder()
                                                          .setContentType(attachment.getContentType())
-                                                         .setId(attachmentIdAndDigest.first())
-                                                         .setKey(ByteString.copyFrom(attachmentKey))
-                                                         .setDigest(ByteString.copyFrom(attachmentIdAndDigest.second()))
-                                                         .setSize((int)attachment.getLength());
+                                                         .setId(attachment.getId())
+                                                         .setKey(ByteString.copyFrom(attachment.getKey()))
+                                                         .setDigest(ByteString.copyFrom(attachment.getDigest().get()))
+                                                         .setSize(attachment.getSize().get());
 
     if (attachment.getFileName().isPresent()) {
       builder.setFileName(attachment.getFileName().get());
@@ -871,6 +887,13 @@ public class SignalServiceMessageSender {
     }
 
     return builder.build();
+  }
+
+  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
+      throws IOException
+  {
+    SignalServiceAttachmentPointer pointer = uploadAttachment(attachment);
+    return createAttachmentPointer(pointer);
   }
 
 
