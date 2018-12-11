@@ -24,6 +24,7 @@ public class RealtimeSleepTimer implements SleepTimer {
 
   private final AlarmReceiver alarmReceiver;
   private final Context context;
+  private boolean armed;
 
   public RealtimeSleepTimer(Context context) {
     this.context = context;
@@ -32,16 +33,30 @@ public class RealtimeSleepTimer implements SleepTimer {
 
   @Override
   public void sleep(long millis) throws InterruptedException {
-    context.registerReceiver(alarmReceiver,
-                             new IntentFilter(AlarmReceiver.WAKE_UP_THREAD_ACTION));
-
-    alarmReceiver.setAlarm(millis);
+    boolean arm;
 
     synchronized (this) {
-      wait(millis);
+      if (!armed) {
+        armed = true;
+        arm = true;
+      } else {
+        arm = false;
+      }
     }
 
-    context.unregisterReceiver(alarmReceiver);
+    if (arm) {
+      context.registerReceiver(alarmReceiver,
+                               new IntentFilter(AlarmReceiver.WAKE_UP_THREAD_ACTION));
+
+      alarmReceiver.setAlarm(millis);
+      synchronized (this) {
+          wait(millis);
+      }
+    } else {
+      synchronized (this) {
+          wait();
+      }
+    }
   }
 
   private class AlarmReceiver extends BroadcastReceiver {
@@ -74,9 +89,11 @@ public class RealtimeSleepTimer implements SleepTimer {
       Log.w(TAG, "Waking up.");
 
       synchronized (RealtimeSleepTimer.this) {
+        RealtimeSleepTimer.this.context.unregisterReceiver(this);
+
+        RealtimeSleepTimer.this.armed = false;
         RealtimeSleepTimer.this.notifyAll();
       }
     }
   }
 }
-
