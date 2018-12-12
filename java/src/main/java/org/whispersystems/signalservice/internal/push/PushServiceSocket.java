@@ -94,7 +94,7 @@ public class PushServiceSocket {
 
   private static final String TAG = PushServiceSocket.class.getSimpleName();
 
-  private static final String CREATE_ACCOUNT_SMS_PATH   = "/v1/accounts/sms/code/%s";
+  private static final String CREATE_ACCOUNT_SMS_PATH   = "/v1/accounts/sms/code/%s?client=%s";
   private static final String CREATE_ACCOUNT_VOICE_PATH = "/v1/accounts/voice/code/%s";
   private static final String VERIFY_ACCOUNT_CODE_PATH  = "/v1/accounts/code/%s";
   private static final String REGISTER_GCM_PATH         = "/v1/accounts/gcm/";
@@ -145,11 +145,13 @@ public class PushServiceSocket {
     this.random                            = new SecureRandom();
   }
 
-  public void createAccount(boolean voice, Locale locale) throws IOException {
-    String              path    = voice                   ? CREATE_ACCOUNT_VOICE_PATH : CREATE_ACCOUNT_SMS_PATH;
-    Map<String, String> headers = voice && locale != null ? Collections.singletonMap("Accept-Language", locale.getLanguage() + "-" + locale.getCountry()) : NO_HEADERS;
+  public void requestSmsVerificationCode(boolean androidSmsRetriever) throws IOException {
+    makeServiceRequest(String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getUser(), androidSmsRetriever ? "android-ng" : "android"), "GET", null, NO_HEADERS);
+  }
 
-    makeServiceRequest(String.format(path, credentialsProvider.getUser()), "GET", null, headers);
+  public void requestVoiceVerificationCode(Locale locale) throws IOException {
+    Map<String, String> headers = locale != null ? Collections.singletonMap("Accept-Language", locale.getLanguage() + "-" + locale.getCountry()) : NO_HEADERS;
+    makeServiceRequest(String.format(CREATE_ACCOUNT_VOICE_PATH, credentialsProvider.getUser()), "GET", null, headers);
   }
 
   public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin,
