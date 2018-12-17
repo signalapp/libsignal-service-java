@@ -36,6 +36,7 @@ import org.whispersystems.signalservice.api.messages.calls.SignalServiceCallMess
 import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ConfigurationMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage;
 import org.whispersystems.signalservice.api.messages.shared.SharedContact;
@@ -280,6 +281,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceBlockedContent(message.getBlockedList().get());
     } else if (message.getConfiguration().isPresent()) {
       content = createMultiDeviceConfigurationContent(message.getConfiguration().get());
+    } else if (message.getSent().isPresent()) {
+      content = createMultiDeviceSentTranscriptContent(message.getSent().get(), unidentifiedAccess);
     } else if (message.getVerified().isPresent()) {
       sendMessage(message.getVerified().get(), unidentifiedAccess);
       return;
@@ -510,6 +513,16 @@ public class SignalServiceMessageSender {
                                         .setBlob(createAttachmentPointer(groups)));
 
     return container.setSyncMessage(builder).build().toByteArray();
+  }
+
+  private byte[] createMultiDeviceSentTranscriptContent(SentTranscriptMessage transcript, Optional<UnidentifiedAccessPair> unidentifiedAccess) throws IOException {
+    SignalServiceAddress address = new SignalServiceAddress(transcript.getDestination().get());
+    SendMessageResult    result  = SendMessageResult.success(address, unidentifiedAccess.isPresent(), true);
+
+    return createMultiDeviceSentTranscriptContent(createMessageContent(transcript.getMessage()),
+                                                  Optional.of(address),
+                                                  transcript.getTimestamp(),
+                                                  Collections.singletonList(result));
   }
 
   private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<SignalServiceAddress> recipient,
