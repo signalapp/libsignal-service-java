@@ -14,6 +14,7 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import org.whispersystems.libsignal.logging.Log;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * Phone number formats are a pain.
@@ -25,16 +26,34 @@ public class PhoneNumberFormatter {
 
   private static final String TAG = PhoneNumberFormatter.class.getSimpleName();
 
-  public static boolean isValidNumber(String number) {
-    return number.matches("^\\+[0-9]{10,}")  ||
-           number.matches("^\\+685[0-9]{5}") ||
-           number.matches("^\\+376[0-9]{6}") ||
-           number.matches("^\\+299[0-9]{6}") ||
-           number.matches("^\\+597[0-9]{6}") ||
-           number.matches("^\\+298[0-9]{6}") ||
-           number.matches("^\\+240[0-9]{6}") ||
-           number.matches("^\\+687[0-9]{6}") ||
-           number.matches("^\\+689[0-9]{6}");
+  private static final String COUNTRY_CODE_BR = "55";
+  private static final String COUNTRY_CODE_US = "1";
+
+  public static boolean isValidNumber(String e164Number, String countryCode) {
+    if (!PhoneNumberUtil.getInstance().isPossibleNumber(e164Number, countryCode)) {
+      Log.w(TAG, "Failed isPossibleNumber()");
+      return false;
+    }
+
+    if (COUNTRY_CODE_US.equals(countryCode) && !Pattern.matches("^\\+1\\d{10}$", e164Number)) {
+      Log.w(TAG, "Failed US number format check");
+      return false;
+    }
+
+    if (COUNTRY_CODE_BR.equals(countryCode) && !Pattern.matches("^\\+55\\d{2}9?\\d{8}$", e164Number)) {
+      Log.w(TAG, "Failed Brazil number format check");
+      return false;
+    }
+
+    return e164Number.matches("^\\+[0-9]{10,}")  ||
+           e164Number.matches("^\\+685[0-9]{5}") ||
+           e164Number.matches("^\\+376[0-9]{6}") ||
+           e164Number.matches("^\\+299[0-9]{6}") ||
+           e164Number.matches("^\\+597[0-9]{6}") ||
+           e164Number.matches("^\\+298[0-9]{6}") ||
+           e164Number.matches("^\\+240[0-9]{6}") ||
+           e164Number.matches("^\\+687[0-9]{6}") ||
+           e164Number.matches("^\\+689[0-9]{6}");
   }
 
   private static String impreciseFormatNumber(String number, String localNumber)
@@ -134,6 +153,4 @@ public class PhoneNumberFormatter {
       return e164number;
     }
   }
-
-
 }

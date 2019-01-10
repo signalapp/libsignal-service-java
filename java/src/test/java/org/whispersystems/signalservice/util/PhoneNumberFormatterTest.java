@@ -19,6 +19,17 @@ public class PhoneNumberFormatterTest extends TestCase {
   private static final String COUNTRY_CODE_UK  = "44";
   private static final String COUNTRY_CODE_DE  = "49";
 
+  public void testIsValidNumber() throws Exception {
+    assertTrue(PhoneNumberFormatter.isValidNumber("+5521912345678", "55"));
+    assertTrue(PhoneNumberFormatter.isValidNumber("+552112345678", "55"));
+    assertTrue(PhoneNumberFormatter.isValidNumber("+16105880522", "1"));
+
+    assertFalse(PhoneNumberFormatter.isValidNumber("+5512345678", "55"));
+    assertFalse(PhoneNumberFormatter.isValidNumber("+161058805220", "1"));
+    assertFalse(PhoneNumberFormatter.isValidNumber("+1610588052", "1"));
+    assertFalse(PhoneNumberFormatter.isValidNumber("+15880522", "1"));
+  }
+
   public void testFormatNumber() throws Exception, InvalidNumberException {
     assertThat(PhoneNumberFormatter.formatNumber("(555) 555-5555", LOCAL_NUMBER_US)).isEqualTo(LOCAL_NUMBER_US);
     assertThat(PhoneNumberFormatter.formatNumber("555-5555", LOCAL_NUMBER_US)).isEqualTo(LOCAL_NUMBER_US);
