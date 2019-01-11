@@ -457,6 +457,13 @@ public class SignalServiceMessageSender {
       builder.addAllContact(createSharedContactContent(message.getSharedContacts().get()));
     }
 
+    if (message.getPreview().isPresent()) {
+      builder.setPreview(DataMessage.Preview.newBuilder()
+                                            .setTitle(message.getPreview().get().getTitle())
+                                            .setUrl(message.getPreview().get().getUrl())
+                                            .setImage(createAttachmentPointer(message.getPreview().get().getImage().asStream())));
+    }
+
     builder.setTimestamp(message.getTimestamp());
 
     return container.setDataMessage(builder).build().toByteArray();

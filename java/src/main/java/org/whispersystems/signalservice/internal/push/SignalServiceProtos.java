@@ -7206,6 +7206,20 @@ public final class SignalServiceProtos {
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.ContactOrBuilder getContactOrBuilder(
         int index);
+
+    // optional .signalservice.DataMessage.Preview preview = 10;
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    boolean hasPreview();
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview();
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder();
   }
   /**
    * Protobuf type {@code signalservice.DataMessage}
@@ -7323,6 +7337,19 @@ public final class SignalServiceProtos {
                 mutable_bitField0_ |= 0x00000100;
               }
               contact_.add(input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Contact.PARSER, extensionRegistry));
+              break;
+            }
+            case 82: {
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+                subBuilder = preview_.toBuilder();
+              }
+              preview_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(preview_);
+                preview_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000080;
               break;
             }
           }
@@ -16508,6 +16535,825 @@ public final class SignalServiceProtos {
       // @@protoc_insertion_point(class_scope:signalservice.DataMessage.Contact)
     }
 
+    public interface PreviewOrBuilder
+        extends com.google.protobuf.MessageOrBuilder {
+
+      // optional string url = 1;
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      boolean hasUrl();
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      java.lang.String getUrl();
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getUrlBytes();
+
+      // optional string title = 2;
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      boolean hasTitle();
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      java.lang.String getTitle();
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getTitleBytes();
+
+      // optional .signalservice.AttachmentPointer image = 3;
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      boolean hasImage();
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getImage();
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getImageOrBuilder();
+    }
+    /**
+     * Protobuf type {@code signalservice.DataMessage.Preview}
+     */
+    public static final class Preview extends
+        com.google.protobuf.GeneratedMessage
+        implements PreviewOrBuilder {
+      // Use Preview.newBuilder() to construct.
+      private Preview(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private Preview(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final Preview defaultInstance;
+      public static Preview getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public Preview getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Preview(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                bitField0_ |= 0x00000001;
+                url_ = input.readBytes();
+                break;
+              }
+              case 18: {
+                bitField0_ |= 0x00000002;
+                title_ = input.readBytes();
+                break;
+              }
+              case 26: {
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder subBuilder = null;
+                if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                  subBuilder = image_.toBuilder();
+                }
+                image_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.PARSER, extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(image_);
+                  image_ = subBuilder.buildPartial();
+                }
+                bitField0_ |= 0x00000004;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_Preview_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_Preview_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<Preview> PARSER =
+          new com.google.protobuf.AbstractParser<Preview>() {
+        public Preview parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Preview(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Preview> getParserForType() {
+        return PARSER;
+      }
+
+      private int bitField0_;
+      // optional string url = 1;
+      public static final int URL_FIELD_NUMBER = 1;
+      private java.lang.Object url_;
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      public boolean hasUrl() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      public java.lang.String getUrl() {
+        java.lang.Object ref = url_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            url_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string url = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUrlBytes() {
+        java.lang.Object ref = url_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          url_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      // optional string title = 2;
+      public static final int TITLE_FIELD_NUMBER = 2;
+      private java.lang.Object title_;
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      public boolean hasTitle() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            title_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string title = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      // optional .signalservice.AttachmentPointer image = 3;
+      public static final int IMAGE_FIELD_NUMBER = 3;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer image_;
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      public boolean hasImage() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getImage() {
+        return image_;
+      }
+      /**
+       * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getImageOrBuilder() {
+        return image_;
+      }
+
+      private void initFields() {
+        url_ = "";
+        title_ = "";
+        image_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized != -1) return isInitialized == 1;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeBytes(1, getUrlBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeBytes(2, getTitleBytes());
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeMessage(3, image_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(1, getUrlBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(2, getTitleBytes());
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, image_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code signalservice.DataMessage.Preview}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder>
+         implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_Preview_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_Preview_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder.class);
+        }
+
+        // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getImageFieldBuilder();
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          url_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          title_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          if (imageBuilder_ == null) {
+            image_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
+          } else {
+            imageBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000004);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_DataMessage_Preview_descriptor;
+        }
+
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getDefaultInstanceForType() {
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+        }
+
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview build() {
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview buildPartial() {
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview result = new org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.url_ = url_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.title_ = title_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          if (imageBuilder_ == null) {
+            result.image_ = image_;
+          } else {
+            result.image_ = imageBuilder_.build();
+          }
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview) {
+            return mergeFrom((org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview other) {
+          if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance()) return this;
+          if (other.hasUrl()) {
+            bitField0_ |= 0x00000001;
+            url_ = other.url_;
+            onChanged();
+          }
+          if (other.hasTitle()) {
+            bitField0_ |= 0x00000002;
+            title_ = other.title_;
+            onChanged();
+          }
+          if (other.hasImage()) {
+            mergeImage(other.getImage());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        // optional string url = 1;
+        private java.lang.Object url_ = "";
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public boolean hasUrl() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public java.lang.String getUrl() {
+          java.lang.Object ref = url_;
+          if (!(ref instanceof java.lang.String)) {
+            java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                .toStringUtf8();
+            url_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getUrlBytes() {
+          java.lang.Object ref = url_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            url_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public Builder setUrl(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          url_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public Builder clearUrl() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          url_ = getDefaultInstance().getUrl();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string url = 1;</code>
+         */
+        public Builder setUrlBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          url_ = value;
+          onChanged();
+          return this;
+        }
+
+        // optional string title = 2;
+        private java.lang.Object title_ = "";
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public boolean hasTitle() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public java.lang.String getTitle() {
+          java.lang.Object ref = title_;
+          if (!(ref instanceof java.lang.String)) {
+            java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                .toStringUtf8();
+            title_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTitleBytes() {
+          java.lang.Object ref = title_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            title_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public Builder setTitle(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          title_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public Builder clearTitle() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          title_ = getDefaultInstance().getTitle();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string title = 2;</code>
+         */
+        public Builder setTitleBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          title_ = value;
+          onChanged();
+          return this;
+        }
+
+        // optional .signalservice.AttachmentPointer image = 3;
+        private org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer image_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
+        private com.google.protobuf.SingleFieldBuilder<
+            org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> imageBuilder_;
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public boolean hasImage() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer getImage() {
+          if (imageBuilder_ == null) {
+            return image_;
+          } else {
+            return imageBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public Builder setImage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
+          if (imageBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            image_ = value;
+            onChanged();
+          } else {
+            imageBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public Builder setImage(
+            org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder builderForValue) {
+          if (imageBuilder_ == null) {
+            image_ = builderForValue.build();
+            onChanged();
+          } else {
+            imageBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public Builder mergeImage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer value) {
+          if (imageBuilder_ == null) {
+            if (((bitField0_ & 0x00000004) == 0x00000004) &&
+                image_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance()) {
+              image_ =
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.newBuilder(image_).mergeFrom(value).buildPartial();
+            } else {
+              image_ = value;
+            }
+            onChanged();
+          } else {
+            imageBuilder_.mergeFrom(value);
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public Builder clearImage() {
+          if (imageBuilder_ == null) {
+            image_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.getDefaultInstance();
+            onChanged();
+          } else {
+            imageBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000004);
+          return this;
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder getImageBuilder() {
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return getImageFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder getImageOrBuilder() {
+          if (imageBuilder_ != null) {
+            return imageBuilder_.getMessageOrBuilder();
+          } else {
+            return image_;
+          }
+        }
+        /**
+         * <code>optional .signalservice.AttachmentPointer image = 3;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder> 
+            getImageFieldBuilder() {
+          if (imageBuilder_ == null) {
+            imageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointerOrBuilder>(
+                    image_,
+                    getParentForChildren(),
+                    isClean());
+            image_ = null;
+          }
+          return imageBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:signalservice.DataMessage.Preview)
+      }
+
+      static {
+        defaultInstance = new Preview(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:signalservice.DataMessage.Preview)
+    }
+
     private int bitField0_;
     // optional string body = 1;
     public static final int BODY_FIELD_NUMBER = 1;
@@ -16732,6 +17578,28 @@ public final class SignalServiceProtos {
       return contact_.get(index);
     }
 
+    // optional .signalservice.DataMessage.Preview preview = 10;
+    public static final int PREVIEW_FIELD_NUMBER = 10;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview preview_;
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public boolean hasPreview() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview() {
+      return preview_;
+    }
+    /**
+     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder() {
+      return preview_;
+    }
+
     private void initFields() {
       body_ = "";
       attachments_ = java.util.Collections.emptyList();
@@ -16742,6 +17610,7 @@ public final class SignalServiceProtos {
       timestamp_ = 0L;
       quote_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Quote.getDefaultInstance();
       contact_ = java.util.Collections.emptyList();
+      preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -16781,6 +17650,9 @@ public final class SignalServiceProtos {
       }
       for (int i = 0; i < contact_.size(); i++) {
         output.writeMessage(9, contact_.get(i));
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeMessage(10, preview_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -16826,6 +17698,10 @@ public final class SignalServiceProtos {
       for (int i = 0; i < contact_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, contact_.get(i));
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, preview_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -16939,6 +17815,7 @@ public final class SignalServiceProtos {
           getGroupFieldBuilder();
           getQuoteFieldBuilder();
           getContactFieldBuilder();
+          getPreviewFieldBuilder();
         }
       }
       private static Builder create() {
@@ -16981,6 +17858,12 @@ public final class SignalServiceProtos {
         } else {
           contactBuilder_.clear();
         }
+        if (previewBuilder_ == null) {
+          preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+        } else {
+          previewBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -17062,6 +17945,14 @@ public final class SignalServiceProtos {
           result.contact_ = contact_;
         } else {
           result.contact_ = contactBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        if (previewBuilder_ == null) {
+          result.preview_ = preview_;
+        } else {
+          result.preview_ = previewBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -17153,6 +18044,9 @@ public final class SignalServiceProtos {
               contactBuilder_.addAllMessages(other.contact_);
             }
           }
+        }
+        if (other.hasPreview()) {
+          mergePreview(other.getPreview());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -18102,6 +18996,123 @@ public final class SignalServiceProtos {
           contact_ = null;
         }
         return contactBuilder_;
+      }
+
+      // optional .signalservice.DataMessage.Preview preview = 10;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> previewBuilder_;
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public boolean hasPreview() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview() {
+        if (previewBuilder_ == null) {
+          return preview_;
+        } else {
+          return previewBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder setPreview(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+        if (previewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          preview_ = value;
+          onChanged();
+        } else {
+          previewBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder setPreview(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder builderForValue) {
+        if (previewBuilder_ == null) {
+          preview_ = builderForValue.build();
+          onChanged();
+        } else {
+          previewBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder mergePreview(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+        if (previewBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) == 0x00000200) &&
+              preview_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance()) {
+            preview_ =
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.newBuilder(preview_).mergeFrom(value).buildPartial();
+          } else {
+            preview_ = value;
+          }
+          onChanged();
+        } else {
+          previewBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder clearPreview() {
+        if (previewBuilder_ == null) {
+          preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+          onChanged();
+        } else {
+          previewBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder getPreviewBuilder() {
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return getPreviewFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder() {
+        if (previewBuilder_ != null) {
+          return previewBuilder_.getMessageOrBuilder();
+        } else {
+          return preview_;
+        }
+      }
+      /**
+       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> 
+          getPreviewFieldBuilder() {
+        if (previewBuilder_ == null) {
+          previewBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder>(
+                  preview_,
+                  getParentForChildren(),
+                  isClean());
+          preview_ = null;
+        }
+        return previewBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:signalservice.DataMessage)
@@ -34418,6 +35429,11 @@ public final class SignalServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_signalservice_DataMessage_Contact_Avatar_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_signalservice_DataMessage_Preview_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_signalservice_DataMessage_Preview_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_signalservice_NullMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -34549,7 +35565,7 @@ public final class SignalServiceProtos {
       "r\022\n\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032K\n\tIc" +
       "eUpdate\022\n\n\002id\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rs" +
       "dpMLineIndex\030\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022" +
-      "\n\n\002id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\261\r\n\013Da" +
+      "\n\n\002id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\276\016\n\013Da" +
       "taMessage\022\014\n\004body\030\001 \001(\t\0225\n\013attachments\030\002",
       " \003(\0132 .signalservice.AttachmentPointer\022*" +
       "\n\005group\030\003 \001(\0132\033.signalservice.GroupConte" +
@@ -34557,110 +35573,114 @@ public final class SignalServiceProtos {
       "\n\nprofileKey\030\006 \001(\014\022\021\n\ttimestamp\030\007 \001(\004\022/\n" +
       "\005quote\030\010 \001(\0132 .signalservice.DataMessage" +
       ".Quote\0223\n\007contact\030\t \003(\0132\".signalservice." +
-      "DataMessage.Contact\032\351\001\n\005Quote\022\n\n\002id\030\001 \001(" +
-      "\004\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\022F\n\013attac" +
-      "hments\030\004 \003(\01321.signalservice.DataMessage" +
-      ".Quote.QuotedAttachment\032n\n\020QuotedAttachm",
-      "ent\022\023\n\013contentType\030\001 \001(\t\022\020\n\010fileName\030\002 \001" +
-      "(\t\0223\n\tthumbnail\030\003 \001(\0132 .signalservice.At" +
-      "tachmentPointer\032\304\010\n\007Contact\0225\n\004name\030\001 \001(" +
-      "\0132\'.signalservice.DataMessage.Contact.Na" +
-      "me\0228\n\006number\030\003 \003(\0132(.signalservice.DataM" +
-      "essage.Contact.Phone\0227\n\005email\030\004 \003(\0132(.si" +
-      "gnalservice.DataMessage.Contact.Email\022A\n" +
-      "\007address\030\005 \003(\01320.signalservice.DataMessa" +
-      "ge.Contact.PostalAddress\0229\n\006avatar\030\006 \001(\013" +
-      "2).signalservice.DataMessage.Contact.Ava",
-      "tar\022\024\n\014organization\030\007 \001(\t\032v\n\004Name\022\021\n\tgiv" +
-      "enName\030\001 \001(\t\022\022\n\nfamilyName\030\002 \001(\t\022\016\n\006pref" +
-      "ix\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n\nmiddleName\030\005" +
-      " \001(\t\022\023\n\013displayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005v" +
-      "alue\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice" +
-      ".DataMessage.Contact.Phone.Type\022\r\n\005label" +
-      "\030\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004" +
-      "WORK\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 " +
-      "\001(\t\022;\n\004type\030\002 \001(\0162-.signalservice.DataMe" +
-      "ssage.Contact.Email.Type\022\r\n\005label\030\003 \001(\t\"",
-      "2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022" +
-      "\n\n\006CUSTOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001 " +
-      "\001(\01625.signalservice.DataMessage.Contact." +
-      "PostalAddress.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006str" +
-      "eet\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhood" +
-      "\030\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010" +
-      "postcode\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022" +
-      "\010\n\004HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avata" +
-      "r\0220\n\006avatar\030\001 \001(\0132 .signalservice.Attach" +
-      "mentPointer\022\021\n\tisProfile\030\002 \001(\010\"M\n\005Flags\022",
-      "\017\n\013END_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPD" +
-      "ATE\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"\036\n\013NullMes" +
-      "sage\022\017\n\007padding\030\001 \001(\014\"u\n\016ReceiptMessage\022" +
-      "0\n\004type\030\001 \001(\0162\".signalservice.ReceiptMes" +
-      "sage.Type\022\021\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010" +
-      "DELIVERY\020\000\022\010\n\004READ\020\001\"\214\001\n\rTypingMessage\022\021" +
-      "\n\ttimestamp\030\001 \001(\004\0223\n\006action\030\002 \001(\0162#.sign" +
-      "alservice.TypingMessage.Action\022\017\n\007groupI" +
-      "d\030\003 \001(\014\"\"\n\006Action\022\013\n\007STARTED\020\000\022\013\n\007STOPPE" +
-      "D\020\001\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(\t\022\023\n",
-      "\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.sign" +
-      "alservice.Verified.State\022\023\n\013nullMessage\030" +
-      "\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIED\020" +
-      "\001\022\016\n\nUNVERIFIED\020\002\"\300\t\n\013SyncMessage\022-\n\004sen" +
-      "t\030\001 \001(\0132\037.signalservice.SyncMessage.Sent" +
-      "\0225\n\010contacts\030\002 \001(\0132#.signalservice.SyncM" +
-      "essage.Contacts\0221\n\006groups\030\003 \001(\0132!.signal" +
-      "service.SyncMessage.Groups\0223\n\007request\030\004 " +
-      "\001(\0132\".signalservice.SyncMessage.Request\022" +
-      "-\n\004read\030\005 \003(\0132\037.signalservice.SyncMessag",
-      "e.Read\0223\n\007blocked\030\006 \001(\0132\".signalservice." +
-      "SyncMessage.Blocked\022)\n\010verified\030\007 \001(\0132\027." +
-      "signalservice.Verified\022?\n\rconfiguration\030" +
-      "\t \001(\0132(.signalservice.SyncMessage.Config" +
-      "uration\022\017\n\007padding\030\010 \001(\014\032\236\002\n\004Sent\022\023\n\013des" +
-      "tination\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\022+\n\007mes" +
-      "sage\030\003 \001(\0132\032.signalservice.DataMessage\022 " +
-      "\n\030expirationStartTimestamp\030\004 \001(\004\022V\n\022unid" +
-      "entifiedStatus\030\005 \003(\0132:.signalservice.Syn" +
-      "cMessage.Sent.UnidentifiedDeliveryStatus",
-      "\032G\n\032UnidentifiedDeliveryStatus\022\023\n\013destin" +
-      "ation\030\001 \001(\t\022\024\n\014unidentified\030\002 \001(\010\032S\n\010Con" +
-      "tacts\022.\n\004blob\030\001 \001(\0132 .signalservice.Atta" +
-      "chmentPointer\022\027\n\010complete\030\002 \001(\010:\005false\0328" +
-      "\n\006Groups\022.\n\004blob\030\001 \001(\0132 .signalservice.A" +
-      "ttachmentPointer\032,\n\007Blocked\022\017\n\007numbers\030\001" +
-      " \003(\t\022\020\n\010groupIds\030\002 \003(\014\032\217\001\n\007Request\0225\n\004ty" +
-      "pe\030\001 \001(\0162\'.signalservice.SyncMessage.Req" +
-      "uest.Type\"M\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010CONTAC" +
-      "TS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED\020\003\022\021\n\rCONFIGU",
-      "RATION\020\004\032)\n\004Read\022\016\n\006sender\030\001 \001(\t\022\021\n\ttime" +
-      "stamp\030\002 \001(\004\032g\n\rConfiguration\022\024\n\014readRece" +
-      "ipts\030\001 \001(\010\022&\n\036unidentifiedDeliveryIndica" +
-      "tors\030\002 \001(\010\022\030\n\020typingIndicators\030\003 \001(\010\"\337\001\n" +
-      "\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013conten" +
-      "tType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021" +
-      "\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fil" +
-      "eName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005width\030\t \001(" +
-      "\r\022\016\n\006height\030\n \001(\r\022\017\n\007caption\030\013 \001(\t\"\032\n\005Fl" +
-      "ags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022",
-      "\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .signalservic" +
-      "e.GroupContext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007mem" +
-      "bers\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .signalservi" +
-      "ce.AttachmentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020" +
-      "\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014" +
-      "REQUEST_INFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006num" +
-      "ber\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132" +
-      "$.signalservice.ContactDetails.Avatar\022\r\n" +
-      "\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132\027.signals" +
-      "ervice.Verified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007b",
-      "locked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Ava" +
-      "tar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r" +
-      "\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 " +
-      "\001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".s" +
-      "ignalservice.GroupDetails.Avatar\022\024\n\006acti" +
-      "ve\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005c" +
-      "olor\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006Avatar\022\023\n" +
-      "\013contentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.or" +
-      "g.whispersystems.signalservice.internal." +
-      "pushB\023SignalServiceProtos"
+      "DataMessage.Contact\0223\n\007preview\030\n \001(\0132\".s" +
+      "ignalservice.DataMessage.Preview\032\351\001\n\005Quo" +
+      "te\022\n\n\002id\030\001 \001(\004\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003" +
+      " \001(\t\022F\n\013attachments\030\004 \003(\01321.signalservic",
+      "e.DataMessage.Quote.QuotedAttachment\032n\n\020" +
+      "QuotedAttachment\022\023\n\013contentType\030\001 \001(\t\022\020\n" +
+      "\010fileName\030\002 \001(\t\0223\n\tthumbnail\030\003 \001(\0132 .sig" +
+      "nalservice.AttachmentPointer\032\304\010\n\007Contact" +
+      "\0225\n\004name\030\001 \001(\0132\'.signalservice.DataMessa" +
+      "ge.Contact.Name\0228\n\006number\030\003 \003(\0132(.signal" +
+      "service.DataMessage.Contact.Phone\0227\n\005ema" +
+      "il\030\004 \003(\0132(.signalservice.DataMessage.Con" +
+      "tact.Email\022A\n\007address\030\005 \003(\01320.signalserv" +
+      "ice.DataMessage.Contact.PostalAddress\0229\n",
+      "\006avatar\030\006 \001(\0132).signalservice.DataMessag" +
+      "e.Contact.Avatar\022\024\n\014organization\030\007 \001(\t\032v" +
+      "\n\004Name\022\021\n\tgivenName\030\001 \001(\t\022\022\n\nfamilyName\030" +
+      "\002 \001(\t\022\016\n\006prefix\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n" +
+      "\nmiddleName\030\005 \001(\t\022\023\n\013displayName\030\006 \001(\t\032\226" +
+      "\001\n\005Phone\022\r\n\005value\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-." +
+      "signalservice.DataMessage.Contact.Phone." +
+      "Type\022\r\n\005label\030\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n" +
+      "\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Emai" +
+      "l\022\r\n\005value\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signals",
+      "ervice.DataMessage.Contact.Email.Type\022\r\n" +
+      "\005label\030\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE" +
+      "\020\002\022\010\n\004WORK\020\003\022\n\n\006CUSTOM\020\004\032\201\002\n\rPostalAddre" +
+      "ss\022C\n\004type\030\001 \001(\01625.signalservice.DataMes" +
+      "sage.Contact.PostalAddress.Type\022\r\n\005label" +
+      "\030\002 \001(\t\022\016\n\006street\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n" +
+      "\014neighborhood\030\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006reg" +
+      "ion\030\007 \001(\t\022\020\n\010postcode\030\010 \001(\t\022\017\n\007country\030\t" +
+      " \001(\t\"&\n\004Type\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUST" +
+      "OM\020\003\032M\n\006Avatar\0220\n\006avatar\030\001 \001(\0132 .signals",
+      "ervice.AttachmentPointer\022\021\n\tisProfile\030\002 " +
+      "\001(\010\032V\n\007Preview\022\013\n\003url\030\001 \001(\t\022\r\n\005title\030\002 \001" +
+      "(\t\022/\n\005image\030\003 \001(\0132 .signalservice.Attach" +
+      "mentPointer\"M\n\005Flags\022\017\n\013END_SESSION\020\001\022\033\n" +
+      "\027EXPIRATION_TIMER_UPDATE\020\002\022\026\n\022PROFILE_KE" +
+      "Y_UPDATE\020\004\"\036\n\013NullMessage\022\017\n\007padding\030\001 \001" +
+      "(\014\"u\n\016ReceiptMessage\0220\n\004type\030\001 \001(\0162\".sig" +
+      "nalservice.ReceiptMessage.Type\022\021\n\ttimest" +
+      "amp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DELIVERY\020\000\022\010\n\004READ\020" +
+      "\001\"\214\001\n\rTypingMessage\022\021\n\ttimestamp\030\001 \001(\004\0223",
+      "\n\006action\030\002 \001(\0162#.signalservice.TypingMes" +
+      "sage.Action\022\017\n\007groupId\030\003 \001(\014\"\"\n\006Action\022\013" +
+      "\n\007STARTED\020\000\022\013\n\007STOPPED\020\001\"\253\001\n\010Verified\022\023\n" +
+      "\013destination\030\001 \001(\t\022\023\n\013identityKey\030\002 \001(\014\022" +
+      ",\n\005state\030\003 \001(\0162\035.signalservice.Verified." +
+      "State\022\023\n\013nullMessage\030\004 \001(\014\"2\n\005State\022\013\n\007D" +
+      "EFAULT\020\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERIFIED\020\002\"\300" +
+      "\t\n\013SyncMessage\022-\n\004sent\030\001 \001(\0132\037.signalser" +
+      "vice.SyncMessage.Sent\0225\n\010contacts\030\002 \001(\0132" +
+      "#.signalservice.SyncMessage.Contacts\0221\n\006",
+      "groups\030\003 \001(\0132!.signalservice.SyncMessage" +
+      ".Groups\0223\n\007request\030\004 \001(\0132\".signalservice" +
+      ".SyncMessage.Request\022-\n\004read\030\005 \003(\0132\037.sig" +
+      "nalservice.SyncMessage.Read\0223\n\007blocked\030\006" +
+      " \001(\0132\".signalservice.SyncMessage.Blocked" +
+      "\022)\n\010verified\030\007 \001(\0132\027.signalservice.Verif" +
+      "ied\022?\n\rconfiguration\030\t \001(\0132(.signalservi" +
+      "ce.SyncMessage.Configuration\022\017\n\007padding\030" +
+      "\010 \001(\014\032\236\002\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\tt" +
+      "imestamp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signal",
+      "service.DataMessage\022 \n\030expirationStartTi" +
+      "mestamp\030\004 \001(\004\022V\n\022unidentifiedStatus\030\005 \003(" +
+      "\0132:.signalservice.SyncMessage.Sent.Unide" +
+      "ntifiedDeliveryStatus\032G\n\032UnidentifiedDel" +
+      "iveryStatus\022\023\n\013destination\030\001 \001(\t\022\024\n\014unid" +
+      "entified\030\002 \001(\010\032S\n\010Contacts\022.\n\004blob\030\001 \001(\013" +
+      "2 .signalservice.AttachmentPointer\022\027\n\010co" +
+      "mplete\030\002 \001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 " +
+      "\001(\0132 .signalservice.AttachmentPointer\032,\n" +
+      "\007Blocked\022\017\n\007numbers\030\001 \003(\t\022\020\n\010groupIds\030\002 ",
+      "\003(\014\032\217\001\n\007Request\0225\n\004type\030\001 \001(\0162\'.signalse" +
+      "rvice.SyncMessage.Request.Type\"M\n\004Type\022\013" +
+      "\n\007UNKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n" +
+      "\007BLOCKED\020\003\022\021\n\rCONFIGURATION\020\004\032)\n\004Read\022\016\n" +
+      "\006sender\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\032g\n\rConf" +
+      "iguration\022\024\n\014readReceipts\030\001 \001(\010\022&\n\036unide" +
+      "ntifiedDeliveryIndicators\030\002 \001(\010\022\030\n\020typin" +
+      "gIndicators\030\003 \001(\010\"\337\001\n\021AttachmentPointer\022" +
+      "\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030" +
+      "\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016",
+      "\n\006digest\030\006 \001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flag" +
+      "s\030\010 \001(\r\022\r\n\005width\030\t \001(\r\022\016\n\006height\030\n \001(\r\022\017" +
+      "\n\007caption\030\013 \001(\t\"\032\n\005Flags\022\021\n\rVOICE_MESSAG" +
+      "E\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001(\014\022.\n\004type" +
+      "\030\002 \001(\0162 .signalservice.GroupContext.Type" +
+      "\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avata" +
+      "r\030\005 \001(\0132 .signalservice.AttachmentPointe" +
+      "r\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DE" +
+      "LIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\207\002\n\016" +
+      "ContactDetails\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002",
+      " \001(\t\0224\n\006avatar\030\003 \001(\0132$.signalservice.Con" +
+      "tactDetails.Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010ver" +
+      "ified\030\005 \001(\0132\027.signalservice.Verified\022\022\n\n" +
+      "profileKey\030\006 \001(\014\022\017\n\007blocked\030\007 \001(\010\022\023\n\013exp" +
+      "ireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013contentType\030" +
+      "\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\347\001\n\014GroupDetails\022\n" +
+      "\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(" +
+      "\t\0222\n\006avatar\030\004 \001(\0132\".signalservice.GroupD" +
+      "etails.Avatar\022\024\n\006active\030\005 \001(\010:\004true\022\023\n\013e" +
+      "xpireTimer\030\006 \001(\r\022\r\n\005color\030\007 \001(\t\022\017\n\007block",
+      "ed\030\010 \001(\010\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022" +
+      "\016\n\006length\030\002 \001(\rBE\n.org.whispersystems.si" +
+      "gnalservice.internal.pushB\023SignalService" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -34720,7 +35740,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_DataMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_descriptor,
-              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", "ProfileKey", "Timestamp", "Quote", "Contact", });
+              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", "ProfileKey", "Timestamp", "Quote", "Contact", "Preview", });
           internal_static_signalservice_DataMessage_Quote_descriptor =
             internal_static_signalservice_DataMessage_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_DataMessage_Quote_fieldAccessorTable = new
@@ -34769,6 +35789,12 @@ public final class SignalServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_Contact_Avatar_descriptor,
               new java.lang.String[] { "Avatar", "IsProfile", });
+          internal_static_signalservice_DataMessage_Preview_descriptor =
+            internal_static_signalservice_DataMessage_descriptor.getNestedTypes().get(2);
+          internal_static_signalservice_DataMessage_Preview_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_signalservice_DataMessage_Preview_descriptor,
+              new java.lang.String[] { "Url", "Title", "Image", });
           internal_static_signalservice_NullMessage_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_signalservice_NullMessage_fieldAccessorTable = new
