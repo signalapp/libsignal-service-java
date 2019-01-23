@@ -29,7 +29,7 @@ public class SignalServiceDataMessage {
   private final boolean                                 profileKeyUpdate;
   private final Optional<Quote>                         quote;
   private final Optional<List<SharedContact>>           contacts;
-  private final Optional<Preview>                       preview;
+  private final Optional<List<Preview>>                 previews;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -120,7 +120,7 @@ public class SignalServiceDataMessage {
                                   List<SignalServiceAttachment> attachments,
                                   String body, boolean endSession, int expiresInSeconds,
                                   boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
-                                  Quote quote, List<SharedContact> sharedContacts, Preview preview)
+                                  Quote quote, List<SharedContact> sharedContacts, List<Preview> previews)
   {
     this.timestamp             = timestamp;
     this.body                  = Optional.fromNullable(body);
@@ -131,7 +131,6 @@ public class SignalServiceDataMessage {
     this.profileKey            = Optional.fromNullable(profileKey);
     this.profileKeyUpdate      = profileKeyUpdate;
     this.quote                 = Optional.fromNullable(quote);
-    this.preview               = Optional.fromNullable(preview);
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);
@@ -143,6 +142,12 @@ public class SignalServiceDataMessage {
       this.contacts = Optional.of(sharedContacts);
     } else {
       this.contacts = Optional.absent();
+    }
+
+    if (previews != null && !previews.isEmpty()) {
+      this.previews = Optional.of(previews);
+    } else {
+      this.previews = Optional.absent();
     }
   }
 
@@ -210,14 +215,15 @@ public class SignalServiceDataMessage {
     return contacts;
   }
 
-  public Optional<Preview> getPreview() {
-    return preview;
+  public Optional<List<Preview>> getPreviews() {
+    return previews;
   }
 
   public static class Builder {
 
     private List<SignalServiceAttachment> attachments    = new LinkedList<>();
     private List<SharedContact>           sharedContacts = new LinkedList<>();
+    private List<Preview>                 previews       = new LinkedList<>();
 
     private long               timestamp;
     private SignalServiceGroup group;
@@ -228,7 +234,6 @@ public class SignalServiceDataMessage {
     private byte[]             profileKey;
     private boolean            profileKeyUpdate;
     private Quote              quote;
-    private Preview            preview;
 
     private Builder() {}
 
@@ -305,8 +310,8 @@ public class SignalServiceDataMessage {
       return this;
     }
 
-    public Builder withPreview(Preview preview) {
-      this.preview = preview;
+    public Builder withPreviews(List<Preview> previews) {
+      this.previews.addAll(previews);
       return this;
     }
 
@@ -314,7 +319,7 @@ public class SignalServiceDataMessage {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
                                           expiresInSeconds, expirationUpdate, profileKey,
-                                          profileKeyUpdate, quote, sharedContacts, preview);
+                                          profileKeyUpdate, quote, sharedContacts, previews);
     }
   }
 

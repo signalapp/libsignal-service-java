@@ -269,7 +269,7 @@ public class SignalServiceCipher {
     boolean                        profileKeyUpdate = ((content.getFlags() & DataMessage.Flags.PROFILE_KEY_UPDATE_VALUE     ) != 0);
     SignalServiceDataMessage.Quote quote            = createQuote(content);
     List<SharedContact>            sharedContacts   = createSharedContacts(content);
-    Preview                        preview          = createPreview(content);
+    List<Preview>                  previews         = createPreviews(content);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
       attachments.add(createAttachmentPointer(pointer));
@@ -292,7 +292,7 @@ public class SignalServiceCipher {
                                         profileKeyUpdate,
                                         quote,
                                         sharedContacts,
-                                        preview);
+                                        previews);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(Metadata metadata, SyncMessage content)
@@ -426,18 +426,24 @@ public class SignalServiceCipher {
                                               attachments);
   }
 
-  private Preview createPreview(DataMessage content) {
-    if (!content.hasPreview()) return null;
+  private List<Preview> createPreviews(DataMessage content) {
+    if (content.getPreviewCount() <= 0) return null;
 
-    SignalServiceAttachment attachment = null;
+    List<Preview> results = new LinkedList<>();
 
-    if (content.getPreview().getImage() != null) {
-      attachment = createAttachmentPointer(content.getPreview().getImage());
+    for (DataMessage.Preview preview : content.getPreviewList()) {
+      SignalServiceAttachment attachment = null;
+
+      if (preview.hasImage()) {
+        attachment = createAttachmentPointer(preview.getImage());
+      }
+
+      results.add(new Preview(preview.getUrl(),
+                              preview.getTitle(),
+                              Optional.fromNullable(attachment)));
     }
 
-    return new Preview(content.getPreview().getUrl(),
-                       content.getPreview().getTitle(),
-                       Optional.fromNullable(attachment));
+    return results;
   }
 
   private List<SharedContact> createSharedContacts(DataMessage content) {

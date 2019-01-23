@@ -457,16 +457,18 @@ public class SignalServiceMessageSender {
       builder.addAllContact(createSharedContactContent(message.getSharedContacts().get()));
     }
 
-    if (message.getPreview().isPresent()) {
-      DataMessage.Preview.Builder previewBuilder = DataMessage.Preview.newBuilder();
-      previewBuilder.setTitle(message.getPreview().get().getTitle());
-      previewBuilder.setUrl(message.getPreview().get().getUrl());
+    if (message.getPreviews().isPresent()) {
+      for (SignalServiceDataMessage.Preview preview : message.getPreviews().get()) {
+        DataMessage.Preview.Builder previewBuilder = DataMessage.Preview.newBuilder();
+        previewBuilder.setTitle(preview.getTitle());
+        previewBuilder.setUrl(preview.getUrl());
 
-      if (message.getPreview().get().getImage().isPresent()) {
-        previewBuilder.setImage(createAttachmentPointer(message.getPreview().get().getImage().get().asStream()));
+        if (preview.getImage().isPresent()) {
+          previewBuilder.setImage(createAttachmentPointer(preview.getImage().get().asStream()));
+        }
+
+        builder.addPreview(previewBuilder.build());
       }
-
-      builder.setPreview(previewBuilder.build());
     }
 
     builder.setTimestamp(message.getTimestamp());

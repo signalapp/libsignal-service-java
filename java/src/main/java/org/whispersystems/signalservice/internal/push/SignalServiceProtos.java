@@ -7207,19 +7207,30 @@ public final class SignalServiceProtos {
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.ContactOrBuilder getContactOrBuilder(
         int index);
 
-    // optional .signalservice.DataMessage.Preview preview = 10;
+    // repeated .signalservice.DataMessage.Preview preview = 10;
     /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
      */
-    boolean hasPreview();
+    java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> 
+        getPreviewList();
     /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
      */
-    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview();
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview(int index);
     /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
      */
-    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder();
+    int getPreviewCount();
+    /**
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> 
+        getPreviewOrBuilderList();
+    /**
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code signalservice.DataMessage}
@@ -7340,16 +7351,11 @@ public final class SignalServiceProtos {
               break;
             }
             case 82: {
-              org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000080) == 0x00000080)) {
-                subBuilder = preview_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                preview_ = new java.util.ArrayList<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview>();
+                mutable_bitField0_ |= 0x00000200;
               }
-              preview_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(preview_);
-                preview_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000080;
+              preview_.add(input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.PARSER, extensionRegistry));
               break;
             }
           }
@@ -7365,6 +7371,9 @@ public final class SignalServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           contact_ = java.util.Collections.unmodifiableList(contact_);
+        }
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+          preview_ = java.util.Collections.unmodifiableList(preview_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -17578,26 +17587,40 @@ public final class SignalServiceProtos {
       return contact_.get(index);
     }
 
-    // optional .signalservice.DataMessage.Preview preview = 10;
+    // repeated .signalservice.DataMessage.Preview preview = 10;
     public static final int PREVIEW_FIELD_NUMBER = 10;
-    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview preview_;
+    private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> preview_;
     /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
      */
-    public boolean hasPreview() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
-     */
-    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview() {
+    public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> getPreviewList() {
       return preview_;
     }
     /**
-     * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
      */
-    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder() {
+    public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> 
+        getPreviewOrBuilderList() {
       return preview_;
+    }
+    /**
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public int getPreviewCount() {
+      return preview_.size();
+    }
+    /**
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview(int index) {
+      return preview_.get(index);
+    }
+    /**
+     * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+     */
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder(
+        int index) {
+      return preview_.get(index);
     }
 
     private void initFields() {
@@ -17610,7 +17633,7 @@ public final class SignalServiceProtos {
       timestamp_ = 0L;
       quote_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Quote.getDefaultInstance();
       contact_ = java.util.Collections.emptyList();
-      preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+      preview_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -17651,8 +17674,8 @@ public final class SignalServiceProtos {
       for (int i = 0; i < contact_.size(); i++) {
         output.writeMessage(9, contact_.get(i));
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeMessage(10, preview_);
+      for (int i = 0; i < preview_.size(); i++) {
+        output.writeMessage(10, preview_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -17699,9 +17722,9 @@ public final class SignalServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, contact_.get(i));
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      for (int i = 0; i < preview_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, preview_);
+          .computeMessageSize(10, preview_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -17859,11 +17882,11 @@ public final class SignalServiceProtos {
           contactBuilder_.clear();
         }
         if (previewBuilder_ == null) {
-          preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+          preview_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
         } else {
           previewBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -17946,10 +17969,11 @@ public final class SignalServiceProtos {
         } else {
           result.contact_ = contactBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
-          to_bitField0_ |= 0x00000080;
-        }
         if (previewBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+            preview_ = java.util.Collections.unmodifiableList(preview_);
+            bitField0_ = (bitField0_ & ~0x00000200);
+          }
           result.preview_ = preview_;
         } else {
           result.preview_ = previewBuilder_.build();
@@ -18045,8 +18069,31 @@ public final class SignalServiceProtos {
             }
           }
         }
-        if (other.hasPreview()) {
-          mergePreview(other.getPreview());
+        if (previewBuilder_ == null) {
+          if (!other.preview_.isEmpty()) {
+            if (preview_.isEmpty()) {
+              preview_ = other.preview_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+            } else {
+              ensurePreviewIsMutable();
+              preview_.addAll(other.preview_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.preview_.isEmpty()) {
+            if (previewBuilder_.isEmpty()) {
+              previewBuilder_.dispose();
+              previewBuilder_ = null;
+              preview_ = other.preview_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+              previewBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPreviewFieldBuilder() : null;
+            } else {
+              previewBuilder_.addAllMessages(other.preview_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -18998,116 +19045,239 @@ public final class SignalServiceProtos {
         return contactBuilder_;
       }
 
-      // optional .signalservice.DataMessage.Preview preview = 10;
-      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> previewBuilder_;
-      /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
-       */
-      public boolean hasPreview() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+      // repeated .signalservice.DataMessage.Preview preview = 10;
+      private java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> preview_ =
+        java.util.Collections.emptyList();
+      private void ensurePreviewIsMutable() {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+          preview_ = new java.util.ArrayList<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview>(preview_);
+          bitField0_ |= 0x00000200;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> previewBuilder_;
+
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview() {
+      public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> getPreviewList() {
         if (previewBuilder_ == null) {
-          return preview_;
+          return java.util.Collections.unmodifiableList(preview_);
         } else {
-          return previewBuilder_.getMessage();
+          return previewBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      public Builder setPreview(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+      public int getPreviewCount() {
+        if (previewBuilder_ == null) {
+          return preview_.size();
+        } else {
+          return previewBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview getPreview(int index) {
+        if (previewBuilder_ == null) {
+          return preview_.get(index);
+        } else {
+          return previewBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder setPreview(
+          int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
         if (previewBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          preview_ = value;
+          ensurePreviewIsMutable();
+          preview_.set(index, value);
           onChanged();
         } else {
-          previewBuilder_.setMessage(value);
+          previewBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
       public Builder setPreview(
+          int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder builderForValue) {
+        if (previewBuilder_ == null) {
+          ensurePreviewIsMutable();
+          preview_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          previewBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder addPreview(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+        if (previewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePreviewIsMutable();
+          preview_.add(value);
+          onChanged();
+        } else {
+          previewBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder addPreview(
+          int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+        if (previewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePreviewIsMutable();
+          preview_.add(index, value);
+          onChanged();
+        } else {
+          previewBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder addPreview(
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder builderForValue) {
         if (previewBuilder_ == null) {
-          preview_ = builderForValue.build();
+          ensurePreviewIsMutable();
+          preview_.add(builderForValue.build());
           onChanged();
         } else {
-          previewBuilder_.setMessage(builderForValue.build());
+          previewBuilder_.addMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      public Builder mergePreview(org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview value) {
+      public Builder addPreview(
+          int index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder builderForValue) {
         if (previewBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) == 0x00000200) &&
-              preview_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance()) {
-            preview_ =
-              org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.newBuilder(preview_).mergeFrom(value).buildPartial();
-          } else {
-            preview_ = value;
-          }
+          ensurePreviewIsMutable();
+          preview_.add(index, builderForValue.build());
           onChanged();
         } else {
-          previewBuilder_.mergeFrom(value);
+          previewBuilder_.addMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public Builder addAllPreview(
+          java.lang.Iterable<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview> values) {
+        if (previewBuilder_ == null) {
+          ensurePreviewIsMutable();
+          super.addAll(values, preview_);
+          onChanged();
+        } else {
+          previewBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
       public Builder clearPreview() {
         if (previewBuilder_ == null) {
-          preview_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance();
+          preview_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
           onChanged();
         } else {
           previewBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder getPreviewBuilder() {
-        bitField0_ |= 0x00000200;
-        onChanged();
-        return getPreviewFieldBuilder().getBuilder();
+      public Builder removePreview(int index) {
+        if (previewBuilder_ == null) {
+          ensurePreviewIsMutable();
+          preview_.remove(index);
+          onChanged();
+        } else {
+          previewBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder() {
-        if (previewBuilder_ != null) {
-          return previewBuilder_.getMessageOrBuilder();
-        } else {
-          return preview_;
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder getPreviewBuilder(
+          int index) {
+        return getPreviewFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder getPreviewOrBuilder(
+          int index) {
+        if (previewBuilder_ == null) {
+          return preview_.get(index);  } else {
+          return previewBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>optional .signalservice.DataMessage.Preview preview = 10;</code>
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
        */
-      private com.google.protobuf.SingleFieldBuilder<
+      public java.util.List<? extends org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> 
+           getPreviewOrBuilderList() {
+        if (previewBuilder_ != null) {
+          return previewBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(preview_);
+        }
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder addPreviewBuilder() {
+        return getPreviewFieldBuilder().addBuilder(
+            org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder addPreviewBuilder(
+          int index) {
+        return getPreviewFieldBuilder().addBuilder(
+            index, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .signalservice.DataMessage.Preview preview = 10;</code>
+       */
+      public java.util.List<org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder> 
+           getPreviewBuilderList() {
+        return getPreviewFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
           org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder> 
           getPreviewFieldBuilder() {
         if (previewBuilder_ == null) {
-          previewBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          previewBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Preview.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.PreviewOrBuilder>(
                   preview_,
+                  ((bitField0_ & 0x00000200) == 0x00000200),
                   getParentForChildren(),
                   isClean());
           preview_ = null;
@@ -35573,7 +35743,7 @@ public final class SignalServiceProtos {
       "\n\nprofileKey\030\006 \001(\014\022\021\n\ttimestamp\030\007 \001(\004\022/\n" +
       "\005quote\030\010 \001(\0132 .signalservice.DataMessage" +
       ".Quote\0223\n\007contact\030\t \003(\0132\".signalservice." +
-      "DataMessage.Contact\0223\n\007preview\030\n \001(\0132\".s" +
+      "DataMessage.Contact\0223\n\007preview\030\n \003(\0132\".s" +
       "ignalservice.DataMessage.Preview\032\351\001\n\005Quo" +
       "te\022\n\n\002id\030\001 \001(\004\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003" +
       " \001(\t\022F\n\013attachments\030\004 \003(\01321.signalservic",
