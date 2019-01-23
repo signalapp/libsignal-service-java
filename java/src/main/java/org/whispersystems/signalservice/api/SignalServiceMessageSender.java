@@ -458,10 +458,15 @@ public class SignalServiceMessageSender {
     }
 
     if (message.getPreview().isPresent()) {
-      builder.setPreview(DataMessage.Preview.newBuilder()
-                                            .setTitle(message.getPreview().get().getTitle())
-                                            .setUrl(message.getPreview().get().getUrl())
-                                            .setImage(createAttachmentPointer(message.getPreview().get().getImage().asStream())));
+      DataMessage.Preview.Builder previewBuilder = DataMessage.Preview.newBuilder();
+      previewBuilder.setTitle(message.getPreview().get().getTitle());
+      previewBuilder.setUrl(message.getPreview().get().getUrl());
+
+      if (message.getPreview().get().getImage().isPresent()) {
+        previewBuilder.setImage(createAttachmentPointer(message.getPreview().get().getImage().get().asStream()));
+      }
+
+      builder.setPreview(previewBuilder.build());
     }
 
     builder.setTimestamp(message.getTimestamp());

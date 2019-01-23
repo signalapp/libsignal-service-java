@@ -429,9 +429,15 @@ public class SignalServiceCipher {
   private Preview createPreview(DataMessage content) {
     if (!content.hasPreview()) return null;
 
+    SignalServiceAttachment attachment = null;
+
+    if (content.getPreview().getImage() != null) {
+      attachment = createAttachmentPointer(content.getPreview().getImage());
+    }
+
     return new Preview(content.getPreview().getUrl(),
-                                                content.getPreview().getTitle(),
-                                                createAttachmentPointer(content.getPreview().getImage()));
+                       content.getPreview().getTitle(),
+                       Optional.fromNullable(attachment));
   }
 
   private List<SharedContact> createSharedContacts(DataMessage content) {

@@ -373,11 +373,11 @@ public class SignalServiceDataMessage {
   }
 
   public static class Preview {
-    private final String                  url;
-    private final String                  title;
-    private final SignalServiceAttachment image;
+    private final String                            url;
+    private final String                            title;
+    private final Optional<SignalServiceAttachment> image;
 
-    public Preview(String url, String title, SignalServiceAttachment image) {
+    public Preview(String url, String title, Optional<SignalServiceAttachment> image) {
       this.url   = url;
       this.title = title;
       this.image = image;
@@ -391,7 +391,7 @@ public class SignalServiceDataMessage {
       return title;
     }
 
-    public SignalServiceAttachment getImage() {
+    public Optional<SignalServiceAttachment> getImage() {
       return image;
     }
   }
