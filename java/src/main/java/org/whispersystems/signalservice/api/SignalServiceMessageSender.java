@@ -464,7 +464,11 @@ public class SignalServiceMessageSender {
         previewBuilder.setUrl(preview.getUrl());
 
         if (preview.getImage().isPresent()) {
-          previewBuilder.setImage(createAttachmentPointer(preview.getImage().get().asStream()));
+          if (preview.getImage().get().isStream()) {
+            previewBuilder.setImage(createAttachmentPointer(preview.getImage().get().asStream()));
+          } else {
+            previewBuilder.setImage(createAttachmentPointer(preview.getImage().get().asPointer()));
+          }
         }
 
         builder.addPreview(previewBuilder.build());
@@ -664,9 +668,12 @@ public class SignalServiceMessageSender {
       if (group.getName().isPresent()) builder.setName(group.getName().get());
       if (group.getMembers().isPresent()) builder.addAllMembers(group.getMembers().get());
 
-      if (group.getAvatar().isPresent() && group.getAvatar().get().isStream()) {
-        AttachmentPointer pointer = createAttachmentPointer(group.getAvatar().get().asStream());
-        builder.setAvatar(pointer);
+      if (group.getAvatar().isPresent()) {
+        if (group.getAvatar().get().isStream()) {
+          builder.setAvatar(createAttachmentPointer(group.getAvatar().get().asStream()));
+        } else {
+          builder.setAvatar(createAttachmentPointer(group.getAvatar().get().asPointer()));
+        }
       }
     } else {
       builder.setType(GroupContext.Type.DELIVER);
@@ -754,8 +761,10 @@ public class SignalServiceMessageSender {
       }
 
       if (contact.getAvatar().isPresent()) {
+        AttachmentPointer pointer = contact.getAvatar().get().getAttachment().isStream() ? createAttachmentPointer(contact.getAvatar().get().getAttachment().asStream())
+                                                                                         : createAttachmentPointer(contact.getAvatar().get().getAttachment().asPointer());
         contactBuilder.setAvatar(DataMessage.Contact.Avatar.newBuilder()
-                                                           .setAvatar(createAttachmentPointer(contact.getAvatar().get().getAttachment().asStream()))
+                                                           .setAvatar(pointer)
                                                            .setIsProfile(contact.getAvatar().get().isProfile()));
       }
 
