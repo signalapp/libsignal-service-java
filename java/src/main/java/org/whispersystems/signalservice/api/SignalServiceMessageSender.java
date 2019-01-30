@@ -621,6 +621,10 @@ public class SignalServiceMessageSender {
       configurationMessage.setTypingIndicators(configuration.getTypingIndicators().get());
     }
 
+    if (configuration.getLinkPreviews().isPresent()) {
+      configurationMessage.setLinkPreviews(configuration.getLinkPreviews().get());
+    }
+
     return container.setSyncMessage(syncMessage.setConfiguration(configurationMessage)).build().toByteArray();
   }
 
