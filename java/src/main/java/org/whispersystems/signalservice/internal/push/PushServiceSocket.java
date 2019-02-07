@@ -62,7 +62,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -509,27 +508,31 @@ public class PushServiceSocket {
   }
 
   public void reportContactDiscoveryServiceMatch() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/ok", "PUT", "");
+    makeServiceRequest("/v1/directory/feedback-v2/ok", "PUT", "");
   }
 
   public void reportContactDiscoveryServiceMismatch() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/mismatch", "PUT", "");
+    makeServiceRequest("/v1/directory/feedback-v2/mismatch", "PUT", "");
   }
 
-  public void reportContactDiscoveryServiceServerError() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/server-error", "PUT", "");
+  public void reportContactDiscoveryServiceServerError(String reason) throws IOException {
+    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
+    makeServiceRequest("/v1/directory/feedback-v2/server-error", "PUT", JsonUtil.toJson(failureReason));
   }
 
-  public void reportContactDiscoveryServiceClientError() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/client-error", "PUT", "");
+  public void reportContactDiscoveryServiceClientError(String reason) throws IOException {
+    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
+    makeServiceRequest("/v1/directory/feedback-v2/client-error", "PUT", JsonUtil.toJson(failureReason));
   }
 
-  public void reportContactDiscoveryServiceAttestationError() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/attestation-error", "PUT", "");
+  public void reportContactDiscoveryServiceAttestationError(String reason) throws IOException {
+    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
+    makeServiceRequest("/v1/directory/feedback-v2/attestation-error", "PUT", JsonUtil.toJson(failureReason));
   }
 
-  public void reportContactDiscoveryServiceUnexpectedError() throws IOException {
-    makeServiceRequest("/v1/directory/feedback/unexpected-error", "PUT", "");
+  public void reportContactDiscoveryServiceUnexpectedError(String reason) throws IOException {
+    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
+    makeServiceRequest("/v1/directory/feedback-v2/unexpected-error", "PUT", JsonUtil.toJson(failureReason));
   }
 
   public TurnServerInfo getTurnServerInfo() throws IOException {

@@ -334,17 +334,17 @@ public class SignalServiceAccountManager {
     }
   }
 
-  public void reportContactDiscoveryServiceAttestationError() {
+  public void reportContactDiscoveryServiceAttestationError(String reason) {
     try {
-      this.pushServiceSocket.reportContactDiscoveryServiceAttestationError();
+      this.pushServiceSocket.reportContactDiscoveryServiceAttestationError(reason);
     } catch (IOException e) {
       Log.w(TAG, "Request to indicate a contact discovery attestation error failed. Ignoring.", e);
     }
   }
 
-  public void reportContactDiscoveryServiceUnexpectedError() {
+  public void reportContactDiscoveryServiceUnexpectedError(String reason) {
     try {
-      this.pushServiceSocket.reportContactDiscoveryServiceUnexpectedError();
+      this.pushServiceSocket.reportContactDiscoveryServiceUnexpectedError(reason);
     } catch (IOException e) {
       Log.w(TAG, "Request to indicate a contact discovery unexpected error failed. Ignoring.", e);
     }
