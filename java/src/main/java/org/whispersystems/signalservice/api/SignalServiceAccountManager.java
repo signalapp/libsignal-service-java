@@ -134,8 +134,8 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void requestSmsVerificationCode(boolean androidSmsRetrieverSupported) throws IOException {
-    this.pushServiceSocket.requestSmsVerificationCode(androidSmsRetrieverSupported);
+  public void requestSmsVerificationCode(boolean androidSmsRetrieverSupported, Optional<String> captchaToken) throws IOException {
+    this.pushServiceSocket.requestSmsVerificationCode(androidSmsRetrieverSupported, captchaToken);
   }
 
   /**
@@ -144,8 +144,8 @@ public class SignalServiceAccountManager {
    *
     * @throws IOException
    */
-  public void requestVoiceVerificationCode(Locale locale) throws IOException {
-    this.pushServiceSocket.requestVoiceVerificationCode(locale);
+  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken) throws IOException {
+    this.pushServiceSocket.requestVoiceVerificationCode(locale, captchaToken);
   }
 
   /**

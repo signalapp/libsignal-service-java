@@ -27,6 +27,7 @@ import org.whispersystems.signalservice.api.push.ContactTokenDetails;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
+import org.whispersystems.signalservice.api.push.exceptions.CaptchaRequiredException;
 import org.whispersystems.signalservice.api.push.exceptions.ExpectationFailedException;
 import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
 import org.whispersystems.signalservice.api.push.exceptions.NotFoundException;
@@ -123,6 +124,7 @@ public class PushServiceSocket {
   private static final String SENDER_CERTIFICATE_PATH   = "/v1/certificate/delivery";
 
   private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
+  private static final ResponseCodeHandler NO_HANDLER = new EmptyResponseCodeHandler();
 
   private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(30);
   private final Set<Call> connections     = new HashSet<>();
@@ -144,13 +146,39 @@ public class PushServiceSocket {
     this.random                            = new SecureRandom();
   }
 
-  public void requestSmsVerificationCode(boolean androidSmsRetriever) throws IOException {
-    makeServiceRequest(String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getUser(), androidSmsRetriever ? "android-ng" : "android"), "GET", null, NO_HEADERS);
+  public void requestSmsVerificationCode(boolean androidSmsRetriever, Optional<String> captchaToken) throws IOException {
+    String path = String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getUser(), androidSmsRetriever ? "android-ng" : "android");
+
+    if (captchaToken.isPresent()) {
+      path += "&captcha=" + captchaToken.get();
+    }
+
+    makeServiceRequest(path, "GET", null, NO_HEADERS, new ResponseCodeHandler() {
+      @Override
+      public void handle(int responseCode) throws NonSuccessfulResponseCodeException {
+        if (responseCode == 402) {
+          throw new CaptchaRequiredException();
+        }
+      }
+    });
   }
 
-  public void requestVoiceVerificationCode(Locale locale) throws IOException {
+  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken) throws IOException {
     Map<String, String> headers = locale != null ? Collections.singletonMap("Accept-Language", locale.getLanguage() + "-" + locale.getCountry()) : NO_HEADERS;
-    makeServiceRequest(String.format(CREATE_ACCOUNT_VOICE_PATH, credentialsProvider.getUser()), "GET", null, headers);
+    String              path    = String.format(CREATE_ACCOUNT_VOICE_PATH, credentialsProvider.getUser());
+
+    if (captchaToken.isPresent()) {
+      path += "?captcha=" + captchaToken.get();
+    }
+    
+    makeServiceRequest(path, "GET", null, headers, new ResponseCodeHandler() {
+      @Override
+      public void handle(int responseCode) throws NonSuccessfulResponseCodeException {
+        if (responseCode == 402) {
+          throw new CaptchaRequiredException();
+        }
+      }
+    });
   }
 
   public void verifyAccountCode(String verificationCode, String signalingKey, int registrationId, boolean fetchesMessages, String pin,
@@ -766,16 +794,28 @@ public class PushServiceSocket {
   private String makeServiceRequest(String urlFragment, String method, String body)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    return makeServiceRequest(urlFragment, method, body, NO_HEADERS, Optional.<UnidentifiedAccess>absent());
+    return makeServiceRequest(urlFragment, method, body, NO_HEADERS, NO_HANDLER, Optional.<UnidentifiedAccess>absent());
   }
 
   private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    return makeServiceRequest(urlFragment, method, body, headers, Optional.<UnidentifiedAccess>absent());
+    return makeServiceRequest(urlFragment, method, body, headers, NO_HANDLER, Optional.<UnidentifiedAccess>absent());
+  }
+
+  private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers, ResponseCodeHandler responseCodeHandler)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    return makeServiceRequest(urlFragment, method, body, headers, responseCodeHandler, Optional.<UnidentifiedAccess>absent());
   }
 
   private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers, Optional<UnidentifiedAccess> unidentifiedAccessKey)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    return makeServiceRequest(urlFragment, method, body, headers, NO_HANDLER, unidentifiedAccessKey);
+  }
+
+  private String makeServiceRequest(String urlFragment, String method, String body, Map<String, String> headers, ResponseCodeHandler responseCodeHandler, Optional<UnidentifiedAccess> unidentifiedAccessKey)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
     Response response = getServiceConnection(urlFragment, method, body, headers, unidentifiedAccessKey);
@@ -791,6 +831,8 @@ public class PushServiceSocket {
     } catch (IOException ioe) {
       throw new PushNetworkException(ioe);
     }
+
+    responseCodeHandler.handle(responseCode);
 
     switch (responseCode) {
       case 413:
@@ -1117,4 +1159,12 @@ public class PushServiceSocket {
     }
   }
 
+  private interface ResponseCodeHandler {
+    void handle(int responseCode) throws NonSuccessfulResponseCodeException, PushNetworkException;
+  }
+
+  private static class EmptyResponseCodeHandler implements ResponseCodeHandler {
+    @Override
+    public void handle(int responseCode) { }
+  }
 }
