@@ -592,7 +592,7 @@ public class PushServiceSocket {
     connection.setDoInput(true);
 
     try {
-      if (connection.getResponseCode() != 200) {
+      if (connection.getResponseCode() != 200 && connection.getResponseCode() != 201) {
         throw new NonSuccessfulResponseCodeException("Bad response: " + connection.getResponseCode());
       }
 
