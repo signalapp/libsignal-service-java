@@ -8,6 +8,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.SleepTimer;
+import org.whispersystems.signalservice.api.util.Tls12SocketFactory;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -30,6 +31,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -97,7 +99,8 @@ public class WebSocketConnection extends WebSocketListener {
       Pair<SSLSocketFactory, X509TrustManager> socketFactory = createTlsSocketFactory(trustStore);
 
       OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                                                  .sslSocketFactory(socketFactory.first(), socketFactory.second())
+                                                  .sslSocketFactory(new Tls12SocketFactory(socketFactory.first()), socketFactory.second())
+                                                  .connectionSpecs(Util.immutableList(ConnectionSpec.RESTRICTED_TLS))
                                                   .readTimeout(KEEPALIVE_TIMEOUT_SECONDS + 10, TimeUnit.SECONDS)
                                                   .connectTimeout(KEEPALIVE_TIMEOUT_SECONDS + 10, TimeUnit.SECONDS)
                                                   .build();
@@ -300,7 +303,7 @@ public class WebSocketConnection extends WebSocketListener {
 
   private Pair<SSLSocketFactory, X509TrustManager> createTlsSocketFactory(TrustStore trustStore) {
     try {
-      SSLContext     context       = SSLContext.getInstance("TLS");
+      SSLContext     context       = SSLContext.getInstance("TLSv1.2");
       TrustManager[] trustManagers = BlacklistingTrustManager.createFor(trustStore);
       context.init(null, trustManagers, null);
 
