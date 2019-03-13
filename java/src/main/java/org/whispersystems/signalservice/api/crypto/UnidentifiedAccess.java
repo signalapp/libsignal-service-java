@@ -3,12 +3,18 @@ package org.whispersystems.signalservice.api.crypto;
 
 import org.signal.libsignal.metadata.certificate.InvalidCertificateException;
 import org.signal.libsignal.metadata.certificate.SenderCertificate;
-import org.spongycastle.crypto.InvalidCipherTextException;
-import org.spongycastle.crypto.engines.AESFastEngine;
-import org.spongycastle.crypto.modes.GCMBlockCipher;
-import org.spongycastle.crypto.params.AEADParameters;
-import org.spongycastle.crypto.params.KeyParameter;
 import org.whispersystems.libsignal.util.ByteUtil;
+
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class UnidentifiedAccess {
 
@@ -34,18 +40,14 @@ public class UnidentifiedAccess {
     try {
       byte[]         nonce  = new byte[12];
       byte[]         input  = new byte[16];
-      GCMBlockCipher cipher = new GCMBlockCipher(new AESFastEngine());
-      cipher.init(true, new AEADParameters(new KeyParameter(profileKey), 128, nonce));
 
-      byte[] ciphertext = new byte[cipher.getUpdateOutputSize(input.length)];
-      cipher.processBytes(input, 0, input.length, ciphertext, 0);
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(profileKey, "AES"), new GCMParameterSpec(128, nonce));
 
-      byte[] tag = new byte[cipher.getOutputSize(0)];
-      cipher.doFinal(tag, 0);
+      byte[] ciphertext = cipher.doFinal(input);
 
-      byte[] combined = ByteUtil.combine(ciphertext, tag);
-      return ByteUtil.trim(combined, 16);
-    } catch (InvalidCipherTextException e) {
+      return ByteUtil.trim(ciphertext, 16);
+    } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException | BadPaddingException | IllegalBlockSizeException e) {
       throw new AssertionError(e);
     }
   }

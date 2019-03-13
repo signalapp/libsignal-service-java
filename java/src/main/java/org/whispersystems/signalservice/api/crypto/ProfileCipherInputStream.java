@@ -1,28 +1,44 @@
 package org.whispersystems.signalservice.api.crypto;
 
-import org.spongycastle.crypto.InvalidCipherTextException;
-import org.spongycastle.crypto.engines.AESFastEngine;
-import org.spongycastle.crypto.modes.GCMBlockCipher;
-import org.spongycastle.crypto.params.AEADParameters;
-import org.spongycastle.crypto.params.KeyParameter;
-import org.spongycastle.pqc.math.ntru.util.Util;
+
+import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class ProfileCipherInputStream extends FilterInputStream {
 
-  private final GCMBlockCipher cipher;
+  private final Cipher cipher;
 
   private boolean finished = false;
 
   public ProfileCipherInputStream(InputStream in, byte[] key) throws IOException {
     super(in);
-    this.cipher = new GCMBlockCipher(new AESFastEngine());
 
-    byte[] nonce = Util.readFullLength(in, 12);
-    this.cipher.init(false, new AEADParameters(new KeyParameter(key), 128, nonce));
+    try {
+      this.cipher = Cipher.getInstance("AES/GCM/NoPadding");
+
+      byte[] nonce = new byte[12];
+      Util.readFully(in, nonce);
+
+      this.cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, nonce));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
+      throw new AssertionError(e);
+    } catch (InvalidKeyException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
@@ -51,13 +67,15 @@ public class ProfileCipherInputStream extends FilterInputStream {
         finished = true;
         return cipher.doFinal(output, outputOffset);
       } else {
-        if (cipher.getUpdateOutputSize(read) > outputLength) {
+        if (cipher.getOutputSize(read) > outputLength) {
           throw new AssertionError("Need: " + cipher.getOutputSize(read) + " but only have: " + outputLength);
         }
 
-        return cipher.processBytes(ciphertext, 0, read, output, outputOffset);
+        return cipher.update(ciphertext, 0, read, output, outputOffset);
       }
-    } catch (InvalidCipherTextException e) {
+    } catch (IllegalBlockSizeException | ShortBufferException e) {
+      throw new AssertionError(e);
+    } catch (BadPaddingException e) {
       throw new IOException(e);
     }
   }

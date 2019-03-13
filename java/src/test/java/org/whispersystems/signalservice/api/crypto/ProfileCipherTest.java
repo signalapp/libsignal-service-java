@@ -3,7 +3,7 @@ package org.whispersystems.signalservice.api.crypto;
 
 import junit.framework.TestCase;
 
-import org.spongycastle.jce.provider.BouncyCastleProvider;
+import org.conscrypt.Conscrypt;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.ByteArrayInputStream;
@@ -13,10 +13,10 @@ import java.security.Security;
 public class ProfileCipherTest extends TestCase {
 
   static {
-    Security.addProvider(new BouncyCastleProvider());
+    Security.insertProviderAt(Conscrypt.newProvider(), 1);
   }
 
-  public void testEncryptDecrypt() throws ProfileCipher.InvalidCiphertextException {
+  public void testEncryptDecrypt() throws InvalidCiphertextException {
     byte[]        key       = Util.getSecretBytes(32);
     ProfileCipher cipher    = new ProfileCipher(key);
     byte[]        name      = cipher.encryptName("Clement Duval".getBytes(), 26);

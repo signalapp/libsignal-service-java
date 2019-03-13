@@ -1,12 +1,8 @@
 package org.whispersystems.signalservice.internal.contacts.crypto;
 
-import org.spongycastle.cert.X509CertificateHolder;
-import org.spongycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.spongycastle.openssl.PEMParser;
 import org.whispersystems.signalservice.internal.util.Base64;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.ByteArrayInputStream;
 import java.net.URLDecoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -22,6 +18,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.PKIXParameters;
 import java.security.cert.X509Certificate;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,26 +30,18 @@ public class SigningCertificate {
       throws CertificateException, CertPathValidatorException
   {
     try {
-      StringReader          stringReader   = new StringReader(URLDecoder.decode(certificateChain, "UTF-8"));
-      PEMParser             pemReader      = new PEMParser(stringReader);
-      CertificateFactory    factory        = CertificateFactory.getInstance("X.509");
-      List<X509Certificate> certificates   = new LinkedList<>();
-      PKIXParameters        pkixParameters = new PKIXParameters(trustStore);
-      CertPathValidator     validator      = CertPathValidator.getInstance("PKIX");
+      CertificateFactory          certificateFactory     = CertificateFactory.getInstance("X.509");
+      Collection<X509Certificate> certificatesCollection = (Collection<X509Certificate>) certificateFactory.generateCertificates(new ByteArrayInputStream(URLDecoder.decode(certificateChain).getBytes()));
+      List<X509Certificate>       certificates           = new LinkedList<>(certificatesCollection);
+      PKIXParameters              pkixParameters         = new PKIXParameters(trustStore);
+      CertPathValidator           validator              = CertPathValidator.getInstance("PKIX");
 
-      X509CertificateHolder certificate;
-
-      while ((certificate = (X509CertificateHolder)pemReader.readObject()) != null) {
-        X509Certificate x509Certificate = new JcaX509CertificateConverter().getCertificate(certificate);
-        certificates.add(x509Certificate);
-      }
-
-      this.path = factory.generateCertPath(certificates);
+      this.path = certificateFactory.generateCertPath(certificates);
 
       pkixParameters.setRevocationEnabled(false);
       validator.validate(path, pkixParameters);
       verifyDistinguishedName(path);
-    } catch (KeyStoreException | InvalidAlgorithmParameterException | NoSuchAlgorithmException | IOException e) {
+    } catch (KeyStoreException | InvalidAlgorithmParameterException | NoSuchAlgorithmException e) {
       throw new AssertionError(e);
     }
   }

@@ -1,27 +1,37 @@
 package org.whispersystems.signalservice.api.crypto;
 
-import org.spongycastle.crypto.InvalidCipherTextException;
-import org.spongycastle.crypto.engines.AESFastEngine;
-import org.spongycastle.crypto.modes.GCMBlockCipher;
-import org.spongycastle.crypto.params.AEADParameters;
-import org.spongycastle.crypto.params.KeyParameter;
-
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class ProfileCipherOutputStream extends DigestingOutputStream {
 
-  private final GCMBlockCipher cipher;
+  private final Cipher cipher;
 
   public ProfileCipherOutputStream(OutputStream out, byte[] key) throws IOException {
     super(out);
-    this.cipher = new GCMBlockCipher(new AESFastEngine());
+    try {
+      this.cipher = Cipher.getInstance("AES/GCM/NoPadding");
 
-    byte[] nonce  = generateNonce();
-    this.cipher.init(true, new AEADParameters(new KeyParameter(key), 128, nonce));
+      byte[] nonce  = generateNonce();
+      this.cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(nonce));
 
-    super.write(nonce, 0, nonce.length);
+      super.write(nonce, 0, nonce.length);
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
+      throw new AssertionError(e);
+    } catch (InvalidKeyException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
@@ -31,29 +41,27 @@ public class ProfileCipherOutputStream extends DigestingOutputStream {
 
   @Override
   public void write(byte[] buffer, int offset, int length) throws IOException {
-    byte[] output = new byte[cipher.getUpdateOutputSize(length)];
-    int encrypted = cipher.processBytes(buffer, offset, length, output, 0);
-
-    super.write(output, 0, encrypted);
+    byte[] output = cipher.update(buffer, offset, length);
+    super.write(output);
   }
 
   @Override
   public void write(int b) throws IOException {
-    byte[] output = new byte[cipher.getUpdateOutputSize(1)];
-    int encrypted = cipher.processByte((byte)b, output, 0);
+    byte[] input = new byte[1];
+    input[0] = (byte)b;
 
-    super.write(output, 0, encrypted);
+    byte[] output = cipher.update(input);
+    super.write(output);
   }
 
   @Override
   public void flush() throws IOException {
     try {
-      byte[] output = new byte[cipher.getOutputSize(0)];
-      int encrypted = cipher.doFinal(output, 0);
+      byte[] output = cipher.doFinal();
 
-      super.write(output, 0, encrypted);
+      super.write(output);
       super.flush();
-    } catch (InvalidCipherTextException e) {
+    } catch (BadPaddingException | IllegalBlockSizeException e) {
       throw new AssertionError(e);
     }
   }

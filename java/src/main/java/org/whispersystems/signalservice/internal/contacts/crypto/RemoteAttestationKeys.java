@@ -1,11 +1,9 @@
 package org.whispersystems.signalservice.internal.contacts.crypto;
 
 
-import org.spongycastle.crypto.digests.SHA256Digest;
-import org.spongycastle.crypto.generators.HKDFBytesGenerator;
-import org.spongycastle.crypto.params.HKDFParameters;
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.Curve25519KeyPair;
+import org.whispersystems.libsignal.kdf.HKDFv3;
 import org.whispersystems.libsignal.util.ByteUtil;
 
 public class RemoteAttestationKeys {
@@ -20,10 +18,11 @@ public class RemoteAttestationKeys {
     byte[] masterSecret = ByteUtil.combine(ephemeralToEphemeral, ephemeralToStatic                          );
     byte[] publicKeys   = ByteUtil.combine(keyPair.getPublicKey(), serverPublicEphemeral, serverPublicStatic);
 
-    HKDFBytesGenerator generator = new HKDFBytesGenerator(new SHA256Digest());
-    generator.init(new HKDFParameters(masterSecret, publicKeys, null));
-    generator.generateBytes(clientKey, 0, clientKey.length);
-    generator.generateBytes(serverKey, 0, serverKey.length);
+    HKDFv3 generator = new HKDFv3();
+    byte[] keys      = generator.deriveSecrets(masterSecret, publicKeys, null, clientKey.length + serverKey.length);
+
+    System.arraycopy(keys, 0, clientKey, 0, clientKey.length);
+    System.arraycopy(keys, clientKey.length, serverKey, 0, serverKey.length);
   }
 
   public byte[] getClientKey() {

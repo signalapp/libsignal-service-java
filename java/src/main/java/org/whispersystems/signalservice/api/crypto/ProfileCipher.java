@@ -1,19 +1,20 @@
 package org.whispersystems.signalservice.api.crypto;
 
 
-import org.spongycastle.crypto.InvalidCipherTextException;
-import org.spongycastle.crypto.engines.AESFastEngine;
-import org.spongycastle.crypto.modes.GCMBlockCipher;
-import org.spongycastle.crypto.params.AEADParameters;
-import org.spongycastle.crypto.params.KeyParameter;
 import org.whispersystems.libsignal.util.ByteUtil;
 import org.whispersystems.signalservice.internal.util.Util;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ProfileCipher {
@@ -38,17 +39,11 @@ public class ProfileCipher {
 
       byte[] nonce = Util.getSecretBytes(12);
 
-      GCMBlockCipher cipher = new GCMBlockCipher(new AESFastEngine());
-      cipher.init(true, new AEADParameters(new KeyParameter(key), 128, nonce));
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, nonce));
 
-      byte[] ciphertext = new byte[cipher.getUpdateOutputSize(inputPadded.length)];
-      cipher.processBytes(inputPadded, 0, inputPadded.length, ciphertext, 0);
-
-      byte[] tag = new byte[cipher.getOutputSize(0)];
-      cipher.doFinal(tag, 0);
-
-      return ByteUtil.combine(nonce, ciphertext, tag);
-    } catch (InvalidCipherTextException e) {
+      return ByteUtil.combine(nonce, cipher.doFinal(inputPadded));
+    } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
       throw new AssertionError(e);
     }
   }
@@ -62,16 +57,10 @@ public class ProfileCipher {
       byte[] nonce = new byte[12];
       System.arraycopy(input, 0, nonce, 0, nonce.length);
 
-      GCMBlockCipher cipher = new GCMBlockCipher(new AESFastEngine());
-      cipher.init(false, new AEADParameters(new KeyParameter(key), 128, nonce));
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, nonce));
 
-      byte[] paddedPlaintextOne = new byte[cipher.getUpdateOutputSize(input.length - 12)];
-      cipher.processBytes(input, 12, input.length - 12, paddedPlaintextOne, 0);
-
-      byte[] paddedPlaintextTwo = new byte[cipher.getOutputSize(0)];
-      cipher.doFinal(paddedPlaintextTwo, 0);
-
-      byte[] paddedPlaintext = ByteUtil.combine(paddedPlaintextOne, paddedPlaintextTwo);
+      byte[] paddedPlaintext = cipher.doFinal(input, nonce.length, input.length - nonce.length);
       int    plaintextLength = 0;
 
       for (int i=paddedPlaintext.length-1;i>=0;i--) {
@@ -85,7 +74,9 @@ public class ProfileCipher {
       System.arraycopy(paddedPlaintext, 0, plaintext, 0, plaintextLength);
 
       return plaintext;
-    } catch (InvalidCipherTextException e) {
+    } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException e) {
+      throw new AssertionError(e);
+    } catch (InvalidKeyException | BadPaddingException e) {
       throw new InvalidCiphertextException(e);
     }
   }
@@ -104,16 +95,6 @@ public class ProfileCipher {
       return MessageDigest.isEqual(theirUnidentifiedAccessVerifier, ourUnidentifiedAccessVerifier);
     } catch (NoSuchAlgorithmException | InvalidKeyException e) {
       throw new AssertionError(e);
-    }
-  }
-
-  public static class InvalidCiphertextException extends Exception {
-    public InvalidCiphertextException(Exception nested) {
-      super(nested);
-    }
-
-    public InvalidCiphertextException(String s) {
-      super(s);
     }
   }
 

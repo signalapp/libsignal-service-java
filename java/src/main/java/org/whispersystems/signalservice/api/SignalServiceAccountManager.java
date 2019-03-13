@@ -9,7 +9,6 @@ package org.whispersystems.signalservice.api;
 
 import com.google.protobuf.ByteString;
 
-import org.spongycastle.crypto.InvalidCipherTextException;
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.Curve25519KeyPair;
 import org.whispersystems.libsignal.IdentityKey;
@@ -21,6 +20,7 @@ import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.crypto.InvalidCiphertextException;
 import org.whispersystems.signalservice.api.crypto.ProfileCipher;
 import org.whispersystems.signalservice.api.crypto.ProfileCipherOutputStream;
 import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
@@ -313,7 +313,7 @@ public class SignalServiceAccountManager {
       }
 
       return results;
-    } catch (InvalidCipherTextException e) {
+    } catch (InvalidCiphertextException e) {
       throw new UnauthenticatedResponseException(e);
     }
   }

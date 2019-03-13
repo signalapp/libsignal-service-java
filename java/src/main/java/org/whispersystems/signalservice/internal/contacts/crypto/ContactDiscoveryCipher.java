@@ -1,12 +1,6 @@
 package org.whispersystems.signalservice.internal.contacts.crypto;
 
 
-import org.apache.http.util.TextUtils;
-import org.spongycastle.crypto.InvalidCipherTextException;
-import org.spongycastle.crypto.engines.AESFastEngine;
-import org.spongycastle.crypto.modes.GCMBlockCipher;
-import org.spongycastle.crypto.params.AEADParameters;
-import org.spongycastle.crypto.params.KeyParameter;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.Period;
@@ -14,6 +8,7 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.whispersystems.libsignal.util.ByteUtil;
+import org.whispersystems.signalservice.api.crypto.InvalidCiphertextException;
 import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryRequest;
 import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryResponse;
 import org.whispersystems.signalservice.internal.contacts.entities.RemoteAttestationResponse;
@@ -23,12 +18,22 @@ import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class ContactDiscoveryCipher {
 
@@ -46,33 +51,25 @@ public class ContactDiscoveryCipher {
 
       byte[]         requestData = requestDataStream.toByteArray();
       byte[]         nonce       = Util.getSecretBytes(12);
-      GCMBlockCipher cipher      = new GCMBlockCipher(new AESFastEngine());
+      Cipher         cipher      = Cipher.getInstance("AES/GCM/NoPadding");
 
-      cipher.init(true, new AEADParameters(new KeyParameter(remoteAttestation.getKeys().getClientKey()), TAG_LENGTH_BITS, nonce));
-      cipher.processAADBytes(remoteAttestation.getRequestId(), 0, remoteAttestation.getRequestId().length);
+      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(remoteAttestation.getKeys().getClientKey(), "AES"), new GCMParameterSpec(TAG_LENGTH_BITS, nonce));
+      cipher.updateAAD(remoteAttestation.getRequestId());
 
-      byte[] cipherText1 = new byte[cipher.getUpdateOutputSize(requestData.length)];
-      cipher.processBytes(requestData, 0, requestData.length, cipherText1, 0);
-
-      byte[] cipherText2 = new byte[cipher.getOutputSize(0)];
-      cipher.doFinal(cipherText2, 0);
-
-      byte[]   cipherText = ByteUtil.combine(cipherText1, cipherText2);
+      byte[]   cipherText = cipher.doFinal(requestData);
       byte[][] parts      = ByteUtil.split(cipherText, cipherText.length - TAG_LENGTH_BYTES, TAG_LENGTH_BYTES);
 
       return new DiscoveryRequest(addressBook.size(), remoteAttestation.getRequestId(), nonce, parts[0], parts[1]);
-    } catch (IOException | InvalidCipherTextException e) {
+    } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
       throw new AssertionError(e);
     }
   }
 
-  public byte[] getDiscoveryResponseData(DiscoveryResponse response, RemoteAttestation remoteAttestation)
-      throws InvalidCipherTextException
-  {
+  public byte[] getDiscoveryResponseData(DiscoveryResponse response, RemoteAttestation remoteAttestation) throws InvalidCiphertextException {
     return decrypt(remoteAttestation.getKeys().getServerKey(), response.getIv(), response.getData(), response.getMac());
   }
 
-  public byte[] getRequestId(RemoteAttestationKeys keys, RemoteAttestationResponse response) throws InvalidCipherTextException {
+  public byte[] getRequestId(RemoteAttestationKeys keys, RemoteAttestationResponse response) throws InvalidCiphertextException {
     return decrypt(keys.getServerKey(), response.getIv(), response.getCiphertext(), response.getTag());
   }
 
@@ -102,7 +99,7 @@ public class ContactDiscoveryCipher {
   public void verifyIasSignature(KeyStore trustStore, String certificates, String signatureBody, String signature, Quote quote)
       throws SignatureException
   {
-    if (TextUtils.isEmpty(certificates)) {
+    if (certificates == null || certificates.isEmpty()) {
       throw new SignatureException("No certificates.");
     }
 
@@ -136,17 +133,16 @@ public class ContactDiscoveryCipher {
     }
   }
 
-  private byte[] decrypt(byte[] key, byte[] iv, byte[] ciphertext, byte[] tag) throws InvalidCipherTextException {
-    GCMBlockCipher cipher = new GCMBlockCipher(new AESFastEngine());
-    cipher.init(false, new AEADParameters(new KeyParameter(key), 128, iv));
+  private byte[] decrypt(byte[] key, byte[] iv, byte[] ciphertext, byte[] tag) throws InvalidCiphertextException {
+    try {
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, iv));
 
-    byte[] combined = ByteUtil.combine(ciphertext, tag);
-    byte[] ciphertextOne = new byte[cipher.getUpdateOutputSize(combined.length)];
-    cipher.processBytes(combined, 0, combined.length, ciphertextOne, 0);
-
-    byte[] cipherTextTwo = new byte[cipher.getOutputSize(0)];
-    cipher.doFinal(cipherTextTwo, 0);
-
-    return ByteUtil.combine(ciphertextOne, cipherTextTwo);
+      return cipher.doFinal(ByteUtil.combine(ciphertext, tag));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
+      throw new AssertionError(e);
+    } catch (InvalidKeyException | BadPaddingException e) {
+      throw new InvalidCiphertextException(e);
+    }
   }
 }
