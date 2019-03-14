@@ -17,7 +17,6 @@ import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
-import org.whispersystems.signalservice.api.crypto.DigestingOutputStream;
 import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
@@ -52,15 +51,16 @@ import org.whispersystems.signalservice.internal.util.JsonUtil;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
@@ -72,9 +72,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
@@ -87,6 +87,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
 
 /**
  * @author Moxie Marlinspike
@@ -133,6 +137,7 @@ public class PushServiceSocket {
   private final ServiceConnectionHolder[]  serviceClients;
   private final ConnectionHolder[]         cdnClients;
   private final ConnectionHolder[]         contactDiscoveryClients;
+  private final OkHttpClient               attachmentClient;
 
   private final CredentialsProvider credentialsProvider;
   private final String              userAgent;
@@ -144,6 +149,7 @@ public class PushServiceSocket {
     this.serviceClients                    = createServiceConnectionHolders(signalServiceConfiguration.getSignalServiceUrls());
     this.cdnClients                        = createConnectionHolders(signalServiceConfiguration.getSignalCdnUrls());
     this.contactDiscoveryClients           = createConnectionHolders(signalServiceConfiguration.getSignalContactDiscoveryUrls());
+    this.attachmentClient                  = createAttachmentClient();
     this.random                            = new SecureRandom();
   }
 
@@ -583,97 +589,106 @@ public class PushServiceSocket {
     }
   }
 
-  private void downloadAttachment(String url, File localDestination, int maxSizeBytes, ProgressListener listener)
-      throws IOException
-  {
-    URL               downloadUrl = new URL(url);
-    HttpURLConnection connection  = (HttpURLConnection) downloadUrl.openConnection();
-    connection.setRequestProperty("Content-Type", "application/octet-stream");
-    connection.setRequestMethod("GET");
-    connection.setDoInput(true);
+  private void downloadAttachment(String url, File localDestination, int maxSizeBytes, ProgressListener listener) throws PushNetworkException, NonSuccessfulResponseCodeException {
+    Request request = new Request.Builder().url(url)
+                                           .addHeader("Content-Type", "application/octet-stream")
+                                           .get()
+                                           .build();
+
+    Call    call   = attachmentClient.newBuilder()
+                                     .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                     .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                     .build()
+                                     .newCall(request);
+
+    synchronized (connections) {
+      connections.add(call);
+    }
+
+    Response     response;
+    ResponseBody body;
 
     try {
-      if (connection.getResponseCode() != 200) {
-        throw new NonSuccessfulResponseCodeException("Bad response: " + connection.getResponseCode());
+      response = call.execute();
+      body     = response.body();
+    } catch (IOException e) {
+      throw new PushNetworkException(e);
+    } finally {
+      synchronized (connections) {
+        connections.remove(call);
       }
+    }
 
-      OutputStream output        = new FileOutputStream(localDestination);
-      InputStream  input         = connection.getInputStream();
-      byte[]       buffer        = new byte[32768];
-      int          contentLength = connection.getContentLength();
-      int         read,totalRead = 0;
+    if (!response.isSuccessful()) {
+      throw new NonSuccessfulResponseCodeException("Bad response: " + response.code());
+    }
+
+    if (body == null) {
+      throw new NonSuccessfulResponseCodeException("Response body is empty!");
+    }
+
+    try {
+      long           contentLength = body.contentLength();
+      BufferedSource source        = body.source();
+      BufferedSink   sink          = Okio.buffer(Okio.sink(localDestination));
+      Buffer         sinkBuffer    = sink.buffer();
 
       if (contentLength > maxSizeBytes) {
         throw new NonSuccessfulResponseCodeException("File exceeds maximum size.");
       }
 
-      while ((read = input.read(buffer)) != -1) {
-        output.write(buffer, 0, read);
-        totalRead += read;
+      long totalBytesRead = 0;
 
-        if (totalRead > maxSizeBytes) {
-          localDestination.delete();
-          throw new NonSuccessfulResponseCodeException("File exceeds maximum size.");
-        }
+      for (long readCount; (readCount = source.read(sinkBuffer, 8192)) != -1; ) {
+        totalBytesRead += readCount;
+        sink.emitCompleteSegments();
 
         if (listener != null) {
-          listener.onAttachmentProgress(contentLength, totalRead);
+          listener.onAttachmentProgress(contentLength, totalBytesRead);
         }
       }
 
-      output.close();
-      Log.w(TAG, "Downloaded: " + url + " to: " + localDestination.getAbsolutePath());
-    } catch (IOException ioe) {
-      throw new PushNetworkException(ioe);
-    } finally {
-      connection.disconnect();
+      sink.flush();
+      sink.close();
+      body.close();
+    } catch (FileNotFoundException e) {
+      throw new AssertionError(e);
+    } catch (IOException e) {
+      throw new PushNetworkException(e);
     }
   }
 
   private byte[] uploadAttachment(String method, String url, InputStream data,
                                   long dataSize, OutputStreamFactory outputStreamFactory, ProgressListener listener)
-    throws IOException
+      throws PushNetworkException, NonSuccessfulResponseCodeException
   {
-    URL                uploadUrl  = new URL(url);
-    HttpsURLConnection connection = (HttpsURLConnection) uploadUrl.openConnection();
-    connection.setDoOutput(true);
+    DigestingRequestBody requestBody = new DigestingRequestBody(data, outputStreamFactory, "application/octet-stream", dataSize, listener);
+    Request.Builder      request     = new Request.Builder().url(url).method(method, requestBody);
+    Call                 call        = attachmentClient.newBuilder()
+                                                       .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                       .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
+                                                       .build()
+                                                       .newCall(request.build());
 
-    if (dataSize > 0) {
-      connection.setFixedLengthStreamingMode(Util.toIntExact(dataSize));
-    } else {
-      connection.setChunkedStreamingMode(0);
+    synchronized (connections) {
+      connections.add(call);
     }
 
-    connection.setRequestMethod(method);
-    connection.setRequestProperty("Content-Type", "application/octet-stream");
-    connection.setRequestProperty("Connection", "close");
-    connection.connect();
-
     try {
-      DigestingOutputStream out    = outputStreamFactory.createFor(connection.getOutputStream());
-      byte[]                buffer = new byte[32768];
-      int            read, written = 0;
+      Response response;
 
-      while ((read = data.read(buffer)) != -1) {
-        out.write(buffer, 0, read);
-        written += read;
-
-        if (listener != null) {
-          listener.onAttachmentProgress(dataSize, written);
-        }
+      try {
+        response = call.execute();
+      } catch (IOException e) {
+        throw new PushNetworkException(e);
       }
 
-      out.flush();
-      data.close();
-      out.close();
-
-      if (connection.getResponseCode() != 200) {
-        throw new IOException("Bad response: " + connection.getResponseCode() + " " + connection.getResponseMessage());
-      }
-
-      return out.getTransmittedDigest();
+      if (response.isSuccessful()) return requestBody.getTransmittedDigest();
+      else                         throw new NonSuccessfulResponseCodeException("Response: " + response);
     } finally {
-      connection.disconnect();
+      synchronized (connections) {
+        connections.remove(call);
+      }
     }
   }
 
@@ -747,7 +762,7 @@ public class PushServiceSocket {
                                                         .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
                                                         .build();
 
-    DigestingRequestBody file = new DigestingRequestBody(data, outputStreamFactory, contentType, length);
+    DigestingRequestBody file = new DigestingRequestBody(data, outputStreamFactory, contentType, length, null);
 
     RequestBody requestBody = new MultipartBody.Builder()
         .setType(MultipartBody.FORM)
@@ -1045,7 +1060,7 @@ public class PushServiceSocket {
     try {
       TrustManager[] trustManagers = BlacklistingTrustManager.createFor(url.getTrustStore());
 
-      SSLContext context = SSLContext.getInstance("TLSv1.2");
+      SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, trustManagers, null);
 
       return new OkHttpClient.Builder()
@@ -1053,6 +1068,24 @@ public class PushServiceSocket {
                              .connectionSpecs(url.getConnectionSpecs().or(Util.immutableList(ConnectionSpec.RESTRICTED_TLS)))
                              .build();
     } catch (NoSuchAlgorithmException | KeyManagementException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  private OkHttpClient createAttachmentClient() {
+    try {
+      SSLContext context = SSLContext.getInstance("TLS");
+      context.init(null, null, null);
+
+      TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+      trustManagerFactory.init((KeyStore)null);
+
+      return new OkHttpClient.Builder()
+                             .sslSocketFactory(new Tls12SocketFactory(context.getSocketFactory()),
+                                               (X509TrustManager)trustManagerFactory.getTrustManagers()[0])
+                             .connectionSpecs(Util.immutableList(ConnectionSpec.RESTRICTED_TLS))
+                             .build();
+    } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
       throw new AssertionError(e);
     }
   }

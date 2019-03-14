@@ -303,7 +303,7 @@ public class WebSocketConnection extends WebSocketListener {
 
   private Pair<SSLSocketFactory, X509TrustManager> createTlsSocketFactory(TrustStore trustStore) {
     try {
-      SSLContext     context       = SSLContext.getInstance("TLSv1.2");
+      SSLContext     context       = SSLContext.getInstance("TLS");
       TrustManager[] trustManagers = BlacklistingTrustManager.createFor(trustStore);
       context.init(null, trustManagers, null);
 

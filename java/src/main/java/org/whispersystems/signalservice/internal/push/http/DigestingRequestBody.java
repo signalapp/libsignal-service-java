@@ -2,6 +2,7 @@ package org.whispersystems.signalservice.internal.push.http;
 
 
 import org.whispersystems.signalservice.api.crypto.DigestingOutputStream;
+import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.ProgressListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,17 +17,20 @@ public class DigestingRequestBody extends RequestBody {
   private final OutputStreamFactory outputStreamFactory;
   private final String              contentType;
   private final long                contentLength;
+  private final ProgressListener    progressListener;
 
   private byte[] digest;
 
   public DigestingRequestBody(InputStream inputStream,
                               OutputStreamFactory outputStreamFactory,
-                              String contentType, long contentLength)
+                              String contentType, long contentLength,
+                              ProgressListener progressListener)
   {
     this.inputStream         = inputStream;
     this.outputStreamFactory = outputStreamFactory;
     this.contentType         = contentType;
     this.contentLength       = contentLength;
+    this.progressListener    = progressListener;
   }
 
   @Override
@@ -37,12 +41,18 @@ public class DigestingRequestBody extends RequestBody {
   @Override
   public void writeTo(BufferedSink sink) throws IOException {
     DigestingOutputStream outputStream = outputStreamFactory.createFor(sink.outputStream());
-    byte[]                buffer       = new byte[4096];
+    byte[]                buffer       = new byte[8192];
 
     int read;
+    long total = 0;
 
     while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
       outputStream.write(buffer, 0, read);
+      total += read;
+
+      if (progressListener != null) {
+        progressListener.onAttachmentProgress(contentLength, total);
+      }
     }
 
     outputStream.flush();
@@ -51,7 +61,8 @@ public class DigestingRequestBody extends RequestBody {
 
   @Override
   public long contentLength() {
-    return contentLength;
+    if (contentLength > 0) return contentLength;
+    else                   return -1;
   }
 
   public byte[] getTransmittedDigest() {
