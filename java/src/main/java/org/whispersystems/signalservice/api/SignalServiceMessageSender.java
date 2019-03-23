@@ -290,7 +290,9 @@ public class SignalServiceMessageSender {
       throw new IOException("Unsupported sync message!");
     }
 
-    sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), System.currentTimeMillis(), content, false);
+    sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(),
+            message.getSent().isPresent() ? message.getSent().get().getTimestamp() : System.currentTimeMillis(),
+            content, false);
   }
 
   public void setSoTimeoutMillis(long soTimeoutMillis) {
