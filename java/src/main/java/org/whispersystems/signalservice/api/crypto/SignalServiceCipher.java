@@ -314,7 +314,8 @@ public class SignalServiceCipher {
                                                                                   sentContent.getTimestamp(),
                                                                                   createSignalServiceMessage(metadata, sentContent.getMessage()),
                                                                                   sentContent.getExpirationStartTimestamp(),
-                                                                                  unidentifiedStatuses));
+                                                                                  unidentifiedStatuses,
+                                                                                  sentContent.getIsRecipientUpdate()));
     }
 
     if (content.hasRequest()) {

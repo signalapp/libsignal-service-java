@@ -221,7 +221,7 @@ public class SignalServiceMessageSender {
     SendMessageResult result    = sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), timestamp, content, false);
 
     if ((result.getSuccess() != null && result.getSuccess().isNeedsSync()) || (unidentifiedAccess.isPresent() && isMultiDevice.get())) {
-      byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.of(recipient), timestamp, Collections.singletonList(result));
+      byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.of(recipient), timestamp, Collections.singletonList(result), false);
       sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
 
@@ -245,6 +245,7 @@ public class SignalServiceMessageSender {
    */
   public List<SendMessageResult> sendMessage(List<SignalServiceAddress>             recipients,
                                              List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
+                                             boolean                                isRecipientUpdate,
                                              SignalServiceDataMessage               message)
       throws IOException, UntrustedIdentityException
   {
@@ -261,7 +262,7 @@ public class SignalServiceMessageSender {
     }
 
     if (needsSyncInResults || (isMultiDevice.get())) {
-      byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp, results);
+      byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp, results, isRecipientUpdate);
       sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
 
@@ -574,11 +575,13 @@ public class SignalServiceMessageSender {
     return createMultiDeviceSentTranscriptContent(createMessageContent(transcript.getMessage()),
                                                   Optional.of(address),
                                                   transcript.getTimestamp(),
-                                                  Collections.singletonList(result));
+                                                  Collections.singletonList(result),
+                                                  false);
   }
 
   private byte[] createMultiDeviceSentTranscriptContent(byte[] content, Optional<SignalServiceAddress> recipient,
-                                                        long timestamp, List<SendMessageResult> sendMessageResults)
+                                                        long timestamp, List<SendMessageResult> sendMessageResults,
+                                                        boolean isRecipientUpdate)
   {
     try {
       Content.Builder          container   = Content.newBuilder();
@@ -604,6 +607,8 @@ public class SignalServiceMessageSender {
       if (dataMessage.getExpireTimer() > 0) {
         sentMessage.setExpirationStartTimestamp(System.currentTimeMillis());
       }
+
+      sentMessage.setIsRecipientUpdate(isRecipientUpdate);
 
       return container.setSyncMessage(syncMessage.setSent(sentMessage)).build().toByteArray();
     } catch (InvalidProtocolBufferException e) {
