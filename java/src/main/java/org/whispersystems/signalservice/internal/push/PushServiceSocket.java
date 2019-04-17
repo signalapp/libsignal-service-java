@@ -122,11 +122,14 @@ public class PushServiceSocket {
   private static final String MESSAGE_PATH              = "/v1/messages/%s";
   private static final String SENDER_ACK_MESSAGE_PATH   = "/v1/messages/%s/%d";
   private static final String UUID_ACK_MESSAGE_PATH     = "/v1/messages/uuid/%s";
-  private static final String ATTACHMENT_PATH           = "/v1/attachments/%s";
+  private static final String ATTACHMENT_PATH           = "/v2/attachments/form/upload";
 
   private static final String PROFILE_PATH              = "/v1/profile/%s";
 
   private static final String SENDER_CERTIFICATE_PATH   = "/v1/certificate/delivery";
+
+  private static final String ATTACHMENT_DOWNLOAD_PATH  = "attachments/%d";
+  private static final String ATTACHMENT_UPLOAD_PATH    = "attachments/";
 
   private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
   private static final ResponseCodeHandler NO_HANDLER = new EmptyResponseCodeHandler();
@@ -411,29 +414,10 @@ public class PushServiceSocket {
     makeServiceRequest(SIGNED_PREKEY_PATH, "PUT", JsonUtil.toJson(signedPreKeyEntity));
   }
 
-  public Pair<Long, byte[]> sendAttachment(PushAttachmentData attachment) throws IOException {
-    String               response      = makeServiceRequest(String.format(ATTACHMENT_PATH, ""), "GET", null);
-    AttachmentDescriptor attachmentKey = JsonUtil.fromJson(response, AttachmentDescriptor.class);
-
-    if (attachmentKey == null || attachmentKey.getLocation() == null) {
-      throw new IOException("Server failed to allocate an attachment key!");
-    }
-
-    Log.w(TAG, "Got attachment content location: " + attachmentKey.getLocation());
-
-    byte[] digest = uploadAttachment("PUT", attachmentKey.getLocation(), attachment.getData(),
-                                     attachment.getDataSize(), attachment.getOutputStreamFactory(), attachment.getListener());
-
-    return new Pair<>(attachmentKey.getId(), digest);
-  }
-
-  public void retrieveAttachment(long attachmentId, File destination, int maxSizeBytes, ProgressListener listener) throws IOException {
-    String               path       = String.format(ATTACHMENT_PATH, String.valueOf(attachmentId));
-    String               response   = makeServiceRequest(path, "GET", null);
-    AttachmentDescriptor descriptor = JsonUtil.fromJson(response, AttachmentDescriptor.class);
-
-    Log.w(TAG, "Attachment: " + attachmentId + " is at: " + descriptor.getLocation());
-    downloadAttachment(descriptor.getLocation(), destination, maxSizeBytes, listener);
+  public void retrieveAttachment(long attachmentId, File destination, int maxSizeBytes, ProgressListener listener)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    downloadFromCdn(destination, String.format(ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
   }
 
   public SignalServiceProfile retrieveProfile(SignalServiceAddress target, Optional<UnidentifiedAccess> unidentifiedAccess)
@@ -451,7 +435,7 @@ public class PushServiceSocket {
   public void retrieveProfileAvatar(String path, File destination, int maxSizeBytes)
     throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    downloadFromCdn(destination, path, maxSizeBytes);
+    downloadFromCdn(destination, path, maxSizeBytes, null);
   }
 
   public void setProfileName(String name) throws NonSuccessfulResponseCodeException, PushNetworkException {
@@ -472,12 +456,12 @@ public class PushServiceSocket {
     }
 
     if (profileAvatar != null) {
-      uploadToCdn(formAttributes.getAcl(), formAttributes.getKey(),
+      uploadToCdn("", formAttributes.getAcl(), formAttributes.getKey(),
                   formAttributes.getPolicy(), formAttributes.getAlgorithm(),
                   formAttributes.getCredential(), formAttributes.getDate(),
                   formAttributes.getSignature(), profileAvatar.getData(),
                   profileAvatar.getContentType(), profileAvatar.getDataLength(),
-                  profileAvatar.getOutputStreamFactory());
+                  profileAvatar.getOutputStreamFactory(), null);
     }
   }
 
@@ -589,110 +573,31 @@ public class PushServiceSocket {
     }
   }
 
-  private void downloadAttachment(String url, File localDestination, int maxSizeBytes, ProgressListener listener) throws PushNetworkException, NonSuccessfulResponseCodeException {
-    Request request = new Request.Builder().url(url)
-                                           .addHeader("Content-Type", "application/octet-stream")
-                                           .get()
-                                           .build();
-
-    Call    call   = attachmentClient.newBuilder()
-                                     .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                     .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                     .build()
-                                     .newCall(request);
-
-    synchronized (connections) {
-      connections.add(call);
-    }
-
-    Response     response;
-    ResponseBody body;
-
+  public AttachmentUploadAttributes getAttachmentUploadAttributes() throws NonSuccessfulResponseCodeException, PushNetworkException {
+    String response = makeServiceRequest(ATTACHMENT_PATH, "GET", null);
     try {
-      response = call.execute();
-      body     = response.body();
+      return JsonUtil.fromJson(response, AttachmentUploadAttributes.class);
     } catch (IOException e) {
-      throw new PushNetworkException(e);
-    } finally {
-      synchronized (connections) {
-        connections.remove(call);
-      }
-    }
-
-    if (!response.isSuccessful()) {
-      throw new NonSuccessfulResponseCodeException("Bad response: " + response.code());
-    }
-
-    if (body == null) {
-      throw new NonSuccessfulResponseCodeException("Response body is empty!");
-    }
-
-    try {
-      long           contentLength = body.contentLength();
-      BufferedSource source        = body.source();
-      BufferedSink   sink          = Okio.buffer(Okio.sink(localDestination));
-      Buffer         sinkBuffer    = sink.buffer();
-
-      if (contentLength > maxSizeBytes) {
-        throw new NonSuccessfulResponseCodeException("File exceeds maximum size.");
-      }
-
-      long totalBytesRead = 0;
-
-      for (long readCount; (readCount = source.read(sinkBuffer, 8192)) != -1; ) {
-        totalBytesRead += readCount;
-        sink.emitCompleteSegments();
-
-        if (listener != null) {
-          listener.onAttachmentProgress(contentLength, totalBytesRead);
-        }
-      }
-
-      sink.flush();
-      sink.close();
-      body.close();
-    } catch (FileNotFoundException e) {
-      throw new AssertionError(e);
-    } catch (IOException e) {
-      throw new PushNetworkException(e);
+      Log.w(TAG, e);
+      throw new NonSuccessfulResponseCodeException("Unable to parse entity");
     }
   }
 
-  private byte[] uploadAttachment(String method, String url, InputStream data,
-                                  long dataSize, OutputStreamFactory outputStreamFactory, ProgressListener listener)
+  public Pair<Long, byte[]> uploadAttachment(PushAttachmentData attachment, AttachmentUploadAttributes uploadAttributes)
       throws PushNetworkException, NonSuccessfulResponseCodeException
   {
-    DigestingRequestBody requestBody = new DigestingRequestBody(data, outputStreamFactory, "application/octet-stream", dataSize, listener);
-    Request.Builder      request     = new Request.Builder().url(url).method(method, requestBody);
-    Call                 call        = attachmentClient.newBuilder()
-                                                       .connectTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                                       .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
-                                                       .build()
-                                                       .newCall(request.build());
+    long   id     = Long.parseLong(uploadAttributes.getAttachmentId());
+    byte[] digest = uploadToCdn(ATTACHMENT_UPLOAD_PATH, uploadAttributes.getAcl(), uploadAttributes.getKey(),
+                                uploadAttributes.getPolicy(), uploadAttributes.getAlgorithm(),
+                                uploadAttributes.getCredential(), uploadAttributes.getDate(),
+                                uploadAttributes.getSignature(), attachment.getData(),
+                                "application/octet-stream", attachment.getDataSize(),
+                                attachment.getOutputStreamFactory(), attachment.getListener());
 
-    synchronized (connections) {
-      connections.add(call);
-    }
-
-    try {
-      Response response;
-
-      try {
-        response = call.execute();
-      } catch (IOException e) {
-        throw new PushNetworkException(e);
-      }
-
-      if (response.isSuccessful()) return requestBody.getTransmittedDigest();
-      else                         throw new NonSuccessfulResponseCodeException("Response: " + response);
-    } finally {
-      synchronized (connections) {
-        connections.remove(call);
-      }
-    }
+    return new Pair<>(id, digest);
   }
 
-  private void downloadFromCdn(File destination, String path, int maxSizeBytes)
+  private void downloadFromCdn(File destination, String path, int maxSizeBytes, ProgressListener listener)
       throws PushNetworkException, NonSuccessfulResponseCodeException
   {
     ConnectionHolder connectionHolder = getRandom(cdnClients, random);
@@ -734,6 +639,10 @@ public class PushServiceSocket {
         while ((read = in.read(buffer, 0, buffer.length)) != -1) {
           out.write(buffer, 0, read);
           if ((totalRead += read) > maxSizeBytes) throw new PushNetworkException("Response exceeded max size!");
+
+          if (listener != null) {
+            listener.onAttachmentProgress(body.contentLength(), totalRead);
+          }
         }
 
         return;
@@ -749,10 +658,10 @@ public class PushServiceSocket {
     throw new NonSuccessfulResponseCodeException("Response: " + response);
   }
 
-  private byte[] uploadToCdn(String acl, String key, String policy, String algorithm,
+  private byte[] uploadToCdn(String path, String acl, String key, String policy, String algorithm,
                              String credential, String date, String signature,
                              InputStream data, String contentType, long length,
-                             OutputStreamFactory outputStreamFactory)
+                             OutputStreamFactory outputStreamFactory, ProgressListener progressListener)
       throws PushNetworkException, NonSuccessfulResponseCodeException
   {
     ConnectionHolder connectionHolder = getRandom(cdnClients, random);
@@ -762,7 +671,7 @@ public class PushServiceSocket {
                                                         .readTimeout(soTimeoutMillis, TimeUnit.MILLISECONDS)
                                                         .build();
 
-    DigestingRequestBody file = new DigestingRequestBody(data, outputStreamFactory, contentType, length, null);
+    DigestingRequestBody file = new DigestingRequestBody(data, outputStreamFactory, contentType, length, progressListener);
 
     RequestBody requestBody = new MultipartBody.Builder()
         .setType(MultipartBody.FORM)
@@ -777,7 +686,9 @@ public class PushServiceSocket {
         .addFormDataPart("file", "file", file)
         .build();
 
-    Request.Builder request = new Request.Builder().url(connectionHolder.getUrl()).post(requestBody);
+    Request.Builder request = new Request.Builder()
+                                         .url(connectionHolder.getUrl() + "/" + path)
+                                         .post(requestBody);
 
     if (connectionHolder.getHostHeader().isPresent()) {
       request.addHeader("Host", connectionHolder.getHostHeader().get());

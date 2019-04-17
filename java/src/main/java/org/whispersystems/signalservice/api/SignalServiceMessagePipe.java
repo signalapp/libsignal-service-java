@@ -16,6 +16,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.internal.push.AttachmentUploadAttributes;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
 import org.whispersystems.signalservice.internal.util.Base64;
@@ -174,6 +175,26 @@ public class SignalServiceMessagePipe {
       return JsonUtil.fromJson(response.second(), SignalServiceProfile.class);
     } catch (NoSuchAlgorithmException nsae) {
       throw new AssertionError(nsae);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      throw new IOException(e);
+    }
+  }
+
+  public AttachmentUploadAttributes getAttachmentUploadAttributes() throws IOException {
+    try {
+      WebSocketRequestMessage requestMessage = WebSocketRequestMessage.newBuilder()
+                                                                      .setId(new SecureRandom().nextLong())
+                                                                      .setVerb("GET")
+                                                                      .setPath("/v2/attachments/form/upload")
+                                                                      .build();
+
+      Pair<Integer, String> response = websocket.sendRequest(requestMessage).get(10, TimeUnit.SECONDS);
+
+      if (response.first() < 200 || response.first() >= 300) {
+        throw new IOException("Non-successful response: " + response.first());
+      }
+
+      return JsonUtil.fromJson(response.second(), AttachmentUploadAttributes.class);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       throw new IOException(e);
     }

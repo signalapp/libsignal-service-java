@@ -47,6 +47,7 @@ import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserExce
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.crypto.PaddingInputStream;
+import org.whispersystems.signalservice.internal.push.AttachmentUploadAttributes;
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
@@ -320,7 +321,17 @@ public class SignalServiceMessageSender {
                                                                  new AttachmentCipherOutputStreamFactory(attachmentKey),
                                                                  attachment.getListener());
 
-    Pair<Long, byte[]> attachmentIdAndDigest = socket.sendAttachment(attachmentData);
+    AttachmentUploadAttributes uploadAttributes;
+
+    if (pipe.get().isPresent()) {
+      Log.d(TAG, "Using pipe to retrieve attachment upload attributes...");
+      uploadAttributes = pipe.get().get().getAttachmentUploadAttributes();
+    } else {
+      Log.d(TAG, "Not using pipe to retrieve attachment upload attributes...");
+      uploadAttributes = socket.getAttachmentUploadAttributes();
+    }
+
+    Pair<Long, byte[]> attachmentIdAndDigest = socket.uploadAttachment(attachmentData, uploadAttributes);
 
     return new SignalServiceAttachmentPointer(attachmentIdAndDigest.first(),
                                               attachment.getContentType(),
