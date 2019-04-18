@@ -32,6 +32,7 @@ import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulRespons
 import org.whispersystems.signalservice.api.push.exceptions.NotFoundException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.push.exceptions.RateLimitException;
+import org.whispersystems.signalservice.api.push.exceptions.RemoteAttestationResponseExpiredException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.Tls12SocketFactory;
@@ -123,6 +124,7 @@ public class PushServiceSocket {
   private static final String DIRECTORY_TOKENS_PATH     = "/v1/directory/tokens";
   private static final String DIRECTORY_VERIFY_PATH     = "/v1/directory/%s";
   private static final String DIRECTORY_AUTH_PATH       = "/v1/directory/auth";
+  private static final String DIRECTORY_FEEDBACK_PATH   = "/v1/directory/feedback-v3/%s";
   private static final String MESSAGE_PATH              = "/v1/messages/%s";
   private static final String SENDER_ACK_MESSAGE_PATH   = "/v1/messages/%s/%d";
   private static final String UUID_ACK_MESSAGE_PATH     = "/v1/messages/uuid/%s";
@@ -563,31 +565,21 @@ public class PushServiceSocket {
   }
 
   public void reportContactDiscoveryServiceMatch() throws IOException {
-    makeServiceRequest("/v1/directory/feedback-v2/ok", "PUT", "");
+    makeServiceRequest(String.format(DIRECTORY_FEEDBACK_PATH, "ok"), "PUT", "");
   }
 
   public void reportContactDiscoveryServiceMismatch() throws IOException {
-    makeServiceRequest("/v1/directory/feedback-v2/mismatch", "PUT", "");
-  }
-
-  public void reportContactDiscoveryServiceServerError(String reason) throws IOException {
-    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
-    makeServiceRequest("/v1/directory/feedback-v2/server-error", "PUT", JsonUtil.toJson(failureReason));
-  }
-
-  public void reportContactDiscoveryServiceClientError(String reason) throws IOException {
-    ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
-    makeServiceRequest("/v1/directory/feedback-v2/client-error", "PUT", JsonUtil.toJson(failureReason));
+    makeServiceRequest(String.format(DIRECTORY_FEEDBACK_PATH, "mismatch"), "PUT", "");
   }
 
   public void reportContactDiscoveryServiceAttestationError(String reason) throws IOException {
     ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
-    makeServiceRequest("/v1/directory/feedback-v2/attestation-error", "PUT", JsonUtil.toJson(failureReason));
+    makeServiceRequest(String.format(DIRECTORY_FEEDBACK_PATH, "attestation-error"), "PUT", JsonUtil.toJson(failureReason));
   }
 
   public void reportContactDiscoveryServiceUnexpectedError(String reason) throws IOException {
     ContactDiscoveryFailureReason failureReason = new ContactDiscoveryFailureReason(reason);
-    makeServiceRequest("/v1/directory/feedback-v2/unexpected-error", "PUT", JsonUtil.toJson(failureReason));
+    makeServiceRequest(String.format(DIRECTORY_FEEDBACK_PATH, "unexpected-error"), "PUT", JsonUtil.toJson(failureReason));
   }
 
   public TurnServerInfo getTurnServerInfo() throws IOException {
@@ -985,6 +977,16 @@ public class PushServiceSocket {
       synchronized (connections) {
         connections.remove(call);
       }
+    }
+
+    switch (response.code()) {
+      case 401:
+      case 403:
+        throw new AuthorizationFailedException("Authorization failed!");
+      case 409:
+        throw new RemoteAttestationResponseExpiredException("Remote attestation response expired");
+      case 429:
+        throw new RateLimitException("Rate limit exceeded: " + response.code());
     }
 
     throw new NonSuccessfulResponseCodeException("Response: " + response);
