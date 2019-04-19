@@ -15,6 +15,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachment.Pro
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPointer;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
+import org.whispersystems.signalservice.api.messages.SignalServiceStickerManifest;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
@@ -23,13 +24,18 @@ import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
+import org.whispersystems.signalservice.internal.sticker.StickerProtos;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
+import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.signalservice.internal.websocket.WebSocketConnection;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -133,7 +139,45 @@ public class SignalServiceMessageReceiver {
     if (!pointer.getDigest().isPresent()) throw new InvalidMessageException("No attachment digest!");
 
     socket.retrieveAttachment(pointer.getId(), destination, maxSizeBytes, listener);
-    return AttachmentCipherInputStream.createFor(destination, pointer.getSize().or(0), pointer.getKey(), pointer.getDigest().get());
+    return AttachmentCipherInputStream.createForAttachment(destination, pointer.getSize().or(0), pointer.getKey(), pointer.getDigest().get());
+  }
+
+  public InputStream retrieveSticker(byte[] packId, byte[] packKey, int stickerId)
+      throws IOException, InvalidMessageException
+  {
+    byte[] data = socket.retrieveSticker(packId, stickerId);
+    return AttachmentCipherInputStream.createForStickerData(data, packKey);
+  }
+
+  /**
+   * Retrieves a {@link SignalServiceStickerManifest}.
+   *
+   * @param packId The 16-byte packId that identifies the sticker pack.
+   * @param packKey The 32-byte packKey that decrypts the sticker pack.
+   * @return The {@link SignalServiceStickerManifest} representing the sticker pack.
+   * @throws IOException
+   * @throws InvalidMessageException
+   */
+  public SignalServiceStickerManifest retrieveStickerManifest(byte[] packId, byte[] packKey)
+      throws IOException, InvalidMessageException
+  {
+    byte[] manifestBytes = socket.retrieveStickerManifest(packId);
+
+    InputStream           cipherStream = AttachmentCipherInputStream.createForStickerData(manifestBytes, packKey);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    Util.copy(cipherStream, outputStream);
+
+    StickerProtos.Pack                             pack     = StickerProtos.Pack.parseFrom(outputStream.toByteArray());
+    List<SignalServiceStickerManifest.StickerInfo> stickers = new ArrayList<>(pack.getStickersCount());
+    SignalServiceStickerManifest.StickerInfo       cover    = pack.hasCover() ? new SignalServiceStickerManifest.StickerInfo(pack.getCover().getId(), pack.getCover().getEmoji())
+                                                                          : null;
+
+    for (StickerProtos.Pack.Sticker sticker : pack.getStickersList()) {
+      stickers.add(new SignalServiceStickerManifest.StickerInfo(sticker.getId(), sticker.getEmoji()));
+    }
+
+    return new SignalServiceStickerManifest(pack.getTitle(), pack.getAuthor(), cover, stickers);
   }
 
   /**

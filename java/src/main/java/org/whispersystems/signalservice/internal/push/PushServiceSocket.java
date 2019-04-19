@@ -47,9 +47,11 @@ import org.whispersystems.signalservice.internal.push.http.DigestingRequestBody;
 import org.whispersystems.signalservice.internal.push.http.OutputStreamFactory;
 import org.whispersystems.signalservice.internal.util.Base64;
 import org.whispersystems.signalservice.internal.util.BlacklistingTrustManager;
+import org.whispersystems.signalservice.internal.util.Hex;
 import org.whispersystems.signalservice.internal.util.JsonUtil;
 import org.whispersystems.signalservice.internal.util.Util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -72,7 +74,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
@@ -130,6 +134,9 @@ public class PushServiceSocket {
 
   private static final String ATTACHMENT_DOWNLOAD_PATH  = "attachments/%d";
   private static final String ATTACHMENT_UPLOAD_PATH    = "attachments/";
+
+  private static final String STICKER_MANIFEST_PATH     = "stickers/%s/manifest.proto";
+  private static final String STICKER_PATH              = "stickers/%s/full/%d";
 
   private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
   private static final ResponseCodeHandler NO_HANDLER = new EmptyResponseCodeHandler();
@@ -420,6 +427,35 @@ public class PushServiceSocket {
     downloadFromCdn(destination, String.format(ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
   }
 
+  public void retrieveSticker(File destination, byte[] packId, int stickerId)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    String hexPackId = Hex.toStringCondensed(packId);
+    downloadFromCdn(destination, String.format(STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
+  }
+
+  public byte[] retrieveSticker(byte[] packId, int stickerId)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    String                hexPackId = Hex.toStringCondensed(packId);
+    ByteArrayOutputStream output    = new ByteArrayOutputStream();
+
+    downloadFromCdn(output, String.format(STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
+
+    return output.toByteArray();
+  }
+
+  public byte[] retrieveStickerManifest(byte[] packId)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    String                hexPackId = Hex.toStringCondensed(packId);
+    ByteArrayOutputStream output    = new ByteArrayOutputStream();
+
+    downloadFromCdn(output, String.format(STICKER_MANIFEST_PATH, hexPackId), 1024 * 1024, null);
+
+    return output.toByteArray();
+  }
+
   public SignalServiceProfile retrieveProfile(SignalServiceAddress target, Optional<UnidentifiedAccess> unidentifiedAccess)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
@@ -600,6 +636,16 @@ public class PushServiceSocket {
   private void downloadFromCdn(File destination, String path, int maxSizeBytes, ProgressListener listener)
       throws PushNetworkException, NonSuccessfulResponseCodeException
   {
+    try (FileOutputStream outputStream = new FileOutputStream(destination)) {
+      downloadFromCdn(outputStream, path, maxSizeBytes, listener);
+    } catch (IOException e) {
+      throw new PushNetworkException(e);
+    }
+  }
+
+  private void downloadFromCdn(OutputStream outputStream, String path, int maxSizeBytes, ProgressListener listener)
+      throws PushNetworkException, NonSuccessfulResponseCodeException
+  {
     ConnectionHolder connectionHolder = getRandom(cdnClients, random);
     OkHttpClient     okHttpClient     = connectionHolder.getClient()
                                                         .newBuilder()
@@ -631,13 +677,12 @@ public class PushServiceSocket {
         if (body.contentLength() > maxSizeBytes) throw new PushNetworkException("Response exceeds max size!");
 
         InputStream  in     = body.byteStream();
-        OutputStream out    = new FileOutputStream(destination);
         byte[]       buffer = new byte[32768];
 
         int read, totalRead = 0;
 
         while ((read = in.read(buffer, 0, buffer.length)) != -1) {
-          out.write(buffer, 0, read);
+          outputStream.write(buffer, 0, read);
           if ((totalRead += read) > maxSizeBytes) throw new PushNetworkException("Response exceeded max size!");
 
           if (listener != null) {

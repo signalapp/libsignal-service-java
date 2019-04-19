@@ -9,37 +9,42 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SignalServiceSyncMessage {
 
-  private final Optional<SentTranscriptMessage>   sent;
-  private final Optional<ContactsMessage>         contacts;
-  private final Optional<SignalServiceAttachment> groups;
-  private final Optional<BlockedListMessage>      blockedList;
-  private final Optional<RequestMessage>          request;
-  private final Optional<List<ReadMessage>>       reads;
-  private final Optional<VerifiedMessage>         verified;
-  private final Optional<ConfigurationMessage>    configuration;
+  private final Optional<SentTranscriptMessage>             sent;
+  private final Optional<ContactsMessage>                   contacts;
+  private final Optional<SignalServiceAttachment>           groups;
+  private final Optional<BlockedListMessage>                blockedList;
+  private final Optional<RequestMessage>                    request;
+  private final Optional<List<ReadMessage>>                 reads;
+  private final Optional<VerifiedMessage>                   verified;
+  private final Optional<ConfigurationMessage>              configuration;
+  private final Optional<List<StickerPackOperationMessage>> stickerPackOperations;
 
-  private SignalServiceSyncMessage(Optional<SentTranscriptMessage>   sent,
-                                   Optional<ContactsMessage>         contacts,
-                                   Optional<SignalServiceAttachment> groups,
-                                   Optional<BlockedListMessage>      blockedList,
-                                   Optional<RequestMessage>          request,
-                                   Optional<List<ReadMessage>>       reads,
-                                   Optional<VerifiedMessage>         verified,
-                                   Optional<ConfigurationMessage>    configuration)
+  private SignalServiceSyncMessage(Optional<SentTranscriptMessage>             sent,
+                                   Optional<ContactsMessage>                   contacts,
+                                   Optional<SignalServiceAttachment>           groups,
+                                   Optional<BlockedListMessage>                blockedList,
+                                   Optional<RequestMessage>                    request,
+                                   Optional<List<ReadMessage>>                 reads,
+                                   Optional<VerifiedMessage>                   verified,
+                                   Optional<ConfigurationMessage>              configuration,
+                                   Optional<List<StickerPackOperationMessage>> stickerPackOperations)
   {
-    this.sent          = sent;
-    this.contacts      = contacts;
-    this.groups        = groups;
-    this.blockedList   = blockedList;
-    this.request       = request;
-    this.reads         = reads;
-    this.verified      = verified;
-    this.configuration = configuration;
+    this.sent                  = sent;
+    this.contacts              = contacts;
+    this.groups                = groups;
+    this.blockedList           = blockedList;
+    this.request               = request;
+    this.reads                 = reads;
+    this.verified              = verified;
+    this.configuration         = configuration;
+    this.stickerPackOperations = stickerPackOperations;
   }
 
   public static SignalServiceSyncMessage forSentTranscript(SentTranscriptMessage sent) {
@@ -50,7 +55,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forContacts(ContactsMessage contacts) {
@@ -61,7 +67,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forGroups(SignalServiceAttachment groups) {
@@ -72,7 +79,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forRequest(RequestMessage request) {
@@ -83,7 +91,8 @@ public class SignalServiceSyncMessage {
                                         Optional.of(request),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forRead(List<ReadMessage> reads) {
@@ -94,7 +103,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.of(reads),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forRead(ReadMessage read) {
@@ -108,7 +118,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.of(reads),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forVerified(VerifiedMessage verifiedMessage) {
@@ -119,7 +130,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.of(verifiedMessage),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forBlocked(BlockedListMessage blocked) {
@@ -130,7 +142,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public static SignalServiceSyncMessage forConfiguration(ConfigurationMessage configuration) {
@@ -141,7 +154,20 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.of(configuration));
+                                        Optional.of(configuration),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
+  }
+
+  public static SignalServiceSyncMessage forStickerPackOperations(List<StickerPackOperationMessage> stickerPackOperations) {
+    return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
+                                        Optional.<ContactsMessage>absent(),
+                                        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<BlockedListMessage>absent(),
+                                        Optional.<RequestMessage>absent(),
+                                        Optional.<List<ReadMessage>>absent(),
+                                        Optional.<VerifiedMessage>absent(),
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.of(stickerPackOperations));
   }
 
   public static SignalServiceSyncMessage empty() {
@@ -152,7 +178,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
                                         Optional.<VerifiedMessage>absent(),
-                                        Optional.<ConfigurationMessage>absent());
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent());
   }
 
   public Optional<SentTranscriptMessage> getSent() {
@@ -185,6 +212,10 @@ public class SignalServiceSyncMessage {
 
   public Optional<ConfigurationMessage> getConfiguration() {
     return configuration;
+  }
+
+  public Optional<List<StickerPackOperationMessage>> getStickerPackOperations() {
+    return stickerPackOperations;
   }
 
 }

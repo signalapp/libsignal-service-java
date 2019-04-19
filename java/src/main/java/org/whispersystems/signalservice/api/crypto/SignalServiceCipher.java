@@ -43,6 +43,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentPoin
 import org.whispersystems.signalservice.api.messages.SignalServiceContent;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage.Preview;
+import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage.Sticker;
 import org.whispersystems.signalservice.api.messages.SignalServiceEnvelope;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
 import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
@@ -57,6 +58,7 @@ import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.StickerPackOperationMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.VerifiedMessage.VerifiedState;
 import org.whispersystems.signalservice.api.messages.shared.SharedContact;
@@ -270,6 +272,7 @@ public class SignalServiceCipher {
     SignalServiceDataMessage.Quote quote            = createQuote(content);
     List<SharedContact>            sharedContacts   = createSharedContacts(content);
     List<Preview>                  previews         = createPreviews(content);
+    Sticker                        sticker          = createSticker(content);
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
       attachments.add(createAttachmentPointer(pointer));
@@ -292,7 +295,8 @@ public class SignalServiceCipher {
                                         profileKeyUpdate,
                                         quote,
                                         sharedContacts,
-                                        previews);
+                                        previews,
+                                        sticker);
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(Metadata metadata, SyncMessage content)
@@ -350,6 +354,26 @@ public class SignalServiceCipher {
       } catch (InvalidKeyException e) {
         throw new ProtocolInvalidKeyException(e, metadata.getSender(), metadata.getSenderDevice());
       }
+    }
+
+    if (content.getStickerPackOperationList().size() > 0) {
+      List<StickerPackOperationMessage> operations = new LinkedList<>();
+
+      for (SyncMessage.StickerPackOperation operation : content.getStickerPackOperationList()) {
+        byte[]                           packId  = operation.hasPackId() ? operation.getPackId().toByteArray() : null;
+        byte[]                           packKey = operation.hasPackKey() ? operation.getPackKey().toByteArray() : null;
+        StickerPackOperationMessage.Type type    = null;
+
+        if (operation.hasType()) {
+          switch (operation.getType()) {
+            case INSTALL: type = StickerPackOperationMessage.Type.INSTALL; break;
+            case REMOVE:  type = StickerPackOperationMessage.Type.REMOVE; break;
+          }
+        }
+        operations.add(new StickerPackOperationMessage(packId, packKey, type));
+      }
+
+      return SignalServiceSyncMessage.forStickerPackOperations(operations);
     }
 
     return SignalServiceSyncMessage.empty();
@@ -444,6 +468,24 @@ public class SignalServiceCipher {
     }
 
     return results;
+  }
+
+  private Sticker createSticker(DataMessage content) {
+    if (!content.hasSticker()                ||
+        !content.getSticker().hasPackId()    ||
+        !content.getSticker().hasPackKey()   ||
+        !content.getSticker().hasStickerId() ||
+        !content.getSticker().hasData())
+    {
+      return null;
+    }
+
+    DataMessage.Sticker sticker = content.getSticker();
+
+    return new Sticker(sticker.getPackId().toByteArray(),
+                       sticker.getPackKey().toByteArray(),
+                       sticker.getStickerId(),
+                       createAttachmentPointer(sticker.getData()));
   }
 
   private List<SharedContact> createSharedContacts(DataMessage content) {

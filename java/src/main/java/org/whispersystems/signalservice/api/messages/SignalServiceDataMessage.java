@@ -30,6 +30,7 @@ public class SignalServiceDataMessage {
   private final Optional<Quote>                         quote;
   private final Optional<List<SharedContact>>           contacts;
   private final Optional<List<Preview>>                 previews;
+  private final Optional<Sticker>                       sticker;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -103,7 +104,7 @@ public class SignalServiceDataMessage {
    * @param expiresInSeconds The number of seconds in which a message should disappear after having been seen.
    */
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, int expiresInSeconds) {
-    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null, null, null);
+    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null, null, null, null);
   }
 
   /**
@@ -120,7 +121,8 @@ public class SignalServiceDataMessage {
                                   List<SignalServiceAttachment> attachments,
                                   String body, boolean endSession, int expiresInSeconds,
                                   boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
-                                  Quote quote, List<SharedContact> sharedContacts, List<Preview> previews)
+                                  Quote quote, List<SharedContact> sharedContacts, List<Preview> previews,
+                                  Sticker sticker)
   {
     this.timestamp             = timestamp;
     this.body                  = Optional.fromNullable(body);
@@ -131,6 +133,7 @@ public class SignalServiceDataMessage {
     this.profileKey            = Optional.fromNullable(profileKey);
     this.profileKeyUpdate      = profileKeyUpdate;
     this.quote                 = Optional.fromNullable(quote);
+    this.sticker               = Optional.fromNullable(sticker);
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);
@@ -219,6 +222,10 @@ public class SignalServiceDataMessage {
     return previews;
   }
 
+  public Optional<Sticker> getSticker() {
+    return sticker;
+  }
+
   public static class Builder {
 
     private List<SignalServiceAttachment> attachments    = new LinkedList<>();
@@ -234,6 +241,7 @@ public class SignalServiceDataMessage {
     private byte[]             profileKey;
     private boolean            profileKeyUpdate;
     private Quote              quote;
+    private Sticker            sticker;
 
     private Builder() {}
 
@@ -315,11 +323,17 @@ public class SignalServiceDataMessage {
       return this;
     }
 
+    public Builder withSticker(Sticker sticker) {
+      this.sticker = sticker;
+      return this;
+    }
+
     public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
                                           expiresInSeconds, expirationUpdate, profileKey,
-                                          profileKeyUpdate, quote, sharedContacts, previews);
+                                          profileKeyUpdate, quote, sharedContacts, previews,
+                                          sticker);
     }
   }
 
@@ -401,4 +415,33 @@ public class SignalServiceDataMessage {
     }
   }
 
+  public static class Sticker {
+    private final byte[]                  packId;
+    private final byte[]                  packKey;
+    private final int                     stickerId;
+    private final SignalServiceAttachment attachment;
+
+    public Sticker(byte[] packId, byte[] packKey, int stickerId, SignalServiceAttachment attachment) {
+      this.packId     = packId;
+      this.packKey    = packKey;
+      this.stickerId  = stickerId;
+      this.attachment = attachment;
+    }
+
+    public byte[] getPackId() {
+      return packId;
+    }
+
+    public byte[] getPackKey() {
+      return packKey;
+    }
+
+    public int getStickerId() {
+      return stickerId;
+    }
+
+    public SignalServiceAttachment getAttachment() {
+      return attachment;
+    }
+  }
 }
