@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
     }
 }
 
@@ -31,7 +32,7 @@ dependencies {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.3'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
