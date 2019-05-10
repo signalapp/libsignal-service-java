@@ -9,11 +9,6 @@ import java.io.InputStream;
 
 public class PaddingInputStream extends FilterInputStream {
 
-  private static final String TAG = PaddingInputStream.class.getSimpleName();
-
-  private static final int MB = 1024 * 1024;
-  private static final int KB = 1024;
-
   private long paddingRemaining;
 
   public PaddingInputStream(InputStream inputStream, long plaintextLength) {
@@ -59,19 +54,6 @@ public class PaddingInputStream extends FilterInputStream {
   }
 
   public static long getPaddedSize(long size) {
-    return size;
-//    if      (size >= 10 * MB)  return getRoundedUp(size, 10 * MB);
-//    else if (size >= 5 * MB)   return getRoundedUp(size, 5 * MB);
-//    else if (size >= MB)       return getRoundedUp(size, MB);
-//    else if (size >= 500 * KB) return getRoundedUp(size, 500 * KB);
-//    else if (size >= 50 * KB)  return getRoundedUp(size, 50 * KB);
-//    else if (size >= KB)       return getRoundedUp(size, KB);
-//    else                       return KB - size;
+    return (int) Math.max(541, Math.floor(Math.pow(1.05, Math.ceil(Math.log(size) / Math.log(1.05)))));
   }
-
-  private static long getRoundedUp(long size, long interval) {
-    long multiplier = (long)Math.ceil(((double)size) / ((double)interval));
-    return interval * multiplier;
-  }
-
 }

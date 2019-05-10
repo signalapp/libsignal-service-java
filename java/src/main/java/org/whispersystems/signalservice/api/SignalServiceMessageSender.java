@@ -74,6 +74,7 @@ import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Iterator;
@@ -314,12 +315,15 @@ public class SignalServiceMessageSender {
     this.isMultiDevice.set(isMultiDevice);
   }
 
-  public SignalServiceAttachmentPointer uploadAttachment(SignalServiceAttachmentStream attachment) throws IOException {
+  public SignalServiceAttachmentPointer uploadAttachment(SignalServiceAttachmentStream attachment, boolean usePadding) throws IOException {
     byte[]             attachmentKey    = Util.getSecretBytes(64);
-    long               paddedLength     = PaddingInputStream.getPaddedSize(attachment.getLength());
+    long               paddedLength     = usePadding ? PaddingInputStream.getPaddedSize(attachment.getLength())
+                                                     : attachment.getLength();
+    InputStream        dataStream       = usePadding ? new PaddingInputStream(attachment.getInputStream(), attachment.getLength())
+                                                     : attachment.getInputStream();
     long               ciphertextLength = AttachmentCipherOutputStream.getCiphertextLength(paddedLength);
     PushAttachmentData attachmentData   = new PushAttachmentData(attachment.getContentType(),
-                                                                 new PaddingInputStream(attachment.getInputStream(), attachment.getLength()),
+                                                                 dataStream,
                                                                  ciphertextLength,
                                                                  new AttachmentCipherOutputStreamFactory(attachmentKey),
                                                                  attachment.getListener());
@@ -497,7 +501,7 @@ public class SignalServiceMessageSender {
       stickerBuilder.setStickerId(message.getSticker().get().getStickerId());
 
       if (message.getSticker().get().getAttachment().isStream()) {
-        stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asStream()));
+        stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asStream(), true));
       } else {
         stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asPointer()));
       }
@@ -988,9 +992,15 @@ public class SignalServiceMessageSender {
   }
 
   private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
+    throws IOException
+  {
+    return createAttachmentPointer(attachment, false);
+  }
+
+  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment, boolean usePadding)
       throws IOException
   {
-    SignalServiceAttachmentPointer pointer = uploadAttachment(attachment);
+    SignalServiceAttachmentPointer pointer = uploadAttachment(attachment, usePadding);
     return createAttachmentPointer(pointer);
   }
 
