@@ -10,7 +10,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * A sleep timer that is based on elapsed realtime, so
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class RealtimeSleepTimer implements SleepTimer {
   private static final String TAG = RealtimeSleepTimer.class.getSimpleName();
-  private static ConcurrentLinkedQueue<Integer> actionIdList = new ConcurrentLinkedQueue<>();
+  private static ConcurrentSkipListSet<Integer> actionIdList = new ConcurrentSkipListSet<>();
 
   private final Context context;
 
