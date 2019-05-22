@@ -73,6 +73,7 @@ import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Receip
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.TypingMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Verified;
+import org.whispersystems.signalservice.internal.push.UnsupportedDataMessageException;
 import org.whispersystems.signalservice.internal.util.Base64;
 
 import java.util.HashMap;
@@ -151,7 +152,7 @@ public class SignalServiceCipher {
       ProtocolUntrustedIdentityException, ProtocolNoSessionException,
       ProtocolInvalidVersionException, ProtocolInvalidMessageException,
       ProtocolInvalidKeyException, ProtocolDuplicateMessageException,
-      SelfSendException
+      SelfSendException, UnsupportedDataMessageException
 
   {
     try {
@@ -263,7 +264,9 @@ public class SignalServiceCipher {
     }
   }
 
-  private SignalServiceDataMessage createSignalServiceMessage(Metadata metadata, DataMessage content) throws ProtocolInvalidMessageException {
+  private SignalServiceDataMessage createSignalServiceMessage(Metadata metadata, DataMessage content)
+      throws ProtocolInvalidMessageException, UnsupportedDataMessageException
+  {
     SignalServiceGroup             groupInfo        = createGroupInfo(content);
     List<SignalServiceAttachment>  attachments      = new LinkedList<>();
     boolean                        endSession       = ((content.getFlags() & DataMessage.Flags.END_SESSION_VALUE            ) != 0);
@@ -273,6 +276,14 @@ public class SignalServiceCipher {
     List<SharedContact>            sharedContacts   = createSharedContacts(content);
     List<Preview>                  previews         = createPreviews(content);
     Sticker                        sticker          = createSticker(content);
+
+    if (content.getRequiredProtocolVersion() > DataMessage.ProtocolVersion.CURRENT.getNumber()) {
+      throw new UnsupportedDataMessageException(DataMessage.ProtocolVersion.CURRENT.getNumber(),
+                                                content.getRequiredProtocolVersion(),
+                                                metadata.getSender(),
+                                                metadata.getSenderDevice(),
+                                                Optional.fromNullable(groupInfo));
+    }
 
     for (AttachmentPointer pointer : content.getAttachmentsList()) {
       attachments.add(createAttachmentPointer(pointer));
@@ -300,7 +311,7 @@ public class SignalServiceCipher {
   }
 
   private SignalServiceSyncMessage createSynchronizeMessage(Metadata metadata, SyncMessage content)
-      throws ProtocolInvalidMessageException, ProtocolInvalidKeyException
+      throws ProtocolInvalidMessageException, ProtocolInvalidKeyException, UnsupportedDataMessageException
   {
     if (content.hasSent()) {
       SyncMessage.Sent     sentContent          = content.getSent();
