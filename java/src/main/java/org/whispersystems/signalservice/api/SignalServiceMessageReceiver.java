@@ -239,6 +239,9 @@ public class SignalServiceMessageReceiver {
     return results;
   }
 
+  public void setSoTimeoutMillis(long soTimeoutMillis) {
+    socket.setSoTimeoutMillis(soTimeoutMillis);
+  }
 
   public interface MessageReceivedCallback {
     public void onMessage(SignalServiceEnvelope envelope);
