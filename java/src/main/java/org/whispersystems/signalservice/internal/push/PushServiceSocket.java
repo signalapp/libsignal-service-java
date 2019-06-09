@@ -143,7 +143,7 @@ public class PushServiceSocket {
   private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
   private static final ResponseCodeHandler NO_HANDLER = new EmptyResponseCodeHandler();
 
-  private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(30);
+  private       long      soTimeoutMillis = TimeUnit.SECONDS.toMillis(120);
   private final Set<Call> connections     = new HashSet<>();
 
   private final ServiceConnectionHolder[]  serviceClients;
