@@ -31,6 +31,7 @@ public class SignalServiceDataMessage {
   private final Optional<List<SharedContact>>           contacts;
   private final Optional<List<Preview>>                 previews;
   private final Optional<Sticker>                       sticker;
+  private final int                                     messageTimerInSeconds;
 
   /**
    * Construct a SignalServiceDataMessage with a body and no attachments.
@@ -104,7 +105,7 @@ public class SignalServiceDataMessage {
    * @param expiresInSeconds The number of seconds in which a message should disappear after having been seen.
    */
   public SignalServiceDataMessage(long timestamp, SignalServiceGroup group, List<SignalServiceAttachment> attachments, String body, int expiresInSeconds) {
-    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null, null, null, null);
+    this(timestamp, group, attachments, body, false, expiresInSeconds, false, null, false, null, null, null, null, 0);
   }
 
   /**
@@ -122,7 +123,7 @@ public class SignalServiceDataMessage {
                                   String body, boolean endSession, int expiresInSeconds,
                                   boolean expirationUpdate, byte[] profileKey, boolean profileKeyUpdate,
                                   Quote quote, List<SharedContact> sharedContacts, List<Preview> previews,
-                                  Sticker sticker)
+                                  Sticker sticker, int messageTimerInSeconds)
   {
     this.timestamp             = timestamp;
     this.body                  = Optional.fromNullable(body);
@@ -134,6 +135,7 @@ public class SignalServiceDataMessage {
     this.profileKeyUpdate      = profileKeyUpdate;
     this.quote                 = Optional.fromNullable(quote);
     this.sticker               = Optional.fromNullable(sticker);
+    this.messageTimerInSeconds = messageTimerInSeconds;
 
     if (attachments != null && !attachments.isEmpty()) {
       this.attachments = Optional.of(attachments);
@@ -226,6 +228,10 @@ public class SignalServiceDataMessage {
     return sticker;
   }
 
+  public int getMessageTimerInSeconds() {
+    return messageTimerInSeconds;
+  }
+
   public static class Builder {
 
     private List<SignalServiceAttachment> attachments    = new LinkedList<>();
@@ -242,6 +248,7 @@ public class SignalServiceDataMessage {
     private boolean            profileKeyUpdate;
     private Quote              quote;
     private Sticker            sticker;
+    private int                messageTimerInSeconds;
 
     private Builder() {}
 
@@ -328,12 +335,17 @@ public class SignalServiceDataMessage {
       return this;
     }
 
+    public Builder withMessageTimer(int messageTimerInSeconds) {
+      this.messageTimerInSeconds = messageTimerInSeconds;
+      return this;
+    }
+
     public SignalServiceDataMessage build() {
       if (timestamp == 0) timestamp = System.currentTimeMillis();
       return new SignalServiceDataMessage(timestamp, group, attachments, body, endSession,
                                           expiresInSeconds, expirationUpdate, profileKey,
                                           profileKeyUpdate, quote, sharedContacts, previews,
-                                          sticker);
+                                          sticker, messageTimerInSeconds);
     }
   }
 
