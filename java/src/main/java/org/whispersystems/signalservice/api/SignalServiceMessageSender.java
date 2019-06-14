@@ -296,7 +296,10 @@ public class SignalServiceMessageSender {
       throw new IOException("Unsupported sync message!");
     }
 
-    sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), System.currentTimeMillis(), content, false);
+    long timestamp = message.getSent().isPresent() ? message.getSent().get().getTimestamp()
+                                                   : System.currentTimeMillis();
+
+    sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, content, false);
   }
 
   public void setSoTimeoutMillis(long soTimeoutMillis) {
