@@ -332,12 +332,18 @@ public class SignalServiceMessageSender {
                                                                  new AttachmentCipherOutputStreamFactory(attachmentKey),
                                                                  attachment.getListener());
 
-    AttachmentUploadAttributes uploadAttributes;
+    AttachmentUploadAttributes uploadAttributes = null;
 
     if (pipe.get().isPresent()) {
       Log.d(TAG, "Using pipe to retrieve attachment upload attributes...");
-      uploadAttributes = pipe.get().get().getAttachmentUploadAttributes();
-    } else {
+      try {
+        uploadAttributes = pipe.get().get().getAttachmentUploadAttributes();
+      } catch (IOException e) {
+        Log.w(TAG, "Failed to retrieve attachment upload attributes using pipe. Falling back...");
+      }
+    }
+
+    if (uploadAttributes == null) {
       Log.d(TAG, "Not using pipe to retrieve attachment upload attributes...");
       uploadAttributes = socket.getAttachmentUploadAttributes();
     }
