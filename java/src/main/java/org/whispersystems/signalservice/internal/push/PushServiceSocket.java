@@ -426,7 +426,7 @@ public class PushServiceSocket {
   public void retrieveAttachment(long attachmentId, File destination, int maxSizeBytes, ProgressListener listener)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    downloadFromCdn(destination, String.format(ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
+    downloadFromCdn(destination, String.format(Locale.ENGLISH, ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
   }
 
   public void retrieveSticker(File destination, byte[] packId, int stickerId)
