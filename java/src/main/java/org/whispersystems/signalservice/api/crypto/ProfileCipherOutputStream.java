@@ -11,7 +11,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ProfileCipherOutputStream extends DigestingOutputStream {
@@ -24,7 +24,7 @@ public class ProfileCipherOutputStream extends DigestingOutputStream {
       this.cipher = Cipher.getInstance("AES/GCM/NoPadding");
 
       byte[] nonce  = generateNonce();
-      this.cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(nonce));
+      this.cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, nonce));
 
       super.write(nonce, 0, nonce.length);
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
