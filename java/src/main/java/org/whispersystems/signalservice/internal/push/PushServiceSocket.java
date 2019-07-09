@@ -111,6 +111,7 @@ public class PushServiceSocket {
   private static final String TURN_SERVER_INFO          = "/v1/accounts/turn";
   private static final String SET_ACCOUNT_ATTRIBUTES    = "/v1/accounts/attributes/";
   private static final String PIN_PATH                  = "/v1/accounts/pin/";
+  private static final String REQUEST_PUSH_CHALLENGE    = "/v1/accounts/fcm/preauth/%s/%s";
 
   private static final String PREKEY_METADATA_PATH      = "/v2/keys/";
   private static final String PREKEY_PATH               = "/v2/keys/%s";
@@ -165,11 +166,13 @@ public class PushServiceSocket {
     this.random                            = new SecureRandom();
   }
 
-  public void requestSmsVerificationCode(boolean androidSmsRetriever, Optional<String> captchaToken) throws IOException {
+  public void requestSmsVerificationCode(boolean androidSmsRetriever, Optional<String> captchaToken, Optional<String> challenge) throws IOException {
     String path = String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getUser(), androidSmsRetriever ? "android-ng" : "android");
 
     if (captchaToken.isPresent()) {
       path += "&captcha=" + captchaToken.get();
+    } else if (challenge.isPresent()) {
+      path += "&challenge=" + challenge.get();
     }
 
     makeServiceRequest(path, "GET", null, NO_HEADERS, new ResponseCodeHandler() {
@@ -182,12 +185,14 @@ public class PushServiceSocket {
     });
   }
 
-  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken) throws IOException {
+  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken, Optional<String> challenge) throws IOException {
     Map<String, String> headers = locale != null ? Collections.singletonMap("Accept-Language", locale.getLanguage() + "-" + locale.getCountry()) : NO_HEADERS;
     String              path    = String.format(CREATE_ACCOUNT_VOICE_PATH, credentialsProvider.getUser());
 
     if (captchaToken.isPresent()) {
       path += "?captcha=" + captchaToken.get();
+    } else if (challenge.isPresent()) {
+      path += "?challenge=" + challenge.get();
     }
     
     makeServiceRequest(path, "GET", null, headers, new ResponseCodeHandler() {
@@ -245,6 +250,10 @@ public class PushServiceSocket {
 
   public void unregisterGcmId() throws IOException {
     makeServiceRequest(REGISTER_GCM_PATH, "DELETE", null);
+  }
+
+  public void requestPushChallenge(String gcmRegistrationId, String e164number) throws IOException {
+    makeServiceRequest(String.format(Locale.US, REQUEST_PUSH_CHALLENGE, gcmRegistrationId, e164number), "GET", null);
   }
 
   public void setPin(String pin) throws IOException {

@@ -129,23 +129,41 @@ public class SignalServiceAccountManager {
   }
 
   /**
+   * Request a push challenge. A number will be pushed to the GCM (FCM) id. This can then be used
+   * during SMS/call requests to bypass the CAPTCHA.
+   *
+   * @param gcmRegistrationId The GCM (FCM) id to use.
+   * @param e164number        The number to associate it with.
+   * @throws IOException
+   */
+  public void requestPushChallenge(String gcmRegistrationId, String e164number) throws IOException {
+    this.pushServiceSocket.requestPushChallenge(gcmRegistrationId, e164number);
+  }
+
+  /**
    * Request an SMS verification code.  On success, the server will send
    * an SMS verification code to this Signal user.
    *
+   * @param androidSmsRetrieverSupported
+   * @param captchaToken                 If the user has done a CAPTCHA, include this.
+   * @param challenge                    If present, it can bypass the CAPTCHA.
    * @throws IOException
    */
-  public void requestSmsVerificationCode(boolean androidSmsRetrieverSupported, Optional<String> captchaToken) throws IOException {
-    this.pushServiceSocket.requestSmsVerificationCode(androidSmsRetrieverSupported, captchaToken);
+  public void requestSmsVerificationCode(boolean androidSmsRetrieverSupported, Optional<String> captchaToken, Optional<String> challenge) throws IOException {
+    this.pushServiceSocket.requestSmsVerificationCode(androidSmsRetrieverSupported, captchaToken, challenge);
   }
 
   /**
    * Request a Voice verification code.  On success, the server will
    * make a voice call to this Signal user.
    *
-    * @throws IOException
+   * @param locale
+   * @param captchaToken If the user has done a CAPTCHA, include this.
+   * @param challenge    If present, it can bypass the CAPTCHA.
+   * @throws IOException
    */
-  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken) throws IOException {
-    this.pushServiceSocket.requestVoiceVerificationCode(locale, captchaToken);
+  public void requestVoiceVerificationCode(Locale locale, Optional<String> captchaToken, Optional<String> challenge) throws IOException {
+    this.pushServiceSocket.requestVoiceVerificationCode(locale, captchaToken, challenge);
   }
 
   /**
