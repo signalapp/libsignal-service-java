@@ -289,7 +289,7 @@ public class PushServiceSocket {
   }
 
   public void acknowledgeMessage(String sender, long timestamp) throws IOException {
-    makeServiceRequest(String.format(SENDER_ACK_MESSAGE_PATH, sender, timestamp), "DELETE", null);
+    makeServiceRequest(String.format(Locale.US, SENDER_ACK_MESSAGE_PATH, sender, timestamp), "DELETE", null);
   }
 
   public void acknowledgeMessage(String uuid) throws IOException {
@@ -435,14 +435,14 @@ public class PushServiceSocket {
   public void retrieveAttachment(long attachmentId, File destination, int maxSizeBytes, ProgressListener listener)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
-    downloadFromCdn(destination, String.format(ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
+    downloadFromCdn(destination, String.format(Locale.US, ATTACHMENT_DOWNLOAD_PATH, attachmentId), maxSizeBytes, listener);
   }
 
   public void retrieveSticker(File destination, byte[] packId, int stickerId)
       throws NonSuccessfulResponseCodeException, PushNetworkException
   {
     String hexPackId = Hex.toStringCondensed(packId);
-    downloadFromCdn(destination, String.format(STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
+    downloadFromCdn(destination, String.format(Locale.US, STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
   }
 
   public byte[] retrieveSticker(byte[] packId, int stickerId)
@@ -451,7 +451,7 @@ public class PushServiceSocket {
     String                hexPackId = Hex.toStringCondensed(packId);
     ByteArrayOutputStream output    = new ByteArrayOutputStream();
 
-    downloadFromCdn(output, String.format(STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
+    downloadFromCdn(output, String.format(Locale.US, STICKER_PATH, hexPackId, stickerId), 1024 * 1024, null);
 
     return output.toByteArray();
   }
