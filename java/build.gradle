@@ -15,7 +15,7 @@ repositories {
 dependencies {
     compile 'com.google.protobuf:protobuf-java:2.5.0'
     compile 'com.googlecode.libphonenumber:libphonenumber:8.10.7'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.2'
 
     compile "org.signal:signal-metadata-java:${signal_version}"
     compile 'com.squareup.okhttp3:okhttp:3.12.1'
