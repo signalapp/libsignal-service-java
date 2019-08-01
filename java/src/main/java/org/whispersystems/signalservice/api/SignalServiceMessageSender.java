@@ -35,7 +35,7 @@ import org.whispersystems.signalservice.api.messages.calls.OfferMessage;
 import org.whispersystems.signalservice.api.messages.calls.SignalServiceCallMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ConfigurationMessage;
-import org.whispersystems.signalservice.api.messages.multidevice.MessageTimerReadMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.ViewOnceOpenMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
@@ -282,8 +282,8 @@ public class SignalServiceMessageSender {
       content = createMultiDeviceGroupsContent(message.getGroups().get().asStream());
     } else if (message.getRead().isPresent()) {
       content = createMultiDeviceReadContent(message.getRead().get());
-    } else if (message.getMessageTimerRead().isPresent()) {
-      content = createMultiDeviceMessageTimerReadContent(message.getMessageTimerRead().get());
+    } else if (message.getViewOnceOpen().isPresent()) {
+      content = createMultiDeviceViewOnceOpenContent(message.getViewOnceOpen().get());
     } else if (message.getBlockedList().isPresent()) {
       content = createMultiDeviceBlockedContent(message.getBlockedList().get());
     } else if (message.getConfiguration().isPresent()) {
@@ -522,9 +522,9 @@ public class SignalServiceMessageSender {
       builder.setSticker(stickerBuilder.build());
     }
 
-    if (message.getMessageTimerInSeconds() >  0) {
-      builder.setMessageTimer(message.getMessageTimerInSeconds());
-      builder.setRequiredProtocolVersion(Math.max(DataMessage.ProtocolVersion.MESSAGE_TIMERS.getNumber(), builder.getRequiredProtocolVersion()));
+    if (message.isViewOnce()) {
+      builder.setIsViewOnce(message.isViewOnce());
+      builder.setRequiredProtocolVersion(Math.max(DataMessage.ProtocolVersion.VIEW_ONCE_VALUE, builder.getRequiredProtocolVersion()));
     }
 
     builder.setTimestamp(message.getTimestamp());
@@ -625,7 +625,7 @@ public class SignalServiceMessageSender {
         sentMessage.setExpirationStartTimestamp(System.currentTimeMillis());
       }
 
-      if (dataMessage.getMessageTimer() > 0) {
+      if (dataMessage.getIsViewOnce()) {
         dataMessage = dataMessage.toBuilder().clearAttachments().build();
         sentMessage.setMessage(dataMessage);
       }
@@ -651,13 +651,13 @@ public class SignalServiceMessageSender {
     return container.setSyncMessage(builder).build().toByteArray();
   }
 
-  private byte[] createMultiDeviceMessageTimerReadContent(MessageTimerReadMessage readMessage) {
+  private byte[] createMultiDeviceViewOnceOpenContent(ViewOnceOpenMessage readMessage) {
     Content.Builder     container = Content.newBuilder();
     SyncMessage.Builder builder   = createSyncMessageBuilder();
 
-    builder.setMessageTimerRead(SyncMessage.MessageTimerRead.newBuilder()
-                                                            .setTimestamp(readMessage.getTimestamp())
-                                                            .setSender(readMessage.getSender()));
+    builder.setViewOnceOpen(SyncMessage.ViewOnceOpen.newBuilder()
+                                                    .setTimestamp(readMessage.getTimestamp())
+                                                    .setSender(readMessage.getSender()));
 
     return container.setSyncMessage(builder).build().toByteArray();
   }

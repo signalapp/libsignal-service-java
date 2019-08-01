@@ -1,11 +1,11 @@
 package org.whispersystems.signalservice.api.messages.multidevice;
 
-public class MessageTimerReadMessage {
+public class ViewOnceOpenMessage {
 
   private final String sender;
   private final long   timestamp;
 
-  public MessageTimerReadMessage(String sender, long timestamp) {
+  public ViewOnceOpenMessage(String sender, long timestamp) {
     this.sender    = sender;
     this.timestamp = timestamp;
   }

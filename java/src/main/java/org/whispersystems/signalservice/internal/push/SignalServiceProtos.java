@@ -7256,15 +7256,15 @@ public final class SignalServiceProtos {
      */
     int getRequiredProtocolVersion();
 
-    // optional uint32 messageTimer = 13;
+    // optional bool isViewOnce = 14;
     /**
-     * <code>optional uint32 messageTimer = 13;</code>
+     * <code>optional bool isViewOnce = 14;</code>
      */
-    boolean hasMessageTimer();
+    boolean hasIsViewOnce();
     /**
-     * <code>optional uint32 messageTimer = 13;</code>
+     * <code>optional bool isViewOnce = 14;</code>
      */
-    int getMessageTimer();
+    boolean getIsViewOnce();
   }
   /**
    * Protobuf type {@code signalservice.DataMessage}
@@ -7410,9 +7410,9 @@ public final class SignalServiceProtos {
               requiredProtocolVersion_ = input.readUInt32();
               break;
             }
-            case 104: {
+            case 112: {
               bitField0_ |= 0x00000200;
-              messageTimer_ = input.readUInt32();
+              isViewOnce_ = input.readBool();
               break;
             }
           }
@@ -7567,12 +7567,16 @@ public final class SignalServiceProtos {
        * <code>MESSAGE_TIMERS = 1;</code>
        */
       MESSAGE_TIMERS(1, 1),
+      /**
+       * <code>VIEW_ONCE = 2;</code>
+       */
+      VIEW_ONCE(2, 2),
       ;
 
       /**
-       * <code>CURRENT = 1;</code>
+       * <code>CURRENT = 2;</code>
        */
-      public static final ProtocolVersion CURRENT = MESSAGE_TIMERS;
+      public static final ProtocolVersion CURRENT = VIEW_ONCE;
       /**
        * <code>INITIAL = 0;</code>
        */
@@ -7582,9 +7586,13 @@ public final class SignalServiceProtos {
        */
       public static final int MESSAGE_TIMERS_VALUE = 1;
       /**
-       * <code>CURRENT = 1;</code>
+       * <code>VIEW_ONCE = 2;</code>
        */
-      public static final int CURRENT_VALUE = 1;
+      public static final int VIEW_ONCE_VALUE = 2;
+      /**
+       * <code>CURRENT = 2;</code>
+       */
+      public static final int CURRENT_VALUE = 2;
 
 
       public final int getNumber() { return value; }
@@ -7593,6 +7601,7 @@ public final class SignalServiceProtos {
         switch (value) {
           case 0: return INITIAL;
           case 1: return MESSAGE_TIMERS;
+          case 2: return VIEW_ONCE;
           default: return null;
         }
       }
@@ -7623,7 +7632,7 @@ public final class SignalServiceProtos {
       }
 
       private static final ProtocolVersion[] VALUES = {
-        INITIAL, MESSAGE_TIMERS, CURRENT, 
+        INITIAL, MESSAGE_TIMERS, VIEW_ONCE, CURRENT, 
       };
 
       public static ProtocolVersion valueOf(
@@ -18566,20 +18575,20 @@ public final class SignalServiceProtos {
       return requiredProtocolVersion_;
     }
 
-    // optional uint32 messageTimer = 13;
-    public static final int MESSAGETIMER_FIELD_NUMBER = 13;
-    private int messageTimer_;
+    // optional bool isViewOnce = 14;
+    public static final int ISVIEWONCE_FIELD_NUMBER = 14;
+    private boolean isViewOnce_;
     /**
-     * <code>optional uint32 messageTimer = 13;</code>
+     * <code>optional bool isViewOnce = 14;</code>
      */
-    public boolean hasMessageTimer() {
+    public boolean hasIsViewOnce() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional uint32 messageTimer = 13;</code>
+     * <code>optional bool isViewOnce = 14;</code>
      */
-    public int getMessageTimer() {
-      return messageTimer_;
+    public boolean getIsViewOnce() {
+      return isViewOnce_;
     }
 
     private void initFields() {
@@ -18595,7 +18604,7 @@ public final class SignalServiceProtos {
       preview_ = java.util.Collections.emptyList();
       sticker_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.DataMessage.Sticker.getDefaultInstance();
       requiredProtocolVersion_ = 0;
-      messageTimer_ = 0;
+      isViewOnce_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -18646,7 +18655,7 @@ public final class SignalServiceProtos {
         output.writeUInt32(12, requiredProtocolVersion_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeUInt32(13, messageTimer_);
+        output.writeBool(14, isViewOnce_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -18707,7 +18716,7 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(13, messageTimer_);
+          .computeBoolSize(14, isViewOnce_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -18879,7 +18888,7 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000400);
         requiredProtocolVersion_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
-        messageTimer_ = 0;
+        isViewOnce_ = false;
         bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
@@ -18987,7 +18996,7 @@ public final class SignalServiceProtos {
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.messageTimer_ = messageTimer_;
+        result.isViewOnce_ = isViewOnce_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -19111,8 +19120,8 @@ public final class SignalServiceProtos {
         if (other.hasRequiredProtocolVersion()) {
           setRequiredProtocolVersion(other.getRequiredProtocolVersion());
         }
-        if (other.hasMessageTimer()) {
-          setMessageTimer(other.getMessageTimer());
+        if (other.hasIsViewOnce()) {
+          setIsViewOnce(other.getIsViewOnce());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -20454,35 +20463,35 @@ public final class SignalServiceProtos {
         return this;
       }
 
-      // optional uint32 messageTimer = 13;
-      private int messageTimer_ ;
+      // optional bool isViewOnce = 14;
+      private boolean isViewOnce_ ;
       /**
-       * <code>optional uint32 messageTimer = 13;</code>
+       * <code>optional bool isViewOnce = 14;</code>
        */
-      public boolean hasMessageTimer() {
+      public boolean hasIsViewOnce() {
         return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
-       * <code>optional uint32 messageTimer = 13;</code>
+       * <code>optional bool isViewOnce = 14;</code>
        */
-      public int getMessageTimer() {
-        return messageTimer_;
+      public boolean getIsViewOnce() {
+        return isViewOnce_;
       }
       /**
-       * <code>optional uint32 messageTimer = 13;</code>
+       * <code>optional bool isViewOnce = 14;</code>
        */
-      public Builder setMessageTimer(int value) {
+      public Builder setIsViewOnce(boolean value) {
         bitField0_ |= 0x00001000;
-        messageTimer_ = value;
+        isViewOnce_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 messageTimer = 13;</code>
+       * <code>optional bool isViewOnce = 14;</code>
        */
-      public Builder clearMessageTimer() {
+      public Builder clearIsViewOnce() {
         bitField0_ = (bitField0_ & ~0x00001000);
-        messageTimer_ = 0;
+        isViewOnce_ = false;
         onChanged();
         return this;
       }
@@ -23174,19 +23183,19 @@ public final class SignalServiceProtos {
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.StickerPackOperationOrBuilder getStickerPackOperationOrBuilder(
         int index);
 
-    // optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;
+    // optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    boolean hasMessageTimerRead();
+    boolean hasViewOnceOpen();
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead getMessageTimerRead();
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen getViewOnceOpen();
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder getMessageTimerReadOrBuilder();
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder getViewOnceOpenOrBuilder();
   }
   /**
    * Protobuf type {@code signalservice.SyncMessage}
@@ -23352,14 +23361,14 @@ public final class SignalServiceProtos {
               break;
             }
             case 90: {
-              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder subBuilder = null;
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder subBuilder = null;
               if (((bitField0_ & 0x00000100) == 0x00000100)) {
-                subBuilder = messageTimerRead_.toBuilder();
+                subBuilder = viewOnceOpen_.toBuilder();
               }
-              messageTimerRead_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.PARSER, extensionRegistry);
+              viewOnceOpen_ = input.readMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(messageTimerRead_);
-                messageTimerRead_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(viewOnceOpen_);
+                viewOnceOpen_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000100;
               break;
@@ -29331,7 +29340,7 @@ public final class SignalServiceProtos {
       // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.StickerPackOperation)
     }
 
-    public interface MessageTimerReadOrBuilder
+    public interface ViewOnceOpenOrBuilder
         extends com.google.protobuf.MessageOrBuilder {
 
       // optional string sender = 1;
@@ -29360,24 +29369,24 @@ public final class SignalServiceProtos {
       long getTimestamp();
     }
     /**
-     * Protobuf type {@code signalservice.SyncMessage.MessageTimerRead}
+     * Protobuf type {@code signalservice.SyncMessage.ViewOnceOpen}
      */
-    public static final class MessageTimerRead extends
+    public static final class ViewOnceOpen extends
         com.google.protobuf.GeneratedMessage
-        implements MessageTimerReadOrBuilder {
-      // Use MessageTimerRead.newBuilder() to construct.
-      private MessageTimerRead(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        implements ViewOnceOpenOrBuilder {
+      // Use ViewOnceOpen.newBuilder() to construct.
+      private ViewOnceOpen(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
         this.unknownFields = builder.getUnknownFields();
       }
-      private MessageTimerRead(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+      private ViewOnceOpen(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-      private static final MessageTimerRead defaultInstance;
-      public static MessageTimerRead getDefaultInstance() {
+      private static final ViewOnceOpen defaultInstance;
+      public static ViewOnceOpen getDefaultInstance() {
         return defaultInstance;
       }
 
-      public MessageTimerRead getDefaultInstanceForType() {
+      public ViewOnceOpen getDefaultInstanceForType() {
         return defaultInstance;
       }
 
@@ -29387,7 +29396,7 @@ public final class SignalServiceProtos {
           getUnknownFields() {
         return this.unknownFields;
       }
-      private MessageTimerRead(
+      private ViewOnceOpen(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -29434,28 +29443,28 @@ public final class SignalServiceProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor;
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_MessageTimerRead_fieldAccessorTable
+        return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_ViewOnceOpen_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder.class);
+                org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder.class);
       }
 
-      public static com.google.protobuf.Parser<MessageTimerRead> PARSER =
-          new com.google.protobuf.AbstractParser<MessageTimerRead>() {
-        public MessageTimerRead parsePartialFrom(
+      public static com.google.protobuf.Parser<ViewOnceOpen> PARSER =
+          new com.google.protobuf.AbstractParser<ViewOnceOpen>() {
+        public ViewOnceOpen parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MessageTimerRead(input, extensionRegistry);
+          return new ViewOnceOpen(input, extensionRegistry);
         }
       };
 
       @java.lang.Override
-      public com.google.protobuf.Parser<MessageTimerRead> getParserForType() {
+      public com.google.protobuf.Parser<ViewOnceOpen> getParserForType() {
         return PARSER;
       }
 
@@ -29570,53 +29579,53 @@ public final class SignalServiceProtos {
         return super.writeReplace();
       }
 
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(byte[] data)
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(java.io.InputStream input)
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseFrom(input, extensionRegistry);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseDelimitedFrom(java.io.InputStream input)
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseDelimitedFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input, extensionRegistry);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parseFrom(
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -29625,7 +29634,7 @@ public final class SignalServiceProtos {
 
       public static Builder newBuilder() { return Builder.create(); }
       public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead prototype) {
+      public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen prototype) {
         return newBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() { return newBuilder(this); }
@@ -29637,24 +29646,24 @@ public final class SignalServiceProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code signalservice.SyncMessage.MessageTimerRead}
+       * Protobuf type {@code signalservice.SyncMessage.ViewOnceOpen}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder {
+         implements org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_MessageTimerRead_fieldAccessorTable
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_ViewOnceOpen_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder.class);
+                  org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.class, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder.class);
         }
 
-        // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.newBuilder()
+        // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -29687,23 +29696,23 @@ public final class SignalServiceProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor;
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor;
         }
 
-        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead getDefaultInstanceForType() {
-          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance();
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen getDefaultInstanceForType() {
+          return org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance();
         }
 
-        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead build() {
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead result = buildPartial();
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen build() {
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead buildPartial() {
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead result = new org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead(this);
+        public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen buildPartial() {
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen result = new org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -29720,16 +29729,16 @@ public final class SignalServiceProtos {
         }
 
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead) {
-            return mergeFrom((org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead)other);
+          if (other instanceof org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen) {
+            return mergeFrom((org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead other) {
-          if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance()) return this;
+        public Builder mergeFrom(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen other) {
+          if (other == org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance()) return this;
           if (other.hasSender()) {
             bitField0_ |= 0x00000001;
             sender_ = other.sender_;
@@ -29750,11 +29759,11 @@ public final class SignalServiceProtos {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead parsedMessage = null;
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead) e.getUnfinishedMessage();
+            parsedMessage = (org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen) e.getUnfinishedMessage();
             throw e;
           } finally {
             if (parsedMessage != null) {
@@ -29872,15 +29881,15 @@ public final class SignalServiceProtos {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.MessageTimerRead)
+        // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage.ViewOnceOpen)
       }
 
       static {
-        defaultInstance = new MessageTimerRead(true);
+        defaultInstance = new ViewOnceOpen(true);
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.MessageTimerRead)
+      // @@protoc_insertion_point(class_scope:signalservice.SyncMessage.ViewOnceOpen)
     }
 
     private int bitField0_;
@@ -30126,26 +30135,26 @@ public final class SignalServiceProtos {
       return stickerPackOperation_.get(index);
     }
 
-    // optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;
-    public static final int MESSAGETIMERREAD_FIELD_NUMBER = 11;
-    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead messageTimerRead_;
+    // optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;
+    public static final int VIEWONCEOPEN_FIELD_NUMBER = 11;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen viewOnceOpen_;
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    public boolean hasMessageTimerRead() {
+    public boolean hasViewOnceOpen() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead getMessageTimerRead() {
-      return messageTimerRead_;
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen getViewOnceOpen() {
+      return viewOnceOpen_;
     }
     /**
-     * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+     * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
      */
-    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder getMessageTimerReadOrBuilder() {
-      return messageTimerRead_;
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder getViewOnceOpenOrBuilder() {
+      return viewOnceOpen_;
     }
 
     private void initFields() {
@@ -30159,7 +30168,7 @@ public final class SignalServiceProtos {
       configuration_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.Configuration.getDefaultInstance();
       padding_ = com.google.protobuf.ByteString.EMPTY;
       stickerPackOperation_ = java.util.Collections.emptyList();
-      messageTimerRead_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance();
+      viewOnceOpen_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -30204,7 +30213,7 @@ public final class SignalServiceProtos {
         output.writeMessage(10, stickerPackOperation_.get(i));
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(11, messageTimerRead_);
+        output.writeMessage(11, viewOnceOpen_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -30257,7 +30266,7 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, messageTimerRead_);
+          .computeMessageSize(11, viewOnceOpen_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -30376,7 +30385,7 @@ public final class SignalServiceProtos {
           getVerifiedFieldBuilder();
           getConfigurationFieldBuilder();
           getStickerPackOperationFieldBuilder();
-          getMessageTimerReadFieldBuilder();
+          getViewOnceOpenFieldBuilder();
         }
       }
       private static Builder create() {
@@ -30441,10 +30450,10 @@ public final class SignalServiceProtos {
         } else {
           stickerPackOperationBuilder_.clear();
         }
-        if (messageTimerReadBuilder_ == null) {
-          messageTimerRead_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance();
+        if (viewOnceOpenBuilder_ == null) {
+          viewOnceOpen_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance();
         } else {
-          messageTimerReadBuilder_.clear();
+          viewOnceOpenBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000400);
         return this;
@@ -30556,10 +30565,10 @@ public final class SignalServiceProtos {
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000100;
         }
-        if (messageTimerReadBuilder_ == null) {
-          result.messageTimerRead_ = messageTimerRead_;
+        if (viewOnceOpenBuilder_ == null) {
+          result.viewOnceOpen_ = viewOnceOpen_;
         } else {
-          result.messageTimerRead_ = messageTimerReadBuilder_.build();
+          result.viewOnceOpen_ = viewOnceOpenBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -30653,8 +30662,8 @@ public final class SignalServiceProtos {
             }
           }
         }
-        if (other.hasMessageTimerRead()) {
-          mergeMessageTimerRead(other.getMessageTimerRead());
+        if (other.hasViewOnceOpen()) {
+          mergeViewOnceOpen(other.getViewOnceOpen());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -32018,121 +32027,121 @@ public final class SignalServiceProtos {
         return stickerPackOperationBuilder_;
       }
 
-      // optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;
-      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead messageTimerRead_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance();
+      // optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;
+      private org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen viewOnceOpen_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder> messageTimerReadBuilder_;
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder> viewOnceOpenBuilder_;
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public boolean hasMessageTimerRead() {
+      public boolean hasViewOnceOpen() {
         return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead getMessageTimerRead() {
-        if (messageTimerReadBuilder_ == null) {
-          return messageTimerRead_;
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen getViewOnceOpen() {
+        if (viewOnceOpenBuilder_ == null) {
+          return viewOnceOpen_;
         } else {
-          return messageTimerReadBuilder_.getMessage();
+          return viewOnceOpenBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public Builder setMessageTimerRead(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead value) {
-        if (messageTimerReadBuilder_ == null) {
+      public Builder setViewOnceOpen(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen value) {
+        if (viewOnceOpenBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          messageTimerRead_ = value;
+          viewOnceOpen_ = value;
           onChanged();
         } else {
-          messageTimerReadBuilder_.setMessage(value);
+          viewOnceOpenBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public Builder setMessageTimerRead(
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder builderForValue) {
-        if (messageTimerReadBuilder_ == null) {
-          messageTimerRead_ = builderForValue.build();
+      public Builder setViewOnceOpen(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder builderForValue) {
+        if (viewOnceOpenBuilder_ == null) {
+          viewOnceOpen_ = builderForValue.build();
           onChanged();
         } else {
-          messageTimerReadBuilder_.setMessage(builderForValue.build());
+          viewOnceOpenBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public Builder mergeMessageTimerRead(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead value) {
-        if (messageTimerReadBuilder_ == null) {
+      public Builder mergeViewOnceOpen(org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen value) {
+        if (viewOnceOpenBuilder_ == null) {
           if (((bitField0_ & 0x00000400) == 0x00000400) &&
-              messageTimerRead_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance()) {
-            messageTimerRead_ =
-              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.newBuilder(messageTimerRead_).mergeFrom(value).buildPartial();
+              viewOnceOpen_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance()) {
+            viewOnceOpen_ =
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.newBuilder(viewOnceOpen_).mergeFrom(value).buildPartial();
           } else {
-            messageTimerRead_ = value;
+            viewOnceOpen_ = value;
           }
           onChanged();
         } else {
-          messageTimerReadBuilder_.mergeFrom(value);
+          viewOnceOpenBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public Builder clearMessageTimerRead() {
-        if (messageTimerReadBuilder_ == null) {
-          messageTimerRead_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.getDefaultInstance();
+      public Builder clearViewOnceOpen() {
+        if (viewOnceOpenBuilder_ == null) {
+          viewOnceOpen_ = org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.getDefaultInstance();
           onChanged();
         } else {
-          messageTimerReadBuilder_.clear();
+          viewOnceOpenBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder getMessageTimerReadBuilder() {
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder getViewOnceOpenBuilder() {
         bitField0_ |= 0x00000400;
         onChanged();
-        return getMessageTimerReadFieldBuilder().getBuilder();
+        return getViewOnceOpenFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
-      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder getMessageTimerReadOrBuilder() {
-        if (messageTimerReadBuilder_ != null) {
-          return messageTimerReadBuilder_.getMessageOrBuilder();
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder getViewOnceOpenOrBuilder() {
+        if (viewOnceOpenBuilder_ != null) {
+          return viewOnceOpenBuilder_.getMessageOrBuilder();
         } else {
-          return messageTimerRead_;
+          return viewOnceOpen_;
         }
       }
       /**
-       * <code>optional .signalservice.SyncMessage.MessageTimerRead messageTimerRead = 11;</code>
+       * <code>optional .signalservice.SyncMessage.ViewOnceOpen viewOnceOpen = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder> 
-          getMessageTimerReadFieldBuilder() {
-        if (messageTimerReadBuilder_ == null) {
-          messageTimerReadBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerRead.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.MessageTimerReadOrBuilder>(
-                  messageTimerRead_,
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder> 
+          getViewOnceOpenFieldBuilder() {
+        if (viewOnceOpenBuilder_ == null) {
+          viewOnceOpenBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpen.Builder, org.whispersystems.signalservice.internal.push.SignalServiceProtos.SyncMessage.ViewOnceOpenOrBuilder>(
+                  viewOnceOpen_,
                   getParentForChildren(),
                   isClean());
-          messageTimerRead_ = null;
+          viewOnceOpen_ = null;
         }
-        return messageTimerReadBuilder_;
+        return viewOnceOpenBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:signalservice.SyncMessage)
@@ -38804,10 +38813,10 @@ public final class SignalServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_signalservice_SyncMessage_StickerPackOperation_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor;
+    internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_signalservice_SyncMessage_MessageTimerRead_fieldAccessorTable;
+      internal_static_signalservice_SyncMessage_ViewOnceOpen_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_signalservice_AttachmentPointer_descriptor;
   private static
@@ -38875,7 +38884,7 @@ public final class SignalServiceProtos {
       "r\022\n\n\002id\030\001 \001(\004\022\023\n\013description\030\002 \001(\t\032K\n\tIc" +
       "eUpdate\022\n\n\002id\030\001 \001(\004\022\016\n\006sdpMid\030\002 \001(\t\022\025\n\rs" +
       "dpMLineIndex\030\003 \001(\r\022\013\n\003sdp\030\004 \001(\t\032\022\n\004Busy\022" +
-      "\n\n\002id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\336\020\n\013Da" +
+      "\n\n\002id\030\001 \001(\004\032\024\n\006Hangup\022\n\n\002id\030\001 \001(\004\"\353\020\n\013Da" +
       "taMessage\022\014\n\004body\030\001 \001(\t\0225\n\013attachments\030\002",
       " \003(\0132 .signalservice.AttachmentPointer\022*" +
       "\n\005group\030\003 \001(\0132\033.signalservice.GroupConte" +
@@ -38886,128 +38895,128 @@ public final class SignalServiceProtos {
       "DataMessage.Contact\0223\n\007preview\030\n \003(\0132\".s" +
       "ignalservice.DataMessage.Preview\0223\n\007stic" +
       "ker\030\013 \001(\0132\".signalservice.DataMessage.St" +
-      "icker\022\037\n\027requiredProtocolVersion\030\014 \001(\r\022\024",
-      "\n\014messageTimer\030\r \001(\r\032\351\001\n\005Quote\022\n\n\002id\030\001 \001" +
-      "(\004\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\022F\n\013atta" +
-      "chments\030\004 \003(\01321.signalservice.DataMessag" +
-      "e.Quote.QuotedAttachment\032n\n\020QuotedAttach" +
-      "ment\022\023\n\013contentType\030\001 \001(\t\022\020\n\010fileName\030\002 " +
-      "\001(\t\0223\n\tthumbnail\030\003 \001(\0132 .signalservice.A" +
-      "ttachmentPointer\032\304\010\n\007Contact\0225\n\004name\030\001 \001" +
-      "(\0132\'.signalservice.DataMessage.Contact.N" +
-      "ame\0228\n\006number\030\003 \003(\0132(.signalservice.Data" +
-      "Message.Contact.Phone\0227\n\005email\030\004 \003(\0132(.s",
-      "ignalservice.DataMessage.Contact.Email\022A" +
-      "\n\007address\030\005 \003(\01320.signalservice.DataMess" +
-      "age.Contact.PostalAddress\0229\n\006avatar\030\006 \001(" +
-      "\0132).signalservice.DataMessage.Contact.Av" +
-      "atar\022\024\n\014organization\030\007 \001(\t\032v\n\004Name\022\021\n\tgi" +
-      "venName\030\001 \001(\t\022\022\n\nfamilyName\030\002 \001(\t\022\016\n\006pre" +
-      "fix\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n\nmiddleName\030" +
-      "\005 \001(\t\022\023\n\013displayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005" +
-      "value\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signalservic" +
-      "e.DataMessage.Contact.Phone.Type\022\r\n\005labe",
-      "l\030\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n" +
-      "\004WORK\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001" +
-      " \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice.DataM" +
-      "essage.Contact.Email.Type\022\r\n\005label\030\003 \001(\t" +
-      "\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003" +
-      "\022\n\n\006CUSTOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001" +
-      " \001(\01625.signalservice.DataMessage.Contact" +
-      ".PostalAddress.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006st" +
-      "reet\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhoo" +
-      "d\030\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n",
-      "\010postcode\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type" +
-      "\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avat" +
-      "ar\0220\n\006avatar\030\001 \001(\0132 .signalservice.Attac" +
-      "hmentPointer\022\021\n\tisProfile\030\002 \001(\010\032V\n\007Previ" +
-      "ew\022\013\n\003url\030\001 \001(\t\022\r\n\005title\030\002 \001(\t\022/\n\005image\030" +
-      "\003 \001(\0132 .signalservice.AttachmentPointer\032" +
-      "m\n\007Sticker\022\016\n\006packId\030\001 \001(\014\022\017\n\007packKey\030\002 " +
-      "\001(\014\022\021\n\tstickerId\030\003 \001(\r\022.\n\004data\030\004 \001(\0132 .s" +
-      "ignalservice.AttachmentPointer\"M\n\005Flags\022" +
-      "\017\n\013END_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPD",
-      "ATE\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"C\n\017Protoco" +
-      "lVersion\022\013\n\007INITIAL\020\000\022\022\n\016MESSAGE_TIMERS\020" +
-      "\001\022\013\n\007CURRENT\020\001\032\002\020\001\"\036\n\013NullMessage\022\017\n\007pad" +
-      "ding\030\001 \001(\014\"u\n\016ReceiptMessage\0220\n\004type\030\001 \001" +
-      "(\0162\".signalservice.ReceiptMessage.Type\022\021" +
-      "\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014\n\010DELIVERY\020\000\022" +
-      "\010\n\004READ\020\001\"\214\001\n\rTypingMessage\022\021\n\ttimestamp" +
-      "\030\001 \001(\004\0223\n\006action\030\002 \001(\0162#.signalservice.T" +
-      "ypingMessage.Action\022\017\n\007groupId\030\003 \001(\014\"\"\n\006" +
-      "Action\022\013\n\007STARTED\020\000\022\013\n\007STOPPED\020\001\"\253\001\n\010Ver",
-      "ified\022\023\n\013destination\030\001 \001(\t\022\023\n\013identityKe" +
-      "y\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.signalservice.V" +
-      "erified.State\022\023\n\013nullMessage\030\004 \001(\014\"2\n\005St" +
-      "ate\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIED\020\001\022\016\n\nUNVERI" +
-      "FIED\020\002\"\344\014\n\013SyncMessage\022-\n\004sent\030\001 \001(\0132\037.s" +
-      "ignalservice.SyncMessage.Sent\0225\n\010contact" +
-      "s\030\002 \001(\0132#.signalservice.SyncMessage.Cont" +
-      "acts\0221\n\006groups\030\003 \001(\0132!.signalservice.Syn" +
-      "cMessage.Groups\0223\n\007request\030\004 \001(\0132\".signa" +
-      "lservice.SyncMessage.Request\022-\n\004read\030\005 \003",
-      "(\0132\037.signalservice.SyncMessage.Read\0223\n\007b" +
-      "locked\030\006 \001(\0132\".signalservice.SyncMessage" +
-      ".Blocked\022)\n\010verified\030\007 \001(\0132\027.signalservi" +
-      "ce.Verified\022?\n\rconfiguration\030\t \001(\0132(.sig" +
-      "nalservice.SyncMessage.Configuration\022\017\n\007" +
-      "padding\030\010 \001(\014\022M\n\024stickerPackOperation\030\n " +
-      "\003(\0132/.signalservice.SyncMessage.StickerP" +
-      "ackOperation\022E\n\020messageTimerRead\030\013 \001(\0132+" +
-      ".signalservice.SyncMessage.MessageTimerR" +
-      "ead\032\300\002\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021\n\ttim",
-      "estamp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.signalse" +
-      "rvice.DataMessage\022 \n\030expirationStartTime" +
-      "stamp\030\004 \001(\004\022V\n\022unidentifiedStatus\030\005 \003(\0132" +
-      ":.signalservice.SyncMessage.Sent.Unident" +
-      "ifiedDeliveryStatus\022 \n\021isRecipientUpdate" +
-      "\030\006 \001(\010:\005false\032G\n\032UnidentifiedDeliverySta" +
-      "tus\022\023\n\013destination\030\001 \001(\t\022\024\n\014unidentified" +
-      "\030\002 \001(\010\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 .signa" +
-      "lservice.AttachmentPointer\022\027\n\010complete\030\002" +
-      " \001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\0132 .si",
-      "gnalservice.AttachmentPointer\032,\n\007Blocked" +
-      "\022\017\n\007numbers\030\001 \003(\t\022\020\n\010groupIds\030\002 \003(\014\032\217\001\n\007" +
-      "Request\0225\n\004type\030\001 \001(\0162\'.signalservice.Sy" +
-      "ncMessage.Request.Type\"M\n\004Type\022\013\n\007UNKNOW" +
-      "N\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BLOCKED" +
-      "\020\003\022\021\n\rCONFIGURATION\020\004\032)\n\004Read\022\016\n\006sender\030" +
-      "\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\032}\n\rConfiguratio" +
-      "n\022\024\n\014readReceipts\030\001 \001(\010\022&\n\036unidentifiedD" +
-      "eliveryIndicators\030\002 \001(\010\022\030\n\020typingIndicat" +
-      "ors\030\003 \001(\010\022\024\n\014linkPreviews\030\004 \001(\010\032\234\001\n\024Stic",
-      "kerPackOperation\022\016\n\006packId\030\001 \001(\014\022\017\n\007pack" +
-      "Key\030\002 \001(\014\022B\n\004type\030\003 \001(\01624.signalservice." +
-      "SyncMessage.StickerPackOperation.Type\"\037\n" +
-      "\004Type\022\013\n\007INSTALL\020\000\022\n\n\006REMOVE\020\001\0325\n\020Messag" +
-      "eTimerRead\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp\030" +
-      "\002 \001(\004\"\337\001\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006\022" +
-      "\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004siz" +
-      "e\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 \001" +
-      "(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005w" +
-      "idth\030\t \001(\r\022\016\n\006height\030\n \001(\r\022\017\n\007caption\030\013 ",
-      "\001(\t\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Grou" +
-      "pContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .sig" +
-      "nalservice.GroupContext.Type\022\014\n\004name\030\003 \001" +
-      "(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .si" +
-      "gnalservice.AttachmentPointer\"H\n\004Type\022\013\n" +
-      "\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004Q" +
-      "UIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\207\002\n\016ContactDetai" +
-      "ls\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avat" +
-      "ar\030\003 \001(\0132$.signalservice.ContactDetails." +
-      "Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132",
-      "\027.signalservice.Verified\022\022\n\nprofileKey\030\006" +
-      " \001(\014\022\017\n\007blocked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001" +
-      "(\r\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
-      "gth\030\002 \001(\r\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014" +
-      "\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030" +
-      "\004 \001(\0132\".signalservice.GroupDetails.Avata" +
-      "r\022\024\n\006active\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006" +
-      " \001(\r\022\r\n\005color\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006" +
-      "Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 " +
-      "\001(\rBE\n.org.whispersystems.signalservice.",
-      "internal.pushB\023SignalServiceProtos"
+      "icker\022\037\n\027requiredProtocolVersion\030\014 \001(\r\022\022",
+      "\n\nisViewOnce\030\016 \001(\010\032\351\001\n\005Quote\022\n\n\002id\030\001 \001(\004" +
+      "\022\016\n\006author\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\022F\n\013attach" +
+      "ments\030\004 \003(\01321.signalservice.DataMessage." +
+      "Quote.QuotedAttachment\032n\n\020QuotedAttachme" +
+      "nt\022\023\n\013contentType\030\001 \001(\t\022\020\n\010fileName\030\002 \001(" +
+      "\t\0223\n\tthumbnail\030\003 \001(\0132 .signalservice.Att" +
+      "achmentPointer\032\304\010\n\007Contact\0225\n\004name\030\001 \001(\013" +
+      "2\'.signalservice.DataMessage.Contact.Nam" +
+      "e\0228\n\006number\030\003 \003(\0132(.signalservice.DataMe" +
+      "ssage.Contact.Phone\0227\n\005email\030\004 \003(\0132(.sig",
+      "nalservice.DataMessage.Contact.Email\022A\n\007" +
+      "address\030\005 \003(\01320.signalservice.DataMessag" +
+      "e.Contact.PostalAddress\0229\n\006avatar\030\006 \001(\0132" +
+      ").signalservice.DataMessage.Contact.Avat" +
+      "ar\022\024\n\014organization\030\007 \001(\t\032v\n\004Name\022\021\n\tgive" +
+      "nName\030\001 \001(\t\022\022\n\nfamilyName\030\002 \001(\t\022\016\n\006prefi" +
+      "x\030\003 \001(\t\022\016\n\006suffix\030\004 \001(\t\022\022\n\nmiddleName\030\005 " +
+      "\001(\t\022\023\n\013displayName\030\006 \001(\t\032\226\001\n\005Phone\022\r\n\005va" +
+      "lue\030\001 \001(\t\022;\n\004type\030\002 \001(\0162-.signalservice." +
+      "DataMessage.Contact.Phone.Type\022\r\n\005label\030",
+      "\003 \001(\t\"2\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004W" +
+      "ORK\020\003\022\n\n\006CUSTOM\020\004\032\226\001\n\005Email\022\r\n\005value\030\001 \001" +
+      "(\t\022;\n\004type\030\002 \001(\0162-.signalservice.DataMes" +
+      "sage.Contact.Email.Type\022\r\n\005label\030\003 \001(\t\"2" +
+      "\n\004Type\022\010\n\004HOME\020\001\022\n\n\006MOBILE\020\002\022\010\n\004WORK\020\003\022\n" +
+      "\n\006CUSTOM\020\004\032\201\002\n\rPostalAddress\022C\n\004type\030\001 \001" +
+      "(\01625.signalservice.DataMessage.Contact.P" +
+      "ostalAddress.Type\022\r\n\005label\030\002 \001(\t\022\016\n\006stre" +
+      "et\030\003 \001(\t\022\r\n\005pobox\030\004 \001(\t\022\024\n\014neighborhood\030" +
+      "\005 \001(\t\022\014\n\004city\030\006 \001(\t\022\016\n\006region\030\007 \001(\t\022\020\n\010p",
+      "ostcode\030\010 \001(\t\022\017\n\007country\030\t \001(\t\"&\n\004Type\022\010" +
+      "\n\004HOME\020\001\022\010\n\004WORK\020\002\022\n\n\006CUSTOM\020\003\032M\n\006Avatar" +
+      "\0220\n\006avatar\030\001 \001(\0132 .signalservice.Attachm" +
+      "entPointer\022\021\n\tisProfile\030\002 \001(\010\032V\n\007Preview" +
+      "\022\013\n\003url\030\001 \001(\t\022\r\n\005title\030\002 \001(\t\022/\n\005image\030\003 " +
+      "\001(\0132 .signalservice.AttachmentPointer\032m\n" +
+      "\007Sticker\022\016\n\006packId\030\001 \001(\014\022\017\n\007packKey\030\002 \001(" +
+      "\014\022\021\n\tstickerId\030\003 \001(\r\022.\n\004data\030\004 \001(\0132 .sig" +
+      "nalservice.AttachmentPointer\"M\n\005Flags\022\017\n" +
+      "\013END_SESSION\020\001\022\033\n\027EXPIRATION_TIMER_UPDAT",
+      "E\020\002\022\026\n\022PROFILE_KEY_UPDATE\020\004\"R\n\017ProtocolV" +
+      "ersion\022\013\n\007INITIAL\020\000\022\022\n\016MESSAGE_TIMERS\020\001\022" +
+      "\r\n\tVIEW_ONCE\020\002\022\013\n\007CURRENT\020\002\032\002\020\001\"\036\n\013NullM" +
+      "essage\022\017\n\007padding\030\001 \001(\014\"u\n\016ReceiptMessag" +
+      "e\0220\n\004type\030\001 \001(\0162\".signalservice.ReceiptM" +
+      "essage.Type\022\021\n\ttimestamp\030\002 \003(\004\"\036\n\004Type\022\014" +
+      "\n\010DELIVERY\020\000\022\010\n\004READ\020\001\"\214\001\n\rTypingMessage" +
+      "\022\021\n\ttimestamp\030\001 \001(\004\0223\n\006action\030\002 \001(\0162#.si" +
+      "gnalservice.TypingMessage.Action\022\017\n\007grou" +
+      "pId\030\003 \001(\014\"\"\n\006Action\022\013\n\007STARTED\020\000\022\013\n\007STOP",
+      "PED\020\001\"\253\001\n\010Verified\022\023\n\013destination\030\001 \001(\t\022" +
+      "\023\n\013identityKey\030\002 \001(\014\022,\n\005state\030\003 \001(\0162\035.si" +
+      "gnalservice.Verified.State\022\023\n\013nullMessag" +
+      "e\030\004 \001(\014\"2\n\005State\022\013\n\007DEFAULT\020\000\022\014\n\010VERIFIE" +
+      "D\020\001\022\016\n\nUNVERIFIED\020\002\"\330\014\n\013SyncMessage\022-\n\004s" +
+      "ent\030\001 \001(\0132\037.signalservice.SyncMessage.Se" +
+      "nt\0225\n\010contacts\030\002 \001(\0132#.signalservice.Syn" +
+      "cMessage.Contacts\0221\n\006groups\030\003 \001(\0132!.sign" +
+      "alservice.SyncMessage.Groups\0223\n\007request\030" +
+      "\004 \001(\0132\".signalservice.SyncMessage.Reques",
+      "t\022-\n\004read\030\005 \003(\0132\037.signalservice.SyncMess" +
+      "age.Read\0223\n\007blocked\030\006 \001(\0132\".signalservic" +
+      "e.SyncMessage.Blocked\022)\n\010verified\030\007 \001(\0132" +
+      "\027.signalservice.Verified\022?\n\rconfiguratio" +
+      "n\030\t \001(\0132(.signalservice.SyncMessage.Conf" +
+      "iguration\022\017\n\007padding\030\010 \001(\014\022M\n\024stickerPac" +
+      "kOperation\030\n \003(\0132/.signalservice.SyncMes" +
+      "sage.StickerPackOperation\022=\n\014viewOnceOpe" +
+      "n\030\013 \001(\0132\'.signalservice.SyncMessage.View" +
+      "OnceOpen\032\300\002\n\004Sent\022\023\n\013destination\030\001 \001(\t\022\021",
+      "\n\ttimestamp\030\002 \001(\004\022+\n\007message\030\003 \001(\0132\032.sig" +
+      "nalservice.DataMessage\022 \n\030expirationStar" +
+      "tTimestamp\030\004 \001(\004\022V\n\022unidentifiedStatus\030\005" +
+      " \003(\0132:.signalservice.SyncMessage.Sent.Un" +
+      "identifiedDeliveryStatus\022 \n\021isRecipientU" +
+      "pdate\030\006 \001(\010:\005false\032G\n\032UnidentifiedDelive" +
+      "ryStatus\022\023\n\013destination\030\001 \001(\t\022\024\n\014unident" +
+      "ified\030\002 \001(\010\032S\n\010Contacts\022.\n\004blob\030\001 \001(\0132 ." +
+      "signalservice.AttachmentPointer\022\027\n\010compl" +
+      "ete\030\002 \001(\010:\005false\0328\n\006Groups\022.\n\004blob\030\001 \001(\013",
+      "2 .signalservice.AttachmentPointer\032,\n\007Bl" +
+      "ocked\022\017\n\007numbers\030\001 \003(\t\022\020\n\010groupIds\030\002 \003(\014" +
+      "\032\217\001\n\007Request\0225\n\004type\030\001 \001(\0162\'.signalservi" +
+      "ce.SyncMessage.Request.Type\"M\n\004Type\022\013\n\007U" +
+      "NKNOWN\020\000\022\014\n\010CONTACTS\020\001\022\n\n\006GROUPS\020\002\022\013\n\007BL" +
+      "OCKED\020\003\022\021\n\rCONFIGURATION\020\004\032)\n\004Read\022\016\n\006se" +
+      "nder\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\032}\n\rConfigu" +
+      "ration\022\024\n\014readReceipts\030\001 \001(\010\022&\n\036unidenti" +
+      "fiedDeliveryIndicators\030\002 \001(\010\022\030\n\020typingIn" +
+      "dicators\030\003 \001(\010\022\024\n\014linkPreviews\030\004 \001(\010\032\234\001\n",
+      "\024StickerPackOperation\022\016\n\006packId\030\001 \001(\014\022\017\n" +
+      "\007packKey\030\002 \001(\014\022B\n\004type\030\003 \001(\01624.signalser" +
+      "vice.SyncMessage.StickerPackOperation.Ty" +
+      "pe\"\037\n\004Type\022\013\n\007INSTALL\020\000\022\n\n\006REMOVE\020\001\0321\n\014V" +
+      "iewOnceOpen\022\016\n\006sender\030\001 \001(\t\022\021\n\ttimestamp" +
+      "\030\002 \001(\004\"\337\001\n\021AttachmentPointer\022\n\n\002id\030\001 \001(\006" +
+      "\022\023\n\013contentType\030\002 \001(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004si" +
+      "ze\030\004 \001(\r\022\021\n\tthumbnail\030\005 \001(\014\022\016\n\006digest\030\006 " +
+      "\001(\014\022\020\n\010fileName\030\007 \001(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005" +
+      "width\030\t \001(\r\022\016\n\006height\030\n \001(\r\022\017\n\007caption\030\013",
+      " \001(\t\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Gro" +
+      "upContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .si" +
+      "gnalservice.GroupContext.Type\022\014\n\004name\030\003 " +
+      "\001(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .s" +
+      "ignalservice.AttachmentPointer\"H\n\004Type\022\013" +
+      "\n\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004" +
+      "QUIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\207\002\n\016ContactDeta" +
+      "ils\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006ava" +
+      "tar\030\003 \001(\0132$.signalservice.ContactDetails" +
+      ".Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\013",
+      "2\027.signalservice.Verified\022\022\n\nprofileKey\030" +
+      "\006 \001(\014\022\017\n\007blocked\030\007 \001(\010\022\023\n\013expireTimer\030\010 " +
+      "\001(\r\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006le" +
+      "ngth\030\002 \001(\r\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022" +
+      "\014\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar" +
+      "\030\004 \001(\0132\".signalservice.GroupDetails.Avat" +
+      "ar\022\024\n\006active\030\005 \001(\010:\004true\022\023\n\013expireTimer\030" +
+      "\006 \001(\r\022\r\n\005color\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n" +
+      "\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002" +
+      " \001(\rBE\n.org.whispersystems.signalservice",
+      ".internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -39067,7 +39076,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_DataMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_DataMessage_descriptor,
-              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", "ProfileKey", "Timestamp", "Quote", "Contact", "Preview", "Sticker", "RequiredProtocolVersion", "MessageTimer", });
+              new java.lang.String[] { "Body", "Attachments", "Group", "Flags", "ExpireTimer", "ProfileKey", "Timestamp", "Quote", "Contact", "Preview", "Sticker", "RequiredProtocolVersion", "IsViewOnce", });
           internal_static_signalservice_DataMessage_Quote_descriptor =
             internal_static_signalservice_DataMessage_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_DataMessage_Quote_fieldAccessorTable = new
@@ -39157,7 +39166,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_SyncMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_descriptor,
-              new java.lang.String[] { "Sent", "Contacts", "Groups", "Request", "Read", "Blocked", "Verified", "Configuration", "Padding", "StickerPackOperation", "MessageTimerRead", });
+              new java.lang.String[] { "Sent", "Contacts", "Groups", "Request", "Read", "Blocked", "Verified", "Configuration", "Padding", "StickerPackOperation", "ViewOnceOpen", });
           internal_static_signalservice_SyncMessage_Sent_descriptor =
             internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(0);
           internal_static_signalservice_SyncMessage_Sent_fieldAccessorTable = new
@@ -39212,11 +39221,11 @@ public final class SignalServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_SyncMessage_StickerPackOperation_descriptor,
               new java.lang.String[] { "PackId", "PackKey", "Type", });
-          internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor =
+          internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor =
             internal_static_signalservice_SyncMessage_descriptor.getNestedTypes().get(8);
-          internal_static_signalservice_SyncMessage_MessageTimerRead_fieldAccessorTable = new
+          internal_static_signalservice_SyncMessage_ViewOnceOpen_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_signalservice_SyncMessage_MessageTimerRead_descriptor,
+              internal_static_signalservice_SyncMessage_ViewOnceOpen_descriptor,
               new java.lang.String[] { "Sender", "Timestamp", });
           internal_static_signalservice_AttachmentPointer_descriptor =
             getDescriptor().getMessageTypes().get(9);

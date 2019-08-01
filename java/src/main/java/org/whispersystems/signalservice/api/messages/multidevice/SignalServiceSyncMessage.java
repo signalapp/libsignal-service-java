@@ -9,8 +9,6 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachment;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class SignalServiceSyncMessage {
   private final Optional<BlockedListMessage>                blockedList;
   private final Optional<RequestMessage>                    request;
   private final Optional<List<ReadMessage>>                 reads;
-  private final Optional<MessageTimerReadMessage>           timerRead;
+  private final Optional<ViewOnceOpenMessage>               viewOnceOpen;
   private final Optional<VerifiedMessage>                   verified;
   private final Optional<ConfigurationMessage>              configuration;
   private final Optional<List<StickerPackOperationMessage>> stickerPackOperations;
@@ -33,7 +31,7 @@ public class SignalServiceSyncMessage {
                                    Optional<BlockedListMessage>                blockedList,
                                    Optional<RequestMessage>                    request,
                                    Optional<List<ReadMessage>>                 reads,
-                                   Optional<MessageTimerReadMessage>           timerRead,
+                                   Optional<ViewOnceOpenMessage>               viewOnceOpen,
                                    Optional<VerifiedMessage>                   verified,
                                    Optional<ConfigurationMessage>              configuration,
                                    Optional<List<StickerPackOperationMessage>> stickerPackOperations)
@@ -44,7 +42,7 @@ public class SignalServiceSyncMessage {
     this.blockedList           = blockedList;
     this.request               = request;
     this.reads                 = reads;
-    this.timerRead             = timerRead;
+    this.viewOnceOpen          = viewOnceOpen;
     this.verified              = verified;
     this.configuration         = configuration;
     this.stickerPackOperations = stickerPackOperations;
@@ -57,7 +55,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -70,7 +68,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -83,7 +81,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -96,7 +94,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.of(request),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -109,13 +107,13 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.of(reads),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
   }
 
-  public static SignalServiceSyncMessage forMessageTimerRead(MessageTimerReadMessage timerRead) {
+  public static SignalServiceSyncMessage forViewOnceOpen(ViewOnceOpenMessage timerRead) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
                                         Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
@@ -138,7 +136,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.of(reads),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -151,7 +149,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.of(verifiedMessage),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -164,7 +162,7 @@ public class SignalServiceSyncMessage {
                                         Optional.of(blocked),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -177,7 +175,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.of(configuration),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -190,7 +188,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.of(stickerPackOperations));
@@ -203,7 +201,7 @@ public class SignalServiceSyncMessage {
                                         Optional.<BlockedListMessage>absent(),
                                         Optional.<RequestMessage>absent(),
                                         Optional.<List<ReadMessage>>absent(),
-                                        Optional.<MessageTimerReadMessage>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
                                         Optional.<List<StickerPackOperationMessage>>absent());
@@ -229,8 +227,8 @@ public class SignalServiceSyncMessage {
     return reads;
   }
 
-  public Optional<MessageTimerReadMessage> getMessageTimerRead() {
-    return timerRead;
+  public Optional<ViewOnceOpenMessage> getViewOnceOpen() {
+    return viewOnceOpen;
   }
 
   public Optional<BlockedListMessage> getBlockedList() {
