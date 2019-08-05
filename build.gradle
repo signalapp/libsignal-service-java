@@ -1,5 +1,5 @@
 subprojects {
-    ext.version_number     = "2.13.6"
+    ext.version_number     = "2.13.7"
     ext.group_info         = "org.whispersystems"
     ext.signal_version     = "0.0.3"
 
