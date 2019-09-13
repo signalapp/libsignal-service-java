@@ -8,6 +8,7 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 import java.util.List;
 
@@ -15,14 +16,14 @@ public class DeviceGroup {
 
   private final byte[]                                  id;
   private final Optional<String>                        name;
-  private final List<String>                            members;
+  private final List<SignalServiceAddress>              members;
   private final Optional<SignalServiceAttachmentStream> avatar;
   private final boolean                                 active;
   private final Optional<Integer>                       expirationTimer;
   private final Optional<String>                        color;
   private final boolean                                 blocked;
 
-  public DeviceGroup(byte[] id, Optional<String> name, List<String> members,
+  public DeviceGroup(byte[] id, Optional<String> name, List<SignalServiceAddress> members,
                      Optional<SignalServiceAttachmentStream> avatar,
                      boolean active, Optional<Integer> expirationTimer,
                      Optional<String> color, boolean blocked)
@@ -49,7 +50,7 @@ public class DeviceGroup {
     return id;
   }
 
-  public List<String> getMembers() {
+  public List<SignalServiceAddress> getMembers() {
     return members;
   }
 

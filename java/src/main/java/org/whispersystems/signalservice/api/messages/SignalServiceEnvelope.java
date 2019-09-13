@@ -10,7 +10,9 @@ import com.google.protobuf.ByteString;
 
 import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope;
 import org.whispersystems.signalservice.internal.util.Hex;
 import org.whispersystems.util.Base64;
@@ -96,13 +98,20 @@ public class SignalServiceEnvelope {
     }
   }
 
-  public SignalServiceEnvelope(int type, String sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
+  public SignalServiceEnvelope(int type, SignalServiceAddress sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
     Envelope.Builder builder = Envelope.newBuilder()
                                        .setType(Envelope.Type.valueOf(type))
-                                       .setSource(sender)
                                        .setSourceDevice(senderDevice)
                                        .setTimestamp(timestamp)
                                        .setServerTimestamp(serverTimestamp);
+
+    if (sender.getUuid().isPresent()) {
+      builder.setSourceUuid(sender.getUuid().get().toString());
+    }
+
+    if (sender.getNumber().isPresent()) {
+      builder.setSourceE164(sender.getNumber().get());
+    }
 
     if (uuid != null) {
       builder.setServerGuid(uuid);
@@ -138,15 +147,29 @@ public class SignalServiceEnvelope {
     return envelope.hasServerGuid();
   }
 
+  /**
+   * @return True if either a source E164 or UUID is present.
+   */
   public boolean hasSource() {
-    return envelope.hasSource();
+    return envelope.hasSourceE164() || envelope.hasSourceUuid();
   }
 
   /**
-   * @return The envelope's sender.
+   * @return The envelope's sender as an E164 number.
    */
-  public String getSource() {
-    return envelope.getSource();
+  public Optional<String> getSourceE164() {
+    return Optional.fromNullable(envelope.getSourceE164());
+  }
+
+  /**
+   * @return The envelope's sender as a UUID.
+   */
+  public Optional<String> getSourceUuid() {
+    return Optional.fromNullable(envelope.getSourceUuid());
+  }
+
+  public String getSourceIdentifier() {
+    return getSourceUuid().or(getSourceE164()).orNull();
   }
 
   public boolean hasSourceDevice() {
@@ -164,7 +187,7 @@ public class SignalServiceEnvelope {
    * @return The envelope's sender as a SignalServiceAddress.
    */
   public SignalServiceAddress getSourceAddress() {
-    return new SignalServiceAddress(envelope.getSource());
+    return new SignalServiceAddress(UuidUtil.parseOrNull(envelope.getSourceUuid()), envelope.getSourceE164());
   }
 
   /**

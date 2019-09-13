@@ -8,10 +8,11 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 public class DeviceContact {
 
-  private final String                                  number;
+  private final SignalServiceAddress                    address;
   private final Optional<String>                        name;
   private final Optional<SignalServiceAttachmentStream> avatar;
   private final Optional<String>                        color;
@@ -20,7 +21,7 @@ public class DeviceContact {
   private final boolean                                 blocked;
   private final Optional<Integer>                       expirationTimer;
 
-  public DeviceContact(String number, Optional<String> name,
+  public DeviceContact(SignalServiceAddress address, Optional<String> name,
                        Optional<SignalServiceAttachmentStream> avatar,
                        Optional<String> color,
                        Optional<VerifiedMessage> verified,
@@ -28,7 +29,7 @@ public class DeviceContact {
                        boolean blocked,
                        Optional<Integer> expirationTimer)
   {
-    this.number          = number;
+    this.address         = address;
     this.name            = name;
     this.avatar          = avatar;
     this.color           = color;
@@ -46,8 +47,8 @@ public class DeviceContact {
     return name;
   }
 
-  public String getNumber() {
-    return number;
+  public SignalServiceAddress getAddress() {
+    return address;
   }
 
   public Optional<String> getColor() {

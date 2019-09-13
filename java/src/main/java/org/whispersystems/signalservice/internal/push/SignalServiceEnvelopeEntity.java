@@ -17,6 +17,9 @@ public class SignalServiceEnvelopeEntity {
   private String source;
 
   @JsonProperty
+  private String sourceUuid;
+
+  @JsonProperty
   private int sourceDevice;
 
   @JsonProperty
@@ -45,8 +48,16 @@ public class SignalServiceEnvelopeEntity {
     return timestamp;
   }
 
-  public String getSource() {
+  public String getSourceE164() {
     return source;
+  }
+
+  public String getSourceUuid() {
+    return sourceUuid;
+  }
+
+  public boolean hasSource() {
+    return source != null || sourceUuid != null;
   }
 
   public int getSourceDevice() {

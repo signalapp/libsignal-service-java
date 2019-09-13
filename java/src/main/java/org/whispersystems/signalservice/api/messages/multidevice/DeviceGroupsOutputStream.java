@@ -8,10 +8,14 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 
 import com.google.protobuf.ByteString;
 
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.GroupDetails;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceGroupsOutputStream extends ChunkedOutputStream {
 
@@ -35,7 +39,7 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
   }
 
   private void writeGroupDetails(DeviceGroup group) throws IOException {
-    SignalServiceProtos.GroupDetails.Builder groupDetails = SignalServiceProtos.GroupDetails.newBuilder();
+    GroupDetails.Builder groupDetails = GroupDetails.newBuilder();
     groupDetails.setId(ByteString.copyFrom(group.getId()));
 
     if (group.getName().isPresent()) {
@@ -43,7 +47,7 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
     }
 
     if (group.getAvatar().isPresent()) {
-      SignalServiceProtos.GroupDetails.Avatar.Builder avatarBuilder = SignalServiceProtos.GroupDetails.Avatar.newBuilder();
+      GroupDetails.Avatar.Builder avatarBuilder = GroupDetails.Avatar.newBuilder();
       avatarBuilder.setContentType(group.getAvatar().get().getContentType());
       avatarBuilder.setLength((int)group.getAvatar().get().getLength());
       groupDetails.setAvatar(avatarBuilder);
@@ -57,7 +61,23 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
       groupDetails.setColor(group.getColor().get());
     }
 
-    groupDetails.addAllMembers(group.getMembers());
+    List<GroupDetails.Member> members = new ArrayList<>(group.getMembers().size());
+
+    for (SignalServiceAddress address : group.getMembers()) {
+      GroupDetails.Member.Builder builder = GroupDetails.Member.newBuilder();
+
+      if (address.getUuid().isPresent()) {
+        builder.setUuid(address.getUuid().get().toString());
+      }
+
+      if (address.getNumber().isPresent()) {
+        builder.setE164(address.getNumber().get());
+      }
+
+      members.add(builder.build());
+    }
+
+    groupDetails.addAllMembers(members);
     groupDetails.setActive(group.isActive());
     groupDetails.setBlocked(group.isBlocked());
 

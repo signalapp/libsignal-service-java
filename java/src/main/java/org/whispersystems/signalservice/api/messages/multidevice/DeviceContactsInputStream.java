@@ -12,6 +12,8 @@ import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentStream;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.util.Util;
 
@@ -32,7 +34,7 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
     Util.readFully(in, detailsSerialized);
 
     SignalServiceProtos.ContactDetails      details     = SignalServiceProtos.ContactDetails.parseFrom(detailsSerialized);
-    String                                  number      = details.getNumber();
+    SignalServiceAddress                    address     = new SignalServiceAddress(UuidUtil.parseOrNull(details.getUuid()), details.getNumber());
     Optional<String>                        name        = Optional.fromNullable(details.getName());
     Optional<SignalServiceAttachmentStream> avatar      = Optional.absent();
     Optional<String>                        color       = details.hasColor() ? Optional.of(details.getColor()) : Optional.<String>absent();
@@ -51,8 +53,9 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
 
     if (details.hasVerified()) {
       try {
-        String      destination = details.getVerified().getDestination();
-        IdentityKey identityKey = new IdentityKey(details.getVerified().getIdentityKey().toByteArray(), 0);
+        IdentityKey          identityKey = new IdentityKey(details.getVerified().getIdentityKey().toByteArray(), 0);
+        SignalServiceAddress destination = new SignalServiceAddress(UuidUtil.parseOrNull(details.getVerified().getDestinationUuid()),
+                                                                    details.getVerified().getDestinationE164());
 
         VerifiedMessage.VerifiedState state;
 
@@ -80,7 +83,7 @@ public class DeviceContactsInputStream extends ChunkedInputStream {
 
     blocked = details.getBlocked();
 
-    return new DeviceContact(number, name, avatar, color, verified, profileKey, blocked, expireTimer);
+    return new DeviceContact(address, name, avatar, color, verified, profileKey, blocked, expireTimer);
   }
 
 }

@@ -6,8 +6,11 @@
 
 package org.whispersystems.signalservice.api.util;
 
+import java.util.UUID;
+
 public interface CredentialsProvider {
-  public String getUser();
+  public UUID getUuid();
+  public String getE164();
   public String getPassword();
   public String getSignalingKey();
 }

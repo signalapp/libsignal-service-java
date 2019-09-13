@@ -6,15 +6,14 @@
 
 package org.whispersystems.signalservice.api.messages.multidevice;
 
-import java.util.LinkedList;
-import java.util.List;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 public class ReadMessage {
 
-  private final String sender;
-  private final long   timestamp;
+  private final SignalServiceAddress sender;
+  private final long                 timestamp;
 
-  public ReadMessage(String sender, long timestamp) {
+  public ReadMessage(SignalServiceAddress sender, long timestamp) {
     this.sender    = sender;
     this.timestamp = timestamp;
   }
@@ -23,7 +22,7 @@ public class ReadMessage {
     return timestamp;
   }
 
-  public String getSender() {
+  public SignalServiceAddress getSender() {
     return sender;
   }
 

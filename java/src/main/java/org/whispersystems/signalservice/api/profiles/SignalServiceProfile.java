@@ -20,6 +20,9 @@ public class SignalServiceProfile {
   @JsonProperty
   private boolean unrestrictedUnidentifiedAccess;
 
+  @JsonProperty
+  private Capabilities capabilities;
+
   public SignalServiceProfile() {}
 
   public String getIdentityKey() {
@@ -40,5 +43,20 @@ public class SignalServiceProfile {
 
   public boolean isUnrestrictedUnidentifiedAccess() {
     return unrestrictedUnidentifiedAccess;
+  }
+
+  public Capabilities getCapabilities() {
+    return capabilities;
+  }
+
+  public static class Capabilities {
+    @JsonProperty
+    private boolean uuid;
+
+    public Capabilities() {}
+
+    public boolean isUuid() {
+      return uuid;
+    }
   }
 }

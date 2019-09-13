@@ -1,19 +1,21 @@
 package org.whispersystems.signalservice.api.messages.multidevice;
 
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+
 import java.util.List;
 
 public class BlockedListMessage {
 
-  private final List<String> numbers;
-  private final List<byte[]> groupIds;
+  private final List<SignalServiceAddress> addresses;
+  private final List<byte[]>               groupIds;
 
-  public BlockedListMessage(List<String> numbers, List<byte[]> groupIds) {
-    this.numbers  = numbers;
-    this.groupIds = groupIds;
+  public BlockedListMessage(List<SignalServiceAddress> addresses, List<byte[]> groupIds) {
+    this.addresses = addresses;
+    this.groupIds  = groupIds;
   }
 
-  public List<String> getNumbers() {
-    return numbers;
+  public List<SignalServiceAddress> getAddresses() {
+    return addresses;
   }
 
   public List<byte[]> getGroupIds() {

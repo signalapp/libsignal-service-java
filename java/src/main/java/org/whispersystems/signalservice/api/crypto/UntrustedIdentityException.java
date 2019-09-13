@@ -11,24 +11,24 @@ import org.whispersystems.libsignal.IdentityKey;
 public class UntrustedIdentityException extends Exception {
 
   private final IdentityKey identityKey;
-  private final String      e164number;
+  private final String      identifier;
 
-  public UntrustedIdentityException(String s, String e164number, IdentityKey identityKey) {
+  public UntrustedIdentityException(String s, String identifier, IdentityKey identityKey) {
     super(s);
-    this.e164number  = e164number;
+    this.identifier  = identifier;
     this.identityKey = identityKey;
   }
 
   public UntrustedIdentityException(UntrustedIdentityException e) {
-    this(e.getMessage(), e.getE164Number(), e.getIdentityKey());
+    this(e.getMessage(), e.getIdentifier(), e.getIdentityKey());
   }
 
   public IdentityKey getIdentityKey() {
     return identityKey;
   }
 
-  public String getE164Number() {
-    return e164number;
+  public String getIdentifier() {
+    return identifier;
   }
 
 }

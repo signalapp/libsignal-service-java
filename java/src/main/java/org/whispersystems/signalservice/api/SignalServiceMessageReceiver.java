@@ -20,11 +20,11 @@ import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.SleepTimer;
+import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.api.websocket.ConnectivityListener;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SignalServiceEnvelopeEntity;
-import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.sticker.StickerProtos;
 import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The primary interface for receiving Signal Service messages.
@@ -58,17 +59,18 @@ public class SignalServiceMessageReceiver {
    * Construct a SignalServiceMessageReceiver.
    *
    * @param urls The URL of the Signal Service.
-   * @param user The Signal Service username (eg. phone number).
+   * @param uuid The Signal Service UUID.
+   * @param e164 The Signal Service phone number.
    * @param password The Signal Service user password.
    * @param signalingKey The 52 byte signaling key assigned to this user at registration.
    */
   public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
-                                      String user, String password,
+                                      UUID uuid, String e164, String password,
                                       String signalingKey, String userAgent,
                                       ConnectivityListener listener,
                                       SleepTimer timer)
   {
-    this(urls, new StaticCredentialsProvider(user, password, signalingKey), userAgent, listener, timer);
+    this(urls, new StaticCredentialsProvider(uuid, e164, password, signalingKey), userAgent, listener, timer);
   }
 
   /**
@@ -218,8 +220,9 @@ public class SignalServiceMessageReceiver {
     for (SignalServiceEnvelopeEntity entity : entities) {
       SignalServiceEnvelope envelope;
 
-      if (entity.getSource() != null && entity.getSourceDevice() > 0) {
-        envelope = new SignalServiceEnvelope(entity.getType(), entity.getSource(),
+      if (entity.hasSource() && entity.getSourceDevice() > 0) {
+        SignalServiceAddress address = new SignalServiceAddress(UuidUtil.parseOrNull(entity.getSourceUuid()), entity.getSourceE164());
+        envelope = new SignalServiceEnvelope(entity.getType(), address,
                                              entity.getSourceDevice(), entity.getTimestamp(),
                                              entity.getMessage(), entity.getContent(),
                                              entity.getServerTimestamp(), entity.getServerUuid());
@@ -233,7 +236,7 @@ public class SignalServiceMessageReceiver {
       results.add(envelope);
 
       if (envelope.hasUuid()) socket.acknowledgeMessage(envelope.getUuid());
-      else                    socket.acknowledgeMessage(entity.getSource(), entity.getTimestamp());
+      else                    socket.acknowledgeMessage(entity.getSourceE164(), entity.getTimestamp());
     }
 
     return results;

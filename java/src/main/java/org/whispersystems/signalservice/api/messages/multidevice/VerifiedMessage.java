@@ -2,6 +2,7 @@ package org.whispersystems.signalservice.api.messages.multidevice;
 
 
 import org.whispersystems.libsignal.IdentityKey;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 public class VerifiedMessage {
 
@@ -9,19 +10,19 @@ public class VerifiedMessage {
     DEFAULT, VERIFIED, UNVERIFIED
   }
 
-  private final String        destination;
-  private final IdentityKey   identityKey;
-  private final VerifiedState verified;
-  private final long          timestamp;
+  private final SignalServiceAddress destination;
+  private final IdentityKey          identityKey;
+  private final VerifiedState        verified;
+  private final long                 timestamp;
 
-  public VerifiedMessage(String destination, IdentityKey identityKey, VerifiedState verified, long timestamp) {
+  public VerifiedMessage(SignalServiceAddress destination, IdentityKey identityKey, VerifiedState verified, long timestamp) {
     this.destination = destination;
     this.identityKey = identityKey;
     this.verified    = verified;
     this.timestamp   = timestamp;
   }
 
-  public String getDestination() {
+  public SignalServiceAddress getDestination() {
     return destination;
   }
 

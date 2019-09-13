@@ -9,13 +9,14 @@ package org.whispersystems.signalservice.api.messages;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.messages.calls.SignalServiceCallMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 public class SignalServiceContent {
 
-  private final String  sender;
-  private final int     senderDevice;
-  private final long    timestamp;
-  private final boolean needsReceipt;
+  private final SignalServiceAddress sender;
+  private final int                  senderDevice;
+  private final long                 timestamp;
+  private final boolean              needsReceipt;
 
   private final Optional<SignalServiceDataMessage>    message;
   private final Optional<SignalServiceSyncMessage>    synchronizeMessage;
@@ -23,7 +24,7 @@ public class SignalServiceContent {
   private final Optional<SignalServiceReceiptMessage> readMessage;
   private final Optional<SignalServiceTypingMessage>  typingMessage;
 
-  public SignalServiceContent(SignalServiceDataMessage message, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+  public SignalServiceContent(SignalServiceDataMessage message, SignalServiceAddress sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
     this.senderDevice = senderDevice;
     this.timestamp    = timestamp;
@@ -36,7 +37,7 @@ public class SignalServiceContent {
     this.typingMessage      = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+  public SignalServiceContent(SignalServiceSyncMessage synchronizeMessage, SignalServiceAddress sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
     this.senderDevice = senderDevice;
     this.timestamp    = timestamp;
@@ -49,7 +50,7 @@ public class SignalServiceContent {
     this.typingMessage      = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceCallMessage callMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+  public SignalServiceContent(SignalServiceCallMessage callMessage, SignalServiceAddress sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
     this.senderDevice = senderDevice;
     this.timestamp    = timestamp;
@@ -62,7 +63,7 @@ public class SignalServiceContent {
     this.typingMessage      = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceReceiptMessage receiptMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+  public SignalServiceContent(SignalServiceReceiptMessage receiptMessage, SignalServiceAddress sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
     this.senderDevice = senderDevice;
     this.timestamp    = timestamp;
@@ -75,7 +76,7 @@ public class SignalServiceContent {
     this.typingMessage      = Optional.absent();
   }
 
-  public SignalServiceContent(SignalServiceTypingMessage typingMessage, String sender, int senderDevice, long timestamp, boolean needsReceipt) {
+  public SignalServiceContent(SignalServiceTypingMessage typingMessage, SignalServiceAddress sender, int senderDevice, long timestamp, boolean needsReceipt) {
     this.sender       = sender;
     this.senderDevice = senderDevice;
     this.timestamp    = timestamp;
@@ -108,7 +109,7 @@ public class SignalServiceContent {
     return typingMessage;
   }
 
-  public String getSender() {
+  public SignalServiceAddress getSender() {
     return sender;
   }
 

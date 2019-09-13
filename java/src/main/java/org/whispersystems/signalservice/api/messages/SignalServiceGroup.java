@@ -7,6 +7,7 @@
 package org.whispersystems.signalservice.api.messages;
 
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 
 import java.util.List;
 
@@ -33,11 +34,11 @@ public class SignalServiceGroup {
     REQUEST_INFO
   }
 
-  private final byte[]                         groupId;
-  private final Type                           type;
-  private final Optional<String>               name;
-  private final Optional<List<String>>         members;
-  private final Optional<SignalServiceAttachment> avatar;
+  private final byte[]                               groupId;
+  private final Type                                 type;
+  private final Optional<String>                     name;
+  private final Optional<List<SignalServiceAddress>> members;
+  private final Optional<SignalServiceAttachment>    avatar;
 
 
   /**
@@ -57,7 +58,7 @@ public class SignalServiceGroup {
    * @param avatar The group avatar icon.
    */
   public SignalServiceGroup(Type type, byte[] groupId, String name,
-                            List<String> members,
+                            List<SignalServiceAddress> members,
                             SignalServiceAttachment avatar)
   {
     this.type    = type;
@@ -79,7 +80,7 @@ public class SignalServiceGroup {
     return name;
   }
 
-  public Optional<List<String>> getMembers() {
+  public Optional<List<SignalServiceAddress>> getMembers() {
     return members;
   }
 
@@ -97,11 +98,11 @@ public class SignalServiceGroup {
 
   public static class Builder {
 
-    private Type                 type;
-    private byte[]               id;
-    private String               name;
-    private List<String>         members;
-    private SignalServiceAttachment avatar;
+    private Type                       type;
+    private byte[]                     id;
+    private String                     name;
+    private List<SignalServiceAddress> members;
+    private SignalServiceAttachment    avatar;
 
     private Builder(Type type) {
       this.type = type;
@@ -117,7 +118,7 @@ public class SignalServiceGroup {
       return this;
     }
 
-    public Builder withMembers(List<String> members) {
+    public Builder withMembers(List<SignalServiceAddress> members) {
       this.members = members;
       return this;
     }

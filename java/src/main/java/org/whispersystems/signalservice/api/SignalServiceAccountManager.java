@@ -48,6 +48,8 @@ import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.util.Base64;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.MessageDigest;
@@ -61,6 +63,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage;
 
@@ -75,22 +78,24 @@ public class SignalServiceAccountManager {
   private static final String TAG = SignalServiceAccountManager.class.getSimpleName();
 
   private final PushServiceSocket pushServiceSocket;
-  private final String            user;
+  private final UUID              userUuid;
+  private final String            userE164;
   private final String            userAgent;
 
   /**
    * Construct a SignalServiceAccountManager.
    *
    * @param configuration The URL for the Signal Service.
-   * @param user A Signal Service phone number.
+   * @param uuid The Signal Service UUID.
+   * @param e164 The Signal Service phone number.
    * @param password A Signal Service password.
    * @param userAgent A string which identifies the client software.
    */
   public SignalServiceAccountManager(SignalServiceConfiguration configuration,
-                                     String user, String password,
+                                     UUID uuid, String e164, String password,
                                      String userAgent)
   {
-    this(configuration, new StaticCredentialsProvider(user, password, null), userAgent);
+    this(configuration, new StaticCredentialsProvider(uuid, e164, password, null), userAgent);
   }
 
   public SignalServiceAccountManager(SignalServiceConfiguration configuration,
@@ -98,12 +103,17 @@ public class SignalServiceAccountManager {
                                      String userAgent)
   {
     this.pushServiceSocket = new PushServiceSocket(configuration, credentialsProvider, userAgent);
-    this.user              = credentialsProvider.getUser();
+    this.userUuid          = credentialsProvider.getUuid();
+    this.userE164          = credentialsProvider.getE164();
     this.userAgent         = userAgent;
   }
 
   public byte[] getSenderCertificate() throws IOException {
     return this.pushServiceSocket.getSenderCertificate();
+  }
+
+  public byte[] getSenderCertificateLegacy() throws IOException {
+    return this.pushServiceSocket.getSenderCertificateLegacy();
   }
 
   public void setPin(Optional<String> pin) throws IOException {
@@ -112,6 +122,10 @@ public class SignalServiceAccountManager {
     } else {
       this.pushServiceSocket.removePin();
     }
+  }
+
+  public UUID getOwnUuid() throws IOException {
+    return this.pushServiceSocket.getOwnUuid();
   }
 
   /**
@@ -178,18 +192,18 @@ public class SignalServiceAccountManager {
    *                                     This value should remain consistent across registrations for the
    *                                     same install, but probabilistically differ across registrations
    *                                     for separate installs.
-   *
+   * @return The UUID of the user that was registered.
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages, String pin,
-                                    byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess)
+  public UUID verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages, String pin,
+                                      byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
-                                             signalProtocolRegistrationId,
-                                             fetchesMessages, pin,
-                                             unidentifiedAccessKey,
-                                             unrestrictedUnidentifiedAccess);
+    return this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
+                                                    signalProtocolRegistrationId,
+                                                    fetchesMessages, pin,
+                                                    unidentifiedAccessKey,
+                                                    unrestrictedUnidentifiedAccess);
   }
 
   /**
@@ -383,7 +397,7 @@ public class SignalServiceAccountManager {
     ProvisionMessage.Builder message = ProvisionMessage.newBuilder()
                                                        .setIdentityKeyPublic(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
                                                        .setIdentityKeyPrivate(ByteString.copyFrom(identityKeyPair.getPrivateKey().serialize()))
-                                                       .setNumber(user)
+                                                       .setNumber(userE164)
                                                        .setProvisioningCode(code);
 
     if (profileKey.isPresent()) {

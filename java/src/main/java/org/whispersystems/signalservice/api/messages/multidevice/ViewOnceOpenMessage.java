@@ -1,11 +1,13 @@
 package org.whispersystems.signalservice.api.messages.multidevice;
 
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+
 public class ViewOnceOpenMessage {
 
-  private final String sender;
-  private final long   timestamp;
+  private final SignalServiceAddress sender;
+  private final long                 timestamp;
 
-  public ViewOnceOpenMessage(String sender, long timestamp) {
+  public ViewOnceOpenMessage(SignalServiceAddress sender, long timestamp) {
     this.sender    = sender;
     this.timestamp = timestamp;
   }
@@ -14,7 +16,7 @@ public class ViewOnceOpenMessage {
     return timestamp;
   }
 
-  public String getSender() {
+  public SignalServiceAddress getSender() {
     return sender;
   }
 

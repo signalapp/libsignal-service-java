@@ -162,7 +162,7 @@ public class SignalServiceMessagePipe {
       WebSocketRequestMessage requestMessage = WebSocketRequestMessage.newBuilder()
                                                                       .setId(SecureRandom.getInstance("SHA1PRNG").nextLong())
                                                                       .setVerb("GET")
-                                                                      .setPath(String.format("/v1/profile/%s", address.getNumber()))
+                                                                      .setPath(String.format("/v1/profile/%s", address.getIdentifier()))
                                                                       .addAllHeaders(headers)
                                                                       .build();
 
