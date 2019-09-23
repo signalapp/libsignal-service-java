@@ -322,12 +322,10 @@ public class SignalServiceMessageSender {
     this.isMultiDevice.set(isMultiDevice);
   }
 
-  public SignalServiceAttachmentPointer uploadAttachment(SignalServiceAttachmentStream attachment, boolean usePadding) throws IOException {
+  public SignalServiceAttachmentPointer uploadAttachment(SignalServiceAttachmentStream attachment) throws IOException {
     byte[]             attachmentKey    = Util.getSecretBytes(64);
-    long               paddedLength     = usePadding ? PaddingInputStream.getPaddedSize(attachment.getLength())
-                                                     : attachment.getLength();
-    InputStream        dataStream       = usePadding ? new PaddingInputStream(attachment.getInputStream(), attachment.getLength())
-                                                     : attachment.getInputStream();
+    long               paddedLength     = PaddingInputStream.getPaddedSize(attachment.getLength());
+    InputStream        dataStream       = new PaddingInputStream(attachment.getInputStream(), attachment.getLength());
     long               ciphertextLength = AttachmentCipherOutputStream.getCiphertextLength(paddedLength);
     PushAttachmentData attachmentData   = new PushAttachmentData(attachment.getContentType(),
                                                                  dataStream,
@@ -514,7 +512,7 @@ public class SignalServiceMessageSender {
       stickerBuilder.setStickerId(message.getSticker().get().getStickerId());
 
       if (message.getSticker().get().getAttachment().isStream()) {
-        stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asStream(), true));
+        stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asStream()));
       } else {
         stickerBuilder.setData(createAttachmentPointer(message.getSticker().get().getAttachment().asPointer()));
       }
@@ -1030,15 +1028,9 @@ public class SignalServiceMessageSender {
   }
 
   private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment)
-    throws IOException
-  {
-    return createAttachmentPointer(attachment, false);
-  }
-
-  private AttachmentPointer createAttachmentPointer(SignalServiceAttachmentStream attachment, boolean usePadding)
       throws IOException
   {
-    SignalServiceAttachmentPointer pointer = uploadAttachment(attachment, usePadding);
+    SignalServiceAttachmentPointer pointer = uploadAttachment(attachment);
     return createAttachmentPointer(pointer);
   }
 
