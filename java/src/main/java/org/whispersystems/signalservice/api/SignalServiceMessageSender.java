@@ -524,7 +524,7 @@ public class SignalServiceMessageSender {
 
     if (message.isViewOnce()) {
       builder.setIsViewOnce(message.isViewOnce());
-      builder.setRequiredProtocolVersion(Math.max(DataMessage.ProtocolVersion.VIEW_ONCE_VALUE, builder.getRequiredProtocolVersion()));
+      builder.setRequiredProtocolVersion(Math.max(DataMessage.ProtocolVersion.VIEW_ONCE_VIDEO_VALUE, builder.getRequiredProtocolVersion()));
     }
 
     builder.setTimestamp(message.getTimestamp());
