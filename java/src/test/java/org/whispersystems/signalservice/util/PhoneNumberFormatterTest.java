@@ -20,14 +20,23 @@ public class PhoneNumberFormatterTest extends TestCase {
   private static final String COUNTRY_CODE_DE  = "49";
 
   public void testIsValidNumber() throws Exception {
+    assertTrue(PhoneNumberFormatter.isValidNumber("+6831234", "683"));
+    assertTrue(PhoneNumberFormatter.isValidNumber("+35851234", "358"));
+    assertTrue(PhoneNumberFormatter.isValidNumber("+358512345", "358"));
+
     assertTrue(PhoneNumberFormatter.isValidNumber("+5521912345678", "55"));
     assertTrue(PhoneNumberFormatter.isValidNumber("+552112345678", "55"));
     assertTrue(PhoneNumberFormatter.isValidNumber("+16105880522", "1"));
 
+    assertFalse(PhoneNumberFormatter.isValidNumber("+014085041212", "0"));
+    assertFalse(PhoneNumberFormatter.isValidNumber("+014085041212", "1"));
     assertFalse(PhoneNumberFormatter.isValidNumber("+5512345678", "55"));
     assertFalse(PhoneNumberFormatter.isValidNumber("+161058805220", "1"));
     assertFalse(PhoneNumberFormatter.isValidNumber("+1610588052", "1"));
     assertFalse(PhoneNumberFormatter.isValidNumber("+15880522", "1"));
+
+    assertTrue(PhoneNumberFormatter.isValidNumber("+971812345678901", "971"));
+    assertFalse(PhoneNumberFormatter.isValidNumber("+9718123456789012", "971"));
   }
 
   public void testFormatNumber() throws Exception, InvalidNumberException {

@@ -35,25 +35,17 @@ public class PhoneNumberFormatter {
       return false;
     }
 
-    if (COUNTRY_CODE_US.equals(countryCode) && !Pattern.matches("^\\+1\\d{10}$", e164Number)) {
+    if (COUNTRY_CODE_US.equals(countryCode) && !Pattern.matches("^\\+1[0-9]{10}$", e164Number)) {
       Log.w(TAG, "Failed US number format check");
       return false;
     }
 
-    if (COUNTRY_CODE_BR.equals(countryCode) && !Pattern.matches("^\\+55\\d{2}9?\\d{8}$", e164Number)) {
+    if (COUNTRY_CODE_BR.equals(countryCode) && !Pattern.matches("^\\+55[0-9]{2}9?[0-9]{8}$", e164Number)) {
       Log.w(TAG, "Failed Brazil number format check");
       return false;
     }
 
-    return e164Number.matches("^\\+[0-9]{10,}")  ||
-           e164Number.matches("^\\+685[0-9]{5}") ||
-           e164Number.matches("^\\+376[0-9]{6}") ||
-           e164Number.matches("^\\+299[0-9]{6}") ||
-           e164Number.matches("^\\+597[0-9]{6}") ||
-           e164Number.matches("^\\+298[0-9]{6}") ||
-           e164Number.matches("^\\+240[0-9]{6}") ||
-           e164Number.matches("^\\+687[0-9]{6}") ||
-           e164Number.matches("^\\+689[0-9]{6}");
+    return e164Number.matches("^\\+[1-9][0-9]{6,14}$");
   }
 
   private static String impreciseFormatNumber(String number, String localNumber)
