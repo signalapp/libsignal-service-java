@@ -48,6 +48,7 @@ public abstract class SignalServiceAttachment {
     private int              width;
     private int              height;
     private String           caption;
+    private String           blurHash;
 
     private Builder() {}
 
@@ -96,12 +97,27 @@ public abstract class SignalServiceAttachment {
       return this;
     }
 
+    public Builder withBlurHash(String blurHash) {
+      this.blurHash = blurHash;
+      return this;
+    }
+
     public SignalServiceAttachmentStream build() {
       if (inputStream == null) throw new IllegalArgumentException("Must specify stream!");
       if (contentType == null) throw new IllegalArgumentException("No content type specified!");
       if (length == 0)         throw new IllegalArgumentException("No length specified!");
 
-      return new SignalServiceAttachmentStream(inputStream, contentType, length, Optional.fromNullable(fileName), voiceNote, Optional.<byte[]>absent(), width, height, Optional.fromNullable(caption), listener);
+      return new SignalServiceAttachmentStream(inputStream,
+                                               contentType,
+                                               length,
+                                               Optional.fromNullable(fileName),
+                                               voiceNote,
+                                               Optional.<byte[]>absent(),
+                                               width,
+                                               height,
+                                               Optional.fromNullable(caption),
+                                               Optional.fromNullable(blurHash),
+                                               listener);
     }
   }
 

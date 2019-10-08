@@ -24,12 +24,13 @@ public class SignalServiceAttachmentStream extends SignalServiceAttachment {
   private final int              width;
   private final int              height;
   private final Optional<String> caption;
+  private final Optional<String> blurHash;
 
   public SignalServiceAttachmentStream(InputStream inputStream, String contentType, long length, Optional<String> fileName, boolean voiceNote, ProgressListener listener) {
-    this(inputStream, contentType, length, fileName, voiceNote, Optional.<byte[]>absent(), 0, 0, Optional.<String>absent(), listener);
+    this(inputStream, contentType, length, fileName, voiceNote, Optional.<byte[]>absent(), 0, 0, Optional.<String>absent(), Optional.<String>absent(), listener);
   }
 
-  public SignalServiceAttachmentStream(InputStream inputStream, String contentType, long length, Optional<String> fileName, boolean voiceNote, Optional<byte[]> preview, int width, int height, Optional<String> caption, ProgressListener listener) {
+  public SignalServiceAttachmentStream(InputStream inputStream, String contentType, long length, Optional<String> fileName, boolean voiceNote, Optional<byte[]> preview, int width, int height, Optional<String> caption, Optional<String> blurHash, ProgressListener listener) {
     super(contentType);
     this.inputStream = inputStream;
     this.length      = length;
@@ -40,6 +41,7 @@ public class SignalServiceAttachmentStream extends SignalServiceAttachment {
     this.width       = width;
     this.height      = height;
     this.caption     = caption;
+    this.blurHash    = blurHash;
   }
 
   @Override
@@ -86,5 +88,9 @@ public class SignalServiceAttachmentStream extends SignalServiceAttachment {
 
   public Optional<String> getCaption() {
     return caption;
+  }
+
+  public Optional<String> getBlurHash() {
+    return blurHash;
   }
 }

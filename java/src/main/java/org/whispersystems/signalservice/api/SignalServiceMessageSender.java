@@ -360,7 +360,8 @@ public class SignalServiceMessageSender {
                                               Optional.of(attachmentIdAndDigest.second()),
                                               attachment.getFileName(),
                                               attachment.getVoiceNote(),
-                                              attachment.getCaption());
+                                              attachment.getCaption(),
+                                              attachment.getBlurHash());
   }
 
 
@@ -1022,6 +1023,10 @@ public class SignalServiceMessageSender {
 
     if (attachment.getCaption().isPresent()) {
       builder.setCaption(attachment.getCaption().get());
+    }
+
+    if (attachment.getBlurHash().isPresent()) {
+      builder.setBlurHash(attachment.getBlurHash().get());
     }
 
     return builder.build();

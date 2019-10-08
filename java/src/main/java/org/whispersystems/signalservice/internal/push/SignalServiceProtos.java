@@ -32291,6 +32291,21 @@ public final class SignalServiceProtos {
      */
     com.google.protobuf.ByteString
         getCaptionBytes();
+
+    // optional string blurHash = 12;
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    boolean hasBlurHash();
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    java.lang.String getBlurHash();
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    com.google.protobuf.ByteString
+        getBlurHashBytes();
   }
   /**
    * Protobuf type {@code signalservice.AttachmentPointer}
@@ -32396,6 +32411,11 @@ public final class SignalServiceProtos {
             case 90: {
               bitField0_ |= 0x00000400;
               caption_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              blurHash_ = input.readBytes();
               break;
             }
           }
@@ -32768,6 +32788,49 @@ public final class SignalServiceProtos {
       }
     }
 
+    // optional string blurHash = 12;
+    public static final int BLURHASH_FIELD_NUMBER = 12;
+    private java.lang.Object blurHash_;
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    public boolean hasBlurHash() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    public java.lang.String getBlurHash() {
+      java.lang.Object ref = blurHash_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          blurHash_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string blurHash = 12;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBlurHashBytes() {
+      java.lang.Object ref = blurHash_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        blurHash_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       id_ = 0L;
       contentType_ = "";
@@ -32780,6 +32843,7 @@ public final class SignalServiceProtos {
       width_ = 0;
       height_ = 0;
       caption_ = "";
+      blurHash_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -32825,6 +32889,9 @@ public final class SignalServiceProtos {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeBytes(11, getCaptionBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getBlurHashBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -32878,6 +32945,10 @@ public final class SignalServiceProtos {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(11, getCaptionBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getBlurHashBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -33017,6 +33088,8 @@ public final class SignalServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000200);
         caption_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
+        blurHash_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -33089,6 +33162,10 @@ public final class SignalServiceProtos {
           to_bitField0_ |= 0x00000400;
         }
         result.caption_ = caption_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.blurHash_ = blurHash_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -33142,6 +33219,11 @@ public final class SignalServiceProtos {
         if (other.hasCaption()) {
           bitField0_ |= 0x00000400;
           caption_ = other.caption_;
+          onChanged();
+        }
+        if (other.hasBlurHash()) {
+          bitField0_ |= 0x00000800;
+          blurHash_ = other.blurHash_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -33662,6 +33744,80 @@ public final class SignalServiceProtos {
   }
   bitField0_ |= 0x00000400;
         caption_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string blurHash = 12;
+      private java.lang.Object blurHash_ = "";
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public boolean hasBlurHash() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public java.lang.String getBlurHash() {
+        java.lang.Object ref = blurHash_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          blurHash_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBlurHashBytes() {
+        java.lang.Object ref = blurHash_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          blurHash_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public Builder setBlurHash(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        blurHash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public Builder clearBlurHash() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        blurHash_ = getDefaultInstance().getBlurHash();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string blurHash = 12;</code>
+       */
+      public Builder setBlurHashBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        blurHash_ = value;
         onChanged();
         return this;
       }
@@ -39000,33 +39156,33 @@ public final class SignalServiceProtos {
       "ype\030\003 \001(\01624.signalservice.SyncMessage.St" +
       "ickerPackOperation.Type\"\037\n\004Type\022\013\n\007INSTA" +
       "LL\020\000\022\n\n\006REMOVE\020\001\0321\n\014ViewOnceOpen\022\016\n\006send" +
-      "er\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"\337\001\n\021Attachme" +
+      "er\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\004\"\361\001\n\021Attachme" +
       "ntPointer\022\n\n\002id\030\001 \001(\006\022\023\n\013contentType\030\002 \001" +
       "(\t\022\013\n\003key\030\003 \001(\014\022\014\n\004size\030\004 \001(\r\022\021\n\tthumbna" +
       "il\030\005 \001(\014\022\016\n\006digest\030\006 \001(\014\022\020\n\010fileName\030\007 \001" +
       "(\t\022\r\n\005flags\030\010 \001(\r\022\r\n\005width\030\t \001(\r\022\016\n\006heig",
-      "ht\030\n \001(\r\022\017\n\007caption\030\013 \001(\t\"\032\n\005Flags\022\021\n\rVO" +
-      "ICE_MESSAGE\020\001\"\345\001\n\014GroupContext\022\n\n\002id\030\001 \001" +
-      "(\014\022.\n\004type\030\002 \001(\0162 .signalservice.GroupCo" +
-      "ntext.Type\022\014\n\004name\030\003 \001(\t\022\017\n\007members\030\004 \003(" +
-      "\t\0220\n\006avatar\030\005 \001(\0132 .signalservice.Attach" +
-      "mentPointer\"H\n\004Type\022\013\n\007UNKNOWN\020\000\022\n\n\006UPDA" +
-      "TE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004QUIT\020\003\022\020\n\014REQUEST_I" +
-      "NFO\020\004\"\207\002\n\016ContactDetails\022\016\n\006number\030\001 \001(\t" +
-      "\022\014\n\004name\030\002 \001(\t\0224\n\006avatar\030\003 \001(\0132$.signals" +
-      "ervice.ContactDetails.Avatar\022\r\n\005color\030\004 ",
-      "\001(\t\022)\n\010verified\030\005 \001(\0132\027.signalservice.Ve" +
-      "rified\022\022\n\nprofileKey\030\006 \001(\014\022\017\n\007blocked\030\007 " +
-      "\001(\010\022\023\n\013expireTimer\030\010 \001(\r\032-\n\006Avatar\022\023\n\013co" +
-      "ntentType\030\001 \001(\t\022\016\n\006length\030\002 \001(\r\"\347\001\n\014Grou" +
-      "pDetails\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\002 \001(\t\022\017\n\007me" +
-      "mbers\030\003 \003(\t\0222\n\006avatar\030\004 \001(\0132\".signalserv" +
-      "ice.GroupDetails.Avatar\022\024\n\006active\030\005 \001(\010:" +
-      "\004true\022\023\n\013expireTimer\030\006 \001(\r\022\r\n\005color\030\007 \001(" +
-      "\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006Avatar\022\023\n\013contentT" +
-      "ype\030\001 \001(\t\022\016\n\006length\030\002 \001(\rBE\n.org.whisper",
-      "systems.signalservice.internal.pushB\023Sig" +
-      "nalServiceProtos"
+      "ht\030\n \001(\r\022\017\n\007caption\030\013 \001(\t\022\020\n\010blurHash\030\014 " +
+      "\001(\t\"\032\n\005Flags\022\021\n\rVOICE_MESSAGE\020\001\"\345\001\n\014Grou" +
+      "pContext\022\n\n\002id\030\001 \001(\014\022.\n\004type\030\002 \001(\0162 .sig" +
+      "nalservice.GroupContext.Type\022\014\n\004name\030\003 \001" +
+      "(\t\022\017\n\007members\030\004 \003(\t\0220\n\006avatar\030\005 \001(\0132 .si" +
+      "gnalservice.AttachmentPointer\"H\n\004Type\022\013\n" +
+      "\007UNKNOWN\020\000\022\n\n\006UPDATE\020\001\022\013\n\007DELIVER\020\002\022\010\n\004Q" +
+      "UIT\020\003\022\020\n\014REQUEST_INFO\020\004\"\207\002\n\016ContactDetai" +
+      "ls\022\016\n\006number\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\0224\n\006avat" +
+      "ar\030\003 \001(\0132$.signalservice.ContactDetails.",
+      "Avatar\022\r\n\005color\030\004 \001(\t\022)\n\010verified\030\005 \001(\0132" +
+      "\027.signalservice.Verified\022\022\n\nprofileKey\030\006" +
+      " \001(\014\022\017\n\007blocked\030\007 \001(\010\022\023\n\013expireTimer\030\010 \001" +
+      "(\r\032-\n\006Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006len" +
+      "gth\030\002 \001(\r\"\347\001\n\014GroupDetails\022\n\n\002id\030\001 \001(\014\022\014" +
+      "\n\004name\030\002 \001(\t\022\017\n\007members\030\003 \003(\t\0222\n\006avatar\030" +
+      "\004 \001(\0132\".signalservice.GroupDetails.Avata" +
+      "r\022\024\n\006active\030\005 \001(\010:\004true\022\023\n\013expireTimer\030\006" +
+      " \001(\r\022\r\n\005color\030\007 \001(\t\022\017\n\007blocked\030\010 \001(\010\032-\n\006" +
+      "Avatar\022\023\n\013contentType\030\001 \001(\t\022\016\n\006length\030\002 ",
+      "\001(\rBE\n.org.whispersystems.signalservice." +
+      "internal.pushB\023SignalServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -39242,7 +39398,7 @@ public final class SignalServiceProtos {
           internal_static_signalservice_AttachmentPointer_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_signalservice_AttachmentPointer_descriptor,
-              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", "Width", "Height", "Caption", });
+              new java.lang.String[] { "Id", "ContentType", "Key", "Size", "Thumbnail", "Digest", "FileName", "Flags", "Width", "Height", "Caption", "BlurHash", });
           internal_static_signalservice_GroupContext_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_signalservice_GroupContext_fieldAccessorTable = new
