@@ -12,8 +12,8 @@ import org.whispersystems.libsignal.InvalidVersionException;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.Envelope;
-import org.whispersystems.signalservice.internal.util.Base64;
 import org.whispersystems.signalservice.internal.util.Hex;
+import org.whispersystems.util.Base64;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

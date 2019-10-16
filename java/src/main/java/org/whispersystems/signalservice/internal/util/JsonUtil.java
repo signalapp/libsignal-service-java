@@ -8,7 +8,6 @@ package org.whispersystems.signalservice.internal.util;
 
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -21,6 +20,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.InvalidKeyException;
 import org.whispersystems.libsignal.logging.Log;
+import org.whispersystems.util.Base64;
 
 import java.io.IOException;
 

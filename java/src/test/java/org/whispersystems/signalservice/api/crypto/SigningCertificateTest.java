@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.conscrypt.Conscrypt;
 import org.whispersystems.signalservice.internal.contacts.crypto.SigningCertificate;
-import org.whispersystems.signalservice.internal.util.Base64;
+import org.whispersystems.util.Base64;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -14,7 +14,6 @@ import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
-import java.util.Arrays;
 
 public class SigningCertificateTest extends TestCase {
 

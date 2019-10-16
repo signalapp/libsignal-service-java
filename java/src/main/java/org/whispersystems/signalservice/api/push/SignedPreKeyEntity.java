@@ -9,7 +9,6 @@ package org.whispersystems.signalservice.api.push;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.signalservice.internal.push.PreKeyEntity;
-import org.whispersystems.signalservice.internal.util.Base64;
+import org.whispersystems.util.Base64;
 
 import java.io.IOException;
 
