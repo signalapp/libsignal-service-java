@@ -93,14 +93,14 @@ public class SignalServiceMessageSender {
 
   private static final String TAG = SignalServiceMessageSender.class.getSimpleName();
 
-  private final PushServiceSocket                                   socket;
-  private final SignalProtocolStore                                 store;
-  private final SignalServiceAddress                                localAddress;
-  private final Optional<EventListener>                             eventListener;
+  private final PushServiceSocket                         socket;
+  private final SignalProtocolStore                       store;
+  private final SignalServiceAddress                      localAddress;
+  private final Optional<EventListener>                   eventListener;
 
-  private final AtomicReference<Optional<SignalServiceMessagePipe>> pipe;
-  private final AtomicReference<Optional<SignalServiceMessagePipe>> unidentifiedPipe;
-  private final AtomicBoolean                                       isMultiDevice;
+  private final AtomicReference<SignalServiceMessagePipe> pipe;
+  private final AtomicReference<SignalServiceMessagePipe> unidentifiedPipe;
+  private final AtomicBoolean                             isMultiDevice;
 
   /**
    * Construct a SignalServiceMessageSender.
@@ -117,8 +117,8 @@ public class SignalServiceMessageSender {
                                     SignalProtocolStore store,
                                     String userAgent,
                                     boolean isMultiDevice,
-                                    Optional<SignalServiceMessagePipe> pipe,
-                                    Optional<SignalServiceMessagePipe> unidentifiedPipe,
+                                    AtomicReference<SignalServiceMessagePipe> pipe,
+                                    AtomicReference<SignalServiceMessagePipe> unidentifiedPipe,
                                     Optional<EventListener> eventListener)
   {
     this(urls, new StaticCredentialsProvider(user, password, null), store, userAgent, isMultiDevice, pipe, unidentifiedPipe, eventListener);
@@ -129,15 +129,15 @@ public class SignalServiceMessageSender {
                                     SignalProtocolStore store,
                                     String userAgent,
                                     boolean isMultiDevice,
-                                    Optional<SignalServiceMessagePipe> pipe,
-                                    Optional<SignalServiceMessagePipe> unidentifiedPipe,
+                                    AtomicReference<SignalServiceMessagePipe> pipe,
+                                    AtomicReference<SignalServiceMessagePipe> unidentifiedPipe,
                                     Optional<EventListener> eventListener)
   {
     this.socket           = new PushServiceSocket(urls, credentialsProvider, userAgent);
     this.store            = store;
     this.localAddress     = new SignalServiceAddress(credentialsProvider.getUser());
-    this.pipe             = new AtomicReference<>(pipe);
-    this.unidentifiedPipe = new AtomicReference<>(unidentifiedPipe);
+    this.pipe             = pipe;
+    this.unidentifiedPipe = unidentifiedPipe;
     this.isMultiDevice    = new AtomicBoolean(isMultiDevice);
     this.eventListener    = eventListener;
   }
@@ -311,11 +311,6 @@ public class SignalServiceMessageSender {
 
   public void cancelInFlightRequests() {
     socket.cancelInFlightRequests();
-  }
-
-  public void setMessagePipe(SignalServiceMessagePipe pipe, SignalServiceMessagePipe unidentifiedPipe) {
-    this.pipe.set(Optional.fromNullable(pipe));
-    this.unidentifiedPipe.set(Optional.fromNullable(unidentifiedPipe));
   }
 
   public void setIsMultiDevice(boolean isMultiDevice) {
@@ -923,22 +918,22 @@ public class SignalServiceMessageSender {
     for (int i=0;i<4;i++) {
       try {
         OutgoingPushMessageList            messages         = getEncryptedMessages(socket, recipient, unidentifiedAccess, timestamp, content, online);
-        Optional<SignalServiceMessagePipe> pipe             = this.pipe.get();
-        Optional<SignalServiceMessagePipe> unidentifiedPipe = this.unidentifiedPipe.get();
+        SignalServiceMessagePipe pipe                       = this.pipe.get();
+        SignalServiceMessagePipe unidentifiedPipe           = this.unidentifiedPipe.get();
 
-        if (pipe.isPresent() && !unidentifiedAccess.isPresent()) {
+        if (pipe != null && !unidentifiedAccess.isPresent()) {
           try {
             Log.w(TAG, "Transmitting over pipe...");
-            SendMessageResponse response = pipe.get().send(messages, Optional.<UnidentifiedAccess>absent());
+            SendMessageResponse response = pipe.send(messages, Optional.<UnidentifiedAccess>absent());
             return SendMessageResult.success(recipient, false, response.getNeedsSync());
           } catch (IOException e) {
             Log.w(TAG, e);
             Log.w(TAG, "Falling back to new connection...");
           }
-        } else if (unidentifiedPipe.isPresent() && unidentifiedAccess.isPresent()) {
+        } else if (unidentifiedPipe != null && unidentifiedAccess.isPresent()) {
           try {
             Log.w(TAG, "Transmitting over unidentified pipe...");
-            SendMessageResponse response = unidentifiedPipe.get().send(messages, unidentifiedAccess);
+            SendMessageResponse response = unidentifiedPipe.send(messages, unidentifiedAccess);
             return SendMessageResult.success(recipient, true, response.getNeedsSync());
           } catch (IOException e) {
             Log.w(TAG, e);
