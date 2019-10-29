@@ -223,7 +223,7 @@ public class SignalServiceMessageSender {
     long              timestamp = message.getTimestamp();
     SendMessageResult result    = sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), timestamp, content, false);
 
-    if ((result.getSuccess() != null && result.getSuccess().isNeedsSync()) || (unidentifiedAccess.isPresent() && isMultiDevice.get())) {
+    if (result.getSuccess() != null && result.getSuccess().isNeedsSync()) {
       byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.of(recipient), timestamp, Collections.singletonList(result), false);
       sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
@@ -269,7 +269,7 @@ public class SignalServiceMessageSender {
       }
     }
 
-    if (needsSyncInResults || (isMultiDevice.get())) {
+    if (needsSyncInResults || isMultiDevice.get()) {
       byte[] syncMessage = createMultiDeviceSentTranscriptContent(content, Optional.<SignalServiceAddress>absent(), timestamp, results, isRecipientUpdate);
       sendMessage(localAddress, Optional.<UnidentifiedAccess>absent(), timestamp, syncMessage, false);
     }
@@ -1005,7 +1005,7 @@ public class SignalServiceMessageSender {
           try {
             Log.w(TAG, "Transmitting over pipe...");
             SendMessageResponse response = pipe.get().send(messages, Optional.<UnidentifiedAccess>absent());
-            return SendMessageResult.success(recipient, false, response.getNeedsSync());
+            return SendMessageResult.success(recipient, false, response.getNeedsSync() || isMultiDevice.get());
           } catch (IOException e) {
             Log.w(TAG, e);
             Log.w(TAG, "Falling back to new connection...");
@@ -1014,7 +1014,7 @@ public class SignalServiceMessageSender {
           try {
             Log.w(TAG, "Transmitting over unidentified pipe...");
             SendMessageResponse response = unidentifiedPipe.get().send(messages, unidentifiedAccess);
-            return SendMessageResult.success(recipient, true, response.getNeedsSync());
+            return SendMessageResult.success(recipient, true, response.getNeedsSync() || isMultiDevice.get());
           } catch (IOException e) {
             Log.w(TAG, e);
             Log.w(TAG, "Falling back to new connection...");
@@ -1023,7 +1023,7 @@ public class SignalServiceMessageSender {
 
         Log.w(TAG, "Not transmitting over pipe...");
         SendMessageResponse response = socket.sendMessage(messages, unidentifiedAccess);
-        return SendMessageResult.success(recipient, unidentifiedAccess.isPresent(), response.getNeedsSync());
+        return SendMessageResult.success(recipient, unidentifiedAccess.isPresent(), response.getNeedsSync() || isMultiDevice.get());
 
       } catch (InvalidKeyException ike) {
         Log.w(TAG, ike);
