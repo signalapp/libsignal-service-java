@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -13,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.5.0'
+    compile 'com.google.protobuf:protobuf-javalite:3.10.0'
     compile 'com.googlecode.libphonenumber:libphonenumber:8.10.7'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.2'
 
@@ -32,6 +44,24 @@ tasks.whenTaskAdded { task ->
     }
 }
 
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.10.0'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+}
+
+sourceSets {
+    main.proto.srcDir '../protobuf'
+}
 
 def isReleaseBuild() {
     return version.contains("SNAPSHOT") == false
