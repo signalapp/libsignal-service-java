@@ -33,6 +33,7 @@ import org.whispersystems.libsignal.NoSessionException;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.UntrustedIdentityException;
+import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
@@ -220,26 +221,34 @@ public class SignalServiceCipher {
       SelfSendException
   {
     try {
-      SignalProtocolAddress sourceAddress       = getPreferredProtocolAddress(signalProtocolStore, envelope.getSourceAddress(), envelope.getSourceDevice());
-      SessionCipher         sessionCipher       = new SessionCipher(signalProtocolStore, sourceAddress);
-      SealedSessionCipher   sealedSessionCipher = new SealedSessionCipher(signalProtocolStore, localAddress.getUuid().orNull(), localAddress.getNumber().orNull(), 1);
 
       byte[] paddedMessage;
       Metadata metadata;
       int sessionVersion;
 
+      if (!envelope.hasSource() && !envelope.isUnidentifiedSender()) {
+        throw new ProtocolInvalidMessageException(new InvalidMessageException("Non-UD envelope is missing a source!"), null, 0);
+      }
+
       if (envelope.isPreKeySignalMessage()) {
+        SignalProtocolAddress sourceAddress = getPreferredProtocolAddress(signalProtocolStore, envelope.getSourceAddress(), envelope.getSourceDevice());
+        SessionCipher         sessionCipher = new SessionCipher(signalProtocolStore, sourceAddress);
+
         paddedMessage  = sessionCipher.decrypt(new PreKeySignalMessage(ciphertext));
         metadata       = new Metadata(envelope.getSourceAddress(), envelope.getSourceDevice(), envelope.getTimestamp(), false);
         sessionVersion = sessionCipher.getSessionVersion();
       } else if (envelope.isSignalMessage()) {
+        SignalProtocolAddress sourceAddress = getPreferredProtocolAddress(signalProtocolStore, envelope.getSourceAddress(), envelope.getSourceDevice());
+        SessionCipher         sessionCipher = new SessionCipher(signalProtocolStore, sourceAddress);
+
         paddedMessage  = sessionCipher.decrypt(new SignalMessage(ciphertext));
         metadata       = new Metadata(envelope.getSourceAddress(), envelope.getSourceDevice(), envelope.getTimestamp(), false);
         sessionVersion = sessionCipher.getSessionVersion();
       } else if (envelope.isUnidentifiedSender()) {
-        DecryptionResult      result          = sealedSessionCipher.decrypt(certificateValidator, ciphertext, envelope.getServerTimestamp());
-        SignalServiceAddress  resultAddress   = new SignalServiceAddress(UuidUtil.parse(result.getSenderUuid().orNull()), result.getSenderE164());
-        SignalProtocolAddress protocolAddress = getPreferredProtocolAddress(signalProtocolStore, resultAddress, result.getDeviceId());
+        SealedSessionCipher   sealedSessionCipher = new SealedSessionCipher(signalProtocolStore, localAddress.getUuid().orNull(), localAddress.getNumber().orNull(), 1);
+        DecryptionResult      result              = sealedSessionCipher.decrypt(certificateValidator, ciphertext, envelope.getServerTimestamp());
+        SignalServiceAddress  resultAddress       = new SignalServiceAddress(UuidUtil.parse(result.getSenderUuid().orNull()), result.getSenderE164());
+        SignalProtocolAddress protocolAddress     = getPreferredProtocolAddress(signalProtocolStore, resultAddress, result.getDeviceId());
 
         paddedMessage  = result.getPaddedMessage();
         metadata       = new Metadata(resultAddress, result.getDeviceId(), envelope.getTimestamp(), true);
@@ -336,17 +345,28 @@ public class SignalServiceCipher {
   {
     if (content.hasSent()) {
       SyncMessage.Sent                   sentContent          = content.getSent();
-      SignalServiceAddress               address              = new SignalServiceAddress(UuidUtil.parseOrNull(sentContent.getDestinationUuid()), sentContent.getDestinationE164());
+      SignalServiceDataMessage           dataMessage          = createSignalServiceMessage(metadata, sentContent.getMessage());
+      Optional<SignalServiceAddress>     address              = SignalServiceAddress.isValidAddress(sentContent.getDestinationUuid(), sentContent.getDestinationE164())
+                                                                  ? Optional.of(new SignalServiceAddress(UuidUtil.parseOrNull(sentContent.getDestinationUuid()), sentContent.getDestinationE164()))
+                                                                  : Optional.<SignalServiceAddress>absent();
       Map<SignalServiceAddress, Boolean> unidentifiedStatuses = new HashMap<>();
 
+      if (!address.isPresent() && !dataMessage.getGroupInfo().isPresent()) {
+        throw new ProtocolInvalidMessageException(new InvalidMessageException("SyncMessage missing both destination and group ID!"), null, 0);
+      }
+
       for (SyncMessage.Sent.UnidentifiedDeliveryStatus status : sentContent.getUnidentifiedStatusList()) {
-        SignalServiceAddress recipient = new SignalServiceAddress(UuidUtil.parseOrNull(status.getDestinationUuid()), status.getDestinationE164());
-        unidentifiedStatuses.put(recipient, status.getUnidentified());
+        if (SignalServiceAddress.isValidAddress(status.getDestinationUuid(), status.getDestinationE164())) {
+          SignalServiceAddress recipient = new SignalServiceAddress(UuidUtil.parseOrNull(status.getDestinationUuid()), status.getDestinationE164());
+          unidentifiedStatuses.put(recipient, status.getUnidentified());
+        } else {
+          Log.w(TAG, "Encountered an invalid UnidentifiedDeliveryStatus in a SentTranscript! Ignoring.");
+        }
       }
 
       return SignalServiceSyncMessage.forSentTranscript(new SentTranscriptMessage(address,
                                                                                   sentContent.getTimestamp(),
-                                                                                  createSignalServiceMessage(metadata, sentContent.getMessage()),
+                                                                                  dataMessage,
                                                                                   sentContent.getExpirationStartTimestamp(),
                                                                                   unidentifiedStatuses,
                                                                                   sentContent.getIsRecipientUpdate()));
@@ -360,41 +380,53 @@ public class SignalServiceCipher {
       List<ReadMessage> readMessages = new LinkedList<>();
 
       for (SyncMessage.Read read : content.getReadList()) {
-        SignalServiceAddress address = new SignalServiceAddress(UuidUtil.parseOrNull(read.getSenderUuid()), read.getSenderE164());
-        readMessages.add(new ReadMessage(address, read.getTimestamp()));
+        if (SignalServiceAddress.isValidAddress(read.getSenderUuid(), read.getSenderE164())) {
+          SignalServiceAddress address = new SignalServiceAddress(UuidUtil.parseOrNull(read.getSenderUuid()), read.getSenderE164());
+          readMessages.add(new ReadMessage(address, read.getTimestamp()));
+        } else {
+          Log.w(TAG, "Encountered an invalid ReadMessage! Ignoring.");
+        }
       }
 
       return SignalServiceSyncMessage.forRead(readMessages);
     }
 
     if (content.hasViewOnceOpen()) {
-      SignalServiceAddress address   = new SignalServiceAddress(UuidUtil.parseOrNull(content.getViewOnceOpen().getSenderUuid()), content.getViewOnceOpen().getSenderE164());
-      ViewOnceOpenMessage  timerRead = new ViewOnceOpenMessage(address, content.getViewOnceOpen().getTimestamp());
-      return SignalServiceSyncMessage.forViewOnceOpen(timerRead);
+      if (SignalServiceAddress.isValidAddress(content.getViewOnceOpen().getSenderUuid(), content.getViewOnceOpen().getSenderE164())) {
+        SignalServiceAddress address   = new SignalServiceAddress(UuidUtil.parseOrNull(content.getViewOnceOpen().getSenderUuid()), content.getViewOnceOpen().getSenderE164());
+        ViewOnceOpenMessage  timerRead = new ViewOnceOpenMessage(address, content.getViewOnceOpen().getTimestamp());
+        return SignalServiceSyncMessage.forViewOnceOpen(timerRead);
+      } else {
+        throw new ProtocolInvalidMessageException(new InvalidMessageException("ViewOnceOpen message has no sender!"), null, 0);
+      }
     }
 
     if (content.hasVerified()) {
-      try {
-        Verified             verified    = content.getVerified();
-        SignalServiceAddress destination = new SignalServiceAddress(UuidUtil.parseOrNull(verified.getDestinationUuid()), verified.getDestinationE164());
-        IdentityKey          identityKey = new IdentityKey(verified.getIdentityKey().toByteArray(), 0);
+      if (SignalServiceAddress.isValidAddress(content.getVerified().getDestinationUuid(), content.getVerified().getDestinationE164())) {
+        try {
+          Verified             verified    = content.getVerified();
+          SignalServiceAddress destination = new SignalServiceAddress(UuidUtil.parseOrNull(verified.getDestinationUuid()), verified.getDestinationE164());
+          IdentityKey          identityKey = new IdentityKey(verified.getIdentityKey().toByteArray(), 0);
 
-        VerifiedState verifiedState;
+          VerifiedState verifiedState;
 
-        if (verified.getState() == Verified.State.DEFAULT) {
-          verifiedState = VerifiedState.DEFAULT;
-        } else if (verified.getState() == Verified.State.VERIFIED) {
-          verifiedState = VerifiedState.VERIFIED;
-        } else if (verified.getState() == Verified.State.UNVERIFIED) {
-          verifiedState = VerifiedState.UNVERIFIED;
-        } else {
-          throw new ProtocolInvalidMessageException(new InvalidMessageException("Unknown state: " + verified.getState().getNumber()),
-                                                    metadata.getSender().getIdentifier(), metadata.getSenderDevice());
+          if (verified.getState() == Verified.State.DEFAULT) {
+            verifiedState = VerifiedState.DEFAULT;
+          } else if (verified.getState() == Verified.State.VERIFIED) {
+            verifiedState = VerifiedState.VERIFIED;
+          } else if (verified.getState() == Verified.State.UNVERIFIED) {
+            verifiedState = VerifiedState.UNVERIFIED;
+          } else {
+            throw new ProtocolInvalidMessageException(new InvalidMessageException("Unknown state: " + verified.getState().getNumber()),
+                                                      metadata.getSender().getIdentifier(), metadata.getSenderDevice());
+          }
+
+          return SignalServiceSyncMessage.forVerified(new VerifiedMessage(destination, identityKey, verifiedState, System.currentTimeMillis()));
+        } catch (InvalidKeyException e) {
+          throw new ProtocolInvalidKeyException(e, metadata.getSender().getIdentifier(), metadata.getSenderDevice());
         }
-
-        return SignalServiceSyncMessage.forVerified(new VerifiedMessage(destination, identityKey, verifiedState, System.currentTimeMillis()));
-      } catch (InvalidKeyException e) {
-        throw new ProtocolInvalidKeyException(e, metadata.getSender().getIdentifier(), metadata.getSenderDevice());
+      } else {
+        throw new ProtocolInvalidMessageException(new InvalidMessageException("Verified message has no sender!"), null, 0);
       }
     }
 
@@ -486,12 +518,17 @@ public class SignalServiceCipher {
                                                                           attachment.hasThumbnail() ? createAttachmentPointer(attachment.getThumbnail()) : null));
     }
 
-    SignalServiceAddress address = new SignalServiceAddress(UuidUtil.parseOrNull(content.getQuote().getAuthorUuid()), content.getQuote().getAuthorE164());
+    if (SignalServiceAddress.isValidAddress(content.getQuote().getAuthorUuid(), content.getQuote().getAuthorE164())) {
+      SignalServiceAddress address = new SignalServiceAddress(UuidUtil.parseOrNull(content.getQuote().getAuthorUuid()), content.getQuote().getAuthorE164());
 
-    return new SignalServiceDataMessage.Quote(content.getQuote().getId(),
-                                              address,
-                                              content.getQuote().getText(),
-                                              attachments);
+      return new SignalServiceDataMessage.Quote(content.getQuote().getId(),
+                                                address,
+                                                content.getQuote().getText(),
+                                                attachments);
+    } else {
+      Log.w(TAG, "Quote was missing an author! Returning null.");
+      return null;
+    }
   }
 
   private List<Preview> createPreviews(DataMessage content) {
@@ -642,7 +679,7 @@ public class SignalServiceCipher {
 
   }
 
-  private SignalServiceGroup createGroupInfo(DataMessage content) {
+  private SignalServiceGroup createGroupInfo(DataMessage content) throws ProtocolInvalidMessageException {
     if (!content.hasGroup()) return null;
 
     SignalServiceGroup.Type type;
@@ -668,7 +705,11 @@ public class SignalServiceCipher {
         members = new ArrayList<>(content.getGroup().getMembersCount());
 
         for (SignalServiceProtos.GroupContext.Member member : content.getGroup().getMembersList()) {
-          members.add(new SignalServiceAddress(UuidUtil.parseOrNull(member.getUuid()), member.getE164()));
+          if (SignalServiceAddress.isValidAddress(member.getUuid(), member.getE164())) {
+            members.add(new SignalServiceAddress(UuidUtil.parseOrNull(member.getUuid()), member.getE164()));
+          } else {
+            throw new ProtocolInvalidMessageException(new InvalidMessageException("GroupContext.Member had no address!"), null, 0);
+          }
         }
       } else if (content.getGroup().getMembersE164Count() > 0) {
         members = new ArrayList<>(content.getGroup().getMembersE164Count());

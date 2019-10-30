@@ -29,11 +29,11 @@ public class SentTranscriptMessage {
   private final Set<SignalServiceAddress>      recipients;
   private final boolean                        isRecipientUpdate;
 
-  public SentTranscriptMessage(SignalServiceAddress destination, long timestamp, SignalServiceDataMessage message,
+  public SentTranscriptMessage(Optional<SignalServiceAddress> destination, long timestamp, SignalServiceDataMessage message,
                                long expirationStartTimestamp, Map<SignalServiceAddress, Boolean> unidentifiedStatus,
                                boolean isRecipientUpdate)
   {
-    this.destination              = Optional.of(destination);
+    this.destination              = destination;
     this.timestamp                = timestamp;
     this.message                  = message;
     this.expirationStartTimestamp = expirationStartTimestamp;
@@ -50,17 +50,6 @@ public class SentTranscriptMessage {
         unidentifiedStatusByE164.put(entry.getKey().getNumber().get(), entry.getValue());
       }
     }
-  }
-
-  public SentTranscriptMessage(long timestamp, SignalServiceDataMessage message) {
-    this.destination              = Optional.absent();
-    this.timestamp                = timestamp;
-    this.message                  = message;
-    this.expirationStartTimestamp = 0;
-    this.unidentifiedStatusByUuid = Collections.emptyMap();
-    this.unidentifiedStatusByE164 = Collections.emptyMap();
-    this.recipients               = Collections.emptySet();
-    this.isRecipientUpdate        = false;
   }
 
   public Optional<SignalServiceAddress> getDestination() {

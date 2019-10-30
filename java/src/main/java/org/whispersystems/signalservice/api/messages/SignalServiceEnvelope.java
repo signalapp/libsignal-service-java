@@ -98,19 +98,21 @@ public class SignalServiceEnvelope {
     }
   }
 
-  public SignalServiceEnvelope(int type, SignalServiceAddress sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
+  public SignalServiceEnvelope(int type, Optional<SignalServiceAddress> sender, int senderDevice, long timestamp, byte[] legacyMessage, byte[] content, long serverTimestamp, String uuid) {
     Envelope.Builder builder = Envelope.newBuilder()
                                        .setType(Envelope.Type.valueOf(type))
                                        .setSourceDevice(senderDevice)
                                        .setTimestamp(timestamp)
                                        .setServerTimestamp(serverTimestamp);
 
-    if (sender.getUuid().isPresent()) {
-      builder.setSourceUuid(sender.getUuid().get().toString());
-    }
+    if (sender.isPresent()) {
+      if (sender.get().getUuid().isPresent()) {
+        builder.setSourceUuid(sender.get().getUuid().get().toString());
+      }
 
-    if (sender.getNumber().isPresent()) {
-      builder.setSourceE164(sender.getNumber().get());
+      if (sender.get().getNumber().isPresent()) {
+        builder.setSourceE164(sender.get().getNumber().get());
+      }
     }
 
     if (uuid != null) {

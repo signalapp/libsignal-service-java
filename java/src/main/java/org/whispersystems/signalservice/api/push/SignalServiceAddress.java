@@ -7,6 +7,7 @@
 package org.whispersystems.signalservice.api.push;
 
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.util.UuidUtil;
 
 import java.util.UUID;
 
@@ -29,6 +30,10 @@ public class SignalServiceAddress {
    * @param relay The Signal service federated server this user is registered with (if not your own server).
    */
   public SignalServiceAddress(Optional<UUID> uuid, Optional<String> e164, Optional<String> relay) {
+    if (!uuid.isPresent() && !e164.isPresent()) {
+      throw new AssertionError("Must have either a UUID or E164 number!");
+    }
+
     this.uuid  = uuid;
     this.e164  = e164;
     this.relay = relay;
@@ -71,6 +76,18 @@ public class SignalServiceAddress {
   public boolean matches(SignalServiceAddress other) {
     return (uuid.isPresent() && other.uuid.isPresent() && uuid.get().equals(other.uuid.get())) ||
            (e164.isPresent() && other.e164.isPresent() && e164.get().equals(other.e164.get()));
+  }
+
+  public static boolean isValidAddress(String rawUuid, String e164) {
+    return (e164 != null && !e164.isEmpty()) || UuidUtil.parseOrNull(rawUuid) != null;
+  }
+
+  public static Optional<SignalServiceAddress> fromRaw(String rawUuid, String e164) {
+    if (isValidAddress(rawUuid, e164)) {
+      return Optional.of(new SignalServiceAddress(UuidUtil.parseOrNull(rawUuid), e164));
+    } else {
+      return Optional.absent();
+    }
   }
 
   @Override
