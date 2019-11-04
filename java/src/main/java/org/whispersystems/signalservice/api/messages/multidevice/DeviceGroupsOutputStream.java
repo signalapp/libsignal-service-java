@@ -61,7 +61,8 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
       groupDetails.setColor(group.getColor().get());
     }
 
-    List<GroupDetails.Member> members = new ArrayList<>(group.getMembers().size());
+    List<GroupDetails.Member> members     = new ArrayList<>(group.getMembers().size());
+    List<String>              membersE164 = new ArrayList<>(group.getMembers().size());
 
     for (SignalServiceAddress address : group.getMembers()) {
       GroupDetails.Member.Builder builder = GroupDetails.Member.newBuilder();
@@ -72,12 +73,14 @@ public class DeviceGroupsOutputStream extends ChunkedOutputStream {
 
       if (address.getNumber().isPresent()) {
         builder.setE164(address.getNumber().get());
+        membersE164.add(address.getNumber().get());
       }
 
       members.add(builder.build());
     }
 
     groupDetails.addAllMembers(members);
+    groupDetails.addAllMembersE164(membersE164);
     groupDetails.setActive(group.isActive());
     groupDetails.setBlocked(group.isBlocked());
 
