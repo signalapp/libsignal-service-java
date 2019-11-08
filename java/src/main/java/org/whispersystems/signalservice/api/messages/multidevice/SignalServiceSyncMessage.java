@@ -24,6 +24,7 @@ public class SignalServiceSyncMessage {
   private final Optional<VerifiedMessage>                   verified;
   private final Optional<ConfigurationMessage>              configuration;
   private final Optional<List<StickerPackOperationMessage>> stickerPackOperations;
+  private final Optional<FetchType>                         fetchType;
 
   private SignalServiceSyncMessage(Optional<SentTranscriptMessage>             sent,
                                    Optional<ContactsMessage>                   contacts,
@@ -34,7 +35,8 @@ public class SignalServiceSyncMessage {
                                    Optional<ViewOnceOpenMessage>               viewOnceOpen,
                                    Optional<VerifiedMessage>                   verified,
                                    Optional<ConfigurationMessage>              configuration,
-                                   Optional<List<StickerPackOperationMessage>> stickerPackOperations)
+                                   Optional<List<StickerPackOperationMessage>> stickerPackOperations,
+                                   Optional<FetchType>                         fetchType)
   {
     this.sent                  = sent;
     this.contacts              = contacts;
@@ -46,6 +48,7 @@ public class SignalServiceSyncMessage {
     this.verified              = verified;
     this.configuration         = configuration;
     this.stickerPackOperations = stickerPackOperations;
+    this.fetchType             = fetchType;
   }
 
   public static SignalServiceSyncMessage forSentTranscript(SentTranscriptMessage sent) {
@@ -58,7 +61,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forContacts(ContactsMessage contacts) {
@@ -71,7 +75,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forGroups(SignalServiceAttachment groups) {
@@ -84,7 +89,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forRequest(RequestMessage request) {
@@ -97,7 +103,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forRead(List<ReadMessage> reads) {
@@ -110,7 +117,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forViewOnceOpen(ViewOnceOpenMessage timerRead) {
@@ -123,7 +131,8 @@ public class SignalServiceSyncMessage {
                                         Optional.of(timerRead),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forRead(ReadMessage read) {
@@ -139,7 +148,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forVerified(VerifiedMessage verifiedMessage) {
@@ -152,7 +162,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.of(verifiedMessage),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forBlocked(BlockedListMessage blocked) {
@@ -165,7 +176,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forConfiguration(ConfigurationMessage configuration) {
@@ -178,7 +190,8 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.of(configuration),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public static SignalServiceSyncMessage forStickerPackOperations(List<StickerPackOperationMessage> stickerPackOperations) {
@@ -191,10 +204,11 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.of(stickerPackOperations));
+                                        Optional.of(stickerPackOperations),
+                                        Optional.<FetchType>absent());
   }
 
-  public static SignalServiceSyncMessage empty() {
+  public static SignalServiceSyncMessage forFetchLatest(FetchType fetchType) {
     return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
                                         Optional.<ContactsMessage>absent(),
                                         Optional.<SignalServiceAttachment>absent(),
@@ -204,7 +218,22 @@ public class SignalServiceSyncMessage {
                                         Optional.<ViewOnceOpenMessage>absent(),
                                         Optional.<VerifiedMessage>absent(),
                                         Optional.<ConfigurationMessage>absent(),
-                                        Optional.<List<StickerPackOperationMessage>>absent());
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.of(fetchType));
+  }
+
+  public static SignalServiceSyncMessage empty() {
+    return new SignalServiceSyncMessage(Optional.<SentTranscriptMessage>absent(),
+        Optional.<ContactsMessage>absent(),
+        Optional.<SignalServiceAttachment>absent(),
+                                        Optional.<BlockedListMessage>absent(),
+                                        Optional.<RequestMessage>absent(),
+                                        Optional.<List<ReadMessage>>absent(),
+                                        Optional.<ViewOnceOpenMessage>absent(),
+                                        Optional.<VerifiedMessage>absent(),
+                                        Optional.<ConfigurationMessage>absent(),
+                                        Optional.<List<StickerPackOperationMessage>>absent(),
+                                        Optional.<FetchType>absent());
   }
 
   public Optional<SentTranscriptMessage> getSent() {
@@ -247,4 +276,12 @@ public class SignalServiceSyncMessage {
     return stickerPackOperations;
   }
 
+  public Optional<FetchType> getFetchType() {
+    return fetchType;
+  }
+
+  public enum FetchType {
+    LOCAL_PROFILE,
+    STORAGE_MANIFEST
+  }
 }

@@ -53,6 +53,7 @@ import org.whispersystems.signalservice.internal.push.AttachmentUploadAttributes
 import org.whispersystems.signalservice.internal.push.MismatchedDevices;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessage;
 import org.whispersystems.signalservice.internal.push.OutgoingPushMessageList;
+import org.whispersystems.signalservice.internal.push.ProvisioningProtos;
 import org.whispersystems.signalservice.internal.push.PushAttachmentData;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
@@ -742,6 +743,8 @@ public class SignalServiceMessageSender {
     if (configuration.getLinkPreviews().isPresent()) {
       configurationMessage.setLinkPreviews(configuration.getLinkPreviews().get());
     }
+
+    configurationMessage.setProvisioningVersion(ProvisioningProtos.ProvisioningVersion.CURRENT_VALUE);
 
     return container.setSyncMessage(syncMessage.setConfiguration(configurationMessage)).build().toByteArray();
   }

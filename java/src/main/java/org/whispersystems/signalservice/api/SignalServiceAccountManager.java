@@ -66,6 +66,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisionMessage;
+import static org.whispersystems.signalservice.internal.push.ProvisioningProtos.ProvisioningVersion;
 
 /**
  * The main interface for creating, registering, and
@@ -397,8 +398,15 @@ public class SignalServiceAccountManager {
     ProvisionMessage.Builder message = ProvisionMessage.newBuilder()
                                                        .setIdentityKeyPublic(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
                                                        .setIdentityKeyPrivate(ByteString.copyFrom(identityKeyPair.getPrivateKey().serialize()))
-                                                       .setNumber(userE164)
-                                                       .setProvisioningCode(code);
+                                                       .setProvisioningCode(code)
+                                                       .setProvisioningVersion(ProvisioningVersion.CURRENT_VALUE);
+    if (userE164 != null) {
+      message.setNumber(userE164);
+    }
+
+    if (userUuid != null) {
+      message.setUuid(userUuid.toString());
+    }
 
     if (profileKey.isPresent()) {
       message.setProfileKey(ByteString.copyFrom(profileKey.get()));
