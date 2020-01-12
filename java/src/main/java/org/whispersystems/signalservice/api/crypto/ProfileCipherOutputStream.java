@@ -21,7 +21,7 @@ public class ProfileCipherOutputStream extends DigestingOutputStream {
   public ProfileCipherOutputStream(OutputStream out, byte[] key) throws IOException {
     super(out);
     try {
-      this.cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      this.cipher = Cipher.getInstance("AES/GCM/NOPADDING");
 
       byte[] nonce  = generateNonce();
       this.cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, nonce));

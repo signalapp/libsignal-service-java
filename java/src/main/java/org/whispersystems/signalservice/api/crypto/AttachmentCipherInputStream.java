@@ -226,7 +226,7 @@ public class AttachmentCipherInputStream extends FilterInputStream {
       throws InvalidMacException
   {
     try {
-      MessageDigest   digest        = MessageDigest.getInstance("SHA256");
+      MessageDigest   digest        = MessageDigest.getInstance("SHA-256");
       int             remainingData = Util.toIntExact(length) - mac.getMacLength();
       byte[]          buffer        = new byte[4096];
 
