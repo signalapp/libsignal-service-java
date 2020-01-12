@@ -35,7 +35,6 @@ dependencies {
 
     testCompile 'junit:junit:3.8.2'
     testCompile 'org.assertj:assertj-core:1.7.1'
-    testCompile 'org.conscrypt:conscrypt-openjdk-uber:2.0.0'
 }
 
 tasks.whenTaskAdded { task ->

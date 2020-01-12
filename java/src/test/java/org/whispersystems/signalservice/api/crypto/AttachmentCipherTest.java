@@ -2,7 +2,6 @@ package org.whispersystems.signalservice.api.crypto;
 
 import junit.framework.TestCase;
 
-import org.conscrypt.Conscrypt;
 import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.libsignal.kdf.HKDFv3;
 import org.whispersystems.signalservice.internal.util.Util;
@@ -17,10 +16,6 @@ import java.security.Security;
 import java.util.Arrays;
 
 public class AttachmentCipherTest extends TestCase {
-
-  static {
-    Security.insertProviderAt(Conscrypt.newProvider(), 1);
-  }
 
   public void test_attachment_encryptDecrypt() throws IOException, InvalidMessageException {
     byte[]        key             = Util.getSecretBytes(64);

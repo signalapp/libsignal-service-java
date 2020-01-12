@@ -3,7 +3,6 @@ package org.whispersystems.signalservice.api.crypto;
 
 import junit.framework.TestCase;
 
-import org.conscrypt.Conscrypt;
 import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.ByteArrayInputStream;
@@ -11,10 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.security.Security;
 
 public class ProfileCipherTest extends TestCase {
-
-  static {
-    Security.insertProviderAt(Conscrypt.newProvider(), 1);
-  }
 
   public void testEncryptDecrypt() throws InvalidCiphertextException {
     byte[]        key       = Util.getSecretBytes(32);
