@@ -19,8 +19,8 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 archivesBaseName = "signal-service-android"
-version          = version_number
-group            = group_info
+version          = lib_signal_service_version_number
+group            = lib_signal_service_group_info
 
 repositories {
     google()
@@ -34,8 +34,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.signal:signal-metadata-android:${signal_version}"
-    compile (project(':java')) {
+    implementation "org.signal:signal-metadata-android:${lib_signal_metadata_version}"
+    api (project(':libsignal-service')) {
         exclude group: 'org.signal', module: 'signal-metadata-java'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
