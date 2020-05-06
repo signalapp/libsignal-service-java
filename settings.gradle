@@ -2,6 +2,3 @@ include ':android'
 
 include 'libsignal-service'
 project(':libsignal-service').projectDir = file('service')
-
-include ':zkgroups'
-project(':zkgroups').projectDir = file('zkgroups-api')
