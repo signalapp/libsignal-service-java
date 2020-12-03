@@ -1,3 +1,20 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter {
+            content {
+                includeVersion 'org.jetbrains.trove4j', 'trove4j', '20160824'
+                includeGroupByRegex "com\\.archinamon.*"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
+    }
+}
+
 subprojects {
     ext.lib_signal_service_version_number = "2.15.3"
     ext.lib_signal_service_group_info     = "org.whispersystems"
