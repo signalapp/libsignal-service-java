@@ -34,9 +34,8 @@ repositories {
 }
 
 dependencies {
-    implementation "org.signal:signal-metadata-android:${lib_signal_metadata_version}"
+    implementation 'org.whispersystems:signal-client-android:0.1.3'
     api (project(':libsignal-service')) {
-        exclude group: 'org.signal', module: 'signal-metadata-java'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
 }
