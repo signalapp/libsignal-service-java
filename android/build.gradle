@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.whispersystems:signal-client-android:0.1.4'
+    implementation 'org.whispersystems:signal-client-android:0.2.2'
     api (project(':libsignal-service')) {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
