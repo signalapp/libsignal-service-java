@@ -69,7 +69,6 @@ public class DigestingRequestBody extends RequestBody {
         progressListener.onAttachmentProgress(contentLength, total);
       }
     }
-    inputStream.close();
 
     outputStream.flush();
     digest = outputStream.getTransmittedDigest();
