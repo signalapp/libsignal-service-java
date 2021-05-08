@@ -18,7 +18,9 @@ public final class AccountAttributesTest {
                                                         false,
                                                         new AccountAttributes.Capabilities(true, true, true, true),
                                                         false));
-    assertEquals("{\"signalingKey\":\"skey\"," +
+    assertEquals("{" +
+                 "\"name\":null," +
+                 "\"signalingKey\":\"skey\"," +
                  "\"registrationId\":123," +
                  "\"voice\":true," +
                  "\"video\":true," +

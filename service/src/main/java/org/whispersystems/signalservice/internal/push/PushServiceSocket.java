@@ -334,7 +334,7 @@ public class PushServiceSocket {
     return JsonUtil.fromJson(responseBody, VerifyAccountResponse.class);
   }
 
-  public void setAccountAttributes(String signalingKey, int registrationId, boolean fetchesMessages,
+  public void setAccountAttributes(String name, String signalingKey, int registrationId, boolean fetchesMessages,
                                    String pin, String registrationLock,
                                    byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess,
                                    AccountAttributes.Capabilities capabilities,
@@ -345,7 +345,7 @@ public class PushServiceSocket {
       throw new AssertionError("Pin should be null if registrationLock is set.");
     }
 
-    AccountAttributes accountAttributes = new AccountAttributes(signalingKey, registrationId, fetchesMessages, pin, registrationLock,
+    AccountAttributes accountAttributes = new AccountAttributes(name, signalingKey, registrationId, fetchesMessages, pin, registrationLock,
                                                                 unidentifiedAccessKey, unrestrictedUnidentifiedAccess, capabilities,
                                                                 discoverableByPhoneNumber);
     makeServiceRequest(SET_ACCOUNT_ATTRIBUTES, "PUT", JsonUtil.toJson(accountAttributes));

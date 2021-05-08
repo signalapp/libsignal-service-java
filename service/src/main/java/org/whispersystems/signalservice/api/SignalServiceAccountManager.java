@@ -275,14 +275,14 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages,
+  public void setAccountAttributes(String deviceName, String signalingKey, int signalProtocolRegistrationId, boolean fetchesMessages,
                                    String pin, String registrationLock,
                                    byte[] unidentifiedAccessKey, boolean unrestrictedUnidentifiedAccess,
                                    AccountAttributes.Capabilities capabilities,
                                    boolean discoverableByPhoneNumber)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, fetchesMessages,
+    this.pushServiceSocket.setAccountAttributes(deviceName, signalingKey, signalProtocolRegistrationId, fetchesMessages,
                                                 pin, registrationLock,
                                                 unidentifiedAccessKey, unrestrictedUnidentifiedAccess,
                                                 capabilities,
