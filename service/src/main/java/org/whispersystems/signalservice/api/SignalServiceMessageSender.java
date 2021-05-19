@@ -15,6 +15,7 @@ import org.signal.libsignal.protocol.NoSessionException;
 import org.signal.libsignal.protocol.SessionBuilder;
 import org.signal.libsignal.protocol.SignalProtocolAddress;
 import org.signal.libsignal.protocol.groups.GroupSessionBuilder;
+import org.signal.libsignal.protocol.kdf.HKDF;
 import org.signal.libsignal.protocol.logging.Log;
 import org.signal.libsignal.protocol.message.DecryptionErrorMessage;
 import org.signal.libsignal.protocol.message.PlaintextContent;
@@ -44,6 +45,8 @@ import org.whispersystems.signalservice.api.messages.SignalServiceGroupContext;
 import org.whispersystems.signalservice.api.messages.SignalServiceGroupV2;
 import org.whispersystems.signalservice.api.messages.SignalServicePreview;
 import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
+import org.whispersystems.signalservice.api.messages.SignalServiceStickerManifest;
+import org.whispersystems.signalservice.api.messages.SignalServiceStickerManifestUpload;
 import org.whispersystems.signalservice.api.messages.SignalServiceStoryMessage;
 import org.whispersystems.signalservice.api.messages.SignalServiceStoryMessageRecipient;
 import org.whispersystems.signalservice.api.messages.SignalServiceTextAttachment;
@@ -118,6 +121,8 @@ import org.whispersystems.signalservice.internal.push.ReceiptMessage;
 import org.whispersystems.signalservice.internal.push.SendGroupMessageResponse;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
 import org.whispersystems.signalservice.internal.push.StaleDevices;
+import org.whispersystems.signalservice.internal.push.StickerUploadAttributes;
+import org.whispersystems.signalservice.internal.push.StickerUploadAttributesResponse;
 import org.whispersystems.signalservice.internal.push.StoryMessage;
 import org.whispersystems.signalservice.internal.push.SyncMessage;
 import org.whispersystems.signalservice.internal.push.TextAttachment;
@@ -133,9 +138,11 @@ import org.whispersystems.signalservice.internal.push.http.CancelationSignal;
 import org.whispersystems.signalservice.internal.push.http.PartialSendBatchCompleteListener;
 import org.whispersystems.signalservice.internal.push.http.PartialSendCompleteListener;
 import org.whispersystems.signalservice.internal.push.http.ResumableUploadSpec;
+import org.whispersystems.signalservice.internal.sticker.Pack;
 import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.util.ByteArrayUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
@@ -915,6 +922,74 @@ public class SignalServiceMessageSender {
                                               attachment.getCaption(),
                                               attachment.getBlurHash(),
                                               attachment.getUploadTimestamp());
+  }
+
+  /**
+   * Upload the sticker pack specified in the manifest.
+   * Stickers are in webp format.
+   * Maximum size for a sticker is 100KiB.
+   *
+   * @param manifest Specifies the name, stickers and cover for the sticker pack.
+   * @param packKey  Needs to be an array of 64 random bytes
+   * @return the packId of the successfully uploaded sticker pack
+   */
+  public String uploadStickerManifest(SignalServiceStickerManifestUpload manifest, byte[] packKey)
+      throws IOException
+  {
+    if (manifest.getStickers().isEmpty()) {
+      throw new AssertionError("Must have stickers!");
+    }
+    if (packKey.length != 32) {
+      throw new AssertionError("Size of packKey must be 32!");
+    }
+
+    int stickerCount = manifest.getStickers().size() + (manifest.getCover().isPresent() ? 1 : 0);
+
+    StickerUploadAttributesResponse stickerUploadAttributes = socket.getStickerUploadAttributes(stickerCount);
+
+    byte[] content     = createStickerManifestContent(manifest.toManifest());
+    byte[] expandedKey = HKDF.deriveSecrets(packKey, "Sticker Pack".getBytes(), 64);
+    socket.uploadStickerContent(new ByteArrayInputStream(content), content.length, expandedKey, stickerUploadAttributes.getManifest());
+
+    Map<Integer, StickerUploadAttributes> stickerUploadAttributesById = new HashMap<>();
+    for (StickerUploadAttributes attr : stickerUploadAttributes.getStickers()) {
+      stickerUploadAttributesById.put(attr.getId(), attr);
+    }
+
+    List<SignalServiceStickerManifestUpload.StickerInfo> stickerUploads = new ArrayList<>(manifest.getStickers());
+    if (manifest.getCover().isPresent()) {
+      final SignalServiceStickerManifestUpload.StickerInfo cover = manifest.getCover().get();
+      stickerUploads.add(cover);
+    }
+
+    uploadStickers(stickerUploads, packKey, stickerUploadAttributesById);
+
+    return stickerUploadAttributes.getPackId();
+  }
+
+  private void uploadStickers(List<SignalServiceStickerManifestUpload.StickerInfo> stickers, byte[] packKey, Map<Integer, StickerUploadAttributes> stickerUploadAttributes)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    if (stickers.size() != stickerUploadAttributes.size()) {
+      throw new AssertionError("Size of sickers and upload attributes must be the same.");
+    }
+
+    int i = 0;
+    for (SignalServiceStickerManifestUpload.StickerInfo sticker : stickers) {
+      StickerUploadAttributes uploadAttributes = stickerUploadAttributes.get(i);
+      if (uploadAttributes == null) {
+        throw new AssertionError("Upload attributes missing for sticker id: " + i);
+      }
+      uploadSticker(sticker.getInputStream(), sticker.getLength(), packKey, uploadAttributes);
+      i++;
+    }
+  }
+
+  private void uploadSticker(InputStream data, long length, byte[] packKey, StickerUploadAttributes stickerUploadAttributes)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    byte[] expandedKey = HKDF.deriveSecrets(packKey, "Sticker Pack".getBytes(), 64);
+    socket.uploadStickerContent(data, length, expandedKey, stickerUploadAttributes);
   }
 
   private SendMessageResult sendVerifiedSyncMessage(VerifiedMessage message)
@@ -1955,6 +2030,37 @@ public class SignalServiceMessageSender {
     }
 
     return results;
+  }
+
+  private byte[] createStickerManifestContent(SignalServiceStickerManifest manifest) {
+    List<Pack.Sticker> stickers = new ArrayList<>();
+
+    for (SignalServiceStickerManifest.StickerInfo sticker : manifest.getStickers()) {
+      stickers.add(new Pack.Sticker.Builder()
+                                             .id(sticker.getId())
+                                             .emoji(sticker.getEmoji())
+                                             .build());
+    }
+
+
+    Pack.Builder builder = new Pack.Builder().stickers(stickers);
+
+    if (manifest.getTitle().isPresent()) {
+      builder.title(manifest.getTitle().get());
+    }
+
+    if (manifest.getAuthor().isPresent()) {
+      builder.author(manifest.getAuthor().get());
+    }
+
+    if (manifest.getCover().isPresent()) {
+      builder.cover(new Pack.Sticker.Builder()
+                                                 .id(manifest.getCover().get().getId())
+                                                 .emoji(manifest.getCover().get().getEmoji())
+                                                 .build());
+    }
+
+    return builder.build().encode();
   }
 
   private SignalServiceSyncMessage createSelfSendSyncMessageForStory(SignalServiceStoryMessage message,
