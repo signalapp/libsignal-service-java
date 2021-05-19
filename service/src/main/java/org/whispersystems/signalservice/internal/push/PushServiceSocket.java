@@ -34,6 +34,7 @@ import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.account.AccountAttributes;
+import org.whispersystems.signalservice.api.crypto.AttachmentCipherOutputStream;
 import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.groupsv2.CredentialResponse;
 import org.whispersystems.signalservice.api.groupsv2.GroupsV2AuthorizationString;
@@ -97,6 +98,7 @@ import org.whispersystems.signalservice.internal.push.http.DigestingRequestBody;
 import org.whispersystems.signalservice.internal.push.http.NoCipherOutputStreamFactory;
 import org.whispersystems.signalservice.internal.push.http.OutputStreamFactory;
 import org.whispersystems.signalservice.internal.push.http.ResumableUploadSpec;
+import org.whispersystems.signalservice.internal.push.http.StickerCipherOutputStreamFactory;
 import org.whispersystems.signalservice.internal.storage.protos.ReadOperation;
 import org.whispersystems.signalservice.internal.storage.protos.StorageItems;
 import org.whispersystems.signalservice.internal.storage.protos.StorageManifest;
@@ -193,6 +195,7 @@ public class PushServiceSocket {
   private static final String UUID_ACK_MESSAGE_PATH     = "/v1/messages/uuid/%s";
   private static final String ATTACHMENT_V2_PATH        = "/v2/attachments/form/upload";
   private static final String ATTACHMENT_V3_PATH        = "/v3/attachments/form/upload";
+  private static final String STICKER_UPLOAD_PATH       = "/v1/sticker/pack/form/%d";
 
   private static final String PAYMENTS_AUTH_PATH        = "/v1/payments/auth";
 
@@ -979,6 +982,16 @@ public class PushServiceSocket {
     }
   }
 
+  public StickerUploadAttributesResponse getStickerUploadAttributes(int stickerCount) throws NonSuccessfulResponseCodeException, PushNetworkException, MalformedResponseException {
+    String response = makeServiceRequest(String.format(Locale.ROOT, STICKER_UPLOAD_PATH, stickerCount), "GET", null);
+    try {
+      return JsonUtil.fromJson(response, StickerUploadAttributesResponse.class);
+    } catch (IOException e) {
+      Log.w(TAG, e);
+      throw new MalformedResponseException("Unable to parse entity", e);
+    }
+  }
+
   public byte[] uploadGroupV2Avatar(byte[] avatarCipherText, AvatarUploadAttributes uploadAttributes)
       throws IOException
   {
@@ -1029,6 +1042,25 @@ public class PushServiceSocket {
                         attachment.getOutputStreamFactory(),
                         attachment.getListener(),
                         attachment.getCancelationSignal());
+  }
+
+  public void uploadStickerContent(InputStream content,long length, byte[] expandedPackKey, StickerUploadAttributes uploadAttributes)
+      throws NonSuccessfulResponseCodeException, PushNetworkException
+  {
+    uploadToCdn0("",
+                uploadAttributes.getAcl(),
+                uploadAttributes.getKey(),
+                uploadAttributes.getPolicy(),
+                uploadAttributes.getAlgorithm(),
+                uploadAttributes.getCredential(),
+                uploadAttributes.getDate(),
+                uploadAttributes.getSignature(),
+                content,
+                "application/octet-stream",
+                AttachmentCipherOutputStream.getCiphertextLength(length),
+                new StickerCipherOutputStreamFactory(expandedPackKey),
+                null,
+                null);
   }
 
   private void downloadFromCdn(File destination, int cdnNumber, String path, long maxSizeBytes, ProgressListener listener)
