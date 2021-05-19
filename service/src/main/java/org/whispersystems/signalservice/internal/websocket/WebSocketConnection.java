@@ -67,6 +67,7 @@ public class WebSocketConnection extends WebSocketListener {
   private final Optional<Dns>                 dns;
   private final Optional<SignalProxy>         signalProxy;
 
+  private OkHttpClient        okHttpClient;
   private WebSocket           client;
   private KeepAliveSender     keepAliveSender;
   private int                 attempts;
@@ -129,7 +130,7 @@ public class WebSocketConnection extends WebSocketListener {
         clientBuilder.socketFactory(new TlsProxySocketFactory(signalProxy.get().getHost(), signalProxy.get().getPort(), dns));
       }
 
-      OkHttpClient okHttpClient = clientBuilder.build();
+      okHttpClient = clientBuilder.build();
 
       Request.Builder requestBuilder = new Request.Builder().url(filledUri);
 
@@ -238,6 +239,7 @@ public class WebSocketConnection extends WebSocketListener {
       attempts        = 0;
       connected       = true;
       keepAliveSender = new KeepAliveSender();
+      keepAliveSender.setDaemon(true);
       keepAliveSender.start();
 
       if (listener != null) listener.onConnected();
@@ -295,6 +297,11 @@ public class WebSocketConnection extends WebSocketListener {
       client    = null;
       connected = false;
       connect();
+    }
+
+    if (okHttpClient != null ) {
+      okHttpClient.dispatcher().executorService().shutdown();
+      okHttpClient = null;
     }
 
     notifyAll();
