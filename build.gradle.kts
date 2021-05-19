@@ -31,7 +31,13 @@ buildscript {
 
 apply(from = "${rootDir}/constants.gradle.kts")
 
+val lib_signal_service_version_number: String by rootProject.extra
+val lib_signal_service_group_info: String by rootProject.extra
+
 allprojects {
+  version = lib_signal_service_version_number
+  group = lib_signal_service_group_info
+
   // Needed because otherwise the kapt task defaults to jvmTarget 17, which "poisons the well" and requires us to bump up too
   tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {

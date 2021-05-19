@@ -106,3 +106,44 @@ dependencies {
   testFixturesImplementation(libs.libsignal.client)
   testFixturesImplementation(testLibs.junit.junit)
 }
+
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      from(components["java"])
+
+      pom {
+        name.set("signal-service-java")
+        description.set("Signal Service communication library for Java, unofficial fork")
+        url.set("https://github.com/Turasa/libsignal-service-java")
+        licenses {
+          license {
+            name.set("GPLv3")
+            url.set("https://www.gnu.org/licenses/gpl-3.0.txt")
+          }
+        }
+        developers {
+          developer {
+            name.set("Moxie Marlinspike")
+          }
+          developer {
+            name.set("Sebastian Scheibner")
+          }
+          developer {
+            name.set("Tilman Hoffbauer")
+          }
+        }
+        scm {
+          connection.set("scm:git@github.com:Turasa/libsignal-service-java.git")
+          developerConnection.set("scm:git@github.com:Turasa/libsignal-service-java.git")
+          url.set("scm:git@github.com:Turasa/libsignal-service-java.git")
+        }
+      }
+    }
+  }
+}
+
+signing {
+  isRequired = gradle.taskGraph.hasTask("uploadArchives")
+  sign(publishing.publications["mavenJava"])
+}

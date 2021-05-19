@@ -5,8 +5,8 @@ dependencyResolutionManagement {
   }
 }
 
-include("libsignal-service")
-project(":libsignal-service").projectDir = file("service")
+include("signal-service-java")
+project(":signal-service-java").projectDir = file("service")
 
 include(":core-util-jvm")
 
