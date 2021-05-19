@@ -237,8 +237,7 @@ public class SignalServiceMessageReceiver {
    * @return A SignalServiceMessagePipe for receiving Signal Service messages.
    */
   public SignalServiceMessagePipe createMessagePipe() {
-    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
-                                                            urls.getSignalServiceUrls()[0].getTrustStore(),
+    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0],
                                                             Optional.of(credentialsProvider), signalAgent, connectivityListener,
                                                             sleepTimer,
                                                             urls.getNetworkInterceptors(),
@@ -249,8 +248,7 @@ public class SignalServiceMessageReceiver {
   }
 
   public SignalServiceMessagePipe createUnidentifiedMessagePipe() {
-    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0].getUrl(),
-                                                            urls.getSignalServiceUrls()[0].getTrustStore(),
+    WebSocketConnection webSocket = new WebSocketConnection(urls.getSignalServiceUrls()[0],
                                                             Optional.<CredentialsProvider>absent(), signalAgent, connectivityListener,
                                                             sleepTimer,
                                                             urls.getNetworkInterceptors(),
