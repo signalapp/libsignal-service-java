@@ -96,6 +96,7 @@ import org.whispersystems.signalservice.internal.util.Util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -147,7 +148,7 @@ import okhttp3.ResponseBody;
 /**
  * @author Moxie Marlinspike
  */
-public class PushServiceSocket {
+public class PushServiceSocket implements Closeable {
 
   private static final String TAG = PushServiceSocket.class.getSimpleName();
 
@@ -1204,6 +1205,21 @@ public class PushServiceSocket {
       throws PushNetworkException, MalformedResponseException
   {
       return readBodyJson(response.body(), clazz);
+  }
+
+  @Override
+  public void close() {
+    for (var holder : serviceClients) {
+      holder.getClient().dispatcher().executorService().shutdown();
+    }
+    for (var holders : cdnClientsMap.values()) {
+      for (var holder : holders) {
+        holder.getClient().dispatcher().executorService().shutdown();
+      }
+    }
+    for (var holder : storageClients) {
+      holder.getClient().dispatcher().executorService().shutdown();
+    }
   }
 
 
