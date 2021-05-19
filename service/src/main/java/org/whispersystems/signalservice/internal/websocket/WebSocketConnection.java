@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.SleepTimer;
@@ -100,6 +101,23 @@ public class WebSocketConnection extends WebSocketListener {
     else                                 this.wsUri = uri + "/v1/websocket/";
   }
 
+  public WebSocketConnection(SignalServiceUrl signalServiceUrl, String signalAgent, ConnectivityListener listener,
+                             SleepTimer timer, List<Interceptor> interceptors, Optional<Dns> dns,
+                             Optional<SignalProxy> signalProxy) {
+    this.signalServiceUrl    = signalServiceUrl;
+    this.credentialsProvider = Optional.absent();
+    this.signalAgent         = signalAgent;
+    this.listener            = listener;
+    this.sleepTimer          = timer;
+    this.interceptors        = interceptors;
+    this.dns                 = dns;
+    this.signalProxy         = signalProxy;
+    this.attempts            = 0;
+    this.connected           = false;
+    this.wsUri               = signalServiceUrl.getUrl().replace("https://", "wss://")
+                                      .replace("http://", "ws://") + "/v1/websocket/provisioning/";
+  }
+
   public synchronized void connect() {
     Log.i(TAG, "connect()");
 
@@ -108,7 +126,11 @@ public class WebSocketConnection extends WebSocketListener {
 
       if (credentialsProvider.isPresent()) {
         String identifier = credentialsProvider.get().getUuid() != null ? credentialsProvider.get().getUuid().toString() : credentialsProvider.get().getE164();
-        filledUri = String.format(wsUri, identifier, credentialsProvider.get().getPassword());
+        if (credentialsProvider.get().getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID) {
+          filledUri = String.format(wsUri, identifier, credentialsProvider.get().getPassword());
+        } else {
+          filledUri = String.format(wsUri, identifier + "." + credentialsProvider.get().getDeviceId(), credentialsProvider.get().getPassword());
+        }
       } else {
         filledUri = wsUri;
       }

@@ -44,6 +44,7 @@ import org.whispersystems.signalservice.api.messages.multidevice.KeysMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.MessageRequestResponseMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.OutgoingPaymentMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.RequestMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.StickerPackOperationMessage;
@@ -131,6 +132,7 @@ public class SignalServiceMessageSender {
   private final SignalSessionLock                                   sessionLock;
   private final SignalServiceAddress                                localAddress;
   private final Optional<EventListener>                             eventListener;
+  private final CredentialsProvider                                 credentialsProvider;
 
   private final AtomicReference<Optional<SignalServiceMessagePipe>> pipe;
   private final AtomicReference<Optional<SignalServiceMessagePipe>> unidentifiedPipe;
@@ -138,6 +140,35 @@ public class SignalServiceMessageSender {
 
   private final ExecutorService                                     executor;
   private final long                                                maxEnvelopeSize;
+
+  /**
+   * Construct a SignalServiceMessageSender.
+   *
+   * @param urls The URL of the Signal Service.
+   * @param uuid The Signal Service UUID.
+   * @param e164 The Signal Service phone number.
+   * @param password The Signal Service user password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param store The SignalProtocolStore.
+   * @param eventListener An optional event listener, which fires whenever sessions are
+   *                      setup or torn down for a recipient.
+   */
+  public SignalServiceMessageSender(SignalServiceConfiguration urls,
+                                    UUID uuid, String e164, String password, int deviceId,
+                                    SignalServiceProtocolStore store,
+                                    SignalSessionLock sessionLock,
+                                    String userAgent,
+                                    boolean isMultiDevice,
+                                    Optional<SignalServiceMessagePipe> pipe,
+                                    Optional<SignalServiceMessagePipe> unidentifiedPipe,
+                                    Optional<EventListener> eventListener,
+                                    ClientZkProfileOperations clientZkProfileOperations,
+                                    ExecutorService executor,
+                                    long maxEnvelopeSize,
+                                    boolean automaticNetworkRetry)
+  {
+    this(urls, new StaticCredentialsProvider(uuid, e164, password, deviceId), store, sessionLock, userAgent, isMultiDevice, pipe, unidentifiedPipe, eventListener, clientZkProfileOperations, executor, maxEnvelopeSize, automaticNetworkRetry);
+  }
 
   /**
    * Construct a SignalServiceMessageSender.
@@ -180,6 +211,7 @@ public class SignalServiceMessageSender {
                                     long maxEnvelopeSize,
                                     boolean automaticNetworkRetry)
   {
+    this.credentialsProvider = credentialsProvider;
     this.socket           = new PushServiceSocket(urls, credentialsProvider, signalAgent, clientZkProfileOperations, automaticNetworkRetry);
     this.store            = store;
     this.sessionLock      = sessionLock;
@@ -381,6 +413,8 @@ public class SignalServiceMessageSender {
     } else if (message.getVerified().isPresent()) {
       sendMessage(message.getVerified().get(), unidentifiedAccess);
       return;
+    } else if (message.getRequest().isPresent()) {
+      content = createRequestContent(message.getRequest().get());
     } else {
       throw new IOException("Unsupported sync message!");
     }
@@ -966,6 +1000,16 @@ public class SignalServiceMessageSender {
 
       builder.addRead(readBuilder.build());
     }
+
+    return container.setSyncMessage(builder).build().toByteArray();
+  }
+
+  private byte[] createRequestContent(RequestMessage request) {
+    Content.Builder     container = Content.newBuilder();
+
+    SyncMessage.Builder builder   = SyncMessage.newBuilder();
+
+    builder.setRequest(request.getRequest());
 
     return container.setSyncMessage(builder).build().toByteArray();
   }
@@ -1631,12 +1675,14 @@ public class SignalServiceMessageSender {
   {
     List<OutgoingPushMessage> messages = new LinkedList<>();
 
-    if (!recipient.matches(localAddress) || unidentifiedAccess.isPresent()) {
+    boolean myself = recipient.matches(localAddress);
+    if (!myself || credentialsProvider.getDeviceId() != SignalServiceAddress.DEFAULT_DEVICE_ID || unidentifiedAccess.isPresent()) {
       messages.add(getEncryptedMessage(socket, recipient, unidentifiedAccess, SignalServiceAddress.DEFAULT_DEVICE_ID, plaintext));
     }
 
     for (int deviceId : store.getSubDeviceSessions(recipient.getIdentifier())) {
-      if (store.containsSession(new SignalProtocolAddress(recipient.getIdentifier(), deviceId))) {
+      if ((!myself || deviceId != credentialsProvider.getDeviceId() || unidentifiedAccess.isPresent()) &&
+          store.containsSession(new SignalProtocolAddress(recipient.getIdentifier(), deviceId))) {
         messages.add(getEncryptedMessage(socket, recipient, unidentifiedAccess, deviceId, plaintext));
       }
     }

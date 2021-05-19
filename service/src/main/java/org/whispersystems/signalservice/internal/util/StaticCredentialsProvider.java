@@ -6,6 +6,7 @@
 
 package org.whispersystems.signalservice.internal.util;
 
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 
 import java.util.UUID;
@@ -15,11 +16,17 @@ public class StaticCredentialsProvider implements CredentialsProvider {
   private final UUID   uuid;
   private final String e164;
   private final String password;
+  private final int    deviceId;
 
   public StaticCredentialsProvider(UUID uuid, String e164, String password) {
-    this.uuid         = uuid;
-    this.e164         = e164;
-    this.password     = password;
+    this(uuid, e164, password, SignalServiceAddress.DEFAULT_DEVICE_ID);
+  }
+
+  public StaticCredentialsProvider(UUID uuid, String e164, String password, int deviceId) {
+    this.uuid     = uuid;
+    this.e164     = e164;
+    this.password = password;
+    this.deviceId = deviceId;
   }
 
   @Override
@@ -35,5 +42,10 @@ public class StaticCredentialsProvider implements CredentialsProvider {
   @Override
   public String getPassword() {
     return password;
+  }
+
+  @Override
+  public int getDeviceId() {
+    return deviceId;
   }
 }

@@ -351,6 +351,15 @@ public class PushServiceSocket {
     makeServiceRequest(SET_ACCOUNT_ATTRIBUTES, "PUT", JsonUtil.toJson(accountAttributes));
   }
 
+  public int finishNewDeviceRegistration(String code, boolean supportsSms, boolean fetchesMessages,
+      int registrationId, String deviceName) throws IOException {
+    ConfirmCodeMessage javaJson = new ConfirmCodeMessage(supportsSms, fetchesMessages, registrationId, deviceName);
+    String json = JsonUtil.toJson(javaJson);
+    String responseText = makeServiceRequest(String.format(DEVICE_PATH, code), "PUT", json);
+    DeviceId response = JsonUtil.fromJson(responseText, DeviceId.class);
+    return response.getDeviceId();
+  }
+
   public String getNewDeviceVerificationCode() throws IOException {
     String responseText = makeServiceRequest(PROVISIONING_CODE_PATH, "GET", null);
     return JsonUtil.fromJson(responseText, DeviceCode.class).getVerificationCode();
@@ -1872,7 +1881,11 @@ public class PushServiceSocket {
   private String getAuthorizationHeader(CredentialsProvider credentialsProvider) {
     try {
       String identifier = credentialsProvider.getUuid() != null ? credentialsProvider.getUuid().toString() : credentialsProvider.getE164();
-      return "Basic " + Base64.encodeBytes((identifier + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      if(credentialsProvider.getDeviceId() == SignalServiceAddress.DEFAULT_DEVICE_ID) {
+        return "Basic " + Base64.encodeBytes((identifier + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      } else {
+        return "Basic " + Base64.encodeBytes((identifier + "." + credentialsProvider.getDeviceId() + ":" + credentialsProvider.getPassword()).getBytes("UTF-8"));
+      }
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError(e);
     }

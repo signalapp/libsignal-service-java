@@ -27,6 +27,8 @@ import org.whispersystems.signalservice.api.messages.calls.OpaqueMessage;
 import org.whispersystems.signalservice.api.messages.calls.SignalServiceCallMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.BlockedListMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ConfigurationMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.ContactsMessage;
+import org.whispersystems.signalservice.api.messages.multidevice.KeysMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.MessageRequestResponseMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.OutgoingPaymentMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.ReadMessage;
@@ -40,8 +42,10 @@ import org.whispersystems.signalservice.api.messages.multidevice.ViewedMessage;
 import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.payments.Money;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.storage.StorageKey;
 import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.UnsupportedDataMessageException;
 import org.whispersystems.signalservice.internal.push.UnsupportedDataMessageProtocolVersionException;
 import org.whispersystems.signalservice.internal.serialize.SignalServiceAddressProtobufSerializer;
@@ -643,6 +647,56 @@ public final class SignalServiceContent {
       }
 
       return SignalServiceSyncMessage.forMessageRequestResponse(responseMessage);
+    }
+
+    if (content.hasContacts()) {
+      AttachmentPointer pointer = content.getContacts().getBlob();
+      return SignalServiceSyncMessage.forContacts(new ContactsMessage(new SignalServiceAttachmentPointer(pointer.getCdnNumber(),
+                      SignalServiceAttachmentRemoteId.from(pointer),
+                      pointer.getContentType(), pointer.getKey().toByteArray(),
+                      pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
+                      pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()) : Optional.<byte[]>absent(),
+                      pointer.hasWidth() ? pointer.getWidth() : 0,
+                      pointer.hasHeight() ? pointer.getHeight() : 0,
+                      pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
+                      pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
+                      (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0,
+                      (pointer.getFlags() & AttachmentPointer.Flags.BORDERLESS_VALUE) != 0,
+                      (pointer.getFlags() & AttachmentPointer.Flags.GIF_VALUE) != 0,
+                      pointer.hasCaption() ? Optional.of(pointer.getCaption()) : Optional.<String>absent(),
+                      pointer.hasBlurHash() ? Optional.of(pointer.getBlurHash()) : Optional.<String>absent(),
+                      pointer.hasUploadTimestamp() ? pointer.getUploadTimestamp() : 0
+              ), content.getContacts().hasComplete() && content.getContacts().getComplete()
+              )
+      );
+    }
+
+    if (content.hasGroups()) {
+      AttachmentPointer pointer = content.getGroups().getBlob();
+      return SignalServiceSyncMessage.forGroups(new SignalServiceAttachmentPointer(pointer.getCdnNumber(),
+                      SignalServiceAttachmentRemoteId.from(pointer),
+                      pointer.getContentType(), pointer.getKey().toByteArray(),
+                      pointer.hasSize() ? Optional.of(pointer.getSize()) : Optional.<Integer>absent(),
+                      pointer.hasThumbnail() ? Optional.of(pointer.getThumbnail().toByteArray()) : Optional.<byte[]>absent(),
+                      pointer.hasWidth() ? pointer.getWidth() : 0,
+                      pointer.hasHeight() ? pointer.getHeight() : 0,
+                      pointer.hasDigest() ? Optional.of(pointer.getDigest().toByteArray()) : Optional.<byte[]>absent(),
+                      pointer.hasFileName() ? Optional.of(pointer.getFileName()) : Optional.<String>absent(),
+                      (pointer.getFlags() & AttachmentPointer.Flags.VOICE_MESSAGE_VALUE) != 0,
+                      (pointer.getFlags() & AttachmentPointer.Flags.BORDERLESS_VALUE) != 0,
+                      (pointer.getFlags() & AttachmentPointer.Flags.GIF_VALUE) != 0,
+                      pointer.hasCaption() ? Optional.of(pointer.getCaption()) : Optional.<String>absent(),
+                      pointer.hasBlurHash() ? Optional.of(pointer.getBlurHash()) : Optional.<String>absent(),
+                      pointer.hasUploadTimestamp() ? pointer.getUploadTimestamp() : 0
+              )
+      );
+    }
+
+    if (content.hasKeys()) {
+      final SignalServiceProtos.SyncMessage.Keys keys = content.getKeys();
+      return SignalServiceSyncMessage.forKeys(new KeysMessage(
+          keys.hasStorageService() ? Optional.of(new StorageKey(keys.getStorageService().toByteArray())) : Optional.absent()
+      ));
     }
 
     if (content.hasOutgoingPayment()) {

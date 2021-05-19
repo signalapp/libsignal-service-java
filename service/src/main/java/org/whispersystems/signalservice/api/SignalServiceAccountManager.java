@@ -9,15 +9,19 @@ package org.whispersystems.signalservice.api;
 
 import com.google.protobuf.ByteString;
 
+import org.signal.zkgroup.InvalidInputException;
 import org.signal.zkgroup.profiles.ProfileKey;
 import org.signal.zkgroup.profiles.ProfileKeyCredential;
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
 import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.ecc.Curve;
+import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+import org.whispersystems.libsignal.util.ByteUtil;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.crypto.InvalidCiphertextException;
 import org.whispersystems.signalservice.api.crypto.ProfileCipher;
@@ -31,6 +35,7 @@ import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
 import org.whispersystems.signalservice.api.profiles.ProfileAndCredential;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfileWrite;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
+import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
 import org.whispersystems.signalservice.api.push.exceptions.NoContentException;
 import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
@@ -43,8 +48,9 @@ import org.whispersystems.signalservice.api.storage.SignalStorageRecord;
 import org.whispersystems.signalservice.api.storage.StorageId;
 import org.whispersystems.signalservice.api.storage.StorageKey;
 import org.whispersystems.signalservice.api.storage.StorageManifestKey;
-import org.whispersystems.signalservice.api.util.CredentialsProvider;
+import org.whispersystems.signalservice.api.util.SleepTimer;
 import org.whispersystems.signalservice.api.util.StreamDetails;
+import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.contacts.crypto.ContactDiscoveryCipher;
 import org.whispersystems.signalservice.internal.contacts.crypto.Quote;
@@ -58,6 +64,7 @@ import org.whispersystems.signalservice.api.account.AccountAttributes;
 import org.whispersystems.signalservice.api.payments.CurrencyConversions;
 import org.whispersystems.signalservice.internal.push.AuthCredentials;
 import org.whispersystems.signalservice.internal.push.ProfileAvatarData;
+import org.whispersystems.signalservice.internal.push.ProvisioningSocket;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.RemoteAttestationUtil;
 import org.whispersystems.signalservice.internal.push.RemoteConfigResponse;
@@ -70,7 +77,7 @@ import org.whispersystems.signalservice.internal.storage.protos.StorageItem;
 import org.whispersystems.signalservice.internal.storage.protos.StorageItems;
 import org.whispersystems.signalservice.internal.storage.protos.StorageManifest;
 import org.whispersystems.signalservice.internal.storage.protos.WriteOperation;
-import org.whispersystems.signalservice.internal.util.StaticCredentialsProvider;
+import org.whispersystems.signalservice.internal.util.DynamicCredentialsProvider;
 import org.whispersystems.signalservice.internal.util.Util;
 import org.whispersystems.util.Base64;
 
@@ -108,7 +115,8 @@ public class SignalServiceAccountManager {
   private static final String TAG = SignalServiceAccountManager.class.getSimpleName();
 
   private final PushServiceSocket   pushServiceSocket;
-  private final CredentialsProvider credentials;
+  private final ProvisioningSocket  provisioningSocket;
+  private final DynamicCredentialsProvider credentials;
   private final String              userAgent;
   private final GroupsV2Operations  groupsV2Operations;
 
@@ -123,23 +131,45 @@ public class SignalServiceAccountManager {
    */
   public SignalServiceAccountManager(SignalServiceConfiguration configuration,
                                      UUID uuid, String e164, String password,
-                                     String signalAgent, boolean automaticNetworkRetry)
+                                     String signalAgent, boolean automaticNetworkRetry,
+                                     SleepTimer timer)
+  {
+    this(configuration, uuid, e164, password, SignalServiceAddress.DEFAULT_DEVICE_ID, signalAgent, automaticNetworkRetry, timer);
+  }
+
+  /**
+   * Construct a SignalServiceAccountManager.
+   *
+   * @param configuration The URL for the Signal Service.
+   * @param uuid The Signal Service UUID.
+   * @param e164 The Signal Service phone number.
+   * @param password A Signal Service password.
+   * @param deviceId A integer which is provided by the server while linking.
+   * @param signalAgent A string which identifies the client software.
+   */
+  public SignalServiceAccountManager(SignalServiceConfiguration configuration,
+                                     UUID uuid, String e164, String password, int deviceId,
+                                     String signalAgent, boolean automaticNetworkRetry,
+                                     SleepTimer timer)
   {
     this(configuration,
-         new StaticCredentialsProvider(uuid, e164, password),
+         new DynamicCredentialsProvider(uuid, e164, password, deviceId),
          signalAgent,
          new GroupsV2Operations(ClientZkOperations.create(configuration)),
-         automaticNetworkRetry);
+         automaticNetworkRetry,
+         timer);
   }
 
   public SignalServiceAccountManager(SignalServiceConfiguration configuration,
-                                     CredentialsProvider credentialsProvider,
+                                     DynamicCredentialsProvider credentialsProvider,
                                      String signalAgent,
                                      GroupsV2Operations groupsV2Operations,
-                                     boolean automaticNetworkRetry)
+                                     boolean automaticNetworkRetry,
+                                     SleepTimer timer)
   {
     this.groupsV2Operations = groupsV2Operations;
-    this.pushServiceSocket  = new PushServiceSocket(configuration, credentialsProvider, signalAgent, groupsV2Operations.getProfileOperations(), automaticNetworkRetry);
+    this.pushServiceSocket  = new PushServiceSocket(configuration, credentialsProvider, signalAgent, groupsV2Operations == null ? null : groupsV2Operations.getProfileOperations(), automaticNetworkRetry);
+    this.provisioningSocket = new ProvisioningSocket(configuration, signalAgent, timer);
     this.credentials        = credentialsProvider;
     this.userAgent          = signalAgent;
   }
@@ -413,6 +443,17 @@ public class SignalServiceAccountManager {
     }
   }
 
+  /**
+   * Request a UUID from the server for linking as a new device.
+   * Called by the new device.
+   * @return The UUID, Base64 encoded
+   * @throws TimeoutException
+   * @throws IOException
+   */
+  public String getNewDeviceUuid() throws TimeoutException, IOException {
+    return provisioningSocket.getProvisioningUuid().getUuid();
+  }
+
   public Optional<SignalStorageManifest> getStorageManifest(StorageKey storageKey) throws IOException {
     try {
       String          authToken       = this.pushServiceSocket.getStorageAuth();
@@ -579,9 +620,82 @@ public class SignalServiceAccountManager {
     return out;
   }
 
-
+  /**
+   * Request a Code for verification of a new device.
+   * Called by an already verified device.
+   * @return An verification code. String of 6 digits
+   * @throws IOException
+   */
   public String getNewDeviceVerificationCode() throws IOException {
     return this.pushServiceSocket.getNewDeviceVerificationCode();
+  }
+
+  /**
+   * Gets info from the primary device to finish the registration as a new device.<br>
+   * @param tempIdentity A temporary identity. Must be the same as the one given to the already verified device.
+   * @return Contains the account's permanent IdentityKeyPair and it's number along with the provisioning code required to finish the registration.
+   */
+  public NewDeviceRegistrationReturn getNewDeviceRegistration(IdentityKeyPair tempIdentity) throws TimeoutException, IOException {
+    ProvisionMessage msg = provisioningSocket.getProvisioningMessage(tempIdentity);
+
+    final String number = msg.getNumber();
+    final UUID   uuid   = UuidUtil.parseOrNull(msg.getUuid());
+
+    credentials.setE164(number);
+    // Not setting Uuid here, as that causes a 400 Bad Request
+    // when calling the finishNewDeviceRegistration endpoint
+    // credentialsProvider.setUuid(uuid);
+
+    byte[] publicKeyBytes = msg.getIdentityKeyPublic().toByteArray();
+    if (publicKeyBytes.length == 32) {
+      // The public key is missing the type specifier, probably from iOS
+      // Signal-Desktop handles this by ignoring the sent public key and regenerating it from the private key
+      byte[] type = {Curve.DJB_TYPE};
+      publicKeyBytes = ByteUtil.combine(type, publicKeyBytes);
+    }
+    final ECPublicKey publicKey;
+    try {
+      publicKey = Curve.decodePoint(publicKeyBytes, 0);
+    } catch (InvalidKeyException e) {
+      throw new IOException("Failed to decrypt public key", e);
+    }
+    final byte[]          privateKeyBytes = msg.getIdentityKeyPrivate().toByteArray();
+    final ECPrivateKey    privateKey      = Curve.decodePrivatePoint(privateKeyBytes);
+    final IdentityKeyPair identity        = new IdentityKeyPair(new IdentityKey(publicKey), privateKey);
+
+    final ProfileKey profileKey;
+    try {
+      profileKey = msg.hasProfileKey() ? new ProfileKey(msg.getProfileKey().toByteArray()) : null;
+    } catch (InvalidInputException e) {
+      throw new IOException("Failed to decrypt profile key", e);
+    }
+
+    final String  provisioningCode = msg.getProvisioningCode();
+    final boolean readReceipts     = msg.hasReadReceipts() && msg.getReadReceipts();
+
+    return new NewDeviceRegistrationReturn(
+        provisioningCode, identity,
+        number,
+        uuid,
+        profileKey,
+        readReceipts
+    );
+  }
+
+  /**
+   * Finishes a registration as a new device. Called by the new device.<br>
+   * This method blocks until the already verified device has verified this device.
+   * @param provisioningCode The provisioning code from the getNewDeviceRegistration method
+   * @param supportsSms A boolean which indicates whether this device can receive SMS to the account's number.
+   * @param fetchesMessages A boolean which indicates whether this device fetches messages.
+   * @param registrationId A random integer generated at install time.
+   * @param deviceName A name for this device, not its user agent.
+   * @return The deviceId given by the server.
+   */
+  public int finishNewDeviceRegistration(String provisioningCode, boolean supportsSms, boolean fetchesMessages, int registrationId, String deviceName) throws IOException {
+    int deviceId = this.pushServiceSocket.finishNewDeviceRegistration(provisioningCode, supportsSms, fetchesMessages, registrationId, deviceName);
+    credentials.setDeviceId(deviceId);
+    return deviceId;
   }
 
   public void addDevice(String deviceIdentifier,
@@ -760,6 +874,69 @@ public class SignalServiceAccountManager {
 
   public GroupsV2Api getGroupsV2Api() {
     return new GroupsV2Api(pushServiceSocket, groupsV2Operations);
+  }
+
+  /**
+   * Helper class for holding the returns of getNewDeviceRegistration()
+   */
+  public static class NewDeviceRegistrationReturn {
+    private final String          provisioningCode;
+    private final IdentityKeyPair identity;
+    private final String          number;
+    private final UUID            uuid;
+    private final ProfileKey      profileKey;
+    private final boolean         readReceipts;
+
+    NewDeviceRegistrationReturn(String provisioningCode, IdentityKeyPair identity, String number, UUID uuid, ProfileKey profileKey, boolean readReceipts) {
+      this.provisioningCode = provisioningCode;
+      this.identity         = identity;
+      this.number           = number;
+      this.uuid             = uuid;
+      this.profileKey       = profileKey;
+      this.readReceipts     = readReceipts;
+    }
+
+    /**
+     * @return The provisioning code to finish the new device registration
+     */
+    public String getProvisioningCode() {
+      return provisioningCode;
+    }
+
+    /**
+     * @return The account's permanent IdentityKeyPair
+     */
+    public IdentityKeyPair getIdentity() {
+      return identity;
+    }
+
+    /**
+     * @return The account's number
+     */
+    public String getNumber() {
+      return number;
+    }
+
+    /**
+     * @return The account's uuid
+     */
+    public UUID getUuid() {
+      return uuid;
+    }
+
+    /**
+     * @return The account's profile key or null
+     */
+    public ProfileKey getProfileKey() {
+      return profileKey;
+    }
+
+    /**
+     * @return The account's read receipts setting
+     */
+    public boolean isReadReceipts() {
+      return readReceipts;
+    }
   }
 
   public AuthCredentials getPaymentsAuthorization() throws IOException {

@@ -70,7 +70,26 @@ public class SignalServiceMessageReceiver {
    * @param uuid The Signal Service UUID.
    * @param e164 The Signal Service phone number.
    * @param password The Signal Service user password.
-   * @param signalingKey The 52 byte signaling key assigned to this user at registration.
+   * @param deviceId A integer which is provided by the server while linking.
+   */
+  public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
+                                      UUID uuid, String e164, String password, int deviceId,
+                                      String userAgent,
+                                      ConnectivityListener listener,
+                                      SleepTimer timer,
+                                      ClientZkProfileOperations clientZkProfileOperations,
+                                      boolean automaticNetworkRetry)
+  {
+    this(urls, new StaticCredentialsProvider(uuid, e164, password, deviceId), userAgent, listener, timer, clientZkProfileOperations, automaticNetworkRetry);
+  }
+
+  /**
+   * Construct a SignalServiceMessageReceiver.
+   *
+   * @param urls The URL of the Signal Service.
+   * @param uuid The Signal Service UUID.
+   * @param e164 The Signal Service phone number.
+   * @param password The Signal Service user password.
    */
   public SignalServiceMessageReceiver(SignalServiceConfiguration urls,
                                       UUID uuid,
