@@ -23,7 +23,17 @@ public class NowhereBufferedSink implements BufferedSink {
   }
 
   @Override
+  public Buffer getBuffer() {
+    return null;
+  }
+
+  @Override
   public BufferedSink write(ByteString byteString) throws IOException {
+    return this;
+  }
+
+  @Override
+  public BufferedSink write(ByteString byteString, int i, int i1) throws IOException {
     return this;
   }
 

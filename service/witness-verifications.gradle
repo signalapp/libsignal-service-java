@@ -18,11 +18,11 @@ dependencyVerification {
         ['com.googlecode.libphonenumber:libphonenumber:8.12.17',
          '729483057ef874b01537da8395d67e23b419d504f8ff29ddf5f69da21bf816ac'],
 
-        ['com.squareup.okhttp3:okhttp:3.12.10',
-         '3cb8e21cd3ab10d390448f5a475c960732efab583a09c39f06f866a7ed819ebc'],
+        ['com.squareup.okhttp3:okhttp:4.6.0',
+         '0480d35187423f2fca923c91511a279eb01f27f703afcef40780ae8af460a857'],
 
-        ['com.squareup.okio:okio:1.15.0',
-         '693fa319a7e8843300602b204023b7674f106ebcb577f2dd5807212b66118bd2'],
+        ['com.squareup.okio:okio:2.6.0',
+         '4d84ef686277b58eb05691ac19cd3befa3429a27274982ee65ea0f07044bcc00'],
 
         ['org.signal:zkgroup-java:0.7.0',
          'd0099eedd60d6f7d4df5b288175e5d585228ed8897789926bdab69bf8c05659f'],
