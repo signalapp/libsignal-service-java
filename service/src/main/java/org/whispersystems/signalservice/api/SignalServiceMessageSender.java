@@ -202,7 +202,21 @@ public class SignalServiceMessageSender {
                                     boolean automaticNetworkRetry,
                                     boolean useRxMessageSend)
   {
-    this.socket            = new PushServiceSocket(urls, credentialsProvider, signalAgent, clientZkProfileOperations, automaticNetworkRetry);
+    this(credentialsProvider, store, sessionLock, signalWebSocket, eventListener, executor, maxEnvelopeSize,
+         new PushServiceSocket(urls, credentialsProvider, signalAgent, clientZkProfileOperations, automaticNetworkRetry), useRxMessageSend);
+  }
+
+  public SignalServiceMessageSender(CredentialsProvider credentialsProvider,
+                                    SignalServiceDataStore store,
+                                    SignalSessionLock sessionLock,
+                                    SignalWebSocket signalWebSocket,
+                                    Optional<EventListener> eventListener,
+                                    ExecutorService executor,
+                                    long maxEnvelopeSize,
+                                    PushServiceSocket pushServiceSocket,
+                                    boolean useRxMessageSend)
+  {
+    this.socket            = pushServiceSocket;
     this.aciStore          = store.aci();
     this.sessionLock       = sessionLock;
     this.localAddress      = new SignalServiceAddress(credentialsProvider.getAci(), credentialsProvider.getE164());

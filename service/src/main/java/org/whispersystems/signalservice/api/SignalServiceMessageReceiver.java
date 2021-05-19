@@ -71,6 +71,11 @@ public class SignalServiceMessageReceiver {
     this.socket = new PushServiceSocket(urls, credentials, signalAgent, clientZkProfileOperations, automaticNetworkRetry);
   }
 
+  public SignalServiceMessageReceiver(PushServiceSocket pushServiceSocket)
+  {
+    this.socket = pushServiceSocket;
+  }
+
   /**
    * Retrieves a SignalServiceAttachment.
    *
