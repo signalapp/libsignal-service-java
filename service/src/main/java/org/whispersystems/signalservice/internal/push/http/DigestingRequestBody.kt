@@ -3,7 +3,6 @@ package org.whispersystems.signalservice.internal.push.http
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import okhttp3.internal.http.UnrepeatableRequestBody
 import okio.BufferedSink
 import org.signal.libsignal.protocol.incrementalmac.ChunkSizeChoice
 import org.signal.libsignal.protocol.logging.Log
@@ -27,7 +26,7 @@ class DigestingRequestBody(
   private val progressListener: SignalServiceAttachment.ProgressListener?,
   private val cancelationSignal: CancelationSignal?,
   private val contentStart: Long
-) : RequestBody(), UnrepeatableRequestBody {
+) : RequestBody() {
   var attachmentDigest: AttachmentDigest? = null
 
   init {

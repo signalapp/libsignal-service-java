@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val signalKotlinJvmTarget: String by rootProject.extra
 
 buildscript {
-  rootProject.extra["kotlin_version"] = "1.8.10"
+  rootProject.extra["kotlin_version"] = "1.9.10"
 
   repositories {
     google()

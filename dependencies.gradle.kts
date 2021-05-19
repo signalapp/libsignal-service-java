@@ -4,7 +4,7 @@ dependencyResolutionManagement {
       version("libsignal-client", "0.42.0")
 
       // Kotlin
-      version("kotlin", "1.8.10")
+      version("kotlin", "1.9.10")
       library("kotlin-stdlib-jdk8", "org.jetbrains.kotlin", "kotlin-stdlib-jdk8").versionRef("kotlin")
       library("ktlint", "org.jlleitschuh.gradle:ktlint-gradle:11.4.2")
 
@@ -18,8 +18,8 @@ dependencyResolutionManagement {
       // Third Party
       library("jackson-core", "com.fasterxml.jackson.core:jackson-databind:2.9.9.2")
       library("jackson-module-kotlin", "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.0")
-      library("square-okhttp3", "com.squareup.okhttp3:okhttp:3.12.13")
-      library("square-okio", "com.squareup.okio:okio:3.0.0")
+      library("square-okhttp3", "com.squareup.okhttp3:okhttp:4.11.0")
+      library("square-okio", "com.squareup.okio:okio:3.6.0")
       library("rxjava3-rxjava", "io.reactivex.rxjava3:rxjava:3.0.13")
     }
 
