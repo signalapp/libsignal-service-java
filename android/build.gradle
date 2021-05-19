@@ -80,13 +80,13 @@ uploadArchives {
         pom.project {
             name 'signal-service-android'
             packaging 'aar'
-            description 'Signal Service communication library for Android'
-            url 'https://github.com/WhisperSystems/libsignal-service-java'
+            description 'Signal Service communication library for Android, unofficial fork'
+            url 'https://github.com/Turasa/libsignal-service-java'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                url 'scm:git@github.com:Turasa/libsignal-service-java.git'
+                connection 'scm:git@github.com:Turasa/libsignal-service-java.git'
+                developerConnection 'scm:git@github.com:Turasa/libsignal-service-java.git'
             }
 
             licenses {
@@ -100,6 +100,12 @@ uploadArchives {
             developers {
                 developer {
                     name 'Moxie Marlinspike'
+                }
+                developer {
+                    name 'Sebastian Scheibner'
+                }
+                developer {
+                    name 'Tilman Hoffbauer'
                 }
             }
         }
