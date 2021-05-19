@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -65,10 +67,11 @@ final class CdsiSocket {
     this.mrEnclave = mrEnclave;
 
     Pair<SSLSocketFactory, X509TrustManager> socketFactory = createTlsSocketFactory(cdsiUrl.getTrustStore());
+    Optional<List<ConnectionSpec>> connectionSpecs = this.cdsiUrl.getConnectionSpecs();
 
     OkHttpClient.Builder builder = new OkHttpClient.Builder()
                                                    .sslSocketFactory(new Tls12SocketFactory(socketFactory.first()), socketFactory.second())
-                                                   .connectionSpecs(Util.immutableList(ConnectionSpec.RESTRICTED_TLS))
+                                                   .connectionSpecs(connectionSpecs.orElse(Util.immutableList(ConnectionSpec.RESTRICTED_TLS)))
                                                    .retryOnConnectionFailure(false)
                                                    .readTimeout(30, TimeUnit.SECONDS)
                                                    .connectTimeout(30, TimeUnit.SECONDS);
