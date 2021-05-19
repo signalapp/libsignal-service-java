@@ -30,7 +30,13 @@ buildscript {
 
 apply(from = "${rootDir}/constants.gradle.kts")
 
+val lib_signal_service_version_number: String by rootProject.extra
+val lib_signal_service_group_info: String by rootProject.extra
+
 allprojects {
+  version = lib_signal_service_version_number
+  group = lib_signal_service_group_info
+
   tasks.withType<Jar>().configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   }

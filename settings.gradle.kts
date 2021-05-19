@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 include(":lib:libsignal-service")
 
 include(":lib:network")
+project(":lib:network").name = "lib-network"
 
 include(":core:util-jvm")
 
