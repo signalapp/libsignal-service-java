@@ -16,7 +16,7 @@ buildscript {
 }
 
 subprojects {
-    ext.lib_signal_service_version_number = "2.15.3"
+    ext.lib_signal_service_version_number = "2.15.3_unofficial_23"
     ext.lib_signal_service_group_info     = "com.github.turasa"
 
     if (JavaVersion.current().isJava8Compatible()) {
