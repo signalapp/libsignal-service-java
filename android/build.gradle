@@ -1,26 +1,10 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter {
-            content {
-                includeVersion 'org.jetbrains.trove4j', 'trove4j', '20160824'
-            }
-        }
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
 archivesBaseName = "signal-service-android"
-version          = version_number
-group            = group_info
+version          = lib_signal_service_version_number
+group            = lib_signal_service_group_info
 
 repositories {
     google()
@@ -34,25 +18,24 @@ repositories {
 }
 
 dependencies {
-    compile "org.signal:signal-metadata-android:${signal_version}"
-    compile (project(':java')) {
-        exclude group: 'org.signal', module: 'signal-metadata-java'
+    implementation 'org.whispersystems:signal-client-android:0.5.1'
+    api (project(':libsignal-service')) {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -97,13 +80,13 @@ uploadArchives {
         pom.project {
             name 'signal-service-android'
             packaging 'aar'
-            description 'Signal Service communication library for Android'
-            url 'https://github.com/WhisperSystems/libsignal-service-java'
+            description 'Signal Service communication library for Android, unofficial fork'
+            url 'https://github.com/Turasa/libsignal-service-java'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                url 'scm:git@github.com:Turasa/libsignal-service-java.git'
+                connection 'scm:git@github.com:Turasa/libsignal-service-java.git'
+                developerConnection 'scm:git@github.com:Turasa/libsignal-service-java.git'
             }
 
             licenses {
@@ -117,6 +100,12 @@ uploadArchives {
             developers {
                 developer {
                     name 'Moxie Marlinspike'
+                }
+                developer {
+                    name 'Sebastian Scheibner'
+                }
+                developer {
+                    name 'Tilman Hoffbauer'
                 }
             }
         }
