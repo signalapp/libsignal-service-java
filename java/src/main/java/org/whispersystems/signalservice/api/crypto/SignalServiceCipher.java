@@ -250,7 +250,7 @@ public class SignalServiceCipher {
       } else if (envelope.isUnidentifiedSender()) {
         SealedSessionCipher   sealedSessionCipher = new SealedSessionCipher(signalProtocolStore, localAddress.getUuid().orNull(), localAddress.getNumber().orNull(), 1);
         DecryptionResult      result              = sealedSessionCipher.decrypt(certificateValidator, ciphertext, envelope.getServerTimestamp());
-        SignalServiceAddress  resultAddress       = new SignalServiceAddress(UuidUtil.parse(result.getSenderUuid().orNull()), result.getSenderE164());
+        SignalServiceAddress  resultAddress       = new SignalServiceAddress(UuidUtil.parse(result.getSenderUuid()), result.getSenderE164());
         SignalProtocolAddress protocolAddress     = getPreferredProtocolAddress(signalProtocolStore, resultAddress, result.getDeviceId());
 
         paddedMessage  = result.getPaddedMessage();
