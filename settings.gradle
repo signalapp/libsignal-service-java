@@ -1,4 +1,8 @@
+enableFeaturePreview('VERSION_CATALOGS')
+
 include ':android'
 
 include 'libsignal-service'
 project(':libsignal-service').projectDir = file('service')
+
+apply from: 'dependencies.gradle'
