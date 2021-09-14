@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 archivesBaseName = "signal-service-android"
@@ -62,57 +62,64 @@ def getRepositoryPassword() {
     return hasProperty('whisperSonatypePassword') ? whisperSonatypePassword : ""
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = 'signal-service-android'
+                from components.release
 
-signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
+                pom {
+                    name = 'signal-service-android'
+                    packaging = 'aar'
+                    description = 'Signal Service communication library for Android'
+                    url = 'https://github.com/WhisperSystems/libsignal-service-java'
 
-uploadArchives {
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                    scm {
+                        url = 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                        connection = 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                        developerConnection = 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
+                    }
 
-        repository(url: getReleaseRepositoryUrl()) {
-            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                    licenses {
+                        license {
+                            name = 'GPLv3'
+                            url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                            distribution = 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            name = 'Moxie Marlinspike'
+                        }
+                    }
+                }
+
+            }
         }
 
-        pom.project {
-            name 'signal-service-android'
-            packaging 'aar'
-            description 'Signal Service communication library for Android'
-            url 'https://github.com/WhisperSystems/libsignal-service-java'
-
-            scm {
-                url 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                connection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-service-java.git'
-            }
-
-            licenses {
-                license {
-                    name 'GPLv3'
-                    url 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    name 'Moxie Marlinspike'
+        repositories {
+            maven {
+                url = getReleaseRepositoryUrl()
+                credentials {
+                    username getRepositoryUsername()
+                    password getRepositoryPassword()
                 }
             }
         }
     }
-}
 
-task installArchives(type: Upload) {
-    description "Installs the artifacts to the local Maven repository."
-    configuration = configurations['archives']
-    repositories {
-        mavenDeployer {
-            repository url: "file://${System.properties['user.home']}/.m2/repository"
+    signing {
+        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+        sign publishing.publications.mavenJava
+    }
+
+    task installArchives(type: Upload) {
+        description "Installs the artifacts to the local Maven repository."
+        configuration = configurations['archives']
+        repositories {
+            mavenLocal()
         }
     }
 }
-
