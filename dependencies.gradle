@@ -1,7 +1,7 @@
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version('signal-client', '0.9.4')
+            version('signal-client', '0.9.5')
             version('zkgroup', '0.7.0')
 
             // Google
