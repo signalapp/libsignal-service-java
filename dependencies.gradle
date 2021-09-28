@@ -2,7 +2,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             version('signal-client', '0.9.5')
-            version('zkgroup', '0.7.0')
+            version('zkgroup', '0.8.1')
 
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.10.0')
