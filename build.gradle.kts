@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+  id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 buildscript {
@@ -29,6 +30,24 @@ buildscript {
 }
 
 apply(from = "${rootDir}/constants.gradle.kts")
+
+project.group = "com.github.turasa"
+
+val repositoryUsername = project.findProperty("whisperSonatypeUsername")?.toString() ?: ""
+val repositoryPassword = project.findProperty("whisperSonatypePassword")?.toString() ?: ""
+
+nexusPublishing {
+  repositories {
+    sonatype {
+      username = repositoryUsername
+      password = repositoryPassword
+
+      // central portal URLs
+      nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+      snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+    }
+  }
+}
 
 val lib_signal_service_version_number: String by rootProject.extra
 val lib_signal_service_group_info: String by rootProject.extra
