@@ -10,11 +10,6 @@ repositories {
     google()
     mavenCentral()
     mavenLocal()
-    jcenter {
-        content {
-            includeVersion 'org.jetbrains.trove4j', 'trove4j', '20160824'
-        }
-    }
 }
 
 dependencies {
