@@ -31,6 +31,24 @@ buildscript {
 
 apply(from = "${rootDir}/constants.gradle.kts")
 
+plugins {
+  id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+}
+
+project.group = "com.github.turasa"
+
+val repositoryUsername = project.findProperty("whisperSonatypeUsername")?.toString() ?: ""
+val repositoryPassword = project.findProperty("whisperSonatypePassword")?.toString() ?: ""
+
+nexusPublishing {
+  repositories {
+    sonatype {
+      username = repositoryUsername
+      password = repositoryPassword
+    }
+  }
+}
+
 val lib_signal_service_version_number: String by rootProject.extra
 val lib_signal_service_group_info: String by rootProject.extra
 
