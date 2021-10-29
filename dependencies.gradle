@@ -5,7 +5,7 @@ dependencyResolutionManagement {
             version('zkgroup', '0.8.2')
 
             // Google
-            alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.10.0')
+            alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
             alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.17')
 
             // 1st Party
