@@ -1,8 +1,7 @@
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version('signal-client', '0.9.7')
-            version('zkgroup', '0.8.2')
+            version('signal-client', '0.10.0')
 
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
@@ -11,8 +10,6 @@ dependencyResolutionManagement {
             // 1st Party
             alias('signal-client-java').to('org.whispersystems', 'signal-client-java').versionRef('signal-client')
             alias('signal-client-android').to('org.whispersystems', 'signal-client-android').versionRef('signal-client')
-            alias('signal-zkgroup-java').to('org.signal', 'zkgroup-java').versionRef('zkgroup')
-            alias('signal-zkgroup-android').to('org.signal', 'zkgroup-android').versionRef('zkgroup')
 
             // Third Party
             alias('jackson-core').to('com.fasterxml.jackson.core:jackson-databind:2.9.9.2')
