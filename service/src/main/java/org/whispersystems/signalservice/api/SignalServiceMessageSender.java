@@ -271,10 +271,10 @@ public class SignalServiceMessageSender {
   /**
    * Send a retry receipt for a bad-encrypted envelope.
    */
-  public void sendRetryReceipt(SignalServiceAddress recipient,
-                               Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                               Optional<byte[]> groupId,
-                               DecryptionErrorMessage errorMessage)
+  public SendMessageResult sendRetryReceipt(SignalServiceAddress recipient,
+                                            Optional<UnidentifiedAccessPair> unidentifiedAccess,
+                                            Optional<byte[]> groupId,
+                                            DecryptionErrorMessage errorMessage)
       throws IOException, UntrustedIdentityException
 
   {
@@ -283,16 +283,16 @@ public class SignalServiceMessageSender {
     PlaintextContent content         = new PlaintextContent(errorMessage);
     EnvelopeContent  envelopeContent = EnvelopeContent.plaintext(content, groupId);
 
-    sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), envelopeContent, false, null, null, false, false);
+    return sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), envelopeContent, false, null, null, false, false);
   }
 
   /**
    * Sends a typing indicator using client-side fanout. Doesn't bother with return results, since these are best-effort.
    */
-  public void sendTyping(List<SignalServiceAddress>             recipients,
-                         List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
-                         SignalServiceTypingMessage             message,
-                         CancelationSignal                      cancelationSignal)
+  public List<SendMessageResult> sendTyping(List<SignalServiceAddress>             recipients,
+                                            List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
+                                            SignalServiceTypingMessage             message,
+                                            CancelationSignal                      cancelationSignal)
       throws IOException
   {
     Log.d(TAG, "[" + message.getTimestamp() + "] Sending a typing message to " + recipients.size() + " recipient(s) using 1:1 messages.");
@@ -300,22 +300,22 @@ public class SignalServiceMessageSender {
     Content         content         = createTypingContent(message);
     EnvelopeContent envelopeContent = EnvelopeContent.encrypted(content, ContentHint.IMPLICIT, Optional.empty());
 
-    sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), envelopeContent, true, null, cancelationSignal, null, false, false);
+    return sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), envelopeContent, true, null, cancelationSignal, null, false, false);
   }
 
   /**
    * Send a typing indicator to a group using sender key. Doesn't bother with return results, since these are best-effort.
    */
-  public void sendGroupTyping(DistributionId              distributionId,
-                              List<SignalServiceAddress>  recipients,
-                              List<UnidentifiedAccess>    unidentifiedAccess,
-                              SignalServiceTypingMessage  message)
+  public List<SendMessageResult> sendGroupTyping(DistributionId              distributionId,
+                                                 List<SignalServiceAddress>  recipients,
+                                                 List<UnidentifiedAccess>    unidentifiedAccess,
+                                                 SignalServiceTypingMessage  message)
       throws IOException, UntrustedIdentityException, InvalidKeyException, NoSessionException, InvalidRegistrationIdException
   {
     Log.d(TAG, "[" + message.getTimestamp() + "] Sending a typing message to " + recipients.size() + " recipient(s) using sender key.");
 
     Content content = createTypingContent(message);
-    sendGroupMessage(distributionId, recipients, unidentifiedAccess, message.getTimestamp(), content, ContentHint.IMPLICIT, message.getGroupId(), true, SenderKeyGroupEvents.EMPTY, false, false);
+    return sendGroupMessage(distributionId, recipients, unidentifiedAccess, message.getTimestamp(), content, ContentHint.IMPLICIT, message.getGroupId(), true, SenderKeyGroupEvents.EMPTY, false, false);
   }
 
   /**
