@@ -16,8 +16,8 @@ dependencyResolutionManagement {
       library("libsignal-client", "org.signal", "libsignal-client").versionRef("libsignal-client")
 
       // Third Party
-      library("jackson-core", "com.fasterxml.jackson.core:jackson-databind:2.9.9.2")
-      library("jackson-module-kotlin", "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.0")
+      library("jackson-core", "com.fasterxml.jackson.core:jackson-databind:2.16.0")
+      library("jackson-module-kotlin", "com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
       library("square-okhttp3", "com.squareup.okhttp3:okhttp:4.11.0")
       library("square-okio", "com.squareup.okio:okio:3.6.0")
       library("rxjava3-rxjava", "io.reactivex.rxjava3:rxjava:3.0.13")
