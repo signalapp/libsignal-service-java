@@ -45,7 +45,7 @@ public class JsonUtil {
 
   static {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    objectMapper.registerModule(new KotlinModule());
+    objectMapper.registerModule(new KotlinModule.Builder().build());
   }
 
   public static String toJson(Object object) {
