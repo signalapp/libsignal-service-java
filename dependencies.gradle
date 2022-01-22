@@ -23,7 +23,7 @@ dependencyResolutionManagement {
             alias('junit-junit').to('junit:junit:4.13.2')
             alias('mockito-core').to('org.mockito:mockito-core:2.23.4')
             alias('assertj-core').to('org.assertj:assertj-core:3.11.1')
-            alias('conscrypt-openjdk-uber').to('org.conscrypt:conscrypt-openjdk-uber:2.0.0')
+            alias('conscrypt-openjdk-uber').to('org.conscrypt:conscrypt-openjdk-uber:2.5.2')
         }
     }
 }
