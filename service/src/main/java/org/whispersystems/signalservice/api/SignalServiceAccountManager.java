@@ -692,7 +692,7 @@ public class SignalServiceAccountManager {
     return this.pushServiceSocket.getDevices();
   }
 
-  public void removeDevice(long deviceId) throws IOException {
+  public void removeDevice(int deviceId) throws IOException {
     this.pushServiceSocket.removeDevice(deviceId);
   }
 
