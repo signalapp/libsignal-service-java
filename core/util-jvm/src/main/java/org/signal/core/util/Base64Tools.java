@@ -79,7 +79,7 @@ package org.signal.core.util;
  *      own projects and then had gobs of javadoc warnings on this file.</li>
  *   </ul>
  *  <li>v2.2.1 - Fixed bug using URL_SAFE and ORDERED encodings. Fixed bug
- *   when using very small files (~< 40 bytes).</li>
+ *   when using very small files (~&lt; 40 bytes).</li>
  *  <li>v2.2 - Added some helper methods for encoding/decoding directly from
  *   one file to the next. Also added a main() method to support command line
  *   encoding/decoding from one file to the next. Also added these Base64 dialects:
