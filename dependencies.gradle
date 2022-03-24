@@ -1,15 +1,15 @@
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version('libsignal-client', '0.15.0')
+            version('signal-client', '0.14.0')
 
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
             alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.33')
 
             // 1st Party
-            alias('libsignal-client').to('org.signal', 'libsignal-client').versionRef('libsignal-client')
-            alias('libsignal-android').to('org.signal', 'libsignal-android').versionRef('libsignal-client')
+            alias('signal-client-java').to('org.whispersystems', 'signal-client-java').versionRef('signal-client')
+            alias('signal-client-android').to('org.whispersystems', 'signal-client-android').versionRef('signal-client')
 
             // Third Party
             alias('jackson-core').to('com.fasterxml.jackson.core:jackson-databind:2.9.9.2')
