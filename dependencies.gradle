@@ -5,7 +5,7 @@ dependencyResolutionManagement {
 
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
-            alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.33')
+            alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.48')
 
             // 1st Party
             alias('libsignal-client').to('org.signal', 'libsignal-client').versionRef('libsignal-client')
