@@ -1,7 +1,7 @@
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version('libsignal-client', '0.16.0')
+            version('libsignal-client', '0.17.0')
 
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
