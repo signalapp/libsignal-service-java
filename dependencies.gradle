@@ -6,6 +6,7 @@ dependencyResolutionManagement {
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
             alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.48')
+            alias('google-jsr305').to('com.google.code.findbugs:jsr305:3.0.2')
 
             // 1st Party
             alias('libsignal-client').to('org.signal', 'libsignal-client').versionRef('libsignal-client')
@@ -15,7 +16,6 @@ dependencyResolutionManagement {
             alias('jackson-core').to('com.fasterxml.jackson.core:jackson-databind:2.9.9.2')
             alias('square-okhttp3').to('com.squareup.okhttp3:okhttp:3.12.13')
             alias('square-okio').to('com.squareup.okio:okio:2.2.2')
-            alias('threeten-threetenbp').to('org.threeten:threetenbp:1.3.6')
             alias('rxjava3-rxjava').to('io.reactivex.rxjava3:rxjava:3.0.13')
         }
 
