@@ -605,7 +605,7 @@ public class SignalServiceMessageSender {
 
     sendEvents.onMessageSent();
 
-    if (aciStore.isMultiDevice()) {
+    if (aciStore.isMultiDevice() && !recipients.contains(localAddress)) {
       Content         syncMessage        = createMultiDeviceSentTranscriptContent(content, Optional.empty(), message.getTimestamp(), results, isRecipientUpdate, Collections.emptySet());
       EnvelopeContent syncMessageContent = EnvelopeContent.encrypted(syncMessage, ContentHint.IMPLICIT, Optional.empty());
 
@@ -651,7 +651,7 @@ public class SignalServiceMessageSender {
       }
     }
 
-    if (needsSyncInResults || aciStore.isMultiDevice()) {
+    if ((needsSyncInResults || aciStore.isMultiDevice()) && !recipients.contains(localAddress)) {
       Optional<SignalServiceAddress> recipient = Optional.empty();
       if (!message.getGroupContext().isPresent() && recipients.size() == 1) {
         recipient = Optional.of(recipients.get(0));
