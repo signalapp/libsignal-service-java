@@ -3,6 +3,10 @@ dependencyResolutionManagement {
         libs {
             version('libsignal-client', '0.21.1')
 
+            // Kotlin
+            version('kotlin', '1.6.21')
+            alias('kotlin-stdlib-jdk8').to('org.jetbrains.kotlin', 'kotlin-stdlib-jdk8').versionRef('kotlin')
+
             // Google
             alias('google-protobuf-javalite').to('com.google.protobuf:protobuf-javalite:3.11.4')
             alias('google-libphonenumber').to('com.googlecode.libphonenumber:libphonenumber:8.12.54')
