@@ -1,5 +1,12 @@
 enableFeaturePreview('VERSION_CATALOGS')
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
 include ':android'
 
 include 'libsignal-service'
