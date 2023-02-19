@@ -25,12 +25,13 @@ dependencies {
 }
 
 android {
+    namespace 'org.whispersystems.signalservice'
     compileSdkVersion 32
     buildToolsVersion '31.0.0'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
     }
 
     compileOptions {
