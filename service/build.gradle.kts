@@ -31,6 +31,12 @@ tasks.withType<KotlinCompile>().configureEach {
   }
 }
 
+tasks.withType<Jar>().configureEach {
+  manifest {
+    attributes("Automatic-Module-Name" to "com.github.turasa.signalservice")
+  }
+}
+
 afterEvaluate {
   listOf(
     "runKtlintCheckOverMainSourceSet",
