@@ -17,13 +17,10 @@ option java_outer_classname = "SignalServiceProtos";
 
 import "SignalService.proto";
 
-message GroupContext {
-  enum Type {
-    UNKNOWN = 0;
-    UPDATE = 1;
-    DELIVER = 2;
-    QUIT = 3;
-    REQUEST_INFO = 4;
+message GroupDetails {
+  message Avatar {
+    optional string contentType = 1;
+    optional uint32 length = 2;
   }
 
   message Member {
@@ -31,10 +28,15 @@ message GroupContext {
     optional string e164 = 2;
   }
 
-  optional bytes id = 1;
-  optional Type type = 2;
-  optional string name = 3;
-  repeated string membersE164 = 4;
-  repeated Member members = 6;
-  optional signalservice.AttachmentPointer avatar = 5;
+  optional bytes  id = 1;
+  optional string name = 2;
+  repeated string membersE164 = 3;
+  repeated Member members = 9;
+  optional Avatar avatar = 4;
+  optional bool   active = 5 [default = true];
+  optional uint32 expireTimer = 6;
+  optional string color = 7;
+  optional bool   blocked = 8;
+  optional uint32 inboxPosition = 10;
+  optional bool   archived = 11;
 }

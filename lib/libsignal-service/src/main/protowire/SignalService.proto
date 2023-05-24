@@ -425,7 +425,7 @@ message DataMessage {
 
   optional string body = 1;
   repeated AttachmentPointer attachments = 2;
-  reserved /*groupV1*/ 3;
+  optional GroupContext group = 3;
   optional GroupContextV2 groupV2 = 15;
   optional uint32 flags = 4;
   optional uint32 expireTimer = 5;
@@ -588,6 +588,10 @@ message SyncMessage {
     optional bool complete = 2 [default = false];
   }
 
+  message Groups {
+    optional AttachmentPointer blob = 1;
+  }
+
   message Blocked {
     repeated string numbers = 1; // deprecated: this field will be removed in a future release.
     repeated string acis = 3;
@@ -618,7 +622,7 @@ message SyncMessage {
     enum Type {
       UNKNOWN = 0;
       CONTACTS = 1;
-      reserved /*GROUPS*/ 2;
+      GROUPS = 2;
       BLOCKED = 3;
       CONFIGURATION = 4;
       KEYS = 5;
@@ -884,6 +888,7 @@ message SyncMessage {
   oneof content {
     Sent sent = 1;
     Contacts contacts = 2;
+    Groups groups = 3;
     Request request = 4;
     Blocked blocked = 6;
     Verified verified = 7;
@@ -904,7 +909,6 @@ message SyncMessage {
     UsernameChange usernameChange = 26;
   }
 
-  reserved /*groups*/ 3;
 
   // Protobufs don't allow `repeated` fields to be inside of `oneof` so while
   // the fields below are mutually exclusive with the rest of the values above
@@ -956,6 +960,28 @@ message AttachmentPointer {
   // Duration of an audio attachment, in seconds.
   optional float audioDurationSeconds = 22;
   // Next ID: 23
+}
+
+message GroupContext {
+  enum Type {
+    UNKNOWN      = 0;
+    UPDATE       = 1;
+    DELIVER      = 2;
+    QUIT         = 3;
+    REQUEST_INFO = 4;
+  }
+
+  message Member {
+    reserved     /* uuid */ 1; // removed
+    optional string e164  = 2;
+  }
+
+  optional bytes             id          = 1;
+  optional Type              type        = 2;
+  optional string            name        = 3;
+  repeated string            membersE164 = 4;
+  repeated Member            members     = 6;
+  optional AttachmentPointer avatar      = 5;
 }
 
 message GroupContextV2 {
