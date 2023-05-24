@@ -29,7 +29,7 @@ import org.whispersystems.signalservice.internal.push.DataMessage.Quote as Quote
  */
 class SignalServiceDataMessage private constructor(
   val timestamp: Long,
-  val groupContext: Optional<SignalServiceGroupV2>,
+  val groupContext: Optional<SignalServiceGroupContext>,
   val attachments: Optional<List<SignalServiceAttachment>>,
   val body: Optional<String>,
   val isEndSession: Boolean,
@@ -54,8 +54,14 @@ class SignalServiceDataMessage private constructor(
   val isActivatePaymentsRequest: Boolean = payment.map { it.isActivationRequest }.orElse(false)
   val isPaymentsActivated: Boolean = payment.map { it.isActivation }.orElse(false)
 
-  val groupId: Optional<ByteArray> = groupContext.map { GroupSecretParams.deriveFromMasterKey(it.masterKey).publicParams.groupIdentifier.serialize() }
-  val isGroupV2Message: Boolean = groupContext.isPresent
+  val groupId: Optional<ByteArray> = groupContext.map {
+    if (it.groupV1.isPresent) {
+      it.groupV1.get().groupId
+    } else {
+      GroupSecretParams.deriveFromMasterKey(it.groupV2.get().masterKey).publicParams.groupIdentifier.serialize()
+    }
+  }
+  val isGroupV2Message: Boolean = groupContext.isPresent && groupContext.get().groupV2.isPresent
 
   /** Contains some user data that affects the conversation  */
   private val hasRenderableContent: Boolean =
@@ -69,11 +75,12 @@ class SignalServiceDataMessage private constructor(
       this.reaction.isPresent ||
       this.remoteDelete.isPresent
 
-  val isGroupV2Update: Boolean = groupContext.isPresent && groupContext.get().hasSignedGroupChange() && !hasRenderableContent
+  val isGroupV2Update: Boolean = groupContext.isPresent && groupContext.get().groupV2.isPresent && groupContext.get().groupV2.get().hasSignedGroupChange() && !hasRenderableContent
   val isEmptyGroupV2Message: Boolean = isGroupV2Message && !isGroupV2Update && !hasRenderableContent
 
   class Builder {
     private var timestamp: Long = 0
+    private var groupV1: SignalServiceGroup? = null
     private var groupV2: SignalServiceGroupV2? = null
     private val attachments: MutableList<SignalServiceAttachment> = LinkedList<SignalServiceAttachment>()
     private var body: String? = null
@@ -98,6 +105,11 @@ class SignalServiceDataMessage private constructor(
 
     fun withTimestamp(timestamp: Long): Builder {
       this.timestamp = timestamp
+      return this
+    }
+
+    fun asGroupMessage(group: SignalServiceGroup?): Builder {
+      groupV1 = group
       return this
     }
 
@@ -225,7 +237,7 @@ class SignalServiceDataMessage private constructor(
 
       return SignalServiceDataMessage(
         timestamp = timestamp,
-        groupContext = groupV2.asOptional(),
+        groupContext = SignalServiceGroupContext.createOptional(groupV1, groupV2),
         attachments = attachments.asOptional(),
         body = body.emptyIfStringEmpty(),
         isEndSession = endSession,

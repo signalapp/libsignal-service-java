@@ -1,7 +1,7 @@
 package org.whispersystems.signalservice.internal.push;
 
 
-import org.whispersystems.signalservice.api.messages.SignalServiceGroupV2;
+import org.whispersystems.signalservice.api.messages.SignalServiceGroupContext;
 
 import java.util.Optional;
 
@@ -12,14 +12,14 @@ import java.util.Optional;
  */
 public abstract class UnsupportedDataMessageException extends Exception {
 
-  private final String                         sender;
-  private final int                            senderDevice;
-  private final Optional<SignalServiceGroupV2> group;
+  private final String                              sender;
+  private final int                                 senderDevice;
+  private final Optional<SignalServiceGroupContext> group;
 
   protected UnsupportedDataMessageException(String message,
                                             String sender,
                                             int senderDevice,
-                                            Optional<SignalServiceGroupV2> group)
+                                            Optional<SignalServiceGroupContext> group)
   {
     super(message);
     this.sender       = sender;
@@ -35,7 +35,7 @@ public abstract class UnsupportedDataMessageException extends Exception {
     return senderDevice;
   }
 
-  public Optional<SignalServiceGroupV2> getGroup() {
+  public Optional<SignalServiceGroupContext> getGroup() {
     return group;
   }
 }
