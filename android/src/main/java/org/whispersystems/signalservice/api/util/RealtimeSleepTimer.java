@@ -14,6 +14,8 @@ import org.whispersystems.signalservice.api.util.SleepTimer;
 
 import java.util.concurrent.TimeUnit;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 /**
  * A sleep timer that is based on elapsed realtime, so
  * that it works properly, even in low-power sleep modes.
@@ -56,7 +58,7 @@ public class RealtimeSleepTimer implements SleepTimer {
 
     private void setAlarm(long millis) {
       final Intent        intent        = new Intent(WAKE_UP_THREAD_ACTION);
-      final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+      final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE);
       final AlarmManager  alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
       Log.w(TAG, "Setting alarm to wake up in " + millis + "ms.");
