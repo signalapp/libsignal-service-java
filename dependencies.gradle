@@ -6,7 +6,7 @@ dependencyResolutionManagement {
             // Kotlin
             version('kotlin', '1.7.20')
             library('kotlin-stdlib-jdk8', 'org.jetbrains.kotlin', 'kotlin-stdlib-jdk8').versionRef('kotlin')
-            library('ktlint', 'org.jlleitschuh.gradle:ktlint-gradle:11.1.0')
+            library('ktlint', 'org.jlleitschuh.gradle:ktlint-gradle:11.4.2')
 
             // Google
             library('google-protobuf-javalite', 'com.google.protobuf:protobuf-javalite:3.11.4')
