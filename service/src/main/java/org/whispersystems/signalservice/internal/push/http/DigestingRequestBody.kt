@@ -1,6 +1,7 @@
 package org.whispersystems.signalservice.internal.push.http
 
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.internal.http.UnrepeatableRequestBody
 import okio.BufferedSink
@@ -35,7 +36,7 @@ class DigestingRequestBody(
   }
 
   override fun contentType(): MediaType? {
-    return MediaType.parse(contentType)
+    return contentType.toMediaTypeOrNull()
   }
 
   @Throws(IOException::class)
