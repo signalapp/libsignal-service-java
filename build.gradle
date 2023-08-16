@@ -27,11 +27,14 @@ buildscript {
     }
 }
 
+ext.signalJavaVersion = JavaVersion.VERSION_11
+ext.signalKotlinJvmTarget = "11"
+
 allprojects {
     // Needed because otherwise the kapt task defaults to jvmTarget 17, which "poisons the well" and requires us to bump up too
     tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = signalKotlinJvmTarget
         }
     }
 }
