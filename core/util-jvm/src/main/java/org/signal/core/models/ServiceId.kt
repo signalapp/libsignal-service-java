@@ -262,6 +262,7 @@ sealed class ServiceId(val libSignalServiceId: org.signal.libsignal.protocol.Ser
       fun parseOrThrow(bytes: ByteString): PNI = parseOrThrow(bytes.toByteArray())
 
       /** Parses a string as a PNI, expecting that the value has a `PNI:` prefix. If it does not have the prefix (or is otherwise invalid), this will return null. */
+      @JvmStatic
       fun parsePrefixedOrNull(raw: String?): PNI? = ServiceId.parseOrNull(raw).let { if (it is PNI) it else null }
 
       /** Parses either a byteString or string as a PNI, with preference to the byteString. Expecting that the value has a `PNI:` prefix. If it does not have the prefix (or is otherwise invalid), this will return null. */
