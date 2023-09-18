@@ -14,7 +14,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.0'
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath libs.ktlint
         classpath ('com.squareup.wire:wire-gradle-plugin:4.4.3') {
@@ -24,6 +23,7 @@ buildscript {
             exclude group: 'com.squareup.wire', module: 'wire-grpc-server-generator'
             exclude group: 'io.outfoxx', module: 'swiftpoet'
         }
+        classpath files("$rootDir/wire-handler/wire-handler-1.0.0.jar")
     }
 }
 
@@ -36,6 +36,9 @@ allprojects {
         kotlinOptions {
             jvmTarget = signalKotlinJvmTarget
         }
+    }
+    tasks.withType(Jar).configureEach {
+        duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     }
 }
 

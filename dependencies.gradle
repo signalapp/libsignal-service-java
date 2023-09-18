@@ -9,7 +9,6 @@ dependencyResolutionManagement {
             library('ktlint', 'org.jlleitschuh.gradle:ktlint-gradle:11.4.2')
 
             // Google
-            library('google-protobuf-javalite', 'com.google.protobuf:protobuf-javalite:3.11.4')
             library('google-libphonenumber', 'com.googlecode.libphonenumber:libphonenumber:8.13.19')
             library('google-jsr305', 'com.google.code.findbugs:jsr305:3.0.2')
 
