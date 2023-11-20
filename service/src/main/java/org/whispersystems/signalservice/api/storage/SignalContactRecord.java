@@ -329,7 +329,7 @@ public final class SignalContactRecord implements SignalRecord {
   }
 
   public static final class Builder {
-    private final StorageId             id;
+    private StorageId             id;
     private final ContactRecord.Builder builder;
 
     public Builder(byte[] rawId, @Nullable ACI aci, byte[] serializedUnknowns) {
@@ -342,6 +342,11 @@ public final class SignalContactRecord implements SignalRecord {
       }
 
       builder.aci(aci == null ? "" : aci.toString());
+    }
+
+    public SignalContactRecord.Builder setId(byte[] rawId) {
+      id = StorageId.forContact(rawId);
+      return this;
     }
 
     public Builder setE164(String e164) {

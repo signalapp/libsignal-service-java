@@ -535,7 +535,7 @@ public final class SignalAccountRecord implements SignalRecord {
   }
 
   public static final class Builder {
-    private final StorageId             id;
+    private StorageId             id;
     private final AccountRecord.Builder builder;
 
     public Builder(byte[] rawId, byte[] serializedUnknowns) {
@@ -546,6 +546,11 @@ public final class SignalAccountRecord implements SignalRecord {
       } else {
         this.builder = new AccountRecord.Builder();
       }
+    }
+
+    public Builder setId(byte[] rawId) {
+      id = StorageId.forAccount(rawId);
+      return this;
     }
 
     public Builder setGivenName(String givenName) {

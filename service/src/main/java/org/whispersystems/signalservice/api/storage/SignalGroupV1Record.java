@@ -133,7 +133,7 @@ public final class SignalGroupV1Record implements SignalRecord {
   }
 
   public static final class Builder {
-    private final StorageId             id;
+    private StorageId             id;
     private final GroupV1Record.Builder builder;
 
     public Builder(byte[] rawId, byte[] groupId, byte[] serializedUnknowns) {
@@ -146,6 +146,11 @@ public final class SignalGroupV1Record implements SignalRecord {
       }
 
       builder.id(ByteString.of(groupId));
+    }
+
+    public SignalGroupV1Record.Builder setId(byte[] rawId) {
+      id = StorageId.forGroupV1(rawId);
+      return this;
     }
 
     public Builder setBlocked(boolean blocked) {
