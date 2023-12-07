@@ -14,7 +14,6 @@ dependencyResolutionManagement {
 
             // 1st Party
             library('libsignal-client', 'org.signal', 'libsignal-client').versionRef('libsignal-client')
-            library('libsignal-android', 'org.signal', 'libsignal-android').versionRef('libsignal-client')
 
             // Third Party
             library('jackson-core', 'com.fasterxml.jackson.core:jackson-databind:2.9.9.2')
