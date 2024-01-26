@@ -1,6 +1,7 @@
 package org.whispersystems.signalservice.api.storage;
 
 
+import org.signal.core.util.Base64;
 import org.whispersystems.signalservice.api.util.Preconditions;
 import org.whispersystems.signalservice.internal.storage.protos.ManifestRecord;
 
@@ -79,5 +80,13 @@ public class StorageId {
     int result = Objects.hash(type);
     result = 31 * result + Arrays.hashCode(raw);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "StorageId{" +
+        "type=" + type +
+        ", raw=" + Base64.encodeWithoutPadding(raw) +
+        '}';
   }
 }
