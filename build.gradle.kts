@@ -44,7 +44,7 @@ allprojects {
 }
 
 subprojects {
-  if (JavaVersion.current().isJava8Compatible()) {
+  if (JavaVersion.current().isJava8Compatible) {
     allprojects {
       tasks.withType<Javadoc>() {
         (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
