@@ -1292,9 +1292,13 @@ public class PushServiceSocket implements Closeable {
 
   }
 
+  private static final ResponseCodeHandler SUBMIT_RATE_LIMIT_CHALLENGE_RESPONSE_HANDLER = (responseCode, body) -> {
+    if (responseCode == 428) throw new CaptchaRejectedException();
+  };
+
   public void submitRateLimitRecaptchaChallenge(String challenge, String recaptchaToken) throws IOException {
     String payload = JsonUtil.toJson(new SubmitRecaptchaChallengePayload(challenge, recaptchaToken));
-    makeServiceRequest(SUBMIT_RATE_LIMIT_CHALLENGE, "PUT", payload);
+    makeServiceRequest(SUBMIT_RATE_LIMIT_CHALLENGE, "PUT", payload, NO_HEADERS, SUBMIT_RATE_LIMIT_CHALLENGE_RESPONSE_HANDLER, Optional.empty());
   }
 
   public void redeemDonationReceipt(ReceiptCredentialPresentation receiptCredentialPresentation, boolean visible, boolean primary) throws IOException {
