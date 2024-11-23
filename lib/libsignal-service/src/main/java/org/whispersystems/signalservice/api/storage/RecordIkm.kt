@@ -15,8 +15,7 @@ import org.whispersystems.signalservice.internal.util.Util
  * A wrapper around a [ByteArray], just so the recordIkm is strongly typed.
  * The recordIkm comes from [ManifestRecord.recordIkm], and is used to encrypt [StorageItem.value_].
  */
-@JvmInline
-value class RecordIkm(val value: ByteArray) {
+class RecordIkm(val value: ByteArray) {
 
   companion object {
     fun generate(): RecordIkm {

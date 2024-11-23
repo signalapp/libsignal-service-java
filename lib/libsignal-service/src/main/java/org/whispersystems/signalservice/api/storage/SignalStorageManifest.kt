@@ -14,7 +14,7 @@ import java.util.Optional
 data class SignalStorageManifest(
   @JvmField val version: Long,
   val sourceDeviceId: Int,
-  val recordIkm: RecordIkm?,
+  @JvmField val recordIkm: RecordIkm?,
   @JvmField val storageIds: List<StorageId>,
   val protoByteSize: ByteSize
 ) {
