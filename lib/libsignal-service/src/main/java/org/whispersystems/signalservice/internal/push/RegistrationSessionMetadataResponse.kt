@@ -24,6 +24,8 @@ data class RegistrationSessionMetadataResponse(
 
     return base + delta
   }
+
+  fun getClientReceivedAtMilliseconds(): Long = clientReceivedAt.inWholeMilliseconds
 }
 
 data class RegistrationSessionMetadataJson(
