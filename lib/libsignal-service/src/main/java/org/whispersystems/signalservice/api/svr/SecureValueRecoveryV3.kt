@@ -33,7 +33,7 @@ import java.io.IOException
  */
 class SecureValueRecoveryV3(
   private val network: Network,
-  private val authWebSocket: SignalWebSocket.AuthenticatedWebSocket
+  private val authWebSocket: SignalWebSocket.AuthenticatedWebSocket?
 ) : SecureValueRecovery {
 
   companion object {
@@ -119,7 +119,7 @@ class SecureValueRecoveryV3(
 
   private fun svr3Authorization(): NetworkResult<Svr3Credentials> {
     val request = WebSocketRequestMessage.get("/v3/backup/auth")
-    return NetworkResult.fromWebSocketRequest(authWebSocket, request, Svr3Credentials::class)
+    return NetworkResult.fromWebSocketRequest(authWebSocket!!, request, Svr3Credentials::class)
   }
 
   override fun toString(): String {

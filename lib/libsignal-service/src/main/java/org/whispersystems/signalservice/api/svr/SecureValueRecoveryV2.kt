@@ -42,7 +42,7 @@ import org.signal.svr2.proto.RestoreResponse as ProtoRestoreResponse
 class SecureValueRecoveryV2(
   private val serviceConfiguration: SignalServiceConfiguration,
   private val mrEnclave: String,
-  private val authWebSocket: SignalWebSocket.AuthenticatedWebSocket
+  private val authWebSocket: SignalWebSocket.AuthenticatedWebSocket?
 ) : SecureValueRecovery {
 
   companion object {
@@ -102,7 +102,7 @@ class SecureValueRecoveryV2(
   @Throws(IOException::class)
   override fun authorization(): AuthCredentials {
     val request = WebSocketRequestMessage.get("/v2/svr/auth")
-    return NetworkResult.fromWebSocketRequest(authWebSocket, request, AuthCredentials::class).successOrThrow()
+    return NetworkResult.fromWebSocketRequest(authWebSocket!!, request, AuthCredentials::class).successOrThrow()
   }
 
   override fun toString(): String {
