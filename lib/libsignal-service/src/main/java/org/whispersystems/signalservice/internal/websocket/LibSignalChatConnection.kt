@@ -565,7 +565,8 @@ class LibSignalChatConnection(
           // This condition variable is created from CHAT_SERVICE_LOCK, and thus releases CHAT_SERVICE_LOCK
           //   while we await the condition variable.
           stateChangedOrMessageReceivedCondition.await(remainingTimeoutMillis, TimeUnit.MILLISECONDS)
-        } catch (_: InterruptedException) {
+        } catch (e: InterruptedException) {
+          throw AssertionError(e)
         }
         val elapsedTimeMillis = System.currentTimeMillis() - startTime
         remainingTimeoutMillis = timeoutMillis - elapsedTimeMillis
