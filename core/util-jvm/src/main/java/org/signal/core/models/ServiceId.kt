@@ -211,7 +211,7 @@ sealed class ServiceId(val libSignalServiceId: org.signal.libsignal.protocol.Ser
       /** Parses a string as a PNI, regardless if the `PNI:` prefix is present or not. Only use this if you are certain that what you're reading is a PNI. */
       @JvmStatic
       fun parseOrNull(raw: String?): PNI? {
-        return if (raw == null) {
+        return if (raw == null || raw.isEmpty()) {
           null
         } else if (raw.startsWith("PNI:")) {
           return parsePrefixedOrNull(raw)
