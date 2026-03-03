@@ -1,0 +1,12 @@
+# IMPORTANT: After changing a dependency, please run:
+# ./gradlew --write-verification-metadata sha256 qa --rerun-tasks
+
+[versions]
+
+[libraries]
+junit-junit = "junit:junit:4.13.2"
+kotlinx-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0"
+assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
+mockk = "io.mockk:mockk:1.13.2"
+
+conscrypt-openjdk-uber = "org.conscrypt:conscrypt-openjdk-uber:2.5.2"

@@ -1,0 +1,42 @@
+/*
+ * Copyright 2020-2022 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * This file contains protos that were removed from SignalService.proto, but are still needed by our application,
+ * typically for serialization purposes.
+ */
+
+syntax = "proto2";
+
+package signalservice;
+
+option java_package = "org.whispersystems.signalservice.internal.push";
+option java_outer_classname = "SignalServiceProtos";
+
+import SignalService.proto;
+
+message GroupDetails {
+  message Avatar {
+    optional string contentType = 1;
+    optional uint32 length = 2;
+  }
+
+  message Member {
+    reserved     /* uuid */ 1; // removed
+    optional string e164 = 2;
+  }
+
+  optional bytes  id = 1;
+  optional string name = 2;
+  repeated string membersE164 = 3;
+  repeated Member members = 9;
+  optional Avatar avatar = 4;
+  optional bool   active = 5 [default = true];
+  optional uint32 expireTimer = 6;
+  optional string color = 7;
+  optional bool   blocked = 8;
+  optional uint32 inboxPosition = 10;
+  optional bool   archived = 11;
+}

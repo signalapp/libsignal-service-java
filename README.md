@@ -1,106 +1,17 @@
-# signal-service-java
+# signal-service-java - provisioning version
 
 A Java library for communicating via Signal.
 
-## Implementing the Signal Protocol interfaces
+## Unofficial fork!
 
-The Signal encryption protocol is a stateful protocol, so libsignal-service users
-need to implement the storage interface `SignalProtocolStore`, which handles load/store
-of your key and session information to durable media.
+This library is an unofficial fork where we publish our changes to the official library (upstream).
+This fork allows using the Signal servers without Google Cloud Messaging (GCM) and provides provisioning, i.e. linking devices, and some bugfixes.
+Use it at your own risk. OpenWhisperSystems is not responsible for this fork.
 
-## Creating keys
+Upstream development is now happening in the Signal-Android project: https://github.com/signalapp/Signal-Android/tree/main/libsignal-service
+The branch [upstream](https://github.com/Turasa/libsignal-service-java/tree/upstream) is tracking the signal-service lib changes from the Signal-Android project.
 
-`````java
-IdentityKeyPair    identityKey        = KeyHelper.generateIdentityKeyPair();
-List<PreKeyRecord> oneTimePreKeys     = KeyHelper.generatePreKeys(0, 100);
-PreKeyRecord       lastResortKey      = KeyHelper.generateLastResortPreKey();
-SignedPreKeyRecord signedPreKeyRecord = KeyHelper.generateSignedPreKey(identityKey, signedPreKeyId);
-`````
-
-The above are then stored locally so that they're available for load via the `SignalProtocolStore`.
-
-## Registering
-
-At install time, clients need to register with the Signal server.
-
-`````java
-private final String     URL         = "https://my.signal.server.com";
-private final TrustStore TRUST_STORE = new MyTrustStoreImpl();
-private final String     USERNAME    = "+14151231234";
-private final String     PASSWORD    = generateRandomPassword();
-private final String     USER_AGENT  = "[FILL_IN]";
-
-SignalServiceAccountManager accountManager = new SignalServiceAccountManager(URL, TRUST_STORE,
-                                                                             USERNAME, PASSWORD, USER_AGENT);
-
-accountManager.requestSmsVerificationCode();
-accountManager.verifyAccountWithCode(receivedSmsVerificationCode, generateRandomSignalingKey(),
-                                     generateRandomInstallId(), false);
-accountManager.setGcmId(Optional.of(GoogleCloudMessaging.getInstance(this).register(REGISTRATION_ID)));
-accountManager.setPreKeys(identityKey.getPublicKey(), lastResortKey, signedPreKeyRecord, oneTimePreKeys);
-`````
-
-## Sending text messages
-
-`````java
-SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                          new MySignalProtocolStore(),
-                                                                          USER_AGENT, Optional.absent());
-
-messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
-                          SignalServiceDataMessage.newBuilder()
-                                                  .withBody("Hello, world!")
-                                                  .build());
-`````
-
-## Sending media messages
-
-`````java
-SignalServiceMessageSender messageSender = new SignalServiceMessageSender(URL, TRUST_STORE, USERNAME, PASSWORD,
-                                                                          new MySignalProtocolStore(),
-                                                                          USER_AGENT, Optional.absent());
-
-File                    myAttachment     = new File("/path/to/my.attachment");
-FileInputStream         attachmentStream = new FileInputStream(myAttachment);
-SignalServiceAttachment attachment       = SignalServiceAttachment.newStreamBuilder()
-                                                                  .withStream(attachmentStream)
-                                                                  .withContentType("image/png")
-                                                                  .withLength(myAttachment.length())
-                                                                  .build();
-
-messageSender.sendMessage(new SignalServiceAddress("+14159998888"),
-                          SignalServiceDataMessage.newBuilder()
-                                                  .withBody("An attachment!")
-                                                  .withAttachment(attachment)
-                                                  .build());
-
-`````
-
-## Receiving messages
-
-`````java
-SignalServiceMessageReceiver messageReceiver = new SignalServiceMessageReceiver(URL, TRUST_STORE, USERNAME,
-                                                                                PASSWORD, mySignalingKey,
-                                                                                USER_AGENT);
-SignalServiceMessagePipe     messagePipe     = null;
-
-try {
-  messagePipe = messageReceiver.createMessagePipe();
-
-  while (listeningForMessages) {
-    SignalServiceEnvelope envelope = messagePipe.read(timeout, timeoutTimeUnit);
-    SignalServiceCipher   cipher   = new SignalServiceCipher(new SignalServiceAddress(USERNAME),
-                                                             new MySignalProtocolStore());
-    SignalServiceContent  message  = cipher.decrypt(envelope);
-
-    System.out.println("Received message: " + message.getDataMessage().get().getBody().get());
-  }
-
-} finally {
-  if (messagePipe != null)
-    messagePipe.shutdown();
-}
-`````
+The library is available on [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.turasa%22).
 
 # Legal things
 

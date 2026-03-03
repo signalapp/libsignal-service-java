@@ -1,0 +1,37 @@
+# IMPORTANT: After changing a dependency, please run:
+# ./gradlew --write-verification-metadata sha256 qa --rerun-tasks
+
+[versions]
+kotlin = "2.1.0"
+libsignal-client = "0.87.4"
+ktlint = "14.0.1"
+javaVersion = "17"
+kotlinJvmTarget = "17"
+
+[plugins]
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+
+[libraries]
+# Kotlin
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
+kotlinx-coroutines-core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+kotlinx-coroutines-core-jvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0"
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
+
+# Google
+google-libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.50"
+google-jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
+
+# 1st Party
+libsignal-client = { module = "org.signal:libsignal-client", version.ref = "libsignal-client" }
+
+# Third Party
+jackson-core = "com.fasterxml.jackson.core:jackson-databind:2.20.2"
+jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.2"
+square-okhttp3 = "com.squareup.okhttp3:okhttp:5.3.2"
+square-okio = "com.squareup.okio:okio:3.16.2"
+rxjava3-rxjava = "io.reactivex.rxjava3:rxjava:3.0.13"
+rxjava3-rxkotlin = "io.reactivex.rxjava3:rxkotlin:3.0.1"
