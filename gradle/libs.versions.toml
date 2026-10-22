@@ -23,7 +23,7 @@ kotlinx-coroutines-core-jvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
 
 # Google
-google-libphonenumber = "com.googlecode.libphonenumber:libphonenumber:9.0.29"
+google-libphonenumber = "com.googlecode.libphonenumber:libphonenumber:9.0.41"
 google-jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
 
 # 1st Party
