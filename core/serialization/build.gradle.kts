@@ -28,7 +28,6 @@ kotlin {
 
 dependencies {
   implementation(project(":core:util-jvm"))
-  implementation(project(":core:models-jvm"))
 
   implementation(libs.kotlinx.serialization.json)
   implementation(libs.libsignal.client)
